@@ -1,0 +1,43 @@
+name: Sync Data from Google Sources
+
+on:
+  schedule:
+    # run daily at midnight UTC
+    - cron: '0 0 * * *'
+  # allow manual triggering
+  workflow_dispatch:
+
+jobs:
+  sync-data:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Fetch and process data
+        run: |
+          # This script will be implemented to:
+          # 1. Fetch CSV from Google Sheets
+          # 2. Fetch KML from Google My Maps
+          # 3. Convert to GeoJSON
+          # 4. Save to data directory
+          echo "Fetching data from Google sources..."
+          # node scripts/fetch-data.js
+      
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add data/
+          git diff --staged --quiet || git commit -m "chore: update data from Google sources [skip ci]"
+          git push
