@@ -2,22 +2,26 @@
   "name": "twb",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "sync-data": "node scripts/fetch-data.js",
+    "sync-data": "node scripts/fetch-data.mjs",
     "postbuild": "npm run sync-data"
   },
   "dependencies": {
     "@tmcw/togeojson": "^7.1.1",
     "@types/leaflet": "^1.9.18",
+    "csv-parser": "^3.2.0",
     "leaflet": "^1.9.4",
     "next": "15.3.2",
+    "node-fetch": "^3.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "xmldom": "^0.6.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
