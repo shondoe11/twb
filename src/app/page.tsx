@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { ToiletLocation } from '../lib/types';
+import { ToiletLocation, GeoJSONFeature } from '../lib/types';
 import FilterBar from '../components/FilterBar';
 import ListView from '../components/ListView';
 
@@ -57,10 +57,51 @@ export default function Home() {
   const [locations, setLocations] = useState<ToiletLocation[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<ToiletLocation | null>(null);
   
-  //& load mock data client side
+  //& load real data frm generated files
   useEffect(() => {
-    //~ in future, fetch frm API / data files
-    setLocations(mockLocations);
+    async function loadData() {
+      try {
+        //~ fetch combined geojson data frm all locations
+        const response = await fetch('/api/locations');
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.status}`);
+        }
+        
+        const geoData = await response.json();
+        
+        //~ convert geojson features to toilet location objects
+        const toiletLocations = geoData.features.map((feature: GeoJSONFeature) => {
+          const { properties, geometry } = feature;
+          const [lng, lat] = geometry.coordinates;
+          
+          return {
+            id: properties.id,
+            name: properties.name,
+            address: properties.address || '',
+            region: properties.region || 'unknown',
+            type: properties.type || 'unknown',
+            lat,
+            lng,
+            hasBidet: properties.hasBidet ?? true,
+            amenities: properties.amenities || {
+              wheelchairAccess: false,
+              babyChanging: false,
+              freeEntry: true,
+            },
+            notes: properties.notes || '',
+            lastUpdated: properties.lastUpdated || new Date().toISOString().split('T')[0],
+          };
+        });
+        
+        setLocations(toiletLocations);
+      } catch (error) {
+        console.error('Error loading location data:', error);
+        //~ fall back to mock data if fetch fails
+        setLocations(mockLocations);
+      }
+    }
+    
+    loadData();
   }, []);
   
   //& handler fr location selection
