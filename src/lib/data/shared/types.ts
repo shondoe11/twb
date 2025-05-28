@@ -1,0 +1,93 @@
+//* shared type definitions fr data across client & server
+export interface ToiletLocation {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+  address?: string;
+  region?: string;
+  type?: string;
+  hasBidet: boolean;
+  amenities: {
+    wheelchairAccess: boolean;
+    babyChanging: boolean;
+    freeEntry: boolean;
+  };
+  notes?: string;
+  lastUpdated: string;
+  
+  //~ enriched data fields
+  openingHours?: string;
+  normalizedHours?: string; //~ formatted opening hrs
+  imageUrl?: string; //~ toilet img url
+  rating?: number; //~ rating score (0-5)
+  source?: string; //~ data src (google-sheets/google-maps)
+}
+
+//& geojson related types
+export interface GeoJSONGeometry {
+  type: string;
+  coordinates: number[];
+}
+
+export interface GeoJSONProperties {
+  id: string;
+  name: string;
+  address?: string;
+  region?: string;
+  type?: string;
+  hasBidet?: boolean;
+  amenities?: {
+    wheelchairAccess: boolean;
+    babyChanging: boolean;
+    freeEntry: boolean;
+  };
+  notes?: string;
+  lastUpdated?: string;
+  openingHours?: string;
+  normalizedHours?: string;
+  imageUrl?: string;
+  rating?: number;
+  source?: string;
+}
+
+export interface GeoJSONFeature {
+  type: string;
+  geometry: GeoJSONGeometry;
+  properties: GeoJSONProperties;
+}
+
+export interface GeoJSONData {
+  type: string;
+  features: GeoJSONFeature[];
+}
+
+//& data srcs configs
+export const DATA_SOURCES = {
+  GOOGLE_SHEETS_ID: '1jAMaD3afMfA19U2u1aRLkL0M-ufFvz1fKDpT_BraOfY',
+  GOOGLE_MAPS_ID: '1QEJocnDLq-vO8XRTOfRa50sFfJ3tLns0',
+  get SHEETS_CSV_URL() {
+    return `https://docs.google.com/spreadsheets/d/${this.GOOGLE_SHEETS_ID}/export?format=csv`;
+  },
+  get MAPS_KML_URL() {
+    return `https://www.google.com/maps/d/kml?forcekml=1&mid=${this.GOOGLE_MAPS_ID}`;
+  }
+};
+
+//& constants fr data paths
+export const DATA_PATHS = {
+  DATA_DIR: '/data',
+  CACHE_DIR: '/data/cache',
+  SHEETS_OUTPUT: '/data/toilets.json',
+  MAPS_OUTPUT: '/data/toilets.geojson',
+  COMBINED_OUTPUT: '/data/combined.geojson'
+};
+
+//& sg regions data
+export const SINGAPORE_REGIONS = [
+  'Central',
+  'North',
+  'North-East',
+  'East',
+  'West'
+];
