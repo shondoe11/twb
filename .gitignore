@@ -41,3 +41,11 @@ yarn-error.log*
 next-env.d.ts
 
 .vscode/
+
+# data cache files
+/data/cache/
+/data/*.geojson
+/data/*.json
+
+# only commit manually verified data
+!/data/sample/
