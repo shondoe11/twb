@@ -6,6 +6,17 @@ import { ToiletLocation, GeoJSONFeature } from '../lib/types';
 import FilterBar from '../components/FilterBar';
 import ListView from '../components/ListView';
 
+interface FilterOptions {
+  region: string;
+  type: string;
+  amenities: {
+    wheelchairAccess: boolean;
+    babyChanging: boolean;
+    freeEntry: boolean;
+    hasBidet: boolean;
+  };
+}
+
 //& dynamically import map component to prevent SSR issues w leaflet
 const Map = dynamic(() => import('../components/Map'), {
   ssr: false,
@@ -54,8 +65,10 @@ const mockLocations: ToiletLocation[] = [
 ];
 
 export default function Home() {
-  const [locations, setLocations] = useState<ToiletLocation[]>([]);
+  const [allLocations, setAllLocations] = useState<ToiletLocation[]>([]);
+  const [filteredLocations, setFilteredLocations] = useState<ToiletLocation[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<ToiletLocation | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   
   //& load real data frm generated files
   useEffect(() => {
@@ -93,11 +106,15 @@ export default function Home() {
           };
         });
         
-        setLocations(toiletLocations);
+        setAllLocations(toiletLocations);
+        setFilteredLocations(toiletLocations);
+        setIsLoading(false);
       } catch (error) {
         console.error('Error loading location data:', error);
-        //~ fall back to mock data if fetch fails
-        setLocations(mockLocations);
+        //~ fallback mock data if fetch fail
+        setAllLocations(mockLocations);
+        setFilteredLocations(mockLocations);
+        setIsLoading(false);
       }
     }
     
@@ -110,32 +127,93 @@ export default function Home() {
     //~ add functionality to center map on this location
   };
   
+  //& handle filter changes
+  const handleFilterChange = (filters: FilterOptions) => {
+    const filtered = allLocations.filter(location => {
+      //~ region filter
+      if (filters.region && location.region !== filters.region) {
+        return false;
+      }
+      
+      //~ type filter
+      if (filters.type && location.type !== filters.type) {
+        return false;
+      }
+      
+      //~ amenities filter
+      if (filters.amenities.wheelchairAccess && !location.amenities.wheelchairAccess) {
+        return false;
+      }
+      
+      if (filters.amenities.babyChanging && !location.amenities.babyChanging) {
+        return false;
+      }
+      
+      if (filters.amenities.freeEntry && !location.amenities.freeEntry) {
+        return false;
+      }
+      
+      if (filters.amenities.hasBidet && !location.hasBidet) {
+        return false;
+      }
+      
+      return true;
+    });
+    
+    setFilteredLocations(filtered);
+  };
+  
+  //& calculate stats fr header
+  const totalLocations = allLocations.length;
+  const filteredCount = filteredLocations.length;
+  
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm">
         <div className="container mx-auto py-4 px-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-600">TWB</h1>
-          <p className="text-sm text-gray-600">Toilets with Bidets</p>
+          <div className="text-right">
+            <p className="text-sm text-gray-600">Toilets with Bidets</p>
+            {!isLoading && (
+              <p className="text-xs text-gray-500 mt-1">
+                Showing {filteredCount} of {totalLocations} locations
+              </p>
+            )}
+          </div>
         </div>
       </header>
       
       <main className="container mx-auto py-6 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2">
-            <Map 
-              locations={locations} 
-              selectedLocation={selectedLocation} 
-            />
+        {isLoading ? (
+          <div className="h-[70vh] flex items-center justify-center">
+            <div className="text-center">
+              <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent">
+                <span className="sr-only">Loading...</span>
+              </div>
+              <p className="mt-2 text-gray-600">Loading toilet locations...</p>
+            </div>
           </div>
-          
-          <div className="space-y-4">
-            <FilterBar />
-            <ListView 
-              locations={locations} 
-              onSelectLocation={handleLocationSelect} 
-            />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="md:col-span-2">
+              <Map 
+                locations={filteredLocations} 
+                selectedLocation={selectedLocation} 
+              />
+            </div>
+            
+            <div className="space-y-4">
+              <FilterBar 
+                locations={allLocations}
+                onFilterChange={handleFilterChange} 
+              />
+              <ListView 
+                locations={filteredLocations} 
+                onSelectLocation={handleLocationSelect} 
+              />
+            </div>
           </div>
-        </div>
+        )}
       </main>
       
       <footer className="bg-white shadow-inner mt-8 py-4">
