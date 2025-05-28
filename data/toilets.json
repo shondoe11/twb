@@ -1,1 +1,100 @@
-[]
+[
+  {
+    "id": "sample-1",
+    "name": "Jewel Changi Airport",
+    "address": "78 Airport Blvd, Singapore 819666",
+    "region": "east",
+    "type": "mall",
+    "lat": 1.3601,
+    "lng": 103.989,
+    "hasBidet": true,
+    "amenities": {
+      "wheelchairAccess": true,
+      "babyChanging": true,
+      "freeEntry": true
+    },
+    "notes": "Level 2, near the Rain Vortex",
+    "lastUpdated": "2025-05-28"
+  },
+  {
+    "id": "sample-2",
+    "name": "VivoCity",
+    "address": "1 HarbourFront Walk, Singapore 098585",
+    "region": "south",
+    "type": "mall",
+    "lat": 1.264,
+    "lng": 103.8219,
+    "hasBidet": true,
+    "amenities": {
+      "wheelchairAccess": true,
+      "babyChanging": true,
+      "freeEntry": true
+    },
+    "lastUpdated": "2025-05-28"
+  },
+  {
+    "id": "sample-3",
+    "name": "Marina Bay Sands",
+    "address": "10 Bayfront Avenue, Singapore 018956",
+    "region": "central",
+    "type": "hotel",
+    "lat": 1.2834,
+    "lng": 103.8607,
+    "hasBidet": true,
+    "amenities": {
+      "wheelchairAccess": true,
+      "babyChanging": false,
+      "freeEntry": false
+    },
+    "notes": "Luxurious restrooms on the casino floor and shopping levels",
+    "lastUpdated": "2025-05-28"
+  },
+  {
+    "id": "sample-4",
+    "name": "Botanic Gardens Visitor Centre",
+    "address": "1 Cluny Road, Singapore 259569",
+    "region": "central",
+    "type": "public",
+    "lat": 1.3138,
+    "lng": 103.8159,
+    "hasBidet": false,
+    "amenities": {
+      "wheelchairAccess": true,
+      "babyChanging": false,
+      "freeEntry": true
+    },
+    "lastUpdated": "2025-05-28"
+  },
+  {
+    "id": "sample-5",
+    "name": "Northpoint City",
+    "address": "930 Yishun Ave 2, Singapore 769098",
+    "region": "north",
+    "type": "mall",
+    "lat": 1.4294,
+    "lng": 103.8354,
+    "hasBidet": true,
+    "amenities": {
+      "wheelchairAccess": true,
+      "babyChanging": true,
+      "freeEntry": true
+    },
+    "lastUpdated": "2025-05-28"
+  },
+  {
+    "id": "sample-6",
+    "name": "Jurong East MRT Station",
+    "address": "10 Jurong East Street 12, Singapore 609690",
+    "region": "west",
+    "type": "public",
+    "lat": 1.3331,
+    "lng": 103.7422,
+    "hasBidet": false,
+    "amenities": {
+      "wheelchairAccess": true,
+      "babyChanging": false,
+      "freeEntry": true
+    },
+    "lastUpdated": "2025-05-28"
+  }
+]
