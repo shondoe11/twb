@@ -1,23 +1,131 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { ToiletLocation } from '../lib/types';
+
+//* filter options interface fr typesafety
+interface FilterOptions {
+  region: string;
+  type: string;
+  amenities: {
+    wheelchairAccess: boolean;
+    babyChanging: boolean;
+    freeEntry: boolean;
+    hasBidet: boolean;
+  };
+}
 
 //* component fr filtering locations by region, facility type, / amenities
-const FilterBar = () => {
+const FilterBar = ({ 
+  locations = [], 
+  onFilterChange 
+}: { 
+  locations: ToiletLocation[], 
+  onFilterChange: (filters: FilterOptions) => void 
+}) => {
+  //& default filter state
+  const [filters, setFilters] = useState<FilterOptions>({
+    region: '',
+    type: '',
+    amenities: {
+      wheelchairAccess: false,
+      babyChanging: false,
+      freeEntry: false,
+      hasBidet: false
+    }
+  });
+
+  //& available regions & types frm actual data
+  const [availableRegions, setAvailableRegions] = useState<string[]>([]);
+  const [availableTypes, setAvailableTypes] = useState<string[]>([]);
+  
+  //& extract unique regions & types frm location data - once only
+  useEffect(() => {
+    if (locations.length > 0) {
+      const regions = Array.from(new Set(locations.map(loc => loc.region)))
+        .filter(region => region) //~ filter out empty values
+        .sort();
+      
+      const types = Array.from(new Set(locations.map(loc => loc.type)))
+        .filter(type => type) //~ filter out empty values
+        .sort();
+      
+      setAvailableRegions(regions);
+      setAvailableTypes(types);
+    }
+  }, [locations]);
+  
+  //& notify parent component whn filters change
+  useEffect(() => {
+    onFilterChange(filters);
+  }, [filters, onFilterChange]);
+  
+  //& handle region selection change
+  const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilters(prev => ({
+      ...prev,
+      region: e.target.value
+    }));
+  };
+  
+  //& handle type selection change
+  const handleTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setFilters(prev => ({
+      ...prev,
+      type: e.target.value
+    }));
+  };
+  
+  //& handle amenity checkbox changes
+  const handleAmenityChange = (amenity: keyof FilterOptions['amenities']) => {
+    setFilters(prev => ({
+      ...prev,
+      amenities: {
+        ...prev.amenities,
+        [amenity]: !prev.amenities[amenity]
+      }
+    }));
+  };
+  
+  //& reset all filters
+  const handleReset = () => {
+    setFilters({
+      region: '',
+      type: '',
+      amenities: {
+        wheelchairAccess: false,
+        babyChanging: false,
+        freeEntry: false,
+        hasBidet: false
+      }
+    });
+  };
+
   return (
     <div className="p-4 bg-white rounded-lg shadow mb-4">
-      <h2 className="font-medium mb-2">Filters</h2>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="font-medium">Filters</h2>
+        <button 
+          onClick={handleReset}
+          className="text-sm text-blue-600 hover:underline"
+        >
+          Reset All
+        </button>
+      </div>
+      
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div>
           <label htmlFor="region" className="block text-sm text-gray-600">Region</label>
           <select 
             id="region" 
             className="w-full p-2 border border-gray-300 rounded text-sm"
+            value={filters.region}
+            onChange={handleRegionChange}
           >
             <option value="">All Regions</option>
-            <option value="north">North</option>
-            <option value="south">South</option>
-            <option value="east">East</option>
-            <option value="west">West</option>
-            <option value="central">Central</option>
+            {availableRegions.map(region => (
+              <option key={region} value={region}>
+                {region.charAt(0).toUpperCase() + region.slice(1)}
+              </option>
+            ))}
           </select>
         </div>
         
@@ -26,12 +134,15 @@ const FilterBar = () => {
           <select 
             id="type" 
             className="w-full p-2 border border-gray-300 rounded text-sm"
+            value={filters.type}
+            onChange={handleTypeChange}
           >
             <option value="">All Types</option>
-            <option value="mall">Shopping Mall</option>
-            <option value="public">Public Toilet</option>
-            <option value="park">Park</option>
-            <option value="restaurant">Restaurant</option>
+            {availableTypes.map(type => (
+              <option key={type} value={type}>
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </option>
+            ))}
           </select>
         </div>
         
@@ -39,16 +150,40 @@ const FilterBar = () => {
           <p className="text-sm text-gray-600 mb-1">Amenities</p>
           <div className="flex flex-wrap gap-2">
             <label className="flex items-center text-sm">
-              <input type="checkbox" className="mr-1" />
+              <input 
+                type="checkbox" 
+                className="mr-1"
+                checked={filters.amenities.wheelchairAccess}
+                onChange={() => handleAmenityChange('wheelchairAccess')}
+              />
               Wheelchair Access
             </label>
             <label className="flex items-center text-sm">
-              <input type="checkbox" className="mr-1" />
+              <input 
+                type="checkbox" 
+                className="mr-1"
+                checked={filters.amenities.babyChanging}
+                onChange={() => handleAmenityChange('babyChanging')}
+              />
               Baby Changing
             </label>
             <label className="flex items-center text-sm">
-              <input type="checkbox" className="mr-1" />
+              <input 
+                type="checkbox" 
+                className="mr-1"
+                checked={filters.amenities.freeEntry}
+                onChange={() => handleAmenityChange('freeEntry')}
+              />
               Free Entry
+            </label>
+            <label className="flex items-center text-sm">
+              <input 
+                type="checkbox" 
+                className="mr-1"
+                checked={filters.amenities.hasBidet}
+                onChange={() => handleAmenityChange('hasBidet')}
+              />
+              Has Bidet
             </label>
           </div>
         </div>
