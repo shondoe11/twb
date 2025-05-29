@@ -49,6 +49,71 @@ body {
   overflow: hidden;
 }
 
+/* custom marker styles */
+.marker-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border: 2px solid white;
+}
+
+/* cluster icon styles */
+.custom-marker-cluster {
+  background: transparent;
+  border: none;
+}
+
+.cluster-icon {
+  background-color: var(--primary);
+  color: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  border: 2px solid white;
+}
+
+/* custom tooltip styles */
+.marker-tooltip {
+  position: absolute;
+  display: none;
+  background-color: white;
+  color: #333;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -120%);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  top: 0;
+  left: 50%;
+}
+
+.leaflet-marker-icon:hover .marker-tooltip {
+  display: block;
+}
+
+/* popup adjustments */
+.custom-popup .leaflet-popup-content-wrapper {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.custom-popup .leaflet-popup-content {
+  margin: 10px 12px;
+  line-height: 1.4;
+}
+
 /* custom scrollbar fr list view */
 .location-list {
   scrollbar-width: thin;
