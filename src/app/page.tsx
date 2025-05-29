@@ -1,8 +1,8 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { ToiletLocation, GeoJSONFeature } from '../lib/types';
+import { ToiletLocation } from '@/lib/types-compatibility';
+import { fetchLocations, filterLocations } from '@/lib/data/client';
 import FilterBar from '../components/FilterBar';
 import ListView from '../components/ListView';
 
@@ -33,7 +33,7 @@ const mockLocations: ToiletLocation[] = [
     id: '1',
     name: 'Jewel Changi Airport',
     address: '78 Airport Blvd, Singapore 819666',
-    region: 'east',
+    region: 'East',
     type: 'mall',
     lat: 1.3601,
     lng: 103.9890,
@@ -45,12 +45,17 @@ const mockLocations: ToiletLocation[] = [
     },
     notes: 'Level 2, near the Rain Vortex',
     lastUpdated: '2025-05-25',
+    openingHours: '24 hours',
+    normalizedHours: '00:00-23:59',
+    imageUrl: 'https://example.com/jewel.jpg',
+    rating: 4.5,
+    source: 'sample-data'
   },
   {
     id: '2',
     name: 'VivoCity',
     address: '1 HarbourFront Walk, Singapore 098585',
-    region: 'south',
+    region: 'Central',
     type: 'mall',
     lat: 1.2640,
     lng: 103.8219,
@@ -60,7 +65,13 @@ const mockLocations: ToiletLocation[] = [
       babyChanging: true,
       freeEntry: true,
     },
+    notes: 'Level 3, North Wing',
     lastUpdated: '2025-05-25',
+    openingHours: '10:00 AM - 10:00 PM',
+    normalizedHours: '10:00-22:00',
+    imageUrl: 'https://example.com/vivocity.jpg',
+    rating: 4.2,
+    source: 'sample-data'
   },
 ];
 
@@ -70,47 +81,18 @@ export default function Home() {
   const [selectedLocation, setSelectedLocation] = useState<ToiletLocation | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   
-  //& load real data frm generated files
+  //& load data using data svc
   useEffect(() => {
     async function loadData() {
       try {
-        //~ fetch combined geojson data frm all locations
-        const response = await fetch('/api/locations');
-        if (!response.ok) {
-          throw new Error(`Failed to fetch data: ${response.status}`);
-        }
-        
-        const geoData = await response.json();
-        
-        //~ convert geojson features to toilet location objects
-        const toiletLocations = geoData.features.map((feature: GeoJSONFeature) => {
-          const { properties, geometry } = feature;
-          const [lng, lat] = geometry.coordinates;
-          
-          return {
-            id: properties.id,
-            name: properties.name,
-            address: properties.address || '',
-            region: properties.region || 'unknown',
-            type: properties.type || 'unknown',
-            lat,
-            lng,
-            hasBidet: properties.hasBidet ?? true,
-            amenities: properties.amenities || {
-              wheelchairAccess: false,
-              babyChanging: false,
-              freeEntry: true,
-            },
-            notes: properties.notes || '',
-            lastUpdated: properties.lastUpdated || new Date().toISOString().split('T')[0],
-          };
-        });
+        //~ fetch toilet locations using client data svc
+        const toiletLocations = await fetchLocations();
         
         setAllLocations(toiletLocations);
         setFilteredLocations(toiletLocations);
         setIsLoading(false);
       } catch (error) {
-        console.error('Error loading location data:', error);
+        console.error('Error loading data:', error);
         //~ fallback mock data if fetch fail
         setAllLocations(mockLocations);
         setFilteredLocations(mockLocations);
@@ -129,35 +111,16 @@ export default function Home() {
   
   //& handle filter changes
   const handleFilterChange = (filters: FilterOptions) => {
-    const filtered = allLocations.filter(location => {
-      //~ region filter
-      if (filters.region && location.region !== filters.region) {
-        return false;
+    //~ use util func frm data svc
+    const filtered = filterLocations(allLocations, {
+      region: filters.region !== 'All' ? filters.region : undefined,
+      type: filters.type !== 'All' ? filters.type : undefined,
+      amenities: {
+        wheelchairAccess: filters.amenities.wheelchairAccess,
+        babyChanging: filters.amenities.babyChanging,
+        freeEntry: filters.amenities.freeEntry,
+        hasBidet: filters.amenities.hasBidet
       }
-      
-      //~ type filter
-      if (filters.type && location.type !== filters.type) {
-        return false;
-      }
-      
-      //~ amenities filter
-      if (filters.amenities.wheelchairAccess && !location.amenities.wheelchairAccess) {
-        return false;
-      }
-      
-      if (filters.amenities.babyChanging && !location.amenities.babyChanging) {
-        return false;
-      }
-      
-      if (filters.amenities.freeEntry && !location.amenities.freeEntry) {
-        return false;
-      }
-      
-      if (filters.amenities.hasBidet && !location.hasBidet) {
-        return false;
-      }
-      
-      return true;
     });
     
     setFilteredLocations(filtered);
