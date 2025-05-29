@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ToiletLocation } from '../lib/types';
+import { ToiletLocation } from '@/lib/types-compatibility';
 
 //* filter options interface fr typesafety
 interface FilterOptions {
@@ -37,26 +37,25 @@ const FilterBar = ({
   const [availableRegions, setAvailableRegions] = useState<string[]>([]);
   const [availableTypes, setAvailableTypes] = useState<string[]>([]);
   
-  //& extract unique regions & types frm location data - once only
+  //& extract unique regions & facility types frm locations data
   useEffect(() => {
     if (locations.length > 0) {
-      const regions = Array.from(new Set(locations.map(loc => loc.region)))
-        .filter(region => region) //~ filter out empty values
-        .sort();
+      //~ get unique regions & types, filtering out undefined values
+      const regions = [...new Set(locations.map(loc => loc.region).filter(Boolean))];
+      const types = [...new Set(locations.map(loc => loc.type).filter(Boolean))];
       
-      const types = Array.from(new Set(locations.map(loc => loc.type)))
-        .filter(type => type) //~ filter out empty values
-        .sort();
-      
-      setAvailableRegions(regions);
-      setAvailableTypes(types);
+      //~ type assertion: handle string | undefined type
+      setAvailableRegions(regions as string[]);
+      setAvailableTypes(types as string[]);
     }
   }, [locations]);
   
-  //& notify parent component whn filters change
+  //& notify parent component whn filters change (using deps memoization)
   useEffect(() => {
+    //~ prevent unnecessary re-renders by stabilizing dep
     onFilterChange(filters);
-  }, [filters, onFilterChange]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(filters)]); //~ only depend on stringified filters
   
   //& handle region selection change
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
