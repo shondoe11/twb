@@ -17,6 +17,13 @@ export interface ToiletLocation {
   };
   notes?: string;
   lastUpdated: string;
+  
+  //~ enriched data fields
+  openingHours?: string;
+  normalizedHours?: string; //~ formatted opening hrs
+  imageUrl?: string; //~ toilet img url
+  rating?: number; //~ rating score (0-5)
+  source?: string; //~ data src (google-sheets/google-maps)
 }
 
 export interface GeoJSONFeature {
