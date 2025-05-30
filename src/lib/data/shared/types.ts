@@ -12,16 +12,33 @@ export interface ToiletLocation {
     wheelchairAccess: boolean;
     babyChanging: boolean;
     freeEntry: boolean;
+    handDryer?: boolean;
+    soapDispenser?: boolean;
+    paperTowels?: boolean;
+    toiletPaper?: boolean;
   };
   notes?: string;
   lastUpdated: string;
   
-  //~ enriched data fields
+  //& enriched data fields
   openingHours?: string;
   normalizedHours?: string; //~ formatted opening hrs
   imageUrl?: string; //~ toilet img url
   rating?: number; //~ rating score (0-5)
   source?: string; //~ data src (google-sheets/google-maps)
+  cleanliness?: number; //~ cleanliness rating (1-5)
+  accessibility?: {
+    hasRamp?: boolean;
+    doorWidth?: number; //~ in cm
+    grabBars?: boolean;
+    emergencyButton?: boolean;
+  };
+  floor?: string; //~ location floor information
+  nearbyLandmarks?: string[]; //~ notable locations nearby
+  lastCleaned?: string; //~ timestamp of last cleaning
+  maintenanceContact?: string; //~ contact for reporting issues
+  waterTemperature?: 'cold' | 'warm' | 'adjustable'; //~ for bidets
+  visitCount?: number; //~ popularity metric
 }
 
 //& geojson related types
