@@ -37,11 +37,79 @@ body {
 
 .leaflet-popup-content-wrapper {
   border-radius: 0.5rem;
+  padding: 0 !important;
 }
 
 .leaflet-popup-content {
-  margin: 12px 16px;
-  line-height: 1.5;
+  margin: 0 !important;
+  padding: 4px 6px !important;
+  line-height: 1 !important;
+}
+
+.leaflet-popup-content p {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+.leaflet-popup-content h3 {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1.1 !important;
+}
+
+/* eliminate vertical gaps & margins */
+.leaflet-popup-content div,
+.leaflet-popup-content span {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+/* special case fr amenity badges */
+.leaflet-popup-content span.rounded-full {
+  padding: 1px 4px !important;
+  margin: 1px !important;
+  display: inline-block !important;
+}
+
+/* special case fr directions link */
+.leaflet-popup-content a {
+  margin: 0 !important;
+  padding: 0 !important;
+  line-height: 1 !important;
+}
+
+/* create proper separation fr address & name */
+.leaflet-popup-content h3 + p {
+  margin-top: 8px !important;
+}
+
+/* proper spacing fr type & region section */
+.leaflet-popup-content div.grid {
+  margin-top: 8px !important;
+}
+
+/* proper spacing fr amenities */
+.leaflet-popup-content div > p.text-xs.font-medium {
+  margin-top: 8px !important;
+}
+
+/* proper spacing after rating */
+.leaflet-popup-content div.flex.items-center {
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+/* ensure border is visible w space */
+.leaflet-popup-content div[style*="borderTop"] {
+  margin-top: 8px !important;
+  padding-top: 4px !important;
+}
+
+/* add space after amenity badges */
+.leaflet-popup-content span.rounded-full {
+  margin-bottom: 4px !important;
 }
 
 .leaflet-control-zoom {
