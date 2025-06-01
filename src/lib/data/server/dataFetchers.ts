@@ -20,11 +20,18 @@ async function fileExists(filePath: string): Promise<boolean> {
 export async function readCombinedGeoJSON(): Promise<GeoJSONData> {
   try {
     const dataDir = path.join(process.cwd(), DATA_PATHS.DATA_DIR);
-    const filePath = path.join(dataDir, 'combined.geojson');
+    
+    //~ try read enriched data first (w fixed regions)
+    const enrichedPath = path.join(dataDir, 'enriched.geojson');
+    const combinedPath = path.join(dataDir, 'combined.geojson');
+    
+    //~ determine which file to use
+    const filePath = await fileExists(enrichedPath) ? enrichedPath : combinedPath;
     
     //~ check if file exists
     if (!(await fileExists(filePath))) {
       //~ if file doesn't exist, return empty geojson collection
+      console.warn('No GeoJSON data files found');
       return {
         type: 'FeatureCollection',
         features: []
@@ -33,9 +40,39 @@ export async function readCombinedGeoJSON(): Promise<GeoJSONData> {
     
     //~ read & parse file
     const fileContent = await fs.readFile(filePath, 'utf-8');
-    return JSON.parse(fileContent);
+    const data = JSON.parse(fileContent);
+    
+    //~ normalize regions & types fr better display & filtering
+    if (data && data.features && Array.isArray(data.features)) {
+      data.features = data.features.map((feature: GeoJSONData['features'][0]) => {
+        if (feature.properties) {
+          //~ ensure region is normalized
+          if (!feature.properties.region || feature.properties.region === 'unknown') {
+            feature.properties.region = 'Unknown';
+          } else {
+            //~ capitalize first letter
+            feature.properties.region = 
+              feature.properties.region.charAt(0).toUpperCase() + 
+              feature.properties.region.slice(1).toLowerCase();
+          }
+          
+          //~ ensure type is normalized
+          if (!feature.properties.type || feature.properties.type === 'unknown') {
+            feature.properties.type = 'Other';
+          } else {
+            //~ capitalize first letter
+            feature.properties.type = 
+              feature.properties.type.charAt(0).toUpperCase() + 
+              feature.properties.type.slice(1).toLowerCase();
+          }
+        }
+        return feature;
+      });
+    }
+    
+    return data;
   } catch (error) {
-    console.error('Error reading combined geojson:', error);
+    console.error('Error reading geojson data:', error);
     return {
       type: 'FeatureCollection',
       features: []
