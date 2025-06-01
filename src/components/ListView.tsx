@@ -91,7 +91,7 @@ const ListView = ({
   return (
     <div className="bg-white rounded-lg shadow">
       {/* search bar */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-gray-200 text-gray-800">
         <input
           type="text"
           placeholder="Search locations..."
@@ -127,14 +127,14 @@ const ListView = ({
       {/* locations list */}
       <div className="max-h-[60vh] overflow-y-auto divide-y divide-gray-200">
         {sortedLocations.length === 0 ? (
-          <div className="p-4 text-center text-gray-500">
+          <div className="p-4 text-center text-gray-800">
             {locations.length === 0 ? 'No locations available' : 'No matching locations found'}
           </div>
         ) : (
           sortedLocations.map((location) => (
             <div 
               key={location.id}
-              className="p-4 hover:bg-gray-50 cursor-pointer flex flex-col md:flex-row gap-3"
+              className="p-4 hover:bg-gray-50 cursor-pointer flex flex-col md:flex-row gap-3 text-gray-800"
               onClick={() => onSelectLocation?.(location)}
             >
               {/* img if avail */}
