@@ -105,7 +105,7 @@ const Map = ({
     });
   };
 
-  //& component: center map on selected location
+  //& component: center map on selected location & handle map updates
   const MapUpdater = () => {
     const map = useMap();
     
@@ -122,14 +122,47 @@ const Map = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedLocation]); 
     
-    //~ map event handlers (prevent issues)
+    //~ ensure map updates whn locations change (fr filtering)
     useEffect(() => {
-      map.on('popupopen', () => {});
-      map.on('popupclose', () => {});
+      //~ force map size recalculations & invalidate if locations change: ensure popups render correctly aft filtering
+      map.invalidateSize();
+    }, [map]);
+    
+    //~ react to locations change - using key to track changes
+    const locationsKey = locations.map(loc => loc.id).join(','); //~ create key frm location IDs
+    useEffect(() => {
+      //~ invalidate size again whn locations list changes
+      map.invalidateSize();
+      
+      //~ force leaflet recalculate bounds & redraw
+      setTimeout(() => {
+        map.invalidateSize();
+      }, 100);
+    }, [map, locationsKey]);
+    
+    //~ improved map event handlers to ensure popups work properly
+    useEffect(() => {
+      //~ type-safe event handler fr popup events
+      const handlePopupOpen = (e: { popup: L.Popup }) => {
+        //~ ensure popup content rendered
+        const popup = e.popup;
+        if (popup && !popup.getContent()) {
+          //~ if popup no content, try refresh
+          popup.update();
+        }
+      };
+      
+      //~ empty event handler fr popup close
+      const handlePopupClose = () => {
+        //~ do nothing but capture event
+      };
+      
+      map.on('popupopen', handlePopupOpen);
+      map.on('popupclose', handlePopupClose);
       
       return () => {
-        map.off('popupopen');
-        map.off('popupclose');
+        map.off('popupopen', handlePopupOpen);
+        map.off('popupclose', handlePopupClose);
       };
     }, [map]);
     
@@ -265,7 +298,7 @@ const Map = ({
             
             return (
               <Marker 
-                key={location.id}
+                key={`marker-${location.id}-${location.type || 'unknown'}`}
                 position={[location.lat, location.lng]}
                 icon={getMarkerIcon(location)}
                 eventHandlers={{
@@ -279,12 +312,14 @@ const Map = ({
                   maxWidth={300}
                   className="custom-popup"
                   closeButton={true}
-                  autoPan={false} //~ prevent auto panning which can cause rerenders
+                  autoPan={true} //~ enable auto panning ensure popup visible
                 >
-                  {popupContent}
+                  {/* wrap in stable container ensure rendering */}
+                  <div key={`popup-${location.id}`} className="popup-content-wrapper">
+                    {popupContent}
+                  </div>
                 </Popup>
                 
-                {/* simple className fr tooltip rather than component */}
                 <div className="marker-tooltip">{tooltipText}</div>
               </Marker>
             );
