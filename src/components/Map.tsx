@@ -9,6 +9,33 @@ import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import { ToiletLocation } from '@/lib/types-compatibility';
 
+//& helper fn format addresses
+const formatAddress = (address: string): string => {
+  if (!address) return '';
+  
+  //~ simplify address removing redundant location deets
+  const simplified = address
+    .replace(/, Singapur East, Northeast, Singapore,/g, ',')
+    .replace(/, Singapore, \d+, Singapore/g, ', Singapore')
+    .replace(/, Singapur/g, '')
+    .replace(/Singapore(,)?\s+Singapore/g, 'Singapore')
+    .replace(/,\s*,/g, ',');
+  
+  //~ extract postal code if present & format
+  const postalCodeMatch = simplified.match(/(\d{6})/); 
+  if (postalCodeMatch) {
+    const postalCode = postalCodeMatch[1];
+    return simplified
+      .replace(/,\s*[\w\s]+(,\s*Singapore)?(,\s*\d{6})?,\s*Singapore$/i, `, Singapore ${postalCode}`)
+      .replace(/([^,]+),[^,]+(, Singapore \d{6})$/i, '$1$2')
+      .trim();
+  }
+  
+  return simplified
+    .replace(/,\s*[\w\s]+(,\s*Singapore)$/i, ', Singapore')
+    .trim();
+};
+
 //& fix fr leaflet marker icon in next.js
 const Map = ({ 
   locations = [], 
@@ -177,13 +204,14 @@ const Map = ({
   
   //~ helper: render star rating - memoized to prevent rerenders
   const renderRating = useCallback((rating?: number) => {
-    if (!rating) return '';
+    if (!rating) return null;
     
+    //~ show stars
     const fullStars = Math.floor(rating);
     const hasHalfStar = rating % 1 >= 0.5;
     
     return (
-      <div className="flex items-center mt-1">
+      <div className="flex items-center my-0.5">
         {[...Array(fullStars)].map((_, i) => (
           <span key={`star-${i}`} className="text-yellow-500">★</span>
         ))}
@@ -222,41 +250,41 @@ const Map = ({
         >
           {/* only render markers once map rdy */}
           {mapReady && locations.map((location) => {
-            //~ popup content outside component: reduce rerenders
+            //~ popup content outside component: reduce rerenders with compact layout
             const popupContent = (
-              <div className="p-1">
+              <div className="p-0" style={{ lineHeight: '1', margin: 0, padding: '4px' }}>
                 {/* basic info w null checks */}
-                <h3 className="font-medium text-base">{location.name || 'Unknown Location'}</h3>
-                {location.address && <p className="text-sm">{location.address}</p>}
+                <h3 className="font-medium text-base m-0 p-0" style={{ margin: 0, padding: 0 }}>{location.name || 'Unknown Location'}</h3>
+                {location.address && <p className="text-sm mt-0 p-0" style={{ margin: 0, padding: 0 }}>{formatAddress(location.address)}</p>}
                 
                 {/* show rating if avail */}
                 {location.rating !== undefined && renderRating(location.rating)}
                 
                 {/* facility deets */}
-                <div className="mt-2 grid grid-cols-2 gap-x-2 text-xs">
-                  <p><span className="font-medium">Type:</span> {location.type || 'Other'}</p>
-                  <p><span className="font-medium">Region:</span> {location.region || 'Unknown'}</p>
+                <div className="grid grid-cols-2 gap-x-2 text-xs" style={{ margin: 0, padding: 0, lineHeight: '1' }}>
+                  <p className="m-0 p-0" style={{ margin: 0, padding: 0 }}><span className="font-medium">Type:</span> {location.type || 'Other'}</p>
+                  <p className="m-0 p-0" style={{ margin: 0, padding: 0 }}><span className="font-medium">Region:</span> {location.region || 'Unknown'}</p>
                 </div>
                 
                 {/* amenities w icons */}
-                <div className="mt-2">
-                  <p className="text-xs font-medium mb-1">Amenities:</p>
-                  <div className="flex flex-wrap gap-2 text-xs">
+                <div style={{ margin: 0, padding: 0, lineHeight: '1' }}>
+                  <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Amenities:</p>
+                  <div className="flex flex-wrap gap-1 text-xs" style={{ margin: 0, padding: 0 }}>
                     {/* safely check fr bidet */}
                     {location.hasBidet && (
-                      <span className="px-2 py-1 bg-blue-100 rounded-full text-blue-800">💦 Bidet</span>
+                      <span className="px-2 py-0 bg-blue-100 rounded-full text-blue-800" style={{ margin: 0, padding: '1px 4px' }}>💦 Bidet</span>
                     )}
                     {/* safely check fr amenities obj & its props */}
                     {location.amenities && (
                       <>
                         {location.amenities.wheelchairAccess && (
-                          <span className="px-2 py-1 bg-green-100 rounded-full text-green-800">♿ Wheelchair</span>
+                          <span className="px-2 py-0 bg-green-100 rounded-full text-green-800" style={{ margin: 0, padding: '1px 4px' }}>♿ Wheelchair</span>
                         )}
                         {location.amenities.babyChanging && (
-                          <span className="px-2 py-1 bg-purple-100 rounded-full text-purple-800">👶 Baby Station</span>
+                          <span className="px-2 py-0 bg-purple-100 rounded-full text-purple-800" style={{ margin: 0, padding: '1px 4px' }}>👶 Baby Station</span>
                         )}
                         {location.amenities.freeEntry && (
-                          <span className="px-2 py-1 bg-yellow-100 rounded-full text-yellow-800">🆓 Free Entry</span>
+                          <span className="px-2 py-0 bg-yellow-100 rounded-full text-yellow-800" style={{ margin: 0, padding: '1px 4px' }}>🆓 Free Entry</span>
                         )}
                       </>
                     )}
@@ -265,29 +293,30 @@ const Map = ({
                 
                 {/* opening hrs if avail */}
                 {(location.openingHours || location.normalizedHours) && (
-                  <div className="mt-2">
-                    <p className="text-xs font-medium">Hours:</p>
-                    <p className="text-xs">{formatOpeningHours(location.normalizedHours || location.openingHours)}</p>
+                  <div style={{ margin: 0, padding: 0, lineHeight: '1' }}>
+                    <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Hours:</p>
+                    <p className="text-xs" style={{ margin: 0, padding: 0 }}>{formatOpeningHours(location.normalizedHours || location.openingHours)}</p>
                   </div>
                 )}
                 
                 {/* notes if avail */}
                 {location.notes && (
-                  <div className="mt-2">
-                    <p className="text-xs font-medium">Notes:</p>
-                    <p className="text-xs italic">{location.notes}</p>
+                  <div style={{ margin: 0, padding: 0, lineHeight: '1' }}>
+                    <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Notes:</p>
+                    <p className="text-xs italic" style={{ margin: 0, padding: 0 }}>{location.notes}</p>
                   </div>
                 )}
                 
                 {/* nav link */}
-                <div className="mt-3 pt-2 border-t border-gray-200">
+                <div style={{ margin: 0, padding: 0, borderTop: '1px solid #e5e7eb', lineHeight: '1' }}>
                   <a 
                     href={`https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-xs text-blue-600 hover:text-blue-800 flex items-center"
+                    style={{ margin: 0, padding: 0 }}
                   >
-                    <span>📍 Get Directions</span>
+                    <span style={{ margin: 0, padding: 0 }}>📍 Get Directions</span>
                   </a>
                 </div>
               </div>
