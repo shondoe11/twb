@@ -1,6 +1,32 @@
 //* client-side data service fr fetching & processing toilet location data
 import { ToiletLocation, GeoJSONData, GeoJSONFeature } from '../shared/types';
 
+/**
+ * & type definition fr GeoJSON feature properties
+ */
+type GeoJSONFeatureProperties = {
+  id?: string;
+  name?: string;
+  address?: string;
+  region?: string;
+  type?: string;
+  hasBidet?: boolean;
+  amenities?: {
+    wheelchairAccess?: boolean;
+    babyChanging?: boolean;
+    freeEntry?: boolean;
+    [key: string]: boolean | string | number | undefined;
+  };
+  notes?: string;
+  lastUpdated?: string;
+  openingHours?: string;
+  normalizedHours?: Record<string, string> | string;
+  imageUrl?: string;
+  rating?: number;
+  source?: string;
+  [key: string]: string | number | boolean | object | undefined; //~ allow fr other properties
+};
+
 /*
 & fetch all toilet locations frm API
  */
@@ -31,13 +57,97 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     return [];
   }
   
-  return geoData.features.map((feature: GeoJSONFeature) => {
+  //~ Map: track unique locations by coordinate hash
+  const uniqueLocations = new Map();
+  
+  //~ Sort features - prioritize features w more complete data fr initial population
+  const sortedFeatures = [...geoData.features].sort((a, b) => {
+    const aProps = a.properties || {};
+    const bProps = b.properties || {};
+    
+    //~ score based on completeness
+    const aScore = scoreCompleteness(aProps as GeoJSONFeatureProperties);
+    const bScore = scoreCompleteness(bProps as GeoJSONFeatureProperties);
+    
+    return bScore - aScore; //~ higher score 1st
+  });
+  
+  //~ 1st pass: collect all locations using sorted features
+  sortedFeatures.forEach((feature: GeoJSONFeature) => {
     const { properties, geometry } = feature;
     
-    //~ ensure coordinates are in correct format [lng, lat]
-    const [lng, lat] = geometry.coordinates;
+    //~ skip invalid features
+    if (!geometry || !geometry.coordinates || !properties) return;
     
-    return {
+    //~ ensure coordinates in correct format [lng, lat]
+    const [lng, lat] = geometry.coordinates;
+    if (!lat || !lng || isNaN(Number(lat)) || isNaN(Number(lng))) return;
+    
+    //~ unique key based on coords (round 5 decimal places)
+    const locationKey = `${Number(lat).toFixed(5)},${Number(lng).toFixed(5)}`;
+    
+    //~ if alr have this location, merge relevant data
+    if (uniqueLocations.has(locationKey)) {
+      const existing = uniqueLocations.get(locationKey);
+      
+      //~ prefer locations w names & addresses over unknowns
+      if (shouldUpdateValue(existing.name, properties.name)) {
+        existing.name = properties.name;
+      }
+      
+      //~ simplify address handling - always use address w/o name fallback
+      if (properties.address && properties.address.trim() !== '') {
+        existing.address = properties.address.trim();
+      }
+      
+      //~ update other fields conditionally
+      if (shouldUpdateValue(existing.region, properties.region)) {
+        existing.region = properties.region;
+      }
+      
+      if (shouldUpdateValue(existing.type, properties.type)) {
+        existing.type = properties.type;
+      }
+      
+      //~ merge amenities if avail
+      if (properties.amenities) {
+        existing.amenities = {
+          ...existing.amenities,
+          ...properties.amenities,
+          //~ explicitly prioritize true values fr boolean amenities
+          wheelchairAccess: existing.amenities?.wheelchairAccess || properties.amenities.wheelchairAccess,
+          babyChanging: existing.amenities?.babyChanging || properties.amenities.babyChanging,
+          freeEntry: existing.amenities?.freeEntry || properties.amenities.freeEntry
+        };
+      }
+      
+      //~ merge multiple notes if available
+      if (properties.notes) {
+        if (!existing.notes) {
+          existing.notes = properties.notes;
+        } else if (!existing.notes.includes(properties.notes)) {
+          //~ combine notes if different
+          existing.notes = `${existing.notes}; ${properties.notes}`;
+        }
+      }
+      
+      //~ combine source info for tracking
+      if (properties.source && properties.source !== existing.source) {
+        existing.source = existing.source 
+          ? `${existing.source},${properties.source}` 
+          : properties.source;
+      }
+      
+      //~ keep track of hasBidet=true from any source
+      if (properties.hasBidet === true) {
+        existing.hasBidet = true;
+      }
+      
+      return;
+    }
+    
+    //~ otherwise add as new location
+    uniqueLocations.set(locationKey, {
       id: properties.id || `loc-${Math.random().toString(36).substring(2, 9)}`,
       name: properties.name || 'Unknown Location',
       address: properties.address || '',
@@ -58,8 +168,58 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       imageUrl: properties.imageUrl,
       rating: properties.rating,
       source: properties.source
-    };
+    });
   });
+  
+  //~ return arr of unique locations
+  return Array.from(uniqueLocations.values());
+}
+
+/**
+ * & helper func: determine if value shld replace existing value
+ */
+function shouldUpdateValue(existingValue: string | undefined | null, newValue: string | undefined | null): boolean {
+  //~ don't update w undefined/null/empty
+  if (newValue === undefined || newValue === null || newValue === '') return false;
+  
+  //~ always update if existing is empty/unknown
+  if (!existingValue || 
+      existingValue === '' || 
+      existingValue === 'Unknown' || 
+      existingValue === 'unknown' || 
+      existingValue === 'Other' || 
+      existingValue === 'other') {
+    return true;
+  }
+  
+  //~ if new value has more info (longer), use
+  if (typeof existingValue === 'string' && 
+      typeof newValue === 'string' && 
+      newValue.length > existingValue.length && 
+      !newValue.includes('unknown') && 
+      !newValue.toLowerCase().includes('null')) {
+    return true;
+  }
+  
+  return false;
+}
+
+/**
+ *& score feature's properties fr completeness: prioritize better data
+ */
+function scoreCompleteness(props: GeoJSONFeatureProperties): number {
+  let score = 0;
+  
+  //~ award points fr having complete data
+  if (props.name && props.name !== 'Unknown Location') score += 3;
+  if (props.address && props.address.length > 5) score += 4;
+  if (props.region && props.region !== 'Unknown') score += 2;
+  if (props.type && props.type !== 'Other') score += 1;
+  if (props.notes && props.notes.length > 0) score += 1;
+  if (props.amenities && Object.keys(props.amenities).length > 0) score += 2;
+  if (props.source === 'google-sheets') score += 2; //~ pref sheets data (usually more complete)
+  
+  return score;
 }
 
 /*
