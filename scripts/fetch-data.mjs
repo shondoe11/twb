@@ -10,9 +10,13 @@ import { DOMParser } from 'xmldom';
 import * as toGeoJSON from '@tmcw/togeojson';
 import { Readable } from 'stream';
 import { createHash } from 'crypto';
-import { setTimeout } from 'timers/promises';
+import dotenv from 'dotenv';
+import { compareTwoStrings } from 'string-similarity'; //~ fuzzy string comparison
 
-//& get dirname equivalent in ES modules
+dotenv.config({ path: '.env.local' });
+dotenv.config();
+
+//& dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -20,8 +24,7 @@ const __dirname = path.dirname(__filename);
 const SHEETS_ID = '1jAMaD3afMfA19U2u1aRLkL0M-ufFvz1fKDpT_BraOfY';
 const MAPS_ID = '1QEJocnDLq-vO8XRTOfRa50sFfJ3tLns0';
 
-//& URLs fr data srcs
-const SHEETS_URL = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/export?format=csv`;
+//& URL fr google my maps (kml)
 const MAPS_URL = `https://www.google.com/maps/d/kml?forcekml=1&mid=${MAPS_ID}`;
 
 //& output file paths
@@ -36,11 +39,11 @@ const CACHE_METADATA = path.join(CACHE_DIR, 'metadata.json');
 //& max age fr cached data in ms (24h)
 const CACHE_MAX_AGE = 24 * 60 * 60 * 1000; 
 
-//& alt sheets url formats try if primary fail
-const SHEETS_URL_ALTERNATIVES = [
-  `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/export?format=csv&id=${SHEETS_ID}`,
-  `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/gviz/tq?tqx=out:csv`,
-  `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/pub?output=csv`
+//& sheet tabs metadata (gid, name column header, address column, gender)
+const SHEETS_TABS = [
+  { gid: 0, nameHeader: 'Location', addressHeader: 'Address', gender: 'male' },
+  { gid: 1908890944, nameHeader: 'Location', addressHeader: 'Address', gender: 'female' },
+  { gid: 1650628758, nameHeader: 'Hotel', addressHeader: 'Location', gender: 'any' }
 ];
 
 //& cache management functions
@@ -116,46 +119,33 @@ async function getFromCache(key) {
 
 //& fetch csv data frm google sheets & parse into json with fallbacks
 async function fetchSheets() {
-  //~ try get data frm cache 1st
-  const cachedData = await getFromCache('sheets');
-  if (cachedData && cachedData.length > 0) {
-    return cachedData;
-  }
-  
-  //~ try primary url 1st
-  try {
-    const data = await tryFetchSheets(SHEETS_URL);
-    if (data && data.length > 0) {
-      await saveToCache('sheets', data);
-      return data;
-    }
-  } catch (error) {
-    console.warn(`Primary sheets URL failed: ${error.message}`);
-  }
-  
-  //~ try alternative urls if primary fails
-  for (const altUrl of SHEETS_URL_ALTERNATIVES) {
+  console.log('Fetching data from all Google Sheets tabs...');
+  const allLocations = [];
+  for (const tab of SHEETS_TABS) {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/export?format=csv&gid=${tab.gid}`;
     try {
-      console.log(`Trying alternative URL: ${altUrl}`);
-      const data = await tryFetchSheets(altUrl);
-      if (data && data.length > 0) {
-        await saveToCache('sheets', data);
-        return data;
+      //~ pass tab metadata to know which columns to use fr each sheet
+      const data = await tryFetchSheets(url, tab);
+      if (data && data.length) {
+        allLocations.push(...data);
+        console.log(`Fetched ${data.length} rows from tab gid=${tab.gid} (${tab.gender} toilets)`);
       }
-    } catch (error) {
-      console.warn(`Alternative sheets URL failed: ${error.message}`);
+    } catch (err) {
+      console.warn(`Failed to fetch tab gid=${tab.gid}: ${err.message}`);
     }
   }
-  
-  //~ all attempts failed, use sample data
-  console.warn('All Google Sheets URLs failed, using sample data');
+  if (allLocations.length) {
+    await saveToCache('sheets', allLocations);
+    return allLocations;
+  }
+  console.warn('No data returned from any sheet tabs, using sample data');
   const sampleData = createSampleLocations();
   await saveToCache('sheets', sampleData);
   return sampleData;
 }
 
-//& helper function to try fetching sheets from a specific url
-async function tryFetchSheets(url) {
+//& helper func: try fetching sheets frm specific url
+async function tryFetchSheets(url, tabInfo) {
   const response = await fetch(url, {
     headers: {
       'User-Agent': 'Mozilla/5.0 (compatible; TWB-DataFetcher/1.0)'
@@ -176,7 +166,13 @@ async function tryFetchSheets(url) {
     throw new Error('Empty CSV response');
   }
   
-  return parseCSV(csvText);
+  //~ debug raw CSV see what column names exist
+  const lines = csvText.split('\n');
+  if (lines.length > 0) {
+    console.log(`CSV header for ${tabInfo.gender} toilets:`, lines[0]);
+  }
+  
+  return parseCSV(csvText, tabInfo);
 }
 
 //& create sample locations whn google sheets access fails
@@ -286,21 +282,74 @@ function createSampleLocations() {
   ];
 }
 
-//& parse csv text into arr of objs w validation
-function parseCSV(csvText) {
+function parseCSV(csvText, tabInfo) {
   return new Promise((resolve, reject) => {
-    //~ check fr empty CSV
-    if (!csvText || csvText.trim().length === 0) {
-      console.error('Empty CSV data received');
-      return resolve([]);
+    const results = [];
+    //~ rm any preamble/title rows bef actual header row
+    let csvContent = csvText;
+    try {
+      const tempLines = csvText.split('\n');
+      //~ find header row based on nameHeader and addressHeader frm tabInfo
+      const headerLineIdx = tempLines.findIndex(l => {
+        const cols = l.split(',');
+        if (cols.length < 3) return false;
+        const lowerCols = cols.map(c => c.trim().toLowerCase());
+        
+        //~ check if this line contains expected column headers fr this sheet
+        return lowerCols.some(c => c.includes(tabInfo.nameHeader.toLowerCase())) && 
+                lowerCols.some(c => c.includes(tabInfo.addressHeader.toLowerCase()));
+      });
+      
+      if (headerLineIdx > 0) {
+        csvContent = tempLines.slice(headerLineIdx).join('\n');
+        console.log(`Skipped ${headerLineIdx} preamble lines for ${tabInfo.gender} sheet`);
+      }
+    } catch (e) {
+      console.warn(`Could not preprocess CSV preamble for ${tabInfo.gender} sheet:`, e);
     }
     
-    const results = [];
-    const stream = Readable.from(csvText);
+    //~ re-split lines again using cleaned content
+    const lines = csvContent.split('\n');
+    let nameColumnName = tabInfo.nameHeader; //~ use tab-specific name column
+    let addressColumnName = tabInfo.addressHeader; //~ use tab-specific address column
+    
+    if (lines.length > 0) {
+      const headerLine = lines[0];
+      const columns = headerLine.split(',');
+      
+      //~ look fr exact matches of name & address columns
+      for (let i = 0; i < columns.length; i++) {
+        const colName = columns[i].trim();
+        if (colName.toLowerCase() === nameColumnName.toLowerCase()) {
+          nameColumnName = colName; //~ use exact case frm header
+        }
+        if (colName.toLowerCase() === addressColumnName.toLowerCase()) {
+          addressColumnName = colName; //~ use exact case frm header
+        }
+      }
+      
+      console.log(`For ${tabInfo.gender} sheet - Name column: "${nameColumnName}", Address column: "${addressColumnName}"`);
+    }
+    
+    const stream = Readable.from([csvContent]);
     
     stream
       .pipe(csvParser())
-      .on('data', (data) => results.push(data))
+      .on('data', (data) => {
+        //~ debug each row see what's available
+        if (results.length < 3) { //~ log few rows
+          console.log(`CSV row keys for ${tabInfo.gender} sheet: ${Object.keys(data).join(', ')}`);
+          console.log(`Name from ${nameColumnName}: ${data[nameColumnName] || 'NOT FOUND'}`);
+          console.log(`Address from ${addressColumnName}: ${data[addressColumnName] || 'NOT FOUND'}`);
+        }
+        
+        //~ add gender info to each data row
+        data.gender = tabInfo.gender;
+        data.nameColumnName = nameColumnName;
+        data.addressColumnName = addressColumnName;
+        
+        results.push(data);
+      })
       .on('end', () => {
         console.log(`Parsed ${results.length} rows from CSV`);
         
@@ -312,10 +361,22 @@ function parseCSV(csvText) {
         
         //~ convert to toilet location format w data validation
         const locations = results.map((record, index) => {
-          //~ validate req fields
-          const name = record.name || record.Name || record.LOCATION || '';
-          const lat = parseFloat(record.latitude || record.lat || record.Latitude || record.LAT || 0);
-          const lng = parseFloat(record.longitude || record.lng || record.Longitude || record.LNG || 0);
+          //~ use specific name column fr this sheet as indicated record
+          let name = '';
+          const nameColumnName = record.nameColumnName;
+          
+          //~ get name frm correct column based on sheet type
+          if (nameColumnName && record[nameColumnName]) {
+            name = record[nameColumnName];
+          } else {
+            //~ fallback to finding name dynamically if needed
+            const dynamicNameKey = Object.keys(record).find(k => /name|location|hotel/i.test(k));
+            if (dynamicNameKey) {
+              name = record[dynamicNameKey];
+            } else {
+              name = record.name || record.Name || record.Location || record.LOCATION || record.Hotel || '';
+            }
+          }
           
           //~ normalize region values to lowercase
           let region = (record.region || record.Region || '').toLowerCase();
@@ -336,33 +397,82 @@ function parseCSV(csvText) {
             return v === 'true' || v === 'yes' || v === '1' || v === 'y';
           };
           
+          //~ extract address using sheet-specific address column
+          let address = '';
+          const addressColumnName = record.addressColumnName;
+          
+          //~ 1. use specific address column fr this sheet
+          if (addressColumnName && record[addressColumnName] !== undefined) {
+            address = record[addressColumnName];
+          }
+          
+          //~ 2. fallback to other address columns if need
+          if (!address) {
+            if (record.address) address = record.address;
+            else if (record.Address) address = record.Address;
+            else if (record['Address']) address = record['Address'];
+            else if (record.location) address = record.location;
+            else if (record.Location) address = record.Location;
+            else if (record['Location']) address = record['Location'];
+          }
+          
+          //~ add remarks/notes if avail
+          let notes = record.notes || record.Notes || record.Remarks || record.remarks || '';
+          
+          //~ fr hotel sheet (gender=any), check fr Room Name w bidet info
+          if (record.gender === 'any' && record['Room Name w bidet']) {
+            if (notes) notes += ' - ';
+            notes += 'Room with bidet: ' + record['Room Name w bidet'];
+          }
+          
+          //~ log address extraction frm sheets
+          if (address) {
+            console.log(`Found address in ${record.gender} sheets for ${name}: ${address}`);
+          } else {
+            console.log(`No address found in ${record.gender} sheets for ${name}`);
+          }
+          
+          //~ determine bidet status based on sheet type & specific columns
+          let hasBidet = false;
+          
+          //~ check fr bidet in diff ways based on sheet structure
+          if (record.gender === 'male' || record.gender === 'female') {
+            //~ sheets 1 & 2: Male & Female toilet sheets specifically fr toilets w bidets, so default true
+            hasBidet = true;
+          } else if (record.gender === 'any') {
+            //~ sheet 3: Hotel sheet - check 'Room Name w bidet' column
+            hasBidet = Boolean(record['Room Name w bidet']);
+          } else {
+            //~ fallback to generic hasBidet field
+            hasBidet = parseBool(record.hasBidet || record.HasBidet);
+          }
+          
           return {
             id: record.id || `location-${index}`,
             name,
-            address: record.address || record.Address || '',
+            address: address,
             region,
             type,
-            lat,
-            lng,
-            hasBidet: parseBool(record.hasBidet || record.HasBidet),
+            lat: parseFloat(record.latitude || record.lat || record.Latitude || record.LAT || 0),
+            lng: parseFloat(record.longitude || record.lng || record.Longitude || record.LNG || 0),
+            hasBidet,
+            //~ gender info fr filtering
+            gender: record.gender || 'any',
             amenities: {
               wheelchairAccess: parseBool(record.wheelchairAccess || record.WheelchairAccess),
               babyChanging: parseBool(record.babyChanging || record.BabyChanging),
               freeEntry: parseBool(record.freeEntry || record.FreeEntry),
             },
-            notes: record.notes || record.Notes || '',
+            notes: notes || '',
             lastUpdated: record.lastUpdated || record.LastUpdated || new Date().toISOString().split('T')[0],
             openingHours: record.openingHours || record.OpeningHours || '',
             rating: parseFloat(record.rating || record.Rating || 0) || 0
           };
         });
         
-        //~ filter out invalid entries (must have name & coords)
+        //~ relax filter: only require name / address fr matching
         const validLocations = locations.filter(loc => 
-          loc.name.trim() && 
-          (loc.lat !== 0 || loc.lng !== 0) &&
-          !isNaN(loc.lat) && 
-          !isNaN(loc.lng)
+          loc.name.trim() && (loc.address.trim() || (!isNaN(loc.lat) && !isNaN(loc.lng)))
         );
         
         console.log(`Filtered to ${validLocations.length} valid locations`);
@@ -462,10 +572,12 @@ function convertKMLtoGeoJSON(kmlText) {
         }
         if (descStr.includes('Address:')) {
           address = extractPropertyFromDescription(descStr, 'Address:') || address;
+        } else {
+          address = name || `${properties.coordinates || ''}`;
         }
         if (descStr.includes('Notes:')) {
           notes = extractPropertyFromDescription(descStr, 'Notes:') || notes;
-        }
+        }  
       }
       
       return {
@@ -503,9 +615,51 @@ function convertKMLtoGeoJSON(kmlText) {
 
 //& extract property frm kml description html content
 function extractPropertyFromDescription(description, propertyName) {
-  const regex = new RegExp(`${propertyName}\\s*([^<]+)`);
+  //~ handle non-string descriptions
+  if (typeof description !== 'string') {
+    console.log(`Description not a string: ${typeof description}`);
+    return null;
+  }
+  
+  const regex = new RegExp(`${propertyName}\s*([^\n]+)`);
   const match = description.match(regex);
+  
+  if (propertyName === 'Address:') {
+    console.log(`Extracting address from: ${description.substring(0, 100)}...`);
+    console.log(`Extracted address: ${match ? match[1].trim() : 'null'}`);
+  }
+  
   return match ? match[1].trim() : null;
+}
+
+//~ fetch address frm google maps api using coords
+async function fetchAddressFromGoogleMaps(lat, lng) {
+  if (!GOOGLE_MAPS_API_KEY) {
+    console.warn('No Google Maps API key found. Skipping address lookup.');
+    return null;
+  }
+
+  try {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${GOOGLE_MAPS_API_KEY}`;
+    
+    console.log(`Fetching address for coordinates: ${lat.toFixed(4)},${lng.toFixed(4)}`);
+    
+    const response = await fetch(url);
+    const data = await response.json();
+    
+    if (data.status === 'OK' && data.results.length > 0) {
+      //~ get most accurate result (usually first one)
+      const formattedAddress = data.results[0].formatted_address;
+      console.log(`Found address: ${formattedAddress}`);
+      return formattedAddress;
+    } else {
+      console.warn(`Failed to get address for ${lat},${lng}: ${data.status}`);
+      return null;
+    }
+  } catch (error) {
+    console.error(`Error fetching address: ${error.message}`);
+    return null;
+  }
 }
 
 //& convert toilet locations to geojson format
@@ -548,10 +702,156 @@ function mergeSheetsAndMapsData(sheetsData, mapsData) {
   //~ convert sheets data to geojson
   const sheetsGeoJSON = locationsToGeoJSON(sheetsData);
   
+  //& lookup fr sheets data by name and coords fr later fallback use
+  const sheetsDataByName = {}; //~ map normalized name -> props
+  const sheetsDataByCoords = {}; //~ map coordKey -> props
+  
+  const addressMap = new Map(); //~ real addresses by location name
+  
+  sheetsGeoJSON.features.forEach(feature => {
+    if (feature.properties && feature.properties.name) {
+      //~ normalize name fr matching
+      const normName = feature.properties.name.toLowerCase().replace(/[^a-z0-9]/g, ''); 
+      sheetsDataByName[normName] = feature.properties;
+      
+      //~ check if address real (not just copy)
+      const name = feature.properties.name;
+      const address = feature.properties.address;
+      
+      if (address && address !== name && 
+          !address.includes(name) && 
+          !name.includes(address)) {
+        //~ store valid addresses fr later use
+        addressMap.set(normName, address);
+      }
+    }
+    
+    if (feature.geometry && feature.geometry.coordinates) {
+      const coordKey = `${feature.geometry.coordinates[0].toFixed(4)},${feature.geometry.coordinates[1].toFixed(4)}`;
+      sheetsDataByCoords[coordKey] = feature.properties;
+    }
+  });
+  
+  //~ enhance maps data w addresses frm sheets by name match / coord match
+  const FUZZY_THRESHOLD = 0.6; //~ lowered threshold fr better matching
+  const enhancedMapsFeatures = mapsFeatures.map(feature => {
+    let matchFound = false;
+    let matchSource = '';
+    let matchAddress = '';
+    let isRealAddress = false;
+    //~ store normSearch outside block scope fr later use
+    let normSearch = '';
+    //~ store matched property info
+    let matchedProps = null;
+
+    //~ only take addresses frm Google Sheets data
+    if (feature.properties.name) {
+      const searchName = feature.properties.name.toLowerCase();
+      normSearch = searchName.replace(/[^a-z0-9]/g, '');
+      
+      //~ first check exact match in address map (more reliable)
+      if (addressMap.has(normSearch)) {
+        matchAddress = addressMap.get(normSearch);
+        if (matchAddress && matchAddress.trim() !== '' && 
+            matchAddress.toLowerCase() !== feature.properties.name.toLowerCase()) {
+          matchFound = true;
+          matchSource = 'address-map';
+          isRealAddress = true;
+          matchedProps = sheetsDataByName[normSearch]; //~ store matched props
+          console.log(`Found address in map for ${feature.properties.name}: ${matchAddress}`);
+        }
+      }
+      
+      //~ if no match in map, try exact match in sheets data
+      if (!matchFound || !isRealAddress) {
+        const exactProps = sheetsDataByName[normSearch];
+        if (exactProps && exactProps.address && exactProps.address.trim() !== '') {
+          //~ use address if exists & not just name repeated (case-insensitive)
+          if (exactProps.address.toLowerCase() !== feature.properties.name.toLowerCase()) {
+            matchFound = true;
+            matchSource = 'exact-name';
+            matchAddress = exactProps.address;
+            isRealAddress = true;
+            matchedProps = exactProps; //~ store matched props
+            console.log(`Found exact address match for ${feature.properties.name}: ${matchAddress}`);
+          }
+        } 
+      }
+      
+      //~ if still no match, try fuzzy matching
+      if (!matchFound || !isRealAddress) {
+        let bestScore = 0;
+        let bestProps = null;
+        for (const [sheetName, props] of Object.entries(sheetsDataByName)) {
+          const score = compareTwoStrings(normSearch, sheetName);
+          if (score > bestScore && score >= FUZZY_THRESHOLD) {
+            bestScore = score;
+            bestProps = props;
+          }
+        }
+        
+        if (bestProps && bestProps.address && bestProps.address.trim() !== '') {
+          //~ use fuzzy match if found one w/ address & not same as name
+          if (bestProps.address.toLowerCase() !== feature.properties.name.toLowerCase()) {
+            matchFound = true;
+            matchSource = `fuzzy-${bestScore.toFixed(2)}`;
+            matchAddress = bestProps.address;
+            isRealAddress = true;
+            matchedProps = bestProps; //~ store matched props
+            console.log(`Found fuzzy address match (${bestScore.toFixed(2)}) for ${feature.properties.name}: ${matchAddress}`);
+          }
+        }
+      }
+    }
+
+    //~ fallback to coord matching if still no address
+    if ((!matchFound || !isRealAddress) && feature.geometry && feature.geometry.coordinates) {
+      const coordKey = `${feature.geometry.coordinates[0].toFixed(4)},${feature.geometry.coordinates[1].toFixed(4)}`;
+      const matchingSheetData = sheetsDataByCoords[coordKey];
+      
+      if (matchingSheetData && matchingSheetData.address && matchingSheetData.address.trim() !== '') {
+        //~ only use if address not same as location name (case-insensitive)
+        if (matchingSheetData.address.toLowerCase() !== feature.properties.name.toLowerCase()) {
+          matchFound = true;
+          matchSource = 'coordinates';
+          matchAddress = matchingSheetData.address;
+          isRealAddress = true;
+          matchedProps = matchingSheetData; //~ store matched props
+          console.log(`Found address by coordinates for ${feature.properties.name}: ${matchAddress}`);
+        }
+      }
+      
+      //~ mark fr geocoding if no address found
+      if ((!matchFound || !isRealAddress) && feature.geometry.coordinates[0] !== 0 && feature.geometry.coordinates[1] !== 0) {
+        feature.properties.needsGeocoding = true;
+      }
+    }
+
+    //~ apply matched address and additional properties to feature props
+    if (matchFound && isRealAddress && matchAddress && matchAddress.trim() !== '') {
+      console.log(`Using address for ${feature.properties.name} (matched by ${matchSource}): ${matchAddress}`);
+      
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          address: matchAddress,
+          addressSource: matchSource,
+          //~ gender info fr filtering if avail in sheets data
+          ...(matchedProps?.gender ? { gender: matchedProps.gender } : { gender: 'any' }),
+          //~ update hasBidet info if avail
+          ...(matchedProps?.hasBidet !== undefined ? { hasBidet: matchedProps.hasBidet } : {})
+        }
+      };
+    }
+
+    return feature;
+  });
+  
   //~ combine both sources
   return {
     type: 'FeatureCollection',
-    features: [...sheetsGeoJSON.features, ...mapsFeatures]
+    features: [...sheetsGeoJSON.features, ...enhancedMapsFeatures]
   };
 }
 
@@ -700,78 +1000,157 @@ function determineRegionFromCoordinates(lat, lng) {
 
 //& enrich toilet location data w additional metadata
 async function enrichLocationData(locations) {
-  console.log('\n🔍 Enriching location data with additional information...');
-  const enriched = [];
-  const total = locations.length;
-  let processed = 0;
+  console.log(`\n🔍 Enriching ${locations.length} locations with additional data...`);
+  
+  //~ track stats
+  let regionsFound = 0;
+  let typesFound = 0;
+  let addressesFound = 0;
+  let skipped = 0;
+  
+  //~ store enriched location data
+  const enrichedLocations = [];
   
   for (const location of locations) {
-    processed++;
-    if (processed % 10 === 0) {
-      console.log(`Progress: ${processed}/${total} locations processed`);
+    //~ skip locations w/o valid coords
+    if (!location.lat || !location.lng) {
+      console.log(`Skipping location without valid coords: ${location.name}`);
+      skipped++;
+      continue;
     }
     
-    //~ create copy to avoid modifying original
-    const enrichedLocation = { ...location };
+    //~ skip locations at 0,0 (likely placeholders)
+    if (location.lat === 0 && location.lng === 0) {
+      console.log(`Skipping location with 0,0 coords: ${location.name}`);
+      skipped++;
+      continue;
+    }
     
-    //~ fill in missing address/region using reverse geocoding
-    if ((!location.address || !location.region) && location.lat && location.lng) {
+    let currentLocation = { ...location };
+    
+    //~ check if location need address via geocoding
+    if (location.needsGeocoding || 
+        (!location.address || 
+          location.address === location.name || 
+          location.name.includes(location.address) || 
+          location.address.includes(location.name))) {
+      
       try {
-        const geoData = await reverseGeocode(location.lat, location.lng);
-        if (geoData) {
-          //~ only use address if original missing
-          if (!enrichedLocation.address && geoData.address) {
-            enrichedLocation.address = geoData.address;
-          }
+        //~ first try nominatim fr free geocoding
+        const geocodeData = await reverseGeocode(location.lat, location.lng);
+        
+        if (geocodeData && geocodeData.display_name) {
+          //~ have real address frm geocoding
+          currentLocation.address = geocodeData.display_name;
+          currentLocation.addressSource = 'nominatim-geocoding';
+          addressesFound++;
+          console.log(`Found address via Nominatim for ${location.name}: ${currentLocation.address}`);
+        }
+        //~ if nominatim fails & have Google Maps API key, try Google
+        else if (GOOGLE_MAPS_API_KEY) {
+          const googleAddress = await fetchAddressFromGoogleMaps(location.lat, location.lng);
           
-          //~ only use region if original missing
-          if (!enrichedLocation.region && geoData.region) {
-            enrichedLocation.region = geoData.region;
+          if (googleAddress) {
+            currentLocation.address = googleAddress;
+            currentLocation.addressSource = 'google-geocoding';
+            addressesFound++;
+            console.log(`Found address via Google for ${location.name}: ${currentLocation.address}`);
           }
         }
       } catch (error) {
-        console.warn(`could not enrich location ${location.name}: ${error.message}`);
+        console.warn(`Error fetching address for ${location.name}: ${error.message}`);
       }
     }
     
+    //~ determine region fr coords if missing
+    if (!location.region || location.region === 'unknown' || location.region === 'Unknown') {
+      //~ try get region fr address first
+      if (currentLocation.address) {
+        const regionFromAddress = determineRegionFromAddress(currentLocation.address);
+        if (regionFromAddress) {
+          currentLocation.region = regionFromAddress;
+          regionsFound++;
+          console.log(`Set region for ${location.name} to ${regionFromAddress} (from address)`);
+        } else {
+          //~ fallback to coords
+          const regionFromCoords = determineRegionFromCoordinates(location.lat, location.lng);
+          if (regionFromCoords) {
+            currentLocation.region = regionFromCoords;
+            regionsFound++;
+            console.log(`Set region for ${location.name} to ${regionFromCoords} (from coordinates)`);
+          }
+        }
+      } else {
+        //~ no address, use coords
+        const regionFromCoords = determineRegionFromCoordinates(location.lat, location.lng);
+        if (regionFromCoords) {
+          currentLocation.region = regionFromCoords;
+          regionsFound++;
+          console.log(`Set region for ${location.name} to ${regionFromCoords} (from coordinates)`);
+        }
+      }
+    }
     //~ add default values fr req fields if still missing
-    if (!enrichedLocation.region) {
-      enrichedLocation.region = 'unknown';
+    if (!currentLocation.region) {
+      currentLocation.region = 'unknown';
     }
     
-    if (!enrichedLocation.type) {
+    if (!currentLocation.type) {
       //~ guess type based on name if possible
-      const name = enrichedLocation.name.toLowerCase();
+      const name = currentLocation.name.toLowerCase();
       if (name.includes('mall') || name.includes('shopping')) {
-        enrichedLocation.type = 'mall';
+        currentLocation.type = 'mall';
       } else if (name.includes('mrt') || name.includes('station')) {
-        enrichedLocation.type = 'public';
-      } else if (name.includes('hotel')) {
-        enrichedLocation.type = 'hotel';
+        currentLocation.type = 'station';
+      } else if (name.includes('airport') || name.includes('terminal')) {
+        currentLocation.type = 'airport';
+      } else if (name.includes('cafe') || name.includes('coffee')) {
+        currentLocation.type = 'cafe';
+      } else if (name.includes('food') || name.includes('hawker') || name.includes('restaurant') || name.includes('eatery')) {
+        currentLocation.type = 'restaurant';
+      } else if (name.includes('museum') || name.includes('gallery')) {
+        currentLocation.type = 'attraction';
+      } else if (name.includes('hotel') || name.includes('hostel') || name.includes('resort')) {
+        currentLocation.type = 'hotel';
+      } else if (name.includes('park') || name.includes('garden') || name.includes('reserve')) {
+        currentLocation.type = 'park';
+      } else if (name.includes('library')) {
+        currentLocation.type = 'library';
+      } else if (name.includes('hall') || name.includes('centre') || name.includes('center')) {
+        currentLocation.type = 'community';
       } else {
-        enrichedLocation.type = 'other';
+        currentLocation.type = 'other';
       }
     }
     
     //~ add normalized opening hours if available
-    if (enrichedLocation.openingHours) {
+    if (currentLocation.openingHours) {
       try {
-        enrichedLocation.normalizedHours = normalizeOpeningHours(enrichedLocation.openingHours);
+        currentLocation.normalizedHours = normalizeOpeningHours(currentLocation.openingHours);
       } catch {
         //~ keep original if normalization fails
       }
     }
     
     //~ add placeholder image URLs if have info
-    if (!enrichedLocation.imageUrl) {
-      enrichedLocation.imageUrl = getPlaceholderImage(enrichedLocation);
+    if (!currentLocation.imageUrl) {
+      currentLocation.imageUrl = getPlaceholderImage(currentLocation);
     }
     
-    enriched.push(enrichedLocation);
+    //~ check if location type was assigned during processing
+    if (currentLocation.type) {
+      typesFound++;
+    }
+    
+    enrichedLocations.push(currentLocation);
   }
   
-  console.log(`✅ Enriched ${enriched.length} locations with additional data`);
-  return enriched;
+  console.log(`✅ Enriched ${enrichedLocations.length} locations with additional data`);
+  console.log(`✅ Found addresses for ${addressesFound} locations`);
+  console.log(`✅ Found regions for ${regionsFound} locations`);
+  console.log(`✅ Found types for ${typesFound} locations`);
+  console.log(`✅ Skipped ${skipped} locations without valid coordinates`);
+  return enrichedLocations;
 }
 
 //~ normalize opening hours into standard format
