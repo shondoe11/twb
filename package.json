@@ -23,7 +23,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-leaflet": "^5.0.0",
-    "react-leaflet-cluster": "^2.1.0",
+    "react-leaflet-markercluster": "^5.0.0-rc.0",
+    "string-similarity": "^4.0.4",
     "xmldom": "^0.6.0"
   },
   "devDependencies": {
