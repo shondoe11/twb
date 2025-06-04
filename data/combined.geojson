@@ -6,158 +6,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.989,
-          1.3601
-        ]
-      },
-      "properties": {
-        "id": "sample-1",
-        "name": "Jewel Changi Airport",
-        "address": "78 Airport Blvd, Singapore 819666",
-        "region": "east",
-        "type": "mall",
-        "hasBidet": true,
-        "amenities": {
-          "wheelchairAccess": true,
-          "babyChanging": true,
-          "freeEntry": true
-        },
-        "notes": "Level 2, near the Rain Vortex",
-        "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          103.8219,
-          1.264
-        ]
-      },
-      "properties": {
-        "id": "sample-2",
-        "name": "VivoCity",
-        "address": "1 HarbourFront Walk, Singapore 098585",
-        "region": "south",
-        "type": "mall",
-        "hasBidet": true,
-        "amenities": {
-          "wheelchairAccess": true,
-          "babyChanging": true,
-          "freeEntry": true
-        },
-        "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          103.8607,
-          1.2834
-        ]
-      },
-      "properties": {
-        "id": "sample-3",
-        "name": "Marina Bay Sands",
-        "address": "10 Bayfront Avenue, Singapore 018956",
-        "region": "central",
-        "type": "hotel",
-        "hasBidet": true,
-        "amenities": {
-          "wheelchairAccess": true,
-          "babyChanging": false,
-          "freeEntry": false
-        },
-        "notes": "Luxurious restrooms on the casino floor and shopping levels",
-        "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          103.8159,
-          1.3138
-        ]
-      },
-      "properties": {
-        "id": "sample-4",
-        "name": "Botanic Gardens Visitor Centre",
-        "address": "1 Cluny Road, Singapore 259569",
-        "region": "central",
-        "type": "public",
-        "hasBidet": false,
-        "amenities": {
-          "wheelchairAccess": true,
-          "babyChanging": false,
-          "freeEntry": true
-        },
-        "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          103.8354,
-          1.4294
-        ]
-      },
-      "properties": {
-        "id": "sample-5",
-        "name": "Northpoint City",
-        "address": "930 Yishun Ave 2, Singapore 769098",
-        "region": "north",
-        "type": "mall",
-        "hasBidet": true,
-        "amenities": {
-          "wheelchairAccess": true,
-          "babyChanging": true,
-          "freeEntry": true
-        },
-        "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          103.7422,
-          1.3331
-        ]
-      },
-      "properties": {
-        "id": "sample-6",
-        "name": "Jurong East MRT Station",
-        "address": "10 Jurong East Street 12, Singapore 609690",
-        "region": "west",
-        "type": "public",
-        "hasBidet": false,
-        "amenities": {
-          "wheelchairAccess": true,
-          "babyChanging": false,
-          "freeEntry": true
-        },
-        "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           103.8883971,
           1.3594976
         ]
@@ -165,8 +13,8 @@
       "properties": {
         "id": "map-okunhxq",
         "name": "212 Social - Kovan",
-        "address": "Hougang Street 21, Hougang, Singapur East, Northeast, Singapore, 530211, Singapore",
-        "region": "unknown",
+        "address": "212 Hougang Street 21, #01-337, Singapore 530212",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -191,8 +39,8 @@
       "properties": {
         "id": "map-r4bpsyi",
         "name": "AMK Specialist Centre TTSH",
-        "address": "Ang Mo Kio Central 2, Ang Mo Kio Town Centre, Ang Mo Kio, Central, Singapore, 560726, Singapore",
-        "region": "unknown",
+        "address": "723 Ang Mo Kio Ave 8, #8, Singapore 560723",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -217,8 +65,8 @@
       "properties": {
         "id": "map-k4v4bwv",
         "name": "Anchorvale Village",
-        "address": "Anchorvale Street, Sengkang, Singapur East, Northeast, Singapore, 540339, Singapore",
-        "region": "unknown",
+        "address": "339 Anchorvale Rd, Singapore 540339",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -243,8 +91,8 @@
       "properties": {
         "id": "map-pjaf5ao",
         "name": "Ang Mo Kio MRT",
-        "address": "Ang Mo Kio Avenue 8, Ang Mo Kio, Central, Singapore, 569811, Singapore",
-        "region": "unknown",
+        "address": "2450 Ang Mo Kio Ave 8, Singapore 569811",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -269,8 +117,8 @@
       "properties": {
         "id": "map-4952vny",
         "name": "Buangkok Hawker Centre",
-        "address": "Compassvale Bow, Sengkang, Singapur East, Northeast, Singapore, 544567, Singapore",
-        "region": "unknown",
+        "address": "70 Compassvale Bow, Singapore 544692",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -295,8 +143,8 @@
       "properties": {
         "id": "map-rxnpa9a",
         "name": "Fernvale Community Club",
-        "address": "Sengkang West Avenue, Sengkang, Singapur East, Central, Singapore, 791411, Singapore",
-        "region": "unknown",
+        "address": "2 Rivervale Cl, Singapore 544583",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -321,8 +169,8 @@
       "properties": {
         "id": "map-szlv36c",
         "name": "Fu Fa Food Court @ Hougang Green",
-        "address": "Hougang Street 51, Hougang, Singapur East, Northeast, Singapore, 531565, Singapore",
-        "region": "unknown",
+        "address": "21 Hougang St 51, Singapore 530021",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -347,8 +195,8 @@
       "properties": {
         "id": "map-dcmj0fe",
         "name": "Hougang Community Club",
-        "address": "Hougang Avenue 3, Hougang, Singapur East, Northeast, Singapore, 538840, Singapore",
-        "region": "unknown",
+        "address": "35 Hougang Ave 3, Singapore 538840",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -373,8 +221,8 @@
       "properties": {
         "id": "map-rdngmau",
         "name": "Hougang Mall",
-        "address": "Hougang Avenue 10, Hougang, Singapur East, Northeast, Singapore, 538767, Singapore",
-        "region": "unknown",
+        "address": "90 Hougang Ave 10, Singapore 538766",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -399,8 +247,8 @@
       "properties": {
         "id": "map-xtk6fed",
         "name": "Hougang RiverCourt",
-        "address": "Hougang Street 32, Hougang, Singapur East, Northeast, Singapore, 531377, Singapore",
-        "region": "unknown",
+        "address": "377 Hougang St. 32, Singapore 530377",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -425,8 +273,8 @@
       "properties": {
         "id": "map-dr5y9gm",
         "name": "Kedai Kopi - AMK",
-        "address": "Kebun Baru Heights, Ang Mo Kio, Central, Singapore, 561104, Singapore",
-        "region": "unknown",
+        "address": "108 Ang Mo Kio Ave 4, Singapore 560108",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -451,8 +299,8 @@
       "properties": {
         "id": "map-r68szo0",
         "name": "Lentor MRT Station (TE5)",
-        "address": "Lentor, Ang Mo Kio, Central, Singapore, 788888, Singapore",
-        "region": "unknown",
+        "address": "1 Lentor Dr, Singapore 789361",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -477,8 +325,8 @@
       "properties": {
         "id": "map-ivnypt1",
         "name": "NEX",
-        "address": "Serangoon Central, Serangoon, Singapur East, Southeast, Singapore, 556083, Singapore",
-        "region": "unknown",
+        "address": "23 Serangoon Central, Singapore 556083",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -503,8 +351,8 @@
       "properties": {
         "id": "map-n1hqgz6",
         "name": "Northshore Plaza I",
-        "address": "Northshore Drive, Singapur East, Punggol, Northeast, Singapore, 822409, Singapore",
-        "region": "unknown",
+        "address": "407 Northshore Dr, Singapore 820407",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -529,8 +377,8 @@
       "properties": {
         "id": "map-vjjo7qq",
         "name": "Oasis Terraces",
-        "address": "Punggol Drive, Singapur East, Punggol, Northeast, Singapore, 821617, Singapore",
-        "region": "unknown",
+        "address": "681 Punggol Dr., Singapore 820681",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -555,8 +403,8 @@
       "properties": {
         "id": "map-omn8tiv",
         "name": "One Punggol",
-        "address": "Singapur East, Punggol, Northeast, Singapore, 828629, Singapore",
-        "region": "unknown",
+        "address": "1 Punggol Dr., Singapore 828629",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -581,8 +429,8 @@
       "properties": {
         "id": "map-wps44kj",
         "name": "Punggol Coast Mall",
-        "address": "Nexus, Singapur East, Punggol, Northeast, Singapore, 829913, Singapore",
-        "region": "unknown",
+        "address": "88 Punggol Way, Singapore 829913",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -607,8 +455,8 @@
       "properties": {
         "id": "map-x1257u1",
         "name": "Punggol Community Club",
-        "address": "Hougang Avenue 6, Hougang, Singapur East, Northeast, Singapore, 538808, Singapore",
-        "region": "unknown",
+        "address": "3 Hougang Ave 6, Singapore 538808",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -633,8 +481,8 @@
       "properties": {
         "id": "map-jfgnj43",
         "name": "Punggol East Container Park",
-        "address": "Tebing Lane, Singapur East, Punggol, Northeast, Singapore, 828824, Singapore",
-        "region": "unknown",
+        "address": "50 Punggol E, Singapore 828824",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -659,8 +507,8 @@
       "properties": {
         "id": "map-ggfmztt",
         "name": "Punggol Temp Int",
-        "address": "Punggol Central, Singapur East, Punggol, Northeast, Singapore, 828868, Singapore",
-        "region": "unknown",
+        "address": "70A Punggol Pl, Singapore 828865",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -685,8 +533,8 @@
       "properties": {
         "id": "map-3f1l8kc",
         "name": "Rivervale Community Club",
-        "address": "Rivervale Close, Sengkang, Singapur East, Northeast, Singapore, 544583, Singapore",
-        "region": "unknown",
+        "address": "2 Rivervale Cl, Singapore 544583",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -711,8 +559,8 @@
       "properties": {
         "id": "map-u8nr9qr",
         "name": "Rivervale Mall",
-        "address": "Rivervale Drive, Sengkang, Singapur East, Northeast, Singapore, 545082, Singapore",
-        "region": "unknown",
+        "address": "11 Rivervale Cres, Singapore 545082",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -737,8 +585,8 @@
       "properties": {
         "id": "map-ob28dpk",
         "name": "SAFRA Punggol",
-        "address": "Sentul Crescent, Singapur East, Punggol, Northeast, Singapore, 828629, Singapore",
-        "region": "unknown",
+        "address": "9 Sentul Cres, Singapore 828654",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -763,8 +611,8 @@
       "properties": {
         "id": "map-du5e6h2",
         "name": "Seletar Airport",
-        "address": "Singapur East, Seletar, Central, Singapore, 797405, Singapore",
-        "region": "unknown",
+        "address": "21 Seletar Aerospace Rd 1, Singapore 797405",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -789,8 +637,8 @@
       "properties": {
         "id": "map-ulf4sn0",
         "name": "Sengkang General Hospital",
-        "address": "Sengkang East Road, Anchorvale, Singapur East, Northeast, Singapore, 540261, Singapore",
-        "region": "unknown",
+        "address": "1 Jurong East Street 21, Singapore 609606",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -815,8 +663,8 @@
       "properties": {
         "id": "map-zwgd9rq",
         "name": "Sengkang Grand Mall",
-        "address": "Sengkang Central, Sengkang, Singapur East, Northeast, Singapore, 545061, Singapore",
-        "region": "unknown",
+        "address": "70 Compassvale Bow, Singapore 544692",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -841,8 +689,8 @@
       "properties": {
         "id": "map-x1egji0",
         "name": "Sengkang Sports Centre",
-        "address": "Anchorvale Road, Sengkang, Singapur East, Northeast, Singapore, 544326, Singapore",
-        "region": "unknown",
+        "address": "57 Anchorvale Rd, Singapore 544964",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -867,8 +715,8 @@
       "properties": {
         "id": "map-f9y7km1",
         "name": "Steak Me",
-        "address": "Jalan Kayu, Sengkang, Singapur East, Central, Singapore, 799091, Singapore",
-        "region": "unknown",
+        "address": "248 Jln Kayu, Singapore 799472",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -893,8 +741,8 @@
       "properties": {
         "id": "map-h3b6tf2",
         "name": "Tenderbest Makcik Tuckshop @ Punggol",
-        "address": "Punggol Central, Singapur East, Punggol, Northeast, Singapore, 822160, Singapore",
-        "region": "unknown",
+        "address": "60 Punggol E, #01-09, Singapore 828825",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -919,8 +767,8 @@
       "properties": {
         "id": "map-u6jzlng",
         "name": "The Midtown & Midtown Residences",
-        "address": "Hougang Avenue 10, Hougang, Singapur East, Northeast, Singapore, 530362, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -945,8 +793,8 @@
       "properties": {
         "id": "map-jzwcbl1",
         "name": "Waterway Point",
-        "address": "Punggol Walk, Singapur East, Punggol, Northeast, Singapore, 820081, Singapore",
-        "region": "unknown",
+        "address": "83 Punggol Central, Singapore 828761",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -971,8 +819,8 @@
       "properties": {
         "id": "map-mji1dzl",
         "name": "53 Ubi Ave 1",
-        "address": "Ubi Avenue 1, Singapur East, Geylang, Southeast, Singapore, 408564, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -997,8 +845,8 @@
       "properties": {
         "id": "map-2iq32bf",
         "name": "ACTIVESG PASIR RIS SPORT CENTRE",
-        "address": "Pasir Ris Central, Singapur East, Pasir Ris, Northeast, Singapore, 519641, Singapore",
-        "region": "unknown",
+        "address": "120 Pasir Ris Central, Singapore 519640",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1023,8 +871,8 @@
       "properties": {
         "id": "map-0boq81u",
         "name": "Ali's Prata (BEDOK)",
-        "address": "Bedok Reservoir Road, Singapur East, Bedok, Northeast, Singapore, 470134, Singapore",
-        "region": "unknown",
+        "address": "136 Bedok Reservoir Rd, Block 136, Singapore 470136",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1049,8 +897,8 @@
       "properties": {
         "id": "map-x93b0ts",
         "name": "Aspial One",
-        "address": "Ubi Road 3, Singapur East, Geylang, Southeast, Singapore, 408609, Singapore",
-        "region": "unknown",
+        "address": "55 Ubi Ave 3, Singapore 408864",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1075,8 +923,8 @@
       "properties": {
         "id": "map-wquicyv",
         "name": "Audio House @ Ubi",
-        "address": "Ubi Road 4, Singapur East, Geylang, Southeast, Singapore, 408620, Singapore",
-        "region": "unknown",
+        "address": "23 Ubi Rd 4, #01-01 Audio House Building, Singapore 408620",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1101,8 +949,8 @@
       "properties": {
         "id": "map-ujejei6",
         "name": "Badoque",
-        "address": "Jalan Chempaka Kuning, Singapur East, Bedok, Southeast, Singapore, 469560, Singapore",
-        "region": "unknown",
+        "address": "298 Bedok Rd, Singapore 469454",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1127,8 +975,8 @@
       "properties": {
         "id": "map-z121vo7",
         "name": "Bedok Mall",
-        "address": "New Upper Changi Road, Chai Chee, Singapur East, Bedok, Southeast, Singapore, 465500, Singapore",
-        "region": "unknown",
+        "address": "New Upper Changi Rd, 311, Singapore 467360",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1153,8 +1001,8 @@
       "properties": {
         "id": "map-y6elvtr",
         "name": "Bedok North MRT Station (DT29)",
-        "address": "Bedok North Road, Singapur East, Bedok, Northeast, Singapore, 470706, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1179,8 +1027,8 @@
       "properties": {
         "id": "map-zilud9g",
         "name": "Bedok Point",
-        "address": "Singapur East, Bedok, Southeast, Singapore, 469657, Singapore",
-        "region": "unknown",
+        "address": "799 New Upper Changi Rd, Singapore 467351",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1205,8 +1053,8 @@
       "properties": {
         "id": "map-2jpa2ek",
         "name": "Butter Space",
-        "address": "Chai Chee Street, Chai Chee, Singapur East, Bedok, Southeast, Singapore, 469030, Singapore",
-        "region": "unknown",
+        "address": "55 Chai Chee Dr, #01-198, Singapore 460055",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1231,8 +1079,8 @@
       "properties": {
         "id": "map-kpc1rwj",
         "name": "Century Square",
-        "address": "Tampines Central 5, Singapur East, Tampines, Northeast, Singapore, 529509, Singapore",
-        "region": "unknown",
+        "address": "2 Tampines Central 5, Singapore 529509",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1257,8 +1105,8 @@
       "properties": {
         "id": "map-i7kjgsg",
         "name": "Changi Bay Park Connector",
-        "address": "Changi Coast Road, Singapur East, Changi, Southeast, Singapore, 499676, Singapore",
-        "region": "unknown",
+        "address": "2a Changi Ferry Rd",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1283,8 +1131,8 @@
       "properties": {
         "id": "map-mfd9gox",
         "name": "Changi Beach Car Park 6",
-        "address": "Nicoll Drive, Singapur East, Changi, Southeast, Singapore, 819827, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1309,8 +1157,8 @@
       "properties": {
         "id": "map-hcu4mcw",
         "name": "Changi City Point",
-        "address": "Changi South Avenue 1, Singapur East, Tampines, Southeast, Singapore, 486038, Singapore",
-        "region": "unknown",
+        "address": "5 Changi Business Park Central 1, Singapore 486038",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1335,8 +1183,8 @@
       "properties": {
         "id": "map-occ3tm7",
         "name": "Changi General Hospital - Medical Centre Building @ NDCS Oral & Maxillofacial Surgery Clinic ",
-        "address": "Simei Street 3, Picardy Gardens, Singapur East, Tampines, Southeast, Singapore, 529889, Singapore",
-        "region": "unknown",
+        "address": "2 Simei Street 3, Singapore 529889",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1361,8 +1209,8 @@
       "properties": {
         "id": "map-g10cyns",
         "name": "Cilantro: The Biryani Club",
-        "address": "Joo Chiat Road, Joo Chiat, Singapur East, Geylang, Southeast, Singapore, 427726, Singapore",
-        "region": "unknown",
+        "address": "102 Joo Chiat Rd, Singapore 427396",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1387,8 +1235,8 @@
       "properties": {
         "id": "map-gf47zfl",
         "name": "ComfortDelGro Driving Centre (CDC)",
-        "address": "Ubi Avenue 4, Singapur East, Geylang, Southeast, Singapore, 408805, Singapore",
-        "region": "unknown",
+        "address": "205 Ubi Ave 4, Singapore 408805",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1413,8 +1261,8 @@
       "properties": {
         "id": "map-3xab59p",
         "name": "Crowne Plaza Changi Airport by IHG",
-        "address": "T3 Basement Drive, Singapur East, Changi, Southeast, Singapore, 819664, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1439,8 +1287,8 @@
       "properties": {
         "id": "map-0at2vsn",
         "name": "Djitsun Mall Bedok",
-        "address": "Bedok North Drive, Singapur East, Bedok, Southeast, Singapore, 469661, Singapore",
-        "region": "unknown",
+        "address": "445 Bedok North Street 1, Singapore 469661",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1465,8 +1313,8 @@
       "properties": {
         "id": "map-fzvbg2y",
         "name": "E!Avenue @ Downtown East",
-        "address": "Pasir Ris Close, Singapur East, Pasir Ris, Northeast, Singapore, 519599, Singapore",
-        "region": "unknown",
+        "address": "1 Pasir Ris Cl, Singapore 519599",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1491,8 +1339,8 @@
       "properties": {
         "id": "map-lwev86f",
         "name": "East Coast Commune",
-        "address": "East Coast Park Service Road, Singapur East, Marine Parade, Southeast, Singapore, 449876, Singapore",
-        "region": "unknown",
+        "address": "1000 ECP, #01-03, Singapore 449876",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1517,8 +1365,8 @@
       "properties": {
         "id": "map-nq5k6zf",
         "name": "East Coast Lagoon Food Village",
-        "address": "East Coast Park Service Road, Singapur East, Bedok, Southeast, Singapore, 468960, Singapore",
-        "region": "unknown",
+        "address": "1220 ECP, Singapore 468960",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1543,8 +1391,8 @@
       "properties": {
         "id": "map-h0htk6p",
         "name": "East Coast - McDonald's Marine Cove",
-        "address": "East Coast Park Service Road, Singapur East, Marine Parade, Southeast, Singapore, 449876, Singapore",
-        "region": "unknown",
+        "address": "1000 ECP, 01-05 Marine Cove, Singapore 44987",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1569,8 +1417,8 @@
       "properties": {
         "id": "map-49l5gpp",
         "name": "East Coast - The Coffee Bean & Tea Leaf's Marine Cove",
-        "address": "East Coast Park Service Road, Singapur East, Marine Parade, Southeast, Singapore, 449876, Singapore",
-        "region": "unknown",
+        "address": "1000 ECP, #01-01 Marine Cove, Singapore 449876",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1595,8 +1443,8 @@
       "properties": {
         "id": "map-2vi4dt3",
         "name": "East Village",
-        "address": "Bedok Walk, Simpang Bedok, Singapur East, Bedok, Southeast, Singapore, 487048, Singapore",
-        "region": "unknown",
+        "address": "430 Upper Changi Rd, Singapore 487048",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1621,8 +1469,8 @@
       "properties": {
         "id": "map-g985qjt",
         "name": "Happy Hawkers - Bedok Reservoir",
-        "address": "Bedok Reservoir Road, Singapur East, Bedok, Northeast, Singapore, 470741, Singapore",
-        "region": "unknown",
+        "address": "741 Bedok Reservoir Rd, #738, Singapore 470741",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1647,8 +1495,8 @@
       "properties": {
         "id": "map-n742nsq",
         "name": "HomeTeamNS Bedok Reservoir Clubhouse",
-        "address": "Bedok North Road, Singapur East, Bedok, Northeast, Singapore, 479276, Singapore",
-        "region": "unknown",
+        "address": "900 Bedok North Rd, Singapore 479994",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1673,8 +1521,8 @@
       "properties": {
         "id": "map-5adwhdk",
         "name": "IKEA Tampines",
-        "address": "Tampines North Drive 2, Singapur East, Tampines, Northeast, Singapore, 528764, Singapore",
-        "region": "unknown",
+        "address": "60 Tampines North Drive 2, Singapore 528764",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1699,8 +1547,8 @@
       "properties": {
         "id": "map-6ra1jo2",
         "name": "I12 Katong",
-        "address": "Joo Chiat Road, Singapur East, Marine Parade, Southeast, Singapore, 428802, Singapore",
-        "region": "unknown",
+        "address": "112 E Coast Rd, Singapore 428802",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1725,8 +1573,8 @@
       "properties": {
         "id": "map-wto7hcf",
         "name": "Geylang Serai Market and Food Centre",
-        "address": "Changi Road, Eunos, Singapur East, Geylang, Southeast, Singapore, 419701, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1751,8 +1599,8 @@
       "properties": {
         "id": "map-o7tggba",
         "name": "Grandlink Square",
-        "address": "Guillemard Road, Singapur East, Geylang, Southeast, Singapore, 399849, Singapore",
-        "region": "unknown",
+        "address": "511 Guillemard Rd, Singapore 399849",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1777,8 +1625,8 @@
       "properties": {
         "id": "map-n05j46b",
         "name": "HQ SCDF",
-        "address": "Ubi Avenue 4, Singapur East, Geylang, Southeast, Singapore, 408827, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1803,8 +1651,8 @@
       "properties": {
         "id": "map-5qnl3rh",
         "name": "Jewel Changi Airport",
-        "address": "Singapur East, Changi, Southeast, Singapore, 819666, Singapore",
-        "region": "unknown",
+        "address": "78 Airport Blvd., Singapore 819666",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1829,8 +1677,8 @@
       "properties": {
         "id": "map-dzes3mw",
         "name": "Jewel - Shaw Theatres ",
-        "address": "Singapur East, Changi, Southeast, Singapore, 207663, Singapore",
-        "region": "unknown",
+        "address": "10 Paya Lebar Rd, #05-02 PLQ Mall, Singapore 409057",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1855,8 +1703,8 @@
       "properties": {
         "id": "map-3c97dp1",
         "name": "Kembangan MRT",
-        "address": "Kembangan, Singapur East, Bedok, Southeast, Singapore, 416551, Singapore",
-        "region": "unknown",
+        "address": "55 Sims Ave E, Singapore 416551",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1881,8 +1729,8 @@
       "properties": {
         "id": "map-itvn9hn",
         "name": "Marine Parade Central Market and Food Centre",
-        "address": "Marine Parade Promenade, Singapur East, Marine Parade, Southeast, Singapore, 440084, Singapore",
-        "region": "unknown",
+        "address": "84 Marine Parade Central, Singapore 440084",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1907,8 +1755,8 @@
       "properties": {
         "id": "map-erj9k0k",
         "name": "Morf",
-        "address": "Sims Avenue, Singapur East, Geylang, Southeast, Singapore, 380234, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1933,8 +1781,8 @@
       "properties": {
         "id": "map-cp3vb61",
         "name": "Our Tampines Hub (OTH)",
-        "address": "Tampines Avenue 5, Tampines West, Singapur East, Tampines, Northeast, Singapore, 529653, Singapore",
-        "region": "unknown",
+        "address": "1 Tampines Walk, Singapore 528523",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1959,8 +1807,8 @@
       "properties": {
         "id": "map-rafq1kq",
         "name": "Pasir Ris Bus Interchange",
-        "address": "Pasir Ris Central Street 3, Singapur East, Pasir Ris, Northeast, Singapore, 518457, Singapore",
-        "region": "unknown",
+        "address": "501 Pasir Ris Drive 3, Singapore 519490",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -1985,8 +1833,8 @@
       "properties": {
         "id": "map-q3tmlbr",
         "name": "Pasir Ris East Community Club",
-        "address": "Pasir Ris Drive 4, Singapur East, Pasir Ris, Northeast, Singapore, 519457, Singapore",
-        "region": "unknown",
+        "address": "1 Pasir Ris Drive 4, #01-08 East Community Building, Singapore 519457",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2011,8 +1859,8 @@
       "properties": {
         "id": "map-1twg0t3",
         "name": "Pasir Ris Mall",
-        "address": "Pasir Ris Drive 8, Singapur East, Pasir Ris, Northeast, Singapore, 519612, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2037,8 +1885,8 @@
       "properties": {
         "id": "map-ivti5g4",
         "name": "Plaza 8 @ CBP",
-        "address": "Changi South Avenue 3, Singapur East, Tampines, Southeast, Singapore, 486594, Singapore",
-        "region": "unknown",
+        "address": "1 Changi Business Park Ave 1, Singapore 486025",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2063,8 +1911,8 @@
       "properties": {
         "id": "map-68c4nen",
         "name": "PLQ Mall (Paya Lebar Quarter)",
-        "address": "Sims Avenue, Singapur East, Geylang, Southeast, Singapore, 409057, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2089,8 +1937,8 @@
       "properties": {
         "id": "map-ogdzw8n",
         "name": "PLQ - Shaw Theatres",
-        "address": "Paya Lebar Road, Singapur East, Geylang, Southeast, Singapore, 409005, Singapore",
-        "region": "unknown",
+        "address": "10 Paya Lebar Rd, #05-02 PLQ Mall, Singapore 409057",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2115,8 +1963,8 @@
       "properties": {
         "id": "map-xj6ugz1",
         "name": "SAFRA Tampines",
-        "address": "Tampines Street 92, Singapur East, Tampines, Southeast, Singapore, 528882, Singapore",
-        "region": "unknown",
+        "address": "1/A Tampines Street 92, Singapore 528882",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2141,8 +1989,8 @@
       "properties": {
         "id": "map-03mm5m2",
         "name": "Shell - Tamp Ave 2",
-        "address": "Tampines Avenue 2, Tampines East, Singapur East, Tampines, Northeast, Singapore, 521107, Singapore",
-        "region": "unknown",
+        "address": "9 Tampines Ave 2, Singapore 529731",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2167,8 +2015,8 @@
       "properties": {
         "id": "map-ic6ywpl",
         "name": "Siglap Community Club",
-        "address": "Upper East Coast Road, Bayshore, Singapur East, Bedok, Southeast, Singapore, 460151, Singapore",
-        "region": "unknown",
+        "address": "3 Hougang Ave 6, Singapore 538808",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2193,8 +2041,8 @@
       "properties": {
         "id": "map-k5uutef",
         "name": "Singapore Expo",
-        "address": "Changi South Avenue 1, Singapur East, Tampines, Southeast, Singapore, 486150, Singapore",
-        "region": "unknown",
+        "address": "1 Expo Dr, Singapore 486150",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2219,8 +2067,8 @@
       "properties": {
         "id": "map-swmj29a",
         "name": "SingPost Centre",
-        "address": "Eunos Road 8, Singapur East, Geylang, Southeast, Singapore, 408600, Singapore",
-        "region": "unknown",
+        "address": "10 Eunos Rd 8, Singapore 408600",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2245,8 +2093,8 @@
       "properties": {
         "id": "map-pqi7hpj",
         "name": "Supper Deck",
-        "address": "Jalan Chempaka Kuning, Simpang Bedok, Singapur East, Bedok, Southeast, Singapore, 469560, Singapore",
-        "region": "unknown",
+        "address": "288 Bedok Rd, Singapore 469444",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2271,8 +2119,8 @@
       "properties": {
         "id": "map-m9v6aen",
         "name": "Syed Cafe",
-        "address": "Bedok Road, Simpang Bedok, Singapur East, Bedok, Southeast, Singapore, 469532, Singapore",
-        "region": "unknown",
+        "address": "328 Bedok Rd, Singapore 469499",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2297,8 +2145,8 @@
       "properties": {
         "id": "map-mbmzn7x",
         "name": "Tampines 1",
-        "address": "Tampines Central 1, Singapur East, Tampines, Northeast, Singapore, 520508, Singapore",
-        "region": "unknown",
+        "address": "10 Tampines Central 1, Singapore 529536",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2323,8 +2171,8 @@
       "properties": {
         "id": "map-hsl09a5",
         "name": "Tampines Bus Interchange",
-        "address": "Tampines Central 1, Singapur East, Tampines, Northeast, Singapore, 529541, Singapore",
-        "region": "unknown",
+        "address": "1 Tampines Central 1, Singapore 529539",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2349,8 +2197,8 @@
       "properties": {
         "id": "map-ctcrpz0",
         "name": "Tampines East CC",
-        "address": "Tampines Avenue 2, Tampines East, Singapur East, Tampines, Northeast, Singapore, 529341, Singapore",
-        "region": "unknown",
+        "address": "60 Tampines North Drive 2, Singapore 528764",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2375,8 +2223,8 @@
       "properties": {
         "id": "map-790mr5a",
         "name": "Tampines Mall",
-        "address": "Tampines Central 5, Singapur East, Tampines, Northeast, Singapore, 529509, Singapore",
-        "region": "unknown",
+        "address": "4 Tampines Central 5, Singapore 529510",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2401,8 +2249,8 @@
       "properties": {
         "id": "map-tffsr97",
         "name": "Tampines North Polyclinic",
-        "address": "Tampines Street 61, Singapur East, Tampines, Northeast, Singapore, 521607, Singapore",
-        "region": "unknown",
+        "address": "35 Tampines Street 61, Singapore 528566",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2427,8 +2275,8 @@
       "properties": {
         "id": "map-6q0z4yx",
         "name": "Tampines Polyclinic",
-        "address": "Tampines Street 41, Singapur East, Tampines, Northeast, Singapore, 529203, Singapore",
-        "region": "unknown",
+        "address": "1 Tampines Street 41, Singapore 529203",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2453,8 +2301,8 @@
       "properties": {
         "id": "map-xu98kkh",
         "name": "Tampines West CC",
-        "address": "Tampines Avenue 3, Tampines West, Singapur East, Tampines, Northeast, Singapore, 529705, Singapore",
-        "region": "unknown",
+        "address": "10 Tampines Central 1, Singapore 529536",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2479,8 +2327,8 @@
       "properties": {
         "id": "map-r8nxaf0",
         "name": "Terminal 3",
-        "address": "T3 Basement Drive, Singapur East, Changi, Southeast, Singapore, 819663, Singapore",
-        "region": "unknown",
+        "address": "65 Airport Blvd., Singapore 819663",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2505,8 +2353,8 @@
       "properties": {
         "id": "map-rc6z7pq",
         "name": "Terminal 4",
-        "address": "T4 Departure Drive, Singapur East, Changi, Southeast, Singapore, 819665, Singapore",
-        "region": "unknown",
+        "address": "10 Airport Blvd., Terminal 4, Singapore 819665",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2531,8 +2379,8 @@
       "properties": {
         "id": "map-wqz44is",
         "name": "The Coffee Bean & Tea Leaf @ East Coast Park",
-        "address": "East Coast Park Service Road, Singapur East, Marine Parade, Southeast, Singapore, 449876, Singapore",
-        "region": "unknown",
+        "address": "1000 ECP, #01-01 Marine Cove, Singapore 449876",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2557,8 +2405,8 @@
       "properties": {
         "id": "map-v1haufp",
         "name": "Tomahawk King: Steakhouse and Grill",
-        "address": "Changi Road, Telok Kurau, Singapur East, Bedok, Southeast, Singapore, 419794, Singapore",
-        "region": "unknown",
+        "address": "324 Changi Rd, Singapore 419799",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2583,8 +2431,8 @@
       "properties": {
         "id": "map-jlkwild",
         "name": "Wisma Geylang Serai",
-        "address": "Geylang Road, Joo Chiat, Singapur East, Geylang, Southeast, Singapore, 424484, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2609,8 +2457,8 @@
       "properties": {
         "id": "map-lsxmx5j",
         "name": "White Sands",
-        "address": "Pasir Ris Central, Singapur East, Pasir Ris, Northeast, Singapore, 513530, Singapore",
-        "region": "unknown",
+        "address": "1 Pasir Ris Central St 3, Singapore 518457",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2635,8 +2483,8 @@
       "properties": {
         "id": "map-02jzqxw",
         "name": "*SCAPE",
-        "address": "Orchard Link, Cairnhill, Orchard Road, Orchard, Central, Singapore, 237978, Singapore",
-        "region": "unknown",
+        "address": "2 Orchard Link, Singapore 237978",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2661,8 +2509,8 @@
       "properties": {
         "id": "map-yjnrkux",
         "name": "5themoments Handcrafted Gelato Cafe (Tanjong Pagar)",
-        "address": "Tanjong Pagar Road, Anson, Chinatown, Outram, Central, Singapore, 088488, Singapore",
-        "region": "unknown",
+        "address": "73 Tg Pagar Rd, Singapore 088494",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2687,8 +2535,8 @@
       "properties": {
         "id": "map-yqmvags",
         "name": "18 Tai Seng",
-        "address": "Upper Paya Lebar Road, Hougang, Singapur East, Southeast, Singapore, 534803, Singapore",
-        "region": "unknown",
+        "address": "18 Tai Seng St, Singapore 539775",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2713,8 +2561,8 @@
       "properties": {
         "id": "map-69zbyjf",
         "name": "111 Somerset",
-        "address": "Devonshire Road, Orchard Road, River Valley, Central, Singapore, 239864, Singapore",
-        "region": "unknown",
+        "address": "111 Somerset Rd, Singapore 238164",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2739,8 +2587,8 @@
       "properties": {
         "id": "map-qfs5xf1",
         "name": "313@somerset",
-        "address": "Discovery Walk, Cairnhill, Orchard Road, Orchard, Central, Singapore, 238163, Singapore",
-        "region": "unknown",
+        "address": "313 Orchard Rd, Singapore 238895",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2765,8 +2613,8 @@
       "properties": {
         "id": "map-7z4b80a",
         "name": "Active Garden, Waterfront Plaza",
-        "address": "Sheares Avenue, Marina Bay, Downtown Core, Central, Singapore, 018971, Singapore",
-        "region": "unknown",
+        "address": "18 Marina Gardens Dr, Singapore 018953",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2791,8 +2639,8 @@
       "properties": {
         "id": "map-wxf1g11",
         "name": "Al Bidayah Restaurant",
-        "address": "Lorong 20 Geylang, Singapur East, Geylang, Southeast, Singapore, 388352, Singapore",
-        "region": "unknown",
+        "address": "364 Geylang Rd, Singapore 389369",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2817,8 +2665,8 @@
       "properties": {
         "id": "map-kma7v84",
         "name": "Aliwal Arts Centre",
-        "address": "Aliwal Street, Bugis, Central, Singapore, 198985, Singapore",
-        "region": "unknown",
+        "address": "28 Aliwal St, Singapore 199918",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2843,8 +2691,8 @@
       "properties": {
         "id": "map-cy36iu3",
         "name": "Amoy Street Food Centre",
-        "address": "Telok Ayer Street, Chinatown, Downtown Core, Central, Singapore, 069111, Singapore",
-        "region": "unknown",
+        "address": "7 Maxwell Rd, Singapore 069111",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2869,8 +2717,8 @@
       "properties": {
         "id": "map-wywdcpo",
         "name": "Andaz Singapore",
-        "address": "Beach Road, Suntec City, Civic District, Bugis, Central, Singapore, 189720, Singapore",
-        "region": "unknown",
+        "address": "5 Fraser St, Singapore 189354",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2895,8 +2743,8 @@
       "properties": {
         "id": "map-jmxslmh",
         "name": "Apartment Coffee",
-        "address": "Selegie Road, Selegie, Orchard Road, Rochor, Central, Singapore, 188309, Singapore",
-        "region": "unknown",
+        "address": "139 Selegie Rd, #01-01, Singapore 188309",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2921,8 +2769,8 @@
       "properties": {
         "id": "map-oejuyos",
         "name": "Apple Marina Bay Sands",
-        "address": "Olympic Walk, Marina Bay, Downtown Core, Central, Singapore, 018956, Singapore",
-        "region": "unknown",
+        "address": "2 Bayfront Ave, B2 - 06, Singapore 018972",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2947,8 +2795,8 @@
       "properties": {
         "id": "map-m0ny7gl",
         "name": "Apple Orchard Road",
-        "address": "Orchard Promenade, Cairnhill, Orchard Road, Orchard, Central, Singapore, 348548, Singapore",
-        "region": "unknown",
+        "address": "270 Orchard Rd, Singapore 238857",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2973,8 +2821,8 @@
       "properties": {
         "id": "map-0artsc7",
         "name": "ARC 380",
-        "address": "Jalan Besar, Bendemeer, Bugis, Central, Singapore, 209001, Singapore",
-        "region": "unknown",
+        "address": "380 Jln Besar, Singapore 209000",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -2999,8 +2847,8 @@
       "properties": {
         "id": "map-gpo0ut3",
         "name": "Asian Civilisations Museum",
-        "address": "Empress Place, Civic District, Downtown Core, Central, Singapore, 179556, Singapore",
-        "region": "unknown",
+        "address": "1 Empress Pl, Singapore 179555",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3025,8 +2873,8 @@
       "properties": {
         "id": "map-du5n6r3",
         "name": "Asylum Coffeehouse",
-        "address": "Petain Road, Little India, Kallang, Central, Singapore, 208973, Singapore",
-        "region": "unknown",
+        "address": "311 Jln Besar, Singapore 208970",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3051,8 +2899,8 @@
       "properties": {
         "id": "map-b2r4jfu",
         "name": "ATLAS - Bugis",
-        "address": "North Bridge Road, Suntec City, Civic District, Bugis, Central, Singapore, 188778, Singapore",
-        "region": "unknown",
+        "address": "600 North Bridge Rd, Parkview Square, Singapore 188778",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3077,8 +2925,8 @@
       "properties": {
         "id": "map-cbvkq26",
         "name": "Barbary Coast",
-        "address": "Lorong Telok, Raffles Place, Singapore River, Central, Singapore, 049024, Singapore",
-        "region": "unknown",
+        "address": "16 N Canal Rd, Singapore 048828",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3103,8 +2951,8 @@
       "properties": {
         "id": "map-exshe7m",
         "name": "Bayfront Pavilion",
-        "address": "Sheares Avenue, Marina Bay, Marina South, Central, Singapore, 018957, Singapore",
-        "region": "unknown",
+        "address": "Bayfront Pavillion",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3129,8 +2977,8 @@
       "properties": {
         "id": "map-xxvdlrc",
         "name": "Beo Crescent Market",
-        "address": "Havelock Road, Tiong Bahru, Bukit Merah, Central, Singapore, 169643, Singapore",
-        "region": "unknown",
+        "address": "38A Beo Cres, Singapore 169982",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3155,8 +3003,8 @@
       "properties": {
         "id": "map-imfwfek",
         "name": "Bishan Bus Interchange",
-        "address": "Bishan Place, Bishan, Central, Singapore, 579837, Singapore",
-        "region": "unknown",
+        "address": "514 Bishan Street 13, Singapore 570514",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3181,8 +3029,8 @@
       "properties": {
         "id": "map-yzx0yuf",
         "name": "Black Raisins",
-        "address": "Lorong Ampas, Singapore Central, Novena, Central, Singapore, 328783, Singapore",
-        "region": "unknown",
+        "address": "28 Lor Ampas, Singapore 328781",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3207,8 +3055,8 @@
       "properties": {
         "id": "map-t2aqcc9",
         "name": "Botanical Gardens Nassim Gate Visitor Centre",
-        "address": "Cluny Road, Dalvey Villas, Tanglin, Central, Singapore, 258439, Singapore",
-        "region": "unknown",
+        "address": "1 Cluny Rd, Singapore 259569",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3233,8 +3081,8 @@
       "properties": {
         "id": "map-n2irwt4",
         "name": "Bumbu Restaurant",
-        "address": "Kandahar Street, Bugis, Central, Singapore, 198898, Singapore",
-        "region": "unknown",
+        "address": "44 Kandahar St, Singapore 198897",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3259,8 +3107,8 @@
       "properties": {
         "id": "map-b21i99d",
         "name": "CapitaSpring",
-        "address": "Market Street, Golden Shoe, Downtown Core, Central, Singapore, 048942, Singapore",
-        "region": "unknown",
+        "address": "88 Market St, Singapore 048948",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3285,8 +3133,8 @@
       "properties": {
         "id": "map-4aixv6b",
         "name": "Capitol Singapore",
-        "address": "Flag Road, Civic District, Downtown Core, Central, Singapore, 178884, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3311,8 +3159,8 @@
       "properties": {
         "id": "map-p2anvzo",
         "name": "Cash Studio - Prinsep",
-        "address": "Prinsep Street, Selegie, Orchard Road, Rochor, Central, Singapore, 188351, Singapore",
-        "region": "unknown",
+        "address": "72 Prinsep St, Singapore 188671",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3337,8 +3185,8 @@
       "properties": {
         "id": "map-1uglvhk",
         "name": "Cathay Building",
-        "address": "Cathay Forecourt, Orchard Road, Museum, Central, Singapore, 229233, Singapore",
-        "region": "unknown",
+        "address": "2 Handy Rd, Singapore 229233",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3363,8 +3211,8 @@
       "properties": {
         "id": "map-ahapwcr",
         "name": "Central Plaza",
-        "address": "Tiong Bahru Plaza Forecourt, Tiong Bahru, Bukit Merah, Central, Singapore, 168732, Singapore",
-        "region": "unknown",
+        "address": "298 Tiong Bahru Rd, Singapore 168730",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3389,8 +3237,8 @@
       "properties": {
         "id": "map-cqlvkz6",
         "name": "Centre 42",
-        "address": "Waterloo Street, Selegie, Orchard Road, Rochor, Central, Singapore, 188551, Singapore",
-        "region": "unknown",
+        "address": "Waterloo St, 42, Singapore 187951",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3415,8 +3263,8 @@
       "properties": {
         "id": "map-jrr7wzo",
         "name": "City Gate",
-        "address": "Beach Road, Crawford, Kallang, Central, Singapore, 199581, Singapore",
-        "region": "unknown",
+        "address": "371 Beach Rd, Singapore 199597",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3441,8 +3289,8 @@
       "properties": {
         "id": "map-rt02lwk",
         "name": "Chico Loco",
-        "address": "Amoy Street, People's Park, Chinatown, Outram, Central, Singapore, 069924, Singapore",
-        "region": "unknown",
+        "address": "102 Amoy St, Singapore 069922",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3467,8 +3315,8 @@
       "properties": {
         "id": "map-0xvy72n",
         "name": "Chye Seng Huat Hardware",
-        "address": "Tyrwhitt Road, Bendemeer, Bugis, Central, Singapore, 207564, Singapore",
-        "region": "unknown",
+        "address": "150 Tyrwhitt Rd, Singapore 207563",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3493,8 +3341,8 @@
       "properties": {
         "id": "map-dtlknlh",
         "name": "Clarke Quay",
-        "address": "River Valley Road, Clarke Quay, Singapore River, Central, Singapore, 179024, Singapore",
-        "region": "unknown",
+        "address": "3 River Valley Rd, Singapore 179024",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3519,8 +3367,8 @@
       "properties": {
         "id": "map-rvzpjiu",
         "name": "Clarke Quay - Haidilao (HDL)",
-        "address": "North Boat Quay, Clarke Quay, Singapore River, Central, Singapore, 179024, Singapore",
-        "region": "unknown",
+        "address": "3D River Valley Rd, #02-04 Clarke Quay, Singapore 179023",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3545,8 +3393,8 @@
       "properties": {
         "id": "map-qwsdbqx",
         "name": "Clarke Quay Central",
-        "address": "Clarke Quay, Singapore River, Central, Singapore, 059817, Singapore",
-        "region": "unknown",
+        "address": "6 Eu Tong Sen St, Singapore 059817",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3571,8 +3419,8 @@
       "properties": {
         "id": "map-usx7vc3",
         "name": "Collyer Quay Centre",
-        "address": "Change Alley, Golden Shoe, Riverside, Central, Singapore, 049318, Singapore",
-        "region": "unknown",
+        "address": "16 Collyer Quay, Singapore 049318",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3597,8 +3445,8 @@
       "properties": {
         "id": "map-0jtsgoo",
         "name": "Crane @ Kim Yam Rd",
-        "address": "Martin Place, Morison Hill, Riverside, Central, Singapore, 237992, Singapore",
-        "region": "unknown",
+        "address": "46 Kim Yam Rd, #01-06, Singapore 239351",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3623,8 +3471,8 @@
       "properties": {
         "id": "map-pa5sowr",
         "name": "CT Hub 2",
-        "address": "Kallang Avenue, Singapur East, Kallang, Central, Singapore, 339263, Singapore",
-        "region": "unknown",
+        "address": "114 Lavender St., Singapore 338729",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3649,8 +3497,8 @@
       "properties": {
         "id": "map-ks7jpgq",
         "name": "Daizu Cafe",
-        "address": "Rangoon Road, Singapore Central, Kallang, Central, Singapore, 218407, Singapore",
-        "region": "unknown",
+        "address": "129 Rangoon Rd, Singapore 218407",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3675,8 +3523,8 @@
       "properties": {
         "id": "map-236gxfx",
         "name": "Dessert First",
-        "address": "Liang Seah Street, Suntec City, Civic District, Bugis, Central, Singapore, 189029, Singapore",
-        "region": "unknown",
+        "address": "8 Liang Seah St, #01-04, Singapore 189029",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3701,8 +3549,8 @@
       "properties": {
         "id": "map-elketyf",
         "name": "Dopa Dopa Creamery",
-        "address": "South Bridge Road, Clarke Quay, Singapore River, Central, Singapore, 058679, Singapore",
-        "region": "unknown",
+        "address": "29 South Bridge Rd, #01-01, Singapore 058665",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3727,8 +3575,8 @@
       "properties": {
         "id": "map-iy7ylxq",
         "name": "Duo Tower",
-        "address": "Rochor Road, Suntec City, Civic District, Bugis, Central, Singapore, 189352, Singapore",
-        "region": "unknown",
+        "address": "3 Fraser St, Singapore 189352",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3753,8 +3601,8 @@
       "properties": {
         "id": "map-w27mcgs",
         "name": "Epic Haus Coffeeshop @ Upp Aljunied Road",
-        "address": "Jalan Mulia, Singapore Central, Toa Payoh, Southeast, Singapore, 367860, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3779,8 +3627,8 @@
       "properties": {
         "id": "map-hqn2c96",
         "name": "Esplanade Mall",
-        "address": "The Courtyard, Suntec City, Marina Bay, Downtown Core, Central, Singapore, 039802, Singapore",
-        "region": "unknown",
+        "address": "1 Esplanade Dr, Singapore 038981",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3805,8 +3653,8 @@
       "properties": {
         "id": "map-lrcgg0l",
         "name": "Fort Canning Park",
-        "address": "River Valley Road, Riverside, Central, Singapore, 179019, Singapore",
-        "region": "unknown",
+        "address": "70 River Valley Rd, Singapore 179037",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3831,8 +3679,8 @@
       "properties": {
         "id": "map-sn8sfoo",
         "name": "Frasers Tower",
-        "address": "Telok Ayer Street, Chinatown, Downtown Core, Central, Singapore, 069547, Singapore",
-        "region": "unknown",
+        "address": "182 Cecil St, Singapore 069547",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3857,8 +3705,8 @@
       "properties": {
         "id": "map-bwd2jz2",
         "name": "Fullerton Bay Hotel - LOBBY",
-        "address": "Raffles Place, Riverside, Central, Singapore, 049326, Singapore",
-        "region": "unknown",
+        "address": "80 Collyer Quay, Singapore 049326",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3883,8 +3731,8 @@
       "properties": {
         "id": "map-4ke3g12",
         "name": "Funan",
-        "address": "North Bridge Road, Civic District, Downtown Core, Central, Singapore, 179803, Singapore",
-        "region": "unknown",
+        "address": "107 North Bridge Rd, Singapore 179105",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3909,8 +3757,8 @@
       "properties": {
         "id": "map-t0cqb25",
         "name": "Furama City Centre",
-        "address": "Havelock Square, People's Park, Chinatown, Outram, Central, Singapore, 059804, Singapore",
-        "region": "unknown",
+        "address": "60 Eu Tong Sen St, Singapore 059804",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3935,8 +3783,8 @@
       "properties": {
         "id": "map-evrn1ww",
         "name": "Gardens by the Bay",
-        "address": "Marina Bay, Marina South, Central, Singapore, 018957, Singapore",
-        "region": "unknown",
+        "address": "18 Marina Gardens Dr, Singapore 018953",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3961,8 +3809,8 @@
       "properties": {
         "id": "map-tyhi55x",
         "name": "Gardens by the Bay MRT",
-        "address": "Marina Gardens Drive, Marina Bay, Marina South, Central, Singapore, 019396, Singapore",
-        "region": "unknown",
+        "address": "11 Marina Mall, Singapore 019396",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -3987,8 +3835,8 @@
       "properties": {
         "id": "map-fmotnxq",
         "name": "Gleneagles Hospital",
-        "address": "Nassim Hill, Lady Hill Park, Tanglin, Central, Singapore, 258500, Singapore",
-        "region": "unknown",
+        "address": "6A Napier Rd, Singapore 258500",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4013,8 +3861,8 @@
       "properties": {
         "id": "map-iaj4u68",
         "name": "Goldenroy Sourdough Pizza",
-        "address": "Desker Road, Little India, Rochor, Central, Singapore, 209641, Singapore",
-        "region": "unknown",
+        "address": "125 Desker Rd, Singapore 209642",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4039,8 +3887,8 @@
       "properties": {
         "id": "map-eean46o",
         "name": "Grace Baptist Church",
-        "address": "Mattar Road, Singapur East, Geylang, Southeast, Singapore, 387721, Singapore",
-        "region": "unknown",
+        "address": "17 Mattar Rd, Singapore 387722",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4065,8 +3913,8 @@
       "properties": {
         "id": "map-52455po",
         "name": "GR.iD",
-        "address": "Kirk Terrace, Selegie, Orchard Road, Rochor, Central, Singapore, 228195, Singapore",
-        "region": "unknown",
+        "address": "1 Selegie Rd, Singapore 188306",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4091,8 +3939,8 @@
       "properties": {
         "id": "map-9k1qid2",
         "name": "Grand Hyatt Singapore",
-        "address": "Orchard Promenade, Cairnhill, Orchard Road, Orchard, Central, Singapore, 348548, Singapore",
-        "region": "unknown",
+        "address": "10 Scotts Rd, Singapore 228211",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4117,8 +3965,8 @@
       "properties": {
         "id": "map-jtu1tfq",
         "name": "Guoco Tower",
-        "address": "Wallich Street, Anson, Chinatown, Downtown Core, Central, Singapore, 078885, Singapore",
-        "region": "unknown",
+        "address": "1 Wallich St, Singapore 078881",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4143,8 +3991,8 @@
       "properties": {
         "id": "map-i2wxpzs",
         "name": "Hai Ge Ji Hainanese Chicken Rice",
-        "address": "North Bridge Road, Bugis, Central, Singapore, 198742, Singapore",
-        "region": "unknown",
+        "address": "783 North Bridge Rd, Singapore 198751",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4169,8 +4017,8 @@
       "properties": {
         "id": "map-e4iz0ed",
         "name": "Hans IM GLÜCK German Burgergrill @ Boat Quay",
-        "address": "Boat Quay, Raffles Place, Singapore River, Central, Singapore, 049847, Singapore",
-        "region": "unknown",
+        "address": "Boat Quay, 71, Singapore 049860",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4195,8 +4043,8 @@
       "properties": {
         "id": "map-sqx6t15",
         "name": "Health Sciences Authority (HSA)",
-        "address": "Second Hospital Avenue, Tiong Bahru, Bukit Merah, Central, Singapore, 168583, Singapore",
-        "region": "unknown",
+        "address": "11 Outram Rd, Singapore 169078",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4221,8 +4069,8 @@
       "properties": {
         "id": "map-wb5kvl9",
         "name": "Homeground Coffee Roasters",
-        "address": "Teo Hong Road, People's Park, Chinatown, Outram, Central, Singapore, 088323, Singapore",
-        "region": "unknown",
+        "address": "15 Teo Hong Rd, Singapore 088328",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4247,8 +4095,8 @@
       "properties": {
         "id": "map-h41wkbq",
         "name": "Hotel Mi",
-        "address": "Bencoolen, Orchard Road, Rochor, Central, Singapore, 189619, Singapore",
-        "region": "unknown",
+        "address": "41 Bencoolen St, Singapore 189623",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4273,8 +4121,8 @@
       "properties": {
         "id": "map-d7421by",
         "name": "ICA Immigration & Checkpoints Authority",
-        "address": "Kallang Road, Crawford, Bugis, Central, Singapore, 208699, Singapore",
-        "region": "unknown",
+        "address": "10 Kallang Rd, Singapore 208718\r",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4299,8 +4147,8 @@
       "properties": {
         "id": "map-1pgroef",
         "name": "ION Orchard",
-        "address": "Orchard Promenade, Cairnhill, Orchard Road, Orchard, Central, Singapore, 348548, Singapore",
-        "region": "unknown",
+        "address": "2 Orchard Turn, Singapore 238801",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4325,8 +4173,8 @@
       "properties": {
         "id": "map-afmthvc",
         "name": "Jollibee - Bugis Village",
-        "address": "Victoria Street, Selegie, Bugis, Central, Singapore, 188022, Singapore",
-        "region": "unknown",
+        "address": "165/166 Rochor Rd, Singapore 188440",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4351,8 +4199,8 @@
       "properties": {
         "id": "map-dagn019",
         "name": "Kada",
-        "address": "Kadayanallur Street, Anson, Chinatown, Downtown Core, Central, Singapore, 069118, Singapore",
-        "region": "unknown",
+        "address": "5 Kadayanallur St, Singapore 069183",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4377,8 +4225,8 @@
       "properties": {
         "id": "map-ejfner8",
         "name": "Kafe Utu",
-        "address": "Jiak Chuan Road, People's Park, Chinatown, Outram, Central, Singapore, 089265, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4403,8 +4251,8 @@
       "properties": {
         "id": "map-oyj8x4r",
         "name": "Kallang ActiveSG Tennis Centre",
-        "address": "Stadium Boulevard, Tanjong Rhu, Singapur East, Kallang, Southeast, Singapore, 397800, Singapore",
-        "region": "unknown",
+        "address": "8 Stadium Blvd, Singapore 397804",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4429,8 +4277,8 @@
       "properties": {
         "id": "map-jrv00nr",
         "name": "Kallang Tennis Hub",
-        "address": "Stadium Walk, Tanjong Rhu, Singapur East, Kallang, Southeast, Singapore, 399642, Singapore",
-        "region": "unknown",
+        "address": "15 Stadium Walk",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4455,8 +4303,8 @@
       "properties": {
         "id": "map-xgnimzf",
         "name": "Kallang Wave Mall",
-        "address": "OCBC Square, Tanjong Rhu, Singapur East, Kallang, Southeast, Singapore, 397628, Singapore",
-        "region": "unknown",
+        "address": "1 Stadium Pl, Singapore 397628",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4481,8 +4329,8 @@
       "properties": {
         "id": "map-8loa4r5",
         "name": "KKH - KK Women's and Children's Hospital",
-        "address": "Kampong Java Road, Singapore Central, Kallang, Central, Singapore, 229899, Singapore",
-        "region": "unknown",
+        "address": "100 Bukit Timah Rd, Singapore 229899",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4507,8 +4355,8 @@
       "properties": {
         "id": "map-y3201rp",
         "name": "Kwong Wai Shiu Hospital",
-        "address": "Serangoon Road, Singapur East, Kallang, Central, Singapore, 332001, Singapore",
-        "region": "unknown",
+        "address": "705 Serangoon Rd, Singapore 328127",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4533,8 +4381,8 @@
       "properties": {
         "id": "map-zxqwjmq",
         "name": "Lazada One",
-        "address": "Bencoolen, Orchard Road, Museum, Central, Singapore, 189619, Singapore",
-        "region": "unknown",
+        "address": "51 Bras Basah Rd, Singapore 189554",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4559,8 +4407,8 @@
       "properties": {
         "id": "map-lenjej6",
         "name": "Little India MRT - Exit F",
-        "address": "Serangoon Road, Selegie, Little India, Rochor, Central, Singapore, 207466, Singapore",
-        "region": "unknown",
+        "address": "No. 60 Bukit Timah Rd, MRT Station, Singapore 229900",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4585,8 +4433,8 @@
       "properties": {
         "id": "map-1ulc821",
         "name": "lyf Farrer Park Singapore",
-        "address": "Perumal Road, Bendemeer, Kallang, Central, Singapore, 218123, Singapore",
-        "region": "unknown",
+        "address": "2 Perumal Rd, #01-01, Singapore 218773",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4611,8 +4459,8 @@
       "properties": {
         "id": "map-v3lvf2i",
         "name": "Macpherson MRT (Circle Line)",
-        "address": "Paya Lebar Road, Singapur East, Geylang, Southeast, Singapore, 409048, Singapore",
-        "region": "unknown",
+        "address": "171 Paya Lebar Rd, Singapore 409048",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4637,8 +4485,8 @@
       "properties": {
         "id": "map-tgoou37",
         "name": "Malay Heritage Centre",
-        "address": "Bugis, Central, Singapore, 198497, Singapore",
-        "region": "unknown",
+        "address": "85 Sultan Gate, Singapore 198501",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4663,8 +4511,8 @@
       "properties": {
         "id": "map-2x7alhd",
         "name": "Mandarin Gallery",
-        "address": "Orchard Promenade, Cairnhill, Orchard Road, Orchard, Central, Singapore, 348548, Singapore",
-        "region": "unknown",
+        "address": "333A Orchard Rd, Singapore 238897",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4689,8 +4537,8 @@
       "properties": {
         "id": "map-89ucd54",
         "name": "Marina Bay Sands Singapore",
-        "address": "Olympic Walk, Marina Bay, Downtown Core, Central, Singapore, 018972, Singapore",
-        "region": "unknown",
+        "address": "10 Bayfront Ave, Singapore 018956",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4715,8 +4563,8 @@
       "properties": {
         "id": "map-0fhyafz",
         "name": "Marina One East Tower",
-        "address": "Straits View, Marina Bay, Downtown Core, Central, Singapore, 018936, Singapore",
-        "region": "unknown",
+        "address": "7 Straits View, Singapore 018936",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4741,8 +4589,8 @@
       "properties": {
         "id": "map-owvqpcz",
         "name": "Marina One - The Heart",
-        "address": "Straits View, Marina Bay, Downtown Core, Central, Singapore, 018936, Singapore",
-        "region": "unknown",
+        "address": "5 Straits View, #01-28 The Heart, Marina One Show Gallery, Singapore 018935",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4767,8 +4615,8 @@
       "properties": {
         "id": "map-nf49trd",
         "name": "Marina South Pier",
-        "address": "Marina Coastal Drive, Marina Bay, Straits View, Central, Singapore, 018988, Singapore",
-        "region": "unknown",
+        "address": "31 Marina Coastal Dr, Singapore 018988",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4793,8 +4641,8 @@
       "properties": {
         "id": "map-ja4xkao",
         "name": "Mellower Coffee - Bugis",
-        "address": "Victoria Street, Selegie, Bugis, Central, Singapore, 188067, Singapore",
-        "region": "unknown",
+        "address": "108 Middle Rd, #01-01 Bernhard Schulte House, Singapore 188967",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4819,8 +4667,8 @@
       "properties": {
         "id": "map-w4vksrb",
         "name": "Millenia Walk",
-        "address": "Suntec City, Marina Bay, Downtown Core, Central, Singapore, 039595, Singapore",
-        "region": "unknown",
+        "address": "9 Raffles Blvd, Singapore 039596",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4845,8 +4693,8 @@
       "properties": {
         "id": "map-99dgqiy",
         "name": "Mustafa Centre",
-        "address": "Syed Alwi Road, Little India, Rochor, Central, Singapore, 207695, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4871,8 +4719,8 @@
       "properties": {
         "id": "map-zkjhh1r",
         "name": "Mount Elizabeth Novena Hospital",
-        "address": "Jalan Novena Selatan, Singapore Central, Novena, Central, Singapore, 308563, Singapore",
-        "region": "unknown",
+        "address": "38 Irrawaddy Rd, Singapore 329563",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4897,8 +4745,8 @@
       "properties": {
         "id": "map-wt8p4c1",
         "name": "National Archives Singapore",
-        "address": "Canning Rise, Riverside, Central, Singapore, 179932, Singapore",
-        "region": "unknown",
+        "address": "1 Canning Rise, Singapore 179868",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4923,8 +4771,8 @@
       "properties": {
         "id": "map-5htym76",
         "name": "National Design Centre",
-        "address": "Middle Road, Selegie, Orchard Road, Rochor, Central, Singapore, 188969, Singapore",
-        "region": "unknown",
+        "address": "111 Middle Rd, Singapore 188969",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4949,8 +4797,8 @@
       "properties": {
         "id": "map-lkgugbi",
         "name": "National Gallery Singapore",
-        "address": "Supreme Court Lane, Civic District, Downtown Core, Central, Singapore, 179803, Singapore",
-        "region": "unknown",
+        "address": "1 St Andrew's Rd, #01 – 01, Singapore 178957",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -4975,8 +4823,8 @@
       "properties": {
         "id": "map-i6ddk9h",
         "name": "National Stadium",
-        "address": "Stadium Drive, Singapur East, Kallang, Southeast, Singapore, 398004, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5001,8 +4849,8 @@
       "properties": {
         "id": "map-3968vyc",
         "name": "New Bahru",
-        "address": "Martin Place, Morison Hill, Riverside, Central, Singapore, 237992, Singapore",
-        "region": "unknown",
+        "address": "46 Kim Yam Rd, New Bahru, Singapore 239351",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5027,8 +4875,8 @@
       "properties": {
         "id": "map-u7fxe98",
         "name": "New Tech Park (NTP)",
-        "address": "Lorong Chuan, Serangoon, Singapur East, Southeast, Singapore, 556122, Singapore",
-        "region": "unknown",
+        "address": "SG, Lor Chuan, 151, Singapore 556741",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5053,8 +4901,8 @@
       "properties": {
         "id": "map-949vqyt",
         "name": "Newton Food Centre",
-        "address": "Clemenceau Avenue North, Cairnhill, Singapore Central, Newton, Central, Singapore, 229495, Singapore",
-        "region": "unknown",
+        "address": "500 Clemenceau Ave N, Singapore 229495",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5079,8 +4927,8 @@
       "properties": {
         "id": "map-tqhrtph",
         "name": "Nitty Gritty: American-Singaporean Soul Food",
-        "address": "Teo Hong Road, People's Park, Chinatown, Outram, Central, Singapore, 088333, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5105,8 +4953,8 @@
       "properties": {
         "id": "map-nsf6p9l",
         "name": "Novena Specialist Center",
-        "address": "Sinaran Drive, Singapore Central, Novena, Central, Singapore, 307470, Singapore",
-        "region": "unknown",
+        "address": "8 Sinaran Dr, Singapore 307470",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5131,8 +4979,8 @@
       "properties": {
         "id": "map-jngtbai",
         "name": "OG Albert",
-        "address": "Bencoolen Street, Little India, Rochor, Central, Singapore, 189969, Singapore",
-        "region": "unknown",
+        "address": "60 Albert St, Singapore 189969",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5157,8 +5005,8 @@
       "properties": {
         "id": "map-wj9xfjq",
         "name": "OG People's Park",
-        "address": "Upper Cross Street, People's Park, Chinatown, Outram, Central, Singapore, 058360, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5183,8 +5031,8 @@
       "properties": {
         "id": "map-n4gysn6",
         "name": "One Farrer Hotel - Lobby",
-        "address": "Farrer Park Station Road, Little India, Rochor, Central, Singapore, 217565, Singapore",
-        "region": "unknown",
+        "address": "1 Farrer Park Station Rd, Singapore 217562",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5209,8 +5057,8 @@
       "properties": {
         "id": "map-4ky2zgw",
         "name": "One Raffles Place",
-        "address": "Raffles Place, Golden Shoe, Riverside, Central, Singapore, 048621, Singapore",
-        "region": "unknown",
+        "address": "1 Raffles Pl, Singapore 048616",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5235,8 +5083,8 @@
       "properties": {
         "id": "map-ihp9a40",
         "name": "OUE Bayfront",
-        "address": "Olympic Walk, Downtown Central, Riverside, Central, Singapore, 018987, Singapore",
-        "region": "unknown",
+        "address": "50 Collyer Quay, Singapore 049321",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5261,8 +5109,8 @@
       "properties": {
         "id": "map-wc4vwkw",
         "name": "Outram Community Hospital (OCH)",
-        "address": "Hospital Drive, Tiong Bahru, Bukit Merah, Central, Singapore, 169609, Singapore",
-        "region": "unknown",
+        "address": "10 Hospital Blvd, Singapore 168582",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5287,8 +5135,8 @@
       "properties": {
         "id": "map-dfy0fus",
         "name": "Outram Park MRT",
-        "address": "Outram Road, People's Park, Chinatown, Outram, Central, Singapore, 059816, Singapore",
-        "region": "unknown",
+        "address": "Outram Rd, Singapore 169037",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5313,8 +5161,8 @@
       "properties": {
         "id": "map-z34klnr",
         "name": "Pacific Plaza",
-        "address": "Orchard Promenade, Orchard Road, Orchard, Central, Singapore, 238883, Singapore",
-        "region": "unknown",
+        "address": "9 Scotts Rd, Singapore 228210",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5339,8 +5187,8 @@
       "properties": {
         "id": "map-5yw7tsq",
         "name": "PARKROYAL Serviced Suites Singapore",
-        "address": "Beach Road, Crawford, Kallang, Central, Singapore, 199542, Singapore",
-        "region": "unknown",
+        "address": "7500A Beach Rd, #01-345/346 The Plaza, Singapore 199591",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5365,8 +5213,8 @@
       "properties": {
         "id": "map-7if0nmz",
         "name": "Parkview Square",
-        "address": "North Bridge Road, Suntec City, Civic District, Bugis, Central, Singapore, 188778, Singapore",
-        "region": "unknown",
+        "address": "600 North Bridge Rd, Singapore 188778",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5391,8 +5239,8 @@
       "properties": {
         "id": "map-am9t1lp",
         "name": "Peranakan Museum",
-        "address": "Armenian Street, Riverside, Central, Singapore, 179939, Singapore",
-        "region": "unknown",
+        "address": "39 Armenian St, Singapore 179941",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5417,8 +5265,8 @@
       "properties": {
         "id": "map-eve7tis",
         "name": "Picanhas'",
-        "address": "Club Street, People's Park, Chinatown, Outram, Central, Singapore, 069462, Singapore",
-        "region": "unknown",
+        "address": "90 Club St, Singapore 069458",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5443,8 +5291,8 @@
       "properties": {
         "id": "map-9a70ks9",
         "name": "Plaza Singapura",
-        "address": "Orchard Road, Museum, Central, Singapore, 238839, Singapore",
-        "region": "unknown",
+        "address": "68 Orchard Rd, Singapore 238839",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5469,10 +5317,10 @@
       "properties": {
         "id": "map-fod9enf",
         "name": "Pullman Singapore Orchard",
-        "address": "Bideford Road, Cairnhill, Orchard Road, Orchard, Central, Singapore, 238857, Singapore",
-        "region": "unknown",
+        "address": "581 Orchard Rd, Singapore 238883",
+        "region": "central",
         "type": "unknown",
-        "hasBidet": true,
+        "hasBidet": false,
         "amenities": {
           "wheelchairAccess": false,
           "babyChanging": false,
@@ -5495,8 +5343,8 @@
       "properties": {
         "id": "map-7i79kwe",
         "name": "Raffles Hospital",
-        "address": "Victoria Street, Marina Centre, Bugis, Central, Singapore, 188770, Singapore",
-        "region": "unknown",
+        "address": "585 North Bridge Road Raffles Hospital, Singapore 188770",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5521,10 +5369,10 @@
       "properties": {
         "id": "map-cddfmik",
         "name": "Raffles Hotel",
-        "address": "Beach Road, Suntec City, Bras Basah, Riverside, Central, Singapore, 188396, Singapore",
-        "region": "unknown",
+        "address": "1 Beach Rd, Singapore 189673",
+        "region": "central",
         "type": "unknown",
-        "hasBidet": true,
+        "hasBidet": false,
         "amenities": {
           "wheelchairAccess": false,
           "babyChanging": false,
@@ -5547,8 +5395,8 @@
       "properties": {
         "id": "map-nlo6xze",
         "name": "Raffles Shopping Arcade",
-        "address": "North Bridge Road, Suntec City, Bras Basah, Riverside, Central, Singapore, 188721, Singapore",
-        "region": "unknown",
+        "address": "328 North Bridge Rd, Singapore 188719",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5573,8 +5421,8 @@
       "properties": {
         "id": "map-hbaf6sk",
         "name": "Republic Plaza",
-        "address": "Malacca Street, Golden Shoe, Downtown Core, Central, Singapore, 048942, Singapore",
-        "region": "unknown",
+        "address": "9 Raffles Pl, Singapore 048619",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5599,8 +5447,8 @@
       "properties": {
         "id": "map-cqn8big",
         "name": "Rochor MRT Station (DT13)",
-        "address": "Prinsep Street, Little India, Rochor, Central, Singapore, 188505, Singapore",
-        "region": "unknown",
+        "address": "11 Rochor Canal Rd, Singapore 188505",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5625,8 +5473,8 @@
       "properties": {
         "id": "map-qq0542k",
         "name": "Royal Plaza on Scotts Singapore",
-        "address": "Claymore Hill, Orchard Road, Orchard, Central, Singapore, 228208, Singapore",
-        "region": "unknown",
+        "address": "25 Scotts Rd, Singapore 228220",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5651,8 +5499,8 @@
       "properties": {
         "id": "map-y7u2fdi",
         "name": "Shaw Plaza",
-        "address": "Balestier Road, Singapore Central, Novena, Central, Singapore, 329783, Singapore",
-        "region": "unknown",
+        "address": "360 Balestier Rd, Shaw Plaza, Singapore 329783",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5677,8 +5525,8 @@
       "properties": {
         "id": "map-qhyd7li",
         "name": "Shenton Way MRT Station (TE19)",
-        "address": "Park Street, Marina Bay, Downtown Core, Central, Singapore, 018961, Singapore",
-        "region": "unknown",
+        "address": "2 Park St, Singapore 018928",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5703,8 +5551,8 @@
       "properties": {
         "id": "map-d3ukbun",
         "name": "SingHealth Tower",
-        "address": "Hospital Drive, Tiong Bahru, Bukit Merah, Central, Singapore, 169609, Singapore",
-        "region": "unknown",
+        "address": "10 Hospital Blvd, Singapore 168582",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5729,8 +5577,8 @@
       "properties": {
         "id": "map-fsg1tri",
         "name": "Stevens MRT Station (TE11)",
-        "address": "Stevens Road, Stevens Garden, Tanglin, Central, Singapore, 259735, Singapore",
-        "region": "unknown",
+        "address": "82 Stevens Rd, Singapore 257879",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5755,8 +5603,8 @@
       "properties": {
         "id": "map-qkhafet",
         "name": "Suntec City",
-        "address": "Fountain of Wealth, Suntec City, Marina Bay, Downtown Core, Central, Singapore, 038983, Singapore",
-        "region": "unknown",
+        "address": "3 Temasek Blvd, Singapore 038983",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5781,8 +5629,8 @@
       "properties": {
         "id": "map-260rlk7",
         "name": "Suntec Singapore Convention & Exhibition Centre",
-        "address": "Nicoll Highway, Suntec City, Marina Bay, Downtown Core, Central, Singapore, 189763, Singapore",
-        "region": "unknown",
+        "address": "1 Raffles Blvd, Singapore 039593",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5807,8 +5655,8 @@
       "properties": {
         "id": "map-s4y7crf",
         "name": "Takashimaya Shopping Centre",
-        "address": "Ngee Ann City Forecourt, Cairnhill, Orchard Road, Orchard, Central, Singapore, 238872, Singapore",
-        "region": "unknown",
+        "address": "391 Orchard Rd, Singapore 238872",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5833,8 +5681,8 @@
       "properties": {
         "id": "map-1j4mccx",
         "name": "Tai Seng MRT ",
-        "address": "Upper Paya Lebar Road, Singapore Central, Toa Payoh, Southeast, Singapore, 534803, Singapore",
-        "region": "unknown",
+        "address": "33 Upper Paya Lebar Rd, Singapore 534803",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5859,8 +5707,8 @@
       "properties": {
         "id": "map-oiiu3dz",
         "name": "TANGS at Tang Plaza Orchard Road",
-        "address": "Orchard Promenade, Cairnhill, Orchard Road, Orchard, Central, Singapore, 348548, Singapore",
-        "region": "unknown",
+        "address": "310 Orchard Road Tang Plaza, Singapore 238864",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5885,8 +5733,8 @@
       "properties": {
         "id": "map-bq22q6n",
         "name": "Tanglin Mall",
-        "address": "Orchard Promenade, Orchard Road, Orchard, Central, Singapore, 247918, Singapore",
-        "region": "unknown",
+        "address": "163 Tanglin Rd, Singapore 247933",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5911,8 +5759,8 @@
       "properties": {
         "id": "map-o522sl2",
         "name": "Tan Quee Lan Suites",
-        "address": "Tan Quee Lan Street, Suntec City, Civic District, Bugis, Central, Singapore, 188107, Singapore",
-        "region": "unknown",
+        "address": "9 Tan Quee Lan St, Singapore 188098",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5937,8 +5785,8 @@
       "properties": {
         "id": "map-3cs5jch",
         "name": "TARIK",
-        "address": "Haji Lane, Bugis, Central, Singapore, 189248, Singapore",
-        "region": "unknown",
+        "address": "16 Bali Ln, Singapore 189852",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5963,8 +5811,8 @@
       "properties": {
         "id": "map-4ktnum9",
         "name": "Taste Orchard",
-        "address": "Cuppage Road, Cairnhill, Orchard Road, Orchard, Central, Singapore, 229462, Singapore",
-        "region": "unknown",
+        "address": "160 Orchard Rd, Singapore 238842",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -5989,8 +5837,8 @@
       "properties": {
         "id": "map-qno6355",
         "name": "Tekka Centre",
-        "address": "Buffalo Road, Selegie, Little India, Rochor, Central, Singapore, 210665, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6015,8 +5863,8 @@
       "properties": {
         "id": "map-csk0rid",
         "name": "Tekka Place",
-        "address": "Sungei Road, Little India, Rochor, Central, Singapore, 218227, Singapore",
-        "region": "unknown",
+        "address": "2 Serangoon Rd, Singapore 218227",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6041,8 +5889,8 @@
       "properties": {
         "id": "map-fkt398l",
         "name": "Tanjong Pagar MRT Station (EW15)",
-        "address": "Wallich Street, Anson, Chinatown, Downtown Core, Central, Singapore, 078884, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6067,8 +5915,8 @@
       "properties": {
         "id": "map-rgfzmoa",
         "name": "The Adelphi",
-        "address": "Supreme Court Lane, Civic District, Downtown Core, Central, Singapore, 179803, Singapore",
-        "region": "unknown",
+        "address": "1 Coleman St, Singapore 179803",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6093,8 +5941,8 @@
       "properties": {
         "id": "map-ina8gu3",
         "name": "The ARK @ Cuppage",
-        "address": "Cuppage Road, Cairnhill, Orchard Road, Orchard, Central, Singapore, 229462, Singapore",
-        "region": "unknown",
+        "address": "51 Cuppage Rd 51, Old Starhub Centre, Level 10 Cuppage Building, Singapore 229469",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6119,8 +5967,8 @@
       "properties": {
         "id": "map-8pzs2h5",
         "name": "The Arts House",
-        "address": "Old Parliament Lane, Civic District, Downtown Core, Central, Singapore, 179556, Singapore",
-        "region": "unknown",
+        "address": "1 Old Parliament Ln, Singapore 179429",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6145,8 +5993,8 @@
       "properties": {
         "id": "map-7y7pvao",
         "name": "The Cage - Pitch 5",
-        "address": "Stadium Crescent, Tanjong Rhu, Singapur East, Kallang, Southeast, Singapore, 399635, Singapore",
-        "region": "unknown",
+        "address": "38 Jln Benaan Kapal, Singapore 399635",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6171,8 +6019,8 @@
       "properties": {
         "id": "map-lf20zyn",
         "name": "The Centrepoint",
-        "address": "Cuppage Road, Cairnhill, Orchard Road, Orchard, Central, Singapore, 229462, Singapore",
-        "region": "unknown",
+        "address": "176 Orchard Rd, Singapore 238843",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6197,8 +6045,8 @@
       "properties": {
         "id": "map-ksghoka",
         "name": "Thomson Plaza",
-        "address": "Upper Thomson Road, Sin Ming, Bishan, Central, Singapore, 576583, Singapore",
-        "region": "unknown",
+        "address": "301 Upper Thomson Rd, Singapore 574408",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6223,8 +6071,8 @@
       "properties": {
         "id": "map-nejlpgh",
         "name": "Thomson V Two",
-        "address": "Sin Ming Road, Sin Ming, Bishan, Central, Singapore, 575628, Singapore",
-        "region": "unknown",
+        "address": "11 Sin Ming Rd, Singapore 575629",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6249,8 +6097,8 @@
       "properties": {
         "id": "map-bl9dlp0",
         "name": "Three's A Crowd - Little India",
-        "address": "Race Course Road, Selegie, Little India, Rochor, Central, Singapore, 218564, Singapore",
-        "region": "unknown",
+        "address": "50 Race Course Rd, Singapore 218562",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6275,8 +6123,8 @@
       "properties": {
         "id": "map-yrwryei",
         "name": "Tiong Bahru Plaza",
-        "address": "Bukit Ho Swee Crescent, Tiong Bahru, Bukit Merah, Central, Singapore, 169568, Singapore",
-        "region": "unknown",
+        "address": "302 Tiong Bahru Rd, Singapore 168732",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6301,8 +6149,8 @@
       "properties": {
         "id": "map-l5xgko8",
         "name": "UNIQLO Orchard Central (Global Flagship)",
-        "address": "Orchard Promenade, Cairnhill, Orchard Road, Orchard, Central, Singapore, 348548, Singapore",
-        "region": "unknown",
+        "address": "181 Orchard Rd, #01-01 to 04/23-25, Singapore 238896",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6327,8 +6175,8 @@
       "properties": {
         "id": "map-1w9yoqd",
         "name": "Valley Point - Office Tower",
-        "address": "River Valley Road, Tanglin, Central, Singapore, 248356, Singapore",
-        "region": "unknown",
+        "address": "491 River Valley Rd, Singapore 248371",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6353,8 +6201,8 @@
       "properties": {
         "id": "map-qe5i39h",
         "name": "Velocity @ Novena Square",
-        "address": "Sinaran Drive, Singapore Central, Novena, Central, Singapore, 307683, Singapore",
-        "region": "unknown",
+        "address": "238 Thomson Rd, Singapore 307683",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6379,8 +6227,8 @@
       "properties": {
         "id": "map-zfn5axs",
         "name": "Volkswagen Singapore",
-        "address": "Leng Kee Road, Bukit Merah, Central, Singapore, 159098, Singapore",
-        "region": "unknown",
+        "address": "247 Alexandra Rd, Singapore 159934",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6405,8 +6253,8 @@
       "properties": {
         "id": "map-pfim882",
         "name": "Wheelock Place",
-        "address": "Angullia Park, Orchard Road, Orchard, Central, Singapore, 238880, Singapore",
-        "region": "unknown",
+        "address": "501 Orchard Rd, Singapore 238880",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6431,8 +6279,8 @@
       "properties": {
         "id": "map-hx0827u",
         "name": "Wilkie Edge Shopping Mall",
-        "address": "Wilkie Road, Selegie, Orchard Road, Rochor, Central, Singapore, 228095, Singapore",
-        "region": "unknown",
+        "address": "8 Wilkie Rd, Level 2 Wilkie Edge, Singapore 228095",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6457,8 +6305,8 @@
       "properties": {
         "id": "map-ucoitpm",
         "name": "Wine Connection Bistro (Capital Square)",
-        "address": "Pekin Street, Chinatown, Outram, Central, Singapore, 049965, Singapore",
-        "region": "unknown",
+        "address": "25 Church St, #01-01 Capital Square 3, Singapore 049482",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6483,8 +6331,8 @@
       "properties": {
         "id": "map-2138rnk",
         "name": "Wisma Atria",
-        "address": "Orchard Promenade, Cairnhill, Orchard Road, Orchard, Central, Singapore, 348548, Singapore",
-        "region": "unknown",
+        "address": "435 Orchard Rd, Singapore 238877",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6509,8 +6357,8 @@
       "properties": {
         "id": "map-1x7zy6s",
         "name": "Wisma Atria - Japan Food Town",
-        "address": "Orchard Promenade, Cairnhill, Orchard Road, Orchard, Central, Singapore, 348548, Singapore",
-        "region": "unknown",
+        "address": "435 Orchard Rd, Level 4 Wisma Atria, Singapore 238877",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6535,8 +6383,8 @@
       "properties": {
         "id": "map-mb4jobh",
         "name": "Anytime Fitness Pasir Panjang",
-        "address": "Pasir Panjang Road, West Coast GRC, Queenstown, Southwest, Singapore, 118504, Singapore",
-        "region": "unknown",
+        "address": "44 Pasir Panjang Rd, Blk #A01, Singapore 118504",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6561,8 +6409,8 @@
       "properties": {
         "id": "map-o18m6ue",
         "name": "Beach Station",
-        "address": "Siloso Beach Walk, West Coast GRC, Southern Islands, Southwest, Singapore, 098604, Singapore",
-        "region": "unknown",
+        "address": "50 Siloso Beach Walk, Singapore 884011",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6587,8 +6435,8 @@
       "properties": {
         "id": "map-x1444we",
         "name": "Connection One Tower 1",
-        "address": "Bukit Merah Central, Tiong Bahru, Bukit Merah, Central, Singapore, 159837, Singapore",
-        "region": "unknown",
+        "address": "169 Bukit Merah Central",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6613,8 +6461,8 @@
       "properties": {
         "id": "map-ho9pi23",
         "name": "HarbourFront Centre",
-        "address": "Harbourfront Place, West Coast GRC, Bukit Merah, Central, Singapore, 098633, Singapore",
-        "region": "unknown",
+        "address": "1 Maritime Square, Singapore 099253",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6639,8 +6487,8 @@
       "properties": {
         "id": "map-r1qqey5",
         "name": "Harbourfront MRT",
-        "address": "Telok Blangah Road, West Coast GRC, Bukit Merah, Central, Singapore, 098867, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6665,8 +6513,8 @@
       "properties": {
         "id": "map-72i4izb",
         "name": "HarbourFront Tower One",
-        "address": "Harbourfront Place, West Coast GRC, Bukit Merah, Central, Singapore, 098633, Singapore",
-        "region": "unknown",
+        "address": "Harbourfront MRT",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6691,8 +6539,8 @@
       "properties": {
         "id": "map-gf0qm78",
         "name": "HortPark",
-        "address": "Hyderabad Road, West Coast GRC, Queenstown, Southwest, Singapore, 119578, Singapore",
-        "region": "unknown",
+        "address": "33 Hyderabad Rd, Singapore 119578",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6717,8 +6565,8 @@
       "properties": {
         "id": "map-9e1kqc0",
         "name": "Mess Hall at Sentosa",
-        "address": "Artillery Avenue, West Coast GRC, Southern Islands, Southwest, Singapore, 099953, Singapore",
-        "region": "unknown",
+        "address": "12 Artillery Ave, 099953",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6743,8 +6591,8 @@
       "properties": {
         "id": "map-ufb4mp4",
         "name": "Mount Faber Park",
-        "address": "Faber Point, Telok Blangah, Bukit Merah, Central, Singapore, 099171, Singapore",
-        "region": "unknown",
+        "address": "99448",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6769,8 +6617,8 @@
       "properties": {
         "id": "map-msgwqxh",
         "name": "Seah Im Food Centre",
-        "address": "Telok Blangah Road, HarbourFront, Bukit Merah, Central, Singapore, 099115, Singapore",
-        "region": "unknown",
+        "address": "2 Seah Im Rd, Singapore 099114",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6795,8 +6643,8 @@
       "properties": {
         "id": "map-93w2bze",
         "name": "Telok Blangah MRT",
-        "address": "Telok Blangah Road, West Coast GRC, Bukit Merah, Southwest, Singapore, 109028, Singapore",
-        "region": "unknown",
+        "address": "463 Telok Blangah Rd, Singapore 109028",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6821,8 +6669,8 @@
       "properties": {
         "id": "map-i0defrw",
         "name": "Universal Studios Singapore",
-        "address": "Treasure Hunters, West Coast GRC, Southern Islands, Southwest, Singapore, 098140, Singapore",
-        "region": "unknown",
+        "address": "8 Sentosa Gateway, 098269",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6847,8 +6695,8 @@
       "properties": {
         "id": "map-v64o40g",
         "name": "VivoCity",
-        "address": "Telok Blangah Road, West Coast GRC, Bukit Merah, Central, Singapore, 098585, Singapore",
-        "region": "unknown",
+        "address": "1 HarbourFront Walk, Singapore 098585",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6873,8 +6721,8 @@
       "properties": {
         "id": "map-rta6q0u",
         "name": "Vivocity - Golden Village",
-        "address": "Sentosa Gateway, West Coast GRC, Bukit Merah, Central, Singapore, 098585, Singapore",
-        "region": "unknown",
+        "address": "1 HarbourFront Walk, #02-30 VivoCity, Singapore 098585",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6899,8 +6747,8 @@
       "properties": {
         "id": "map-1s5jsin",
         "name": "Vivocity - library@harbourfront",
-        "address": "Sentosa Gateway, West Coast GRC, Bukit Merah, Central, Singapore, 098585, Singapore",
-        "region": "unknown",
+        "address": "1 HarbourFront Walk, #03-05 VivoCity, Singapore 098585",
+        "region": "south",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6925,8 +6773,8 @@
       "properties": {
         "id": "map-9mhyzxd",
         "name": "Anchorpoint Shopping Centre",
-        "address": "Alexandra Road, Queenstown, Central, Singapore, 159953, Singapore",
-        "region": "unknown",
+        "address": "370 Alexandra Rd, Singapore 159953",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6951,8 +6799,8 @@
       "properties": {
         "id": "map-7cvvhk8",
         "name": "Bukit Batok Community Club",
-        "address": "Bukit Batok Central, Bukit Batok, Southwest, Singapore, 659959, Singapore",
-        "region": "unknown",
+        "address": "21 Bukit Batok Central, Singapore 659959",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -6977,8 +6825,8 @@
       "properties": {
         "id": "map-twq8m3d",
         "name": "Bukit Batok Driving Centre Ltd (BBDC)",
-        "address": "Bukit Batok West Avenue 5, Bukit Gombak, Bukit Batok, Southwest, Singapore, 659089, Singapore",
-        "region": "unknown",
+        "address": "815 Bukit Batok West Ave. 5, Singapore 659085",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7003,8 +6851,8 @@
       "properties": {
         "id": "map-deh2zvf",
         "name": "Bukit Gombak ActiveSG",
-        "address": "Bukit Batok West Avenue 5, Bukit Gombak, Bukit Batok, Southwest, Singapore, 650369, Singapore",
-        "region": "unknown",
+        "address": "810 Bukit Batok West Avenue 5 Singapore 659088",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7029,8 +6877,8 @@
       "properties": {
         "id": "map-z2zcmjg",
         "name": "Bukit Panjang Hawker Centre and Market",
-        "address": "Bukit Panjang Road, Bangkit, Bukit Panjang, Northwest, Singapore, 679947, Singapore",
-        "region": "unknown",
+        "address": "2 Bukit Panjang Ring Rd, Singapore 679947",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7055,8 +6903,8 @@
       "properties": {
         "id": "map-c2uu8dq",
         "name": "Bukit Panjang Polyclinic",
-        "address": "Bukit Panjang Flyover, Senja, Bukit Panjang, Northwest, Singapore, 677726, Singapore",
-        "region": "unknown",
+        "address": "50 Woodlands Rd, #03-02, Singapore 677726",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7081,8 +6929,8 @@
       "properties": {
         "id": "map-nvgkp9m",
         "name": "Bukit Timah Plaza",
-        "address": "Jalan Anak Bukit, Fairwood Park, Bukit Timah, Northwest, Singapore, 588996, Singapore",
-        "region": "unknown",
+        "address": "1 Jalan Anak Bukit, Singapura 588996",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7107,8 +6955,8 @@
       "properties": {
         "id": "map-7f7n5ct",
         "name": "Buona Vista MRT",
-        "address": "North Buona Vista Road, Rochester Hill, West Coast GRC, Queenstown, Southwest, Singapore, 139350, Singapore",
-        "region": "unknown",
+        "address": "100 North Buona Vista Rd, Singapore 139349",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7133,8 +6981,8 @@
       "properties": {
         "id": "map-czyol43",
         "name": "Caltex Jurong West",
-        "address": "Jurong West Avenue 1, Boon Lay Place, Hong Kah, Jurong West, Southwest, Singapore, 640531, Singapore",
-        "region": "unknown",
+        "address": "100 Jurong West Ave 1, Singapore 649519",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7159,8 +7007,8 @@
       "properties": {
         "id": "map-17v6lfs",
         "name": "Civil Service Club @ Bukit Batok",
-        "address": "Bukit Batok Central, Bukit Batok, Southwest, Singapore, 650627, Singapore",
-        "region": "unknown",
+        "address": "91 Bukit Batok West Ave 2, Singapore 659206",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7185,8 +7033,8 @@
       "properties": {
         "id": "map-1gasbky",
         "name": "Clementi Bus Interchange",
-        "address": "Clementi Avenue 3, Westpeak Terrace, Faber Hills, Clementi, Southwest, Singapore, 120441, Singapore",
-        "region": "unknown",
+        "address": "441 Commonwealth Ave W, Singapore 120441",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7211,8 +7059,8 @@
       "properties": {
         "id": "map-y05kkl0",
         "name": "Clementi Sports Hall",
-        "address": "Clementi Avenue 3, Pasir Panjang Gardens, Clementi, Southwest, Singapore, 121462, Singapore",
-        "region": "unknown",
+        "address": "518 Clementi Ave 3, Clementi Sports Hall, Sports Complex, Singapore 129907",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7237,8 +7085,8 @@
       "properties": {
         "id": "map-nvkv4wi",
         "name": "Crown Centre",
-        "address": "King's Road, Coronation Gardens, Bukit Timah, Northwest, Singapore, 269694, Singapore",
-        "region": "unknown",
+        "address": "557 Bukit Timah Rd, Singapore 269694",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7263,8 +7111,8 @@
       "properties": {
         "id": "map-zd5jj6s",
         "name": "Daily Ground",
-        "address": "Bukit Timah Road, Coronation Gardens, Bukit Timah, Northwest, Singapore, 269733, Singapore",
-        "region": "unknown",
+        "address": "619D Bukit Timah Rd, #01-01, Singapore 269724",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7289,8 +7137,8 @@
       "properties": {
         "id": "map-htcsx74",
         "name": "Devan Nair Institute ",
-        "address": "Jurong East Street 21, Jurong East, Southwest, Singapore, 609607, Singapore",
-        "region": "unknown",
+        "address": "80 Jurong East Street 21, Singapore 609607",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7315,8 +7163,8 @@
       "properties": {
         "id": "map-t6othau",
         "name": "Esso 50 Chua Chu Kang Drive",
-        "address": "Choa Chu Kang Drive, Yew Tee, Choa Chu Kang, Southwest, Singapore, 689189, Singapore",
-        "region": "unknown",
+        "address": "50 Choa Chu Kang Dr, Singapore 689716",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7341,8 +7189,8 @@
       "properties": {
         "id": "map-ikcbz63",
         "name": "ESSO JURONG EAST",
-        "address": "Jurong East Avenue 1, Yuhua, Jurong East, Southwest, Singapore, 609787, Singapore",
-        "region": "unknown",
+        "address": "150 Jurong East Ave 1, Singapore 609787",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7367,8 +7215,8 @@
       "properties": {
         "id": "map-lgwz5p2",
         "name": "Former Ford Factory",
-        "address": "Upper Bukit Timah Road, Bukit Batok, Southwest, Singapore, 588192, Singapore",
-        "region": "unknown",
+        "address": "351 Upper Bukit Timah Rd, Singapore 588192",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7393,8 +7241,8 @@
       "properties": {
         "id": "map-i5yxg75",
         "name": "Fusionopolis",
-        "address": "Fusionopolis Way, West Coast GRC, Queenstown, Southwest, Singapore, 138577, Singapore",
-        "region": "unknown",
+        "address": "1 Fusionopolis Way, Singapore 138632",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7419,8 +7267,8 @@
       "properties": {
         "id": "map-zkgnv95",
         "name": "Grantral Mall",
-        "address": "Clementi Town Centre, Clementi, Southwest, Singapore, 120449, Singapore",
-        "region": "unknown",
+        "address": "3151 Commonwealth Ave W, Singapore 129581",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7445,8 +7293,8 @@
       "properties": {
         "id": "map-1ha7z9u",
         "name": "Gul Circle MRT",
-        "address": "Tuas Road, West Coast GRC, Pioneer, Southwest, Singapore, 629587, Singapore",
-        "region": "unknown",
+        "address": "7A Tuas Rd, Singapore 637288",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7471,8 +7319,8 @@
       "properties": {
         "id": "map-binjn4m",
         "name": "IMM",
-        "address": "Toh Guan Road, Jurong East, Southwest, Singapore, 609601, Singapore",
-        "region": "unknown",
+        "address": "2 Jurong East Street 21, Singapore 609601",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7497,8 +7345,8 @@
       "properties": {
         "id": "map-836kpgj",
         "name": "Jem",
-        "address": "Jurong Gateway Road, Jurong East, Southwest, Singapore, 608550, Singapore",
-        "region": "unknown",
+        "address": "50 Jurong Gateway Rd, Singapore 608549",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7523,8 +7371,8 @@
       "properties": {
         "id": "map-r4vu9ru",
         "name": "JTC LaunchPad (one-north)",
-        "address": "Ayer Rajah Crescent, West Coast GRC, Queenstown, Southwest, Singapore, 139957, Singapore",
-        "region": "unknown",
+        "address": "73A Ayer Rajah Crescent, Singapore 139957",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7549,8 +7397,8 @@
       "properties": {
         "id": "map-55hwpxf",
         "name": "Jurong West Hawker Centre",
-        "address": "Jurong West Street 61, West Coast GRC, Jurong West, Southwest, Singapore, 648202, Singapore",
-        "region": "unknown",
+        "address": "50 Jurong West Street 61, #61, Singapore 648202",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7575,8 +7423,8 @@
       "properties": {
         "id": "map-itmcrv4",
         "name": "Jurong West Public Library",
-        "address": "Jurong West Central 3, Jurong West, Southwest, Singapore, 648346, Singapore",
-        "region": "unknown",
+        "address": "60 Jurong West Central 3, #01-03, Singapore 648346",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7601,8 +7449,8 @@
       "properties": {
         "id": "map-1jswi2b",
         "name": "KAP Mall - EagleWings Cinematics",
-        "address": "Clementi Road, Fairwood Park, Bukit Timah, Northwest, Singapore, 598332, Singapore",
-        "region": "unknown",
+        "address": "9 King Albert Park, #01-58, Singapore 598332",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7627,8 +7475,8 @@
       "properties": {
         "id": "map-ltwcscr",
         "name": "Keat Hong Community Club",
-        "address": "Choa Chu Kang Loop, Peng Siang, Choa Chu Kang, Southwest, Singapore, 680340, Singapore",
-        "region": "unknown",
+        "address": "2 Choa Chu Kang Loop, #01-01, Singapore 689687",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7653,8 +7501,8 @@
       "properties": {
         "id": "map-p9v6ekl",
         "name": "Kent Ridge Park",
-        "address": "Vigilante Drive, West Coast GRC, Queenstown, Southwest, Singapore, 117282, Singapore",
-        "region": "unknown",
+        "address": "Vigilante Dr, Singapore 118176",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7679,8 +7527,8 @@
       "properties": {
         "id": "map-yccvsi8",
         "name": "Jurong Fishery Port",
-        "address": "Jalan Tepong, West Coast GRC, Jurong East, Southwest, Singapore, 618293, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7705,8 +7553,8 @@
       "properties": {
         "id": "map-1wo2ms6",
         "name": "Limbang Shopping Centre",
-        "address": "Choa Chu Kang North 5, Choa Chu Kang, Southwest, Singapore, 680533, Singapore",
-        "region": "unknown",
+        "address": "Choa Chu Kang Street 51, #532 533, Singapore 680534",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7731,8 +7579,8 @@
       "properties": {
         "id": "map-8l8q6k1",
         "name": "Lot One Shoppers' Mall",
-        "address": "Choa Chu Kang Avenue 4, Peng Siang, Choa Chu Kang, Southwest, Singapore, 689787, Singapore",
-        "region": "unknown",
+        "address": "21 Choa Chu Kang Ave 4, Singapore 689812",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7757,8 +7605,8 @@
       "properties": {
         "id": "map-6c1h5nm",
         "name": "Ng Teng Fong General Hospital",
-        "address": "Jurong East Street 21, Jurong East, Southwest, Singapore, 609606, Singapore",
-        "region": "unknown",
+        "address": "1 Jurong East Street 21, Singapore 609606",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7783,8 +7631,8 @@
       "properties": {
         "id": "map-e24kplb",
         "name": "one north park: Biopolis",
-        "address": "Rochester Hill, West Coast GRC, Queenstown, Southwest, Singapore, 139746, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7809,8 +7657,8 @@
       "properties": {
         "id": "map-mliq4qm",
         "name": "Margaret Market",
-        "address": "Commonwealth Avenue, Dawson, Queenstown, Central, Singapore, 141050, Singapore",
-        "region": "unknown",
+        "address": "38 Margaret Dr, Singapore 141038",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7835,8 +7683,8 @@
       "properties": {
         "id": "map-sk25r1a",
         "name": "NUH (National University Hospital)",
-        "address": "Lower Kent Ridge Road, West Coast GRC, Queenstown, Southwest, Singapore, 119082, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7861,8 +7709,8 @@
       "properties": {
         "id": "map-ol57zuq",
         "name": "Perennial Business City",
-        "address": "Jurong Gateway Road, Jurong East, Southwest, Singapore, 608550, Singapore",
-        "region": "unknown",
+        "address": "1 Venture Ave, Perennial Business City, Singapore 608521",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7887,8 +7735,8 @@
       "properties": {
         "id": "map-yxcfmc9",
         "name": "Queensway Shopping Centre",
-        "address": "Alexandra Road, Queenstown, Central, Singapore, 149053, Singapore",
-        "region": "unknown",
+        "address": "1 Queensway, Singapore 149053",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7913,8 +7761,8 @@
       "properties": {
         "id": "map-34127gi",
         "name": "Raffles Holland V Mall",
-        "address": "Warna Road, Bukit Timah, Central, Singapore, 278997, Singapore",
-        "region": "unknown",
+        "address": "118 Holland Ave, Singapore 278973",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7939,8 +7787,8 @@
       "properties": {
         "id": "map-jatxj9z",
         "name": "Rochester mall",
-        "address": "Rochester Drive, Rochester Hill, West Coast GRC, Queenstown, Southwest, Singapore, 138639, Singapore",
-        "region": "unknown",
+        "address": "35 Rochester Dr, Singapore 138639",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7965,8 +7813,8 @@
       "properties": {
         "id": "map-wjpblta",
         "name": "Senja-Cashew Community Club",
-        "address": "Bukit Panjang Road, Saujana, Bukit Panjang, Northwest, Singapore, 670174, Singapore",
-        "region": "unknown",
+        "address": "101 Bukit Panjang Rd, Singapore 679910",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -7991,8 +7839,8 @@
       "properties": {
         "id": "map-s2ki3zi",
         "name": "Senja Hawker Centre",
-        "address": "Senja Road, Senja, Bukit Panjang, Northwest, Singapore, 677632, Singapore",
-        "region": "unknown",
+        "address": "2 Senja Cl, Singapore 677632",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8017,8 +7865,8 @@
       "properties": {
         "id": "map-x1n73ev",
         "name": "Shell Bukit Timah",
-        "address": "Upper Bukit Timah Road, Jelebu, Bukit Panjang, Northwest, Singapore, 678125, Singapore",
-        "region": "unknown",
+        "address": "1 Jalan Anak Bukit, Singapura 588996",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8043,8 +7891,8 @@
       "properties": {
         "id": "map-k1c6q82",
         "name": "Singapore Discovery Centre",
-        "address": "Upper Jurong Road, West Coast GRC, Jurong West, Southwest, Singapore, 638368, Singapore",
-        "region": "unknown",
+        "address": "510 Upper Jurong Rd, Singapore 638365",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8069,8 +7917,8 @@
       "properties": {
         "id": "map-kl18s88",
         "name": "Singapore Science Centre",
-        "address": "Jurong Town Hall Road, Jurong East, Southwest, Singapore, 600120, Singapore",
-        "region": "unknown",
+        "address": "15 Science Centre Rd, Singapore 609081",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8095,8 +7943,8 @@
       "properties": {
         "id": "map-n4s8ncz",
         "name": "Singapore Science Centre KidsSTOP",
-        "address": "Jurong Town Hall Road, Jurong East, Southwest, Singapore, 600120, Singapore",
-        "region": "unknown",
+        "address": "21 Jurong Town Hall Rd, Singapore 609433",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8121,8 +7969,8 @@
       "properties": {
         "id": "map-nbc5src",
         "name": "Temasek Club",
-        "address": "Rifle Range Road, Bukit Panjang, Northwest, Singapore, 588406, Singapore",
-        "region": "unknown",
+        "address": "131 Rifle Range Rd, Singapore 588406",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8147,8 +7995,8 @@
       "properties": {
         "id": "map-b369y2u",
         "name": "Timbre+ One North",
-        "address": "Ayer Rajah Crescent, West Coast GRC, Queenstown, Southwest, Singapore, 139957, Singapore",
-        "region": "unknown",
+        "address": "73A Ayer Rajah Crescent, JTC LaunchPad @ one-north, Singapore 139957",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8173,8 +8021,8 @@
       "properties": {
         "id": "map-beazwf5",
         "name": "The Rail Mall - Popeyes",
-        "address": "Upper Bukit Timah Road, Dairy Farm, Bukit Panjang, Northwest, Singapore, 678211, Singapore",
-        "region": "unknown",
+        "address": "380 Upper Bukit Timah Rd, Unit 458 The Rail Mall, Singapore 678040",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8199,8 +8047,8 @@
       "properties": {
         "id": "map-p2xfrsw",
         "name": "The Rail Mall - The Coffee Bean and Tea Leaf™ ",
-        "address": "Upper Bukit Timah Road, Bukit Panjang, Northwest, Singapore, 678051, Singapore",
-        "region": "unknown",
+        "address": "422 Upper Bukit Timah Rd, Singapore 678051",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8225,8 +8073,8 @@
       "properties": {
         "id": "map-a6ckmx7",
         "name": "The Star Vista",
-        "address": "Vista Exchange Green, Rochester Hill, West Coast GRC, Queenstown, Southwest, Singapore, 139221, Singapore",
-        "region": "unknown",
+        "address": "1 Vista Exchange Green, The Star Vista, Singapore 138617",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8251,8 +8099,8 @@
       "properties": {
         "id": "map-35reo83",
         "name": "Tuas Link MRT Station (EW33)",
-        "address": "Tuas West Drive, West Coast GRC, Tuas, Southwest, Singapore, 638411, Singapore",
-        "region": "unknown",
+        "address": "20 Tuas West Dr, Singapore 638418",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8277,8 +8125,8 @@
       "properties": {
         "id": "map-1rencjb",
         "name": "West Coast Pier",
-        "address": "West Coast Ferry Road, West Coast GRC, Queenstown, Southwest, Singapore, 126800, Singapore",
-        "region": "unknown",
+        "address": "60 W Coast Ferry Rd, Singapore 126979",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8303,8 +8151,8 @@
       "properties": {
         "id": "map-fw1k96d",
         "name": "Westgate",
-        "address": "Gateway Drive, Jurong East, Southwest, Singapore, 608531, Singapore",
-        "region": "unknown",
+        "address": "3 Gateway Dr, Singapore 608532",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8329,8 +8177,8 @@
       "properties": {
         "id": "map-2xq7fdq",
         "name": "Admiralty MRT",
-        "address": "Woodlands Avenue 7, Admiralty, Woodlands, Northwest, Singapore, 738344, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8355,8 +8203,8 @@
       "properties": {
         "id": "map-kifpsa8",
         "name": "Admiralty Place",
-        "address": "Woodlands Avenue 7, Admiralty, Woodlands, Northwest, Singapore, 730718, Singapore",
-        "region": "unknown",
+        "address": "678A Woodlands Ave 6, Singapore 731678",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8381,8 +8229,8 @@
       "properties": {
         "id": "map-4iri1n5",
         "name": "Canberra MRT Station (NS12)",
-        "address": "Canberra Link, Canberra, Sembawang, Northwest, Singapore, 751377, Singapore",
-        "region": "unknown",
+        "address": "Canberra Link, Singapore 753504",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8407,8 +8255,8 @@
       "properties": {
         "id": "map-klktew7",
         "name": "Canberra Plaza",
-        "address": "Canberra Link, Canberra, Sembawang, Northwest, Singapore, 750133, Singapore",
-        "region": "unknown",
+        "address": "133 Canberra View, Singapore 750133",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8433,8 +8281,8 @@
       "properties": {
         "id": "map-myqbvbm",
         "name": "Causeway Point",
-        "address": "Woodlands Square, Woodlands, Northwest, Singapore, 738099, Singapore",
-        "region": "unknown",
+        "address": "1 Woodlands Square, Singapore 738099",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8459,8 +8307,8 @@
       "properties": {
         "id": "map-zmd00ud",
         "name": "Food Village 115",
-        "address": "Canberra Walk, Canberra, Sembawang, Northwest, Singapore, 751115, Singapore",
-        "region": "unknown",
+        "address": "115 Canberra Walk, #01, Singapore 750115",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8485,8 +8333,8 @@
       "properties": {
         "id": "map-zh38ydd",
         "name": "Gain City Megastore (Sungei Kadut)",
-        "address": "Sungei Kadut Drive, Sungei Kadut Industrial Estate, Sungei Kadut, Northwest, Singapore, 729577, Singapore",
-        "region": "unknown",
+        "address": "71 Sungei Kadut Dr, Level 1, Singapore 729577",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8511,8 +8359,8 @@
       "properties": {
         "id": "map-wyu6f7z",
         "name": "HomeTeamNS Khatib",
-        "address": "Yishun Walk, Khatib, Yishun, Northwest, Singapore, 767944, Singapore",
-        "region": "unknown",
+        "address": "2 Yishun Walk, Singapore 767944",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8537,8 +8385,8 @@
       "properties": {
         "id": "map-rl5cvlr",
         "name": "Honda Mandai Service Centre",
-        "address": "Mandai Estate, Sungei Kadut, Northwest, Singapore, 729678, Singapore",
-        "region": "unknown",
+        "address": "6A Mandai Estate, Singapore 729903",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8563,8 +8411,8 @@
       "properties": {
         "id": "map-o0c44nc",
         "name": "Marsiling MRT Station (NS8)",
-        "address": "Woodlands Avenue 3, Marsiling, Woodlands, Northwest, Singapore, 739044, Singapore",
-        "region": "unknown",
+        "address": "71 Woodlands Ave 3, Singapore 739044",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8589,8 +8437,8 @@
       "properties": {
         "id": "map-m5g6uev",
         "name": "Masjid Yusof Ishak",
-        "address": "Woodlands, Northwest, Singapore, 733590, Singapore",
-        "region": "unknown",
+        "address": "10 Woodlands Dr 17, Singapore 737740",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8615,8 +8463,8 @@
       "properties": {
         "id": "map-vo9uxri",
         "name": "Northpoint City",
-        "address": "Yishun Avenue 2, Chong Pang, Yishun, Northwest, Singapore, 769093, Singapore",
-        "region": "unknown",
+        "address": "930 Yishun Ave 2, Singapore 769098",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8641,8 +8489,8 @@
       "properties": {
         "id": "map-u3n6iya",
         "name": "Orchid Country Club",
-        "address": "Yishun Avenue 1, Yishun, Northwest, Singapore, 761511, Singapore",
-        "region": "unknown",
+        "address": "1 Orchid Club Rd, Singapore 769162",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8667,8 +8515,8 @@
       "properties": {
         "id": "map-clih76r",
         "name": "Rasa Rasa @ Yishun",
-        "address": "Yishun Avenue 11, Yishun, Northwest, Singapore, 760348, Singapore",
-        "region": "unknown",
+        "address": "348 Yishun Ave 11, Singapore 760348",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8693,8 +8541,8 @@
       "properties": {
         "id": "map-ybbjllg",
         "name": "SAFRA Yishun",
-        "address": "Yishun Avenue 4, Yishun, Northwest, Singapore, 768828, Singapore",
-        "region": "unknown",
+        "address": "60 Yishun Ave 4, Singapore 769027",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8719,8 +8567,8 @@
       "properties": {
         "id": "map-z612nri",
         "name": "Singapore Safety Driving Centre (SSDC)",
-        "address": "Admiralty Road West, Woodlands, Northwest, Singapore, 757432, Singapore",
-        "region": "unknown",
+        "address": "2 Woodlands Industrial Park E4, Singapore 757387",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8745,8 +8593,8 @@
       "properties": {
         "id": "map-xxlmnbw",
         "name": "Sinopec Woodlands",
-        "address": "Woodlands Avenue 5, Woodlands, Northwest, Singapore, 737773, Singapore",
-        "region": "unknown",
+        "address": "150 Woodlands Ave 5, Singapore 739375",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8771,8 +8619,8 @@
       "properties": {
         "id": "map-mz1jn5u",
         "name": "Kampung Admiralty Hawker Centre",
-        "address": "Woodlands Drive 71, Admiralty, Woodlands, Northwest, Singapore, 731676, Singapore",
-        "region": "unknown",
+        "address": "676 Woodlands Drive 71, Singapore 730676",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8797,8 +8645,8 @@
       "properties": {
         "id": "map-xm7aqh4",
         "name": "Kranji MRT Station (NS7)",
-        "address": "Woodlands Road, Sungei Kadut, Northwest, Singapore, 738702, Singapore",
-        "region": "unknown",
+        "address": "960 Woodlands Rd, Singapore 738702",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8823,8 +8671,8 @@
       "properties": {
         "id": "map-9ch81ua",
         "name": "Khoo Teck Puat Hospital (KTPH)",
-        "address": "Yishun Central 1, Yishun, Northwest, Singapore, 760935, Singapore",
-        "region": "unknown",
+        "address": "90 Yishun Central, Singapore 768828",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8849,8 +8697,8 @@
       "properties": {
         "id": "map-hwg5kmx",
         "name": "Wisteria Mall",
-        "address": "Yishun Ring Road, Yishun, Northwest, Singapore, 768695, Singapore",
-        "region": "unknown",
+        "address": "598 Yishun Ring Rd, Singapore 768698",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8875,8 +8723,8 @@
       "properties": {
         "id": "map-glovpy8",
         "name": "Woodlands Train Checkpoint",
-        "address": "Woodlands border checkpoint (Lorries), Woodlands, Northwest, Singapore, 738203, Singapore",
-        "region": "unknown",
+        "address": "21 Woodlands Crossing, Singapore 738203",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8901,8 +8749,8 @@
       "properties": {
         "id": "map-6muwkqs",
         "name": "Woodlands Galaxy Community Club",
-        "address": "Woodlands Avenue 6, Admiralty, Woodlands, Northwest, Singapore, 738991, Singapore",
-        "region": "unknown",
+        "address": "31 Woodlands Ave 6, Singapore 738991",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8927,8 +8775,8 @@
       "properties": {
         "id": "map-bg5k9ip",
         "name": "Woodlands MRT",
-        "address": "Woodlands Square, Woodlands, Northwest, Singapore, 738343, Singapore",
-        "region": "unknown",
+        "address": "30 Woodlands Ave 2, Singapore 738343",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8953,8 +8801,8 @@
       "properties": {
         "id": "map-u9aedkd",
         "name": "Woodlands Waterfront Park",
-        "address": "Paved Function Area, Woodlands North Coast, Woodlands, Northwest, Singapore, 730919, Singapore",
-        "region": "unknown",
+        "address": "Admiralty Rd W, Singapore 759956",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -8979,8 +8827,8 @@
       "properties": {
         "id": "map-ku9jaq3",
         "name": "Yishun Bus Interchange",
-        "address": "Yishun Avenue 2, Chong Pang, Yishun, Northwest, Singapore, 768019, Singapore",
-        "region": "unknown",
+        "address": "920 Yishun Ave 2, Singapore 769100",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9005,8 +8853,8 @@
       "properties": {
         "id": "map-sgn79c4",
         "name": "Yishun Park Hawker Centre",
-        "address": "Yishun Avenue 11, Yishun, Northwest, Singapore, 760442, Singapore",
-        "region": "unknown",
+        "address": "51 Yishun Ave 11, Singapore 768867",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9031,8 +8879,8 @@
       "properties": {
         "id": "map-mpe5t14",
         "name": "Woodlands Regional Library",
-        "address": "Woodlands Avenue 5, Woodlands, Northwest, Singapore, 730900, Singapore",
-        "region": "unknown",
+        "address": "900 South Woodlands Drive #01-03 Woodlands Civic Centre Singapore 730900",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9057,8 +8905,8 @@
       "properties": {
         "id": "map-qz6gkek",
         "name": "James Cook University",
-        "address": "Kallang-Paya Lebar Expressway, Singapur East, Geylang, Southeast, Singapore, 387312, Singapore",
-        "region": "unknown",
+        "address": "149 Sims Dr, Singapore 387380",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9083,8 +8931,8 @@
       "properties": {
         "id": "map-7xuw9zk",
         "name": "LASALLE College of the Arts",
-        "address": "Prinsep Street, Selegie, Orchard Road, Rochor, Central, Singapore, 188659, Singapore",
-        "region": "unknown",
+        "address": "1 McNally St, Singapore 187940",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9109,8 +8957,8 @@
       "properties": {
         "id": "map-07zfrxi",
         "name": "NTU ",
-        "address": "Nanyang Avenue, West Coast GRC, Western Water Catchment, Southwest, Singapore, 639956, Singapore",
-        "region": "unknown",
+        "address": "21 Nanyang Link, #04-01 School of Physical and Mathematical Sciences, Singapore 637371",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9135,8 +8983,8 @@
       "properties": {
         "id": "map-n8xp3fv",
         "name": "NTU - Fullerton Health",
-        "address": "Nanyang Avenue, West Coast GRC, Western Water Catchment, Southwest, Singapore, 639801, Singapore",
-        "region": "unknown",
+        "address": "36 Nanyang Ave, #01-01/02 Nanyang Technological University, Singapore 63980",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9161,8 +9009,8 @@
       "properties": {
         "id": "map-9knzzg5",
         "name": "NTU - Alumni Club",
-        "address": "Slim Barracks Rise, Rochester Hill, West Coast GRC, Queenstown, Southwest, Singapore, 138493, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9187,8 +9035,8 @@
       "properties": {
         "id": "map-1p6jtel",
         "name": "NUS",
-        "address": "SDE3 Plaza, West Coast GRC, Queenstown, Southwest, Singapore, 117566, Singapore",
-        "region": "unknown",
+        "address": "Singapore 117565",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9213,8 +9061,8 @@
       "properties": {
         "id": "map-4jwgnt5",
         "name": "Republic Polytechnic",
-        "address": "Woodlands Avenue 9, Woodlands, Northwest, Singapore, 738964, Singapore",
-        "region": "unknown",
+        "address": "9 Woodlands Ave 9, Singapore 738964",
+        "region": "north",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9239,8 +9087,8 @@
       "properties": {
         "id": "map-mirff8m",
         "name": "SIM Global Education Block B",
-        "address": "Maju Drive, Bukit Timah, Northwest, Singapore, 599873, Singapore",
-        "region": "unknown",
+        "address": "",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9265,8 +9113,8 @@
       "properties": {
         "id": "map-0znc7p5",
         "name": "SIT - TP",
-        "address": "Singapur East, Tampines, Southeast, Singapore, 521956, Singapore",
-        "region": "unknown",
+        "address": "29B Tampines Ave 1, Singapore 528694",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9291,8 +9139,8 @@
       "properties": {
         "id": "map-q44hfi5",
         "name": "SMU Connexion",
-        "address": "Riverside, Central, Singapore, 178900, Singapore",
-        "region": "unknown",
+        "address": "40 Stamford Rd, Singapore 178908",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9317,8 +9165,8 @@
       "properties": {
         "id": "map-fxc8tvr",
         "name": "SUSS",
-        "address": "Clementi Road, Bukit Timah, Northwest, Singapore, 599491, Singapore",
-        "region": "unknown",
+        "address": "SG, Clementi Rd, 463, Singapore 599494",
+        "region": "west",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9343,8 +9191,8 @@
       "properties": {
         "id": "map-8p7lmcz",
         "name": "Temasek Polytechnic",
-        "address": "Tampines Avenue 1, Singapur East, Tampines, Southeast, Singapore, 522890, Singapore",
-        "region": "unknown",
+        "address": "21 Tampines Ave 1, Singapore 529757",
+        "region": "east",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
@@ -9369,8 +9217,8 @@
       "properties": {
         "id": "map-s3np2tl",
         "name": "(MDIS) Management Development Institute of Singapore",
-        "address": "Stirling Road, Queenstown, Central, Singapore, 141048, Singapore",
-        "region": "unknown",
+        "address": "501 Stirling Rd, Singapore 148951",
+        "region": "central",
         "type": "unknown",
         "hasBidet": true,
         "amenities": {
