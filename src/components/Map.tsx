@@ -1,40 +1,13 @@
 'use client';
 import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import MarkerClusterGroup from 'react-leaflet-cluster';
+import MarkerClusterGroup from 'react-leaflet-markercluster';
 import type { LatLngExpression } from 'leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import { ToiletLocation } from '@/lib/types-compatibility';
-
-//& helper fn format addresses
-const formatAddress = (address: string): string => {
-  if (!address) return '';
-  
-  //~ simplify address removing redundant location deets
-  const simplified = address
-    .replace(/, Singapur East, Northeast, Singapore,/g, ',')
-    .replace(/, Singapore, \d+, Singapore/g, ', Singapore')
-    .replace(/, Singapur/g, '')
-    .replace(/Singapore(,)?\s+Singapore/g, 'Singapore')
-    .replace(/,\s*,/g, ',');
-  
-  //~ extract postal code if present & format
-  const postalCodeMatch = simplified.match(/(\d{6})/); 
-  if (postalCodeMatch) {
-    const postalCode = postalCodeMatch[1];
-    return simplified
-      .replace(/,\s*[\w\s]+(,\s*Singapore)?(,\s*\d{6})?,\s*Singapore$/i, `, Singapore ${postalCode}`)
-      .replace(/([^,]+),[^,]+(, Singapore \d{6})$/i, '$1$2')
-      .trim();
-  }
-  
-  return simplified
-    .replace(/,\s*[\w\s]+(,\s*Singapore)$/i, ', Singapore')
-    .trim();
-};
 
 //& fix fr leaflet marker icon in next.js
 const Map = ({ 
@@ -249,13 +222,19 @@ const Map = ({
           maxClusterRadius={50}
         >
           {/* only render markers once map rdy */}
-          {mapReady && locations.map((location) => {
+          {mapReady && locations.map((location, index) => {
             //~ popup content outside component: reduce rerenders with compact layout
             const popupContent = (
               <div className="p-0" style={{ lineHeight: '1', margin: 0, padding: '4px' }}>
                 {/* basic info w null checks */}
                 <h3 className="font-medium text-base m-0 p-0" style={{ margin: 0, padding: 0 }}>{location.name || 'Unknown Location'}</h3>
-                {location.address && <p className="text-sm mt-0 p-0" style={{ margin: 0, padding: 0 }}>{formatAddress(location.address)}</p>}
+                
+                {/* //~ always show non-empty addresses even if same location name */}
+                {location.address && location.address.trim() !== '' && (
+                  <p className="text-sm mt-0 p-0" style={{ margin: 0, padding: 0, fontStyle: 'normal', wordBreak: 'break-word' }}>
+                    {location.address}
+                  </p>
+                )}
                 
                 {/* show rating if avail */}
                 {location.rating !== undefined && renderRating(location.rating)}
@@ -327,7 +306,7 @@ const Map = ({
             
             return (
               <Marker 
-                key={`marker-${location.id}-${location.type || 'unknown'}`}
+                key={`mark-${index}-${(location.id || '').replace(/^location-/, '')}-${location.type || 'unknown'}-${location.lat.toFixed(5)}-${location.lng.toFixed(5)}`}
                 position={[location.lat, location.lng]}
                 icon={getMarkerIcon(location)}
                 eventHandlers={{
