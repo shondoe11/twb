@@ -119,7 +119,15 @@ const DetailView = ({
           <div className="mb-6">
             <div className="flex justify-between items-start mb-2">
               <div>
-                <p className="text-gray-600">{location.address}</p>
+                {location.address && (
+                  <p className="text-gray-600">
+                    {location.address && location.address !== location.name ? 
+                      location.address : 
+                      location.address && !location.address.includes(location.name) ? 
+                        location.address : null
+                    }
+                  </p>
+                )}
                 <p className="text-sm text-gray-500 mt-1">{location.region}</p>
               </div>
               {renderRating(location.rating)}
