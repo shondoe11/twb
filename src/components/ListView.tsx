@@ -131,15 +131,16 @@ const ListView = ({
             {locations.length === 0 ? 'No locations available' : 'No matching locations found'}
           </div>
         ) : (
-          sortedLocations.map((location) => (
+          sortedLocations.map((location, index) => (
             <div 
-              key={location.id}
+              key={`loc-${index}-${(location.id || '').replace(/^location-/, '')}-${(location.lat || 0).toFixed(5)}-${(location.lng || 0).toFixed(5)}`}
               className="p-4 hover:bg-gray-50 cursor-pointer flex flex-col md:flex-row gap-3 text-gray-800"
               onClick={() => onSelectLocation?.(location)}
             >
               {/* img if avail */}
               {location.imageUrl && (
                 <div className="w-full md:w-24 h-24 shrink-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={location.imageUrl} 
                     alt={location.name} 
@@ -159,7 +160,12 @@ const ListView = ({
                   {renderRating(location.rating)}
                 </div>
                 
-                <p className="text-sm text-gray-600 mt-1">{location.address}</p>
+                {/* //~ always show non-empty addresses even if same as location name */}
+                {location.address && location.address.trim() !== '' && (
+                  <p className="text-sm text-gray-600 mt-1" style={{ wordBreak: 'break-word' }}>
+                    {location.address}
+                  </p>
+                )}
                 
                 {/* opening hrs if avail */}
                 {location.openingHours && (
