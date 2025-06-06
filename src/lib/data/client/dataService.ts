@@ -24,6 +24,10 @@ type GeoJSONFeatureProperties = {
   imageUrl?: string;
   rating?: number;
   source?: string;
+  //~ google maps description
+  description?: string;
+  //~ google sheets remarks
+  sheetsRemarks?: string;
   [key: string]: string | number | boolean | object | undefined; //~ allow fr other properties
 };
 
@@ -143,6 +147,15 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
         existing.hasBidet = true;
       }
       
+      //~ preserve description & sheetsRemarks data
+      if (properties.description && !existing.description) {
+        existing.description = properties.description;
+      }
+      
+      if (properties.sheetsRemarks && !existing.sheetsRemarks) {
+        existing.sheetsRemarks = properties.sheetsRemarks;
+      }
+      
       return;
     }
     
@@ -167,7 +180,10 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       normalizedHours: properties.normalizedHours,
       imageUrl: properties.imageUrl,
       rating: properties.rating,
-      source: properties.source
+      source: properties.source,
+      //~ add missing fields fr remarks display
+      description: properties.description || '',
+      sheetsRemarks: properties.sheetsRemarks || ''
     });
   });
   
