@@ -8,6 +8,8 @@ export interface ToiletLocation {
   region?: string;
   type?: string;
   hasBidet: boolean;
+  //& gender property fr male/female/any toilets w bidets
+  gender?: 'male' | 'female' | 'any';
   amenities: {
     wheelchairAccess: boolean;
     babyChanging: boolean;
@@ -19,6 +21,14 @@ export interface ToiletLocation {
   };
   notes?: string;
   lastUpdated: string;
+  
+  //& google maps description - string / object w/ @type & value
+  description?: string | {
+    '@type': string;
+    value: string;
+  };
+  //& google sheets remarks
+  sheetsRemarks?: string;
   
   //& enriched data fields
   openingHours?: string;
@@ -66,6 +76,13 @@ export interface GeoJSONProperties {
   imageUrl?: string;
   rating?: number;
   source?: string;
+  //~ google maps description - string / object w/ @type & value
+  description?: string | {
+    '@type': string;
+    value: string;
+  };
+  //~ google sheets remarks
+  sheetsRemarks?: string;
 }
 
 export interface GeoJSONFeature {
