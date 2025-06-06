@@ -93,12 +93,12 @@ async function getFromCache(key) {
   try {
     const metadata = await setupCache();
     
-    //~ check if cache is valid
+    //~ check if cache valid
     if (!metadata.dataHashes[key]) {
       return null; //~ no cached data
     }
     
-    //~ check if cache is too old
+    //~ check if cache too old
     if (Date.now() - metadata.lastUpdated > CACHE_MAX_AGE) {
       console.log('Cache is too old, fetching fresh data...');
       return null;
@@ -117,14 +117,14 @@ async function getFromCache(key) {
   }
 }
 
-//& fetch csv data frm google sheets & parse into json with fallbacks
+//& fetch csv data frm google sheets & parse to json w fallbacks
 async function fetchSheets() {
   console.log('Fetching data from all Google Sheets tabs...');
   const allLocations = [];
   for (const tab of SHEETS_TABS) {
     const url = `https://docs.google.com/spreadsheets/d/${SHEETS_ID}/export?format=csv&gid=${tab.gid}`;
     try {
-      //~ pass tab metadata to know which columns to use fr each sheet
+      //~ pass tab metadata know which columns to use fr each sheet
       const data = await tryFetchSheets(url, tab);
       if (data && data.length) {
         allLocations.push(...data);
@@ -312,6 +312,7 @@ function parseCSV(csvText, tabInfo) {
     const lines = csvContent.split('\n');
     let nameColumnName = tabInfo.nameHeader; //~ use tab-specific name column
     let addressColumnName = tabInfo.addressHeader; //~ use tab-specific address column
+    let remarksColumnName = ''; //~ init remarksColumnName w default empty value
     
     if (lines.length > 0) {
       const headerLine = lines[0];
@@ -326,6 +327,24 @@ function parseCSV(csvText, tabInfo) {
         if (colName.toLowerCase() === addressColumnName.toLowerCase()) {
           addressColumnName = colName; //~ use exact case frm header
         }
+      }
+      
+      //& google sheets column validator
+      if (tabInfo.gender === 'male') {
+        //~ male toilets sheet
+        remarksColumnName = columns.find(c => c.trim().toLowerCase().includes('comment') || c.trim().toLowerCase().includes('remark'));
+      } else if (tabInfo.gender === 'female') {
+        //~ female toilets sheet
+        remarksColumnName = columns.find(c => c.trim().toLowerCase().includes('comment') || c.trim().toLowerCase().includes('note'));
+      } else {
+        //~ hotel rooms / other sheets
+        remarksColumnName = columns.find(c => c.trim().toLowerCase().includes('remark') || 
+                                              c.trim().toLowerCase().includes('comment') || 
+                                              c.trim().toLowerCase().includes('description'));
+      }
+      
+      if (remarksColumnName) {
+        console.log(`For ${tabInfo.gender} sheet - Remarks column: "${remarksColumnName}"`);
       }
       
       console.log(`For ${tabInfo.gender} sheet - Name column: "${nameColumnName}", Address column: "${addressColumnName}"`);
@@ -347,6 +366,7 @@ function parseCSV(csvText, tabInfo) {
         data.gender = tabInfo.gender;
         data.nameColumnName = nameColumnName;
         data.addressColumnName = addressColumnName;
+        data.remarksColumnName = remarksColumnName; //~ store remarks column name
         
         results.push(data);
       })
@@ -419,6 +439,13 @@ function parseCSV(csvText, tabInfo) {
           //~ add remarks/notes if avail
           let notes = record.notes || record.Notes || record.Remarks || record.remarks || '';
           
+          //~ extract sheets-specific remarks frm identified remarks column
+          let sheetsRemarks = '';
+          if (record.remarksColumnName && record[record.remarksColumnName]) {
+            sheetsRemarks = record[record.remarksColumnName].trim();
+            console.log(`Found remarks for ${name} in ${record.gender} sheet: ${sheetsRemarks.substring(0, 50)}${sheetsRemarks.length > 50 ? '...' : ''}`);
+          }
+          
           //~ fr hotel sheet (gender=any), check fr Room Name w bidet info
           if (record.gender === 'any' && record['Room Name w bidet']) {
             if (notes) notes += ' - ';
@@ -464,6 +491,8 @@ function parseCSV(csvText, tabInfo) {
               freeEntry: parseBool(record.freeEntry || record.FreeEntry),
             },
             notes: notes || '',
+            //~ sheets remarks fr map popup display
+            sheetsRemarks: sheetsRemarks || '',
             lastUpdated: record.lastUpdated || record.LastUpdated || new Date().toISOString().split('T')[0],
             openingHours: record.openingHours || record.OpeningHours || '',
             rating: parseFloat(record.rating || record.Rating || 0) || 0
@@ -563,6 +592,14 @@ function convertKMLtoGeoJSON(kmlText) {
         //~ ensure description is a string
         const descStr = String(properties.description);
         
+        //~ store raw description fr remarks section
+        const rawDescription = descStr.replace(/<[^>]*>/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        if (rawDescription && !rawDescription.startsWith('Type:') && !rawDescription.includes('coordinates')) {
+          properties.description = rawDescription;
+        }
+        
         //~ parse HTML content frm description to extract structured data
         if (descStr.includes('Type:')) {
           type = extractPropertyFromDescription(descStr, 'Type:') || type;
@@ -594,8 +631,9 @@ function convertKMLtoGeoJSON(kmlText) {
             wheelchairAccess: properties.wheelchairAccess === 'true' || properties.wheelchairAccess === 'yes' || false,
             babyChanging: properties.babyChanging === 'true' || properties.babyChanging === 'yes' || false,
             freeEntry: properties.freeEntry === 'true' || properties.freeEntry === 'yes' || true,
+            notes: notes || '',
+            sheetsRemarks: sheetsRemarks || '',
           },
-          notes,
           lastUpdated: new Date().toISOString().split('T')[0],
           source: 'google-maps'
         }
@@ -682,7 +720,11 @@ function locationsToGeoJSON(locations) {
         amenities: location.amenities,
         notes: location.notes,
         lastUpdated: location.lastUpdated,
-        source: 'google-sheets'
+        source: location.source || 'google-sheets',
+        //~ preserve description field fr remarks section
+        ...(location.description ? { description: location.description } : {}),
+        //~ preserve sheetsRemarks field fr remarks section
+        ...(location.sheetsRemarks ? { sheetsRemarks: location.sheetsRemarks } : {})
       }
     }))
   };
@@ -702,7 +744,7 @@ function mergeSheetsAndMapsData(sheetsData, mapsData) {
   //~ convert sheets data to geojson
   const sheetsGeoJSON = locationsToGeoJSON(sheetsData);
   
-  //& lookup fr sheets data by name and coords fr later fallback use
+  //& lookup fr sheets data by name & coords fr later fallback use
   const sheetsDataByName = {}; //~ map normalized name -> props
   const sheetsDataByCoords = {}; //~ map coordKey -> props
   
@@ -735,6 +777,8 @@ function mergeSheetsAndMapsData(sheetsData, mapsData) {
   //~ enhance maps data w addresses frm sheets by name match / coord match
   const FUZZY_THRESHOLD = 0.6; //~ lowered threshold fr better matching
   const enhancedMapsFeatures = mapsFeatures.map(feature => {
+    //~ preserve description field frm maps src
+    const originalDescription = feature.properties.description || '';
     let matchFound = false;
     let matchSource = '';
     let matchAddress = '';
@@ -837,21 +881,53 @@ function mergeSheetsAndMapsData(sheetsData, mapsData) {
           ...feature.properties,
           address: matchAddress,
           addressSource: matchSource,
+          //~ always preserve description field
+          description: originalDescription,
           //~ gender info fr filtering if avail in sheets data
           ...(matchedProps?.gender ? { gender: matchedProps.gender } : { gender: 'any' }),
           //~ update hasBidet info if avail
-          ...(matchedProps?.hasBidet !== undefined ? { hasBidet: matchedProps.hasBidet } : {})
+          ...(matchedProps?.hasBidet !== undefined ? { hasBidet: matchedProps.hasBidet } : {}),
+          //~ incl sheets remarks if avail
+          ...(matchedProps?.sheetsRemarks ? { sheetsRemarks: matchedProps.sheetsRemarks } : {})
         }
       };
     }
 
+    //~ preserve description field even if no match found
+    return {
+      ...feature,
+      properties: {
+        ...feature.properties,
+        description: originalDescription
+      }
+    };
+  });
+  
+  //~ modify sheets features: ensure sheetsRemarks preserved
+  const enhancedSheetsFeatures = sheetsGeoJSON.features.map(feature => {
+    if (feature.properties && feature.properties.sheetsRemarks) {
+      return feature; //~ already has sheetsRemarks
+    }
+    
+    //~ try find sheetsRemarks: original sheetsData lookup
+    const name = feature.properties?.name?.toLowerCase();
+    if (name && sheetsDataByName[name] && sheetsDataByName[name].sheetsRemarks) {
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          sheetsRemarks: sheetsDataByName[name].sheetsRemarks
+        }
+      };
+    }
+    
     return feature;
   });
   
   //~ combine both sources
   return {
     type: 'FeatureCollection',
-    features: [...sheetsGeoJSON.features, ...enhancedMapsFeatures]
+    features: [...enhancedSheetsFeatures, ...enhancedMapsFeatures]
   };
 }
 
