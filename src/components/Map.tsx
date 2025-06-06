@@ -1,190 +1,96 @@
-'use client';
-import React, { useEffect, useMemo, useCallback, useState, useRef } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
-import type { LatLngExpression } from 'leaflet';
+import { ToiletLocation } from '@/lib/types-compatibility';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import 'leaflet/dist/leaflet.css'; //~ marker clustering
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-import { ToiletLocation } from '@/lib/types-compatibility';
 
-//& fix fr leaflet marker icon in next.js
-const Map = ({ 
-  locations = [], 
-  selectedLocation = null 
-}: { 
-  locations?: ToiletLocation[],
-  selectedLocation?: ToiletLocation | null 
-}) => {
-  //~ track if map is rdy to prevent early interaction issues
+interface MapProps {
+  locations: ToiletLocation[];
+  selectedLocation: ToiletLocation | null;
+  onSelectLocation?: (location: ToiletLocation) => void;
+}
+
+const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
+  //~ track if map is rdy prevent early interaction issues
   const [mapReady, setMapReady] = useState(false);
   
   //~ store refs to all existing markers
   const markerRefs = useRef<Record<string, L.Marker>>({});
   
+  //~ track user manual zoom and pan actions
+  const userInteractedWithMap = useRef(false);
+  
   //& workaround fr leaflet marker icon issues in next.js
   useEffect(() => {
-    //~ fix leaflet default icon issue in next.js
-    import('leaflet').then((L) => {
-      // @ts-expect-error: leaflet's typings r nt accurate here
-      delete L.Icon.Default.prototype._getIconUrl;
-      
-      L.Icon.Default.mergeOptions({
-      iconRetinaUrl: '/images/marker-icon-2x.png',
+    delete (L.Icon.Default.prototype as { _getIconUrl?: unknown })._getIconUrl;
+    
+    L.Icon.Default.mergeOptions({
       iconUrl: '/images/marker-icon.png',
+      iconRetinaUrl: '/images/marker-icon-2x.png',
       shadowUrl: '/images/marker-shadow.png',
+      iconSize: [20, 33],
+      iconAnchor: [10, 33],
+      popupAnchor: [1, -30],
+      shadowSize: [33, 33]
     });
-      
-      //~ mark map as rdy aft icons loaded
-      setMapReady(true);
-    });
-  }, []);
-
-  //& default center is singapore
-  const singaporeCenter: LatLngExpression = [1.3521, 103.8198];
-  const defaultZoom = 12;
-  
-  //& handle opening popup fr selected location
-  useEffect(() => {
-    if (mapReady && selectedLocation) {
-      //~ find marker -> search thru existing marker refs
-      const findMarkerForLocation = () => {
-        for (const markerId in markerRefs.current) {
-          //~ look fr matching location coords in marker ID
-          if (markerId.includes(`-${selectedLocation.lat.toFixed(5)}-${selectedLocation.lng.toFixed(5)}`)) {
-            const marker = markerRefs.current[markerId];
-            if (marker) {
-              //~ automatically open popup fr this marker
-              marker.openPopup();
-              return true;
-            }
-          }
-        }
-        return false;
-      };
-      
-      //~ try find & open popup
-      findMarkerForLocation();
-    }
-  }, [selectedLocation, mapReady]);
-  
-  //& custom icons fr diff toilet types
-  const customIcons = useMemo(() => {
-    //~ create icons whn component mounts
-    const createDivIcon = (color: string, hasBidet: boolean, gender?: 'male' | 'female' | 'any') => {
-      //~ gender symbol if specified
-      const genderSymbol = gender === 'male' ? '♂️' : 
-                            gender === 'female' ? '♀️' : '';
-      return L.divIcon({
-        html: `<div class="marker-icon" style="background-color: ${color}; position: relative;">
-                ${hasBidet ? '<span style="position: absolute; top: 3px; right: 3px; font-size: 8px;">💦</span>' : ''}
-                ${genderSymbol ? `<span style="position: absolute; top: 3px; left: 3px; font-size: 10px;">${genderSymbol}</span>` : ''}
-              </div>`,
-        className: '',
-        iconSize: [28, 28],
-        iconAnchor: [14, 28],
-        popupAnchor: [0, -28],
-        tooltipAnchor: [14, -14]
-      });
-    };
     
-    return {
-      mall: {
-        bidet: {
-          male: createDivIcon('#3b82f6', true, 'male'), //~ blue
-          female: createDivIcon('#3b82f6', true, 'female'),
-          any: createDivIcon('#3b82f6', true, 'any')
-        },
-        standard: {
-          male: createDivIcon('#3b82f6', false, 'male'),
-          female: createDivIcon('#3b82f6', false, 'female'),
-          any: createDivIcon('#3b82f6', false, 'any')
-        }
-      },
-      hotel: {
-        bidet: {
-          male: createDivIcon('#8b5cf6', true, 'male'), //~ purple
-          female: createDivIcon('#8b5cf6', true, 'female'),
-          any: createDivIcon('#8b5cf6', true, 'any')
-        },
-        standard: {
-          male: createDivIcon('#8b5cf6', false, 'male'),
-          female: createDivIcon('#8b5cf6', false, 'female'),
-          any: createDivIcon('#8b5cf6', false, 'any')
-        }
-      },
-      public: {
-        bidet: {
-          male: createDivIcon('#10b981', true, 'male'), //~ green
-          female: createDivIcon('#10b981', true, 'female'),
-          any: createDivIcon('#10b981', true, 'any')
-        },
-        standard: {
-          male: createDivIcon('#10b981', false, 'male'),
-          female: createDivIcon('#10b981', false, 'female'),
-          any: createDivIcon('#10b981', false, 'any')
-        }
-      },
-      default: {
-        bidet: {
-          male: createDivIcon('#f59e0b', true, 'male'), //~ amber
-          female: createDivIcon('#f59e0b', true, 'female'),
-          any: createDivIcon('#f59e0b', true, 'any')
-        },
-        standard: {
-          male: createDivIcon('#f59e0b', false, 'male'),
-          female: createDivIcon('#f59e0b', false, 'female'),
-          any: createDivIcon('#f59e0b', false, 'any')
-        }
-      }
-    };
+    //~ mark map as rdy after leaf icon setup
+    setMapReady(true);
   }, []);
   
-  //& fn get appropriate icon fr location
-  const getMarkerIcon = (location: ToiletLocation) => {
-    const type = location.type?.toLowerCase() || 'default';
-    const hasBidet = location.hasBidet;
-    //~ determine gender fr icon
-    const gender = location.gender || 'any';
+  //~ create custom marker icon fr toilets
+  const createToiletMarkerIcon = () => {
+    const iconUrl = '/images/toilet-marker.png';
+    const iconSize: [number, number] = [24, 24];
     
-    //~ select icon based on type, bidet avail, gender
-    if (type === 'mall') {
-      return hasBidet ? customIcons.mall.bidet[gender] : customIcons.mall.standard[gender];
-    } else if (type === 'hotel') {
-      return hasBidet ? customIcons.hotel.bidet[gender] : customIcons.hotel.standard[gender];
-    } else if (type === 'public') {
-      return hasBidet ? customIcons.public.bidet[gender] : customIcons.public.standard[gender];
-    } else {
-      return hasBidet ? customIcons.default.bidet[gender] : customIcons.default.standard[gender];
-    }
-  };
-  
-  //& create cluster icon whn markers grouped
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const createClusterCustomIcon = (cluster: any) => {
-    return L.divIcon({
-      html: `<div class="cluster-icon">${cluster.getChildCount()}</div>`,
-      className: 'custom-marker-cluster',
-      iconSize: L.point(40, 40, true)
+    return L.icon({
+      iconUrl,
+      iconSize,
+      iconAnchor: [12, 24],
+      popupAnchor: [0, -24],
     });
   };
-
+  
   //& component: center map on selected location & handle map updates
   const MapUpdater = () => {
     const map = useMap();
     
+    //& event handlers fr detect user interaction w map
+    useEffect(() => {
+      const handleUserInteraction = () => {
+        userInteractedWithMap.current = true;
+      };
+      
+      //~ track zoom and drag events as user interactions
+      map.on('zoom', handleUserInteraction);
+      map.on('drag', handleUserInteraction);
+      
+      return () => {
+        map.off('zoom', handleUserInteraction);
+        map.off('drag', handleUserInteraction);
+      };
+    }, [map]);
+    
     //& use selectedLocation frm props to center map + open popup
     useEffect(() => {
       if (selectedLocation && mapReady) {
-        //~ center map on selected location
+        //~ higher zoom level expand clusters
+        const zoomLevel = 18;
+        
+        //~ reset user interaction flag when location explicitly selected from list view
+        userInteractedWithMap.current = false;
+        
+        //~ center map on selected location with higher zoom
         map.setView(
           [selectedLocation.lat, selectedLocation.lng],
-          15,  //~ higher zoom level fr selected location
+          zoomLevel,
           { animate: true }
         );
         
-        //~ find marker by ID pattern matching & open popup directly
+        //~ find marker by ID pattern matching open popup directly
         setTimeout(() => {
           //~ search through marker refs using coordinates to find match
           const findAndOpenMarker = () => {
@@ -205,63 +111,39 @@ const Map = ({
           };
           
           //~ attempt to find and open actual marker's popup
-          findAndOpenMarker();
+          const found = findAndOpenMarker();
+          
+          //~ if marker not found (might be in cluster), try once more with a delay
+          if (!found) {
+            setTimeout(() => {
+              //~ try again after clusters have had time to expand
+              findAndOpenMarker();
+            }, 500);
+          }
         }, 300); //~ small delay allow map to center 1st
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedLocation, mapReady]); 
     
-    //~ ensure map updates whn locations change (fr filtering)
-    useEffect(() => {
-      //~ force map size recalculations & invalidate if locations change: ensure popups render correctly aft filtering
-      map.invalidateSize();
-    }, [map]);
+    //~ locations key to track changes for filtering
+    const locationsKey = locations.map(loc => loc.id).join(','); 
     
-    //~ react to locations change - using key to track changes
-    const locationsKey = locations.map(loc => loc.id).join(','); //~ create key frm location IDs
+    //& handle filtered locations change w/o unwanted zoom
     useEffect(() => {
-      //~ invalidate size again whn locations list changes
       map.invalidateSize();
       
-      //~ force leaflet recalculate bounds & redraw
+      //~ prevent filter bar selections frm causing unwanted zoom
+      if (userInteractedWithMap.current) {
+        return;
+      }
+      
+      //~ only recalculate if no user interaction has happened
       setTimeout(() => {
         map.invalidateSize();
       }, 100);
     }, [map, locationsKey]);
     
-    //~ improved map event handlers ensure popups work properly
-    useEffect(() => {
-      //~ type-safe event handler fr popup events
-      const handlePopupOpen = (e: { popup: L.Popup }) => {
-        //~ ensure popup content rendered
-        const popup = e.popup;
-        if (popup && !popup.getContent()) {
-          //~ if popup no content, try refresh
-          popup.update();
-        }
-      };
-      
-      //~ empty event handler fr popup close
-      const handlePopupClose = () => {
-        //~ do nothing but capture event
-      };
-      
-      map.on('popupopen', handlePopupOpen);
-      map.on('popupclose', handlePopupClose);
-      
-      return () => {
-        map.off('popupopen', handlePopupOpen);
-        map.off('popupclose', handlePopupClose);
-      };
-    }, [map]);
-    
     return null;
-  };
-  
-  //~ helper: format opening hours fr display
-  const formatOpeningHours = (hours?: string) => {
-    if (!hours) return 'No hours available';
-    return hours;
   };
   
   //~ helper: render star rating - memoized to prevent rerenders
@@ -279,178 +161,136 @@ const Map = ({
         ))}
         {hasHalfStar && <span className="text-yellow-500">★</span>}
         {[...Array(5 - fullStars - (hasHalfStar ? 1 : 0))].map((_, i) => (
-          <span key={`empty-${i}`} className="text-gray-300">★</span>
+          <span key={`empty-star-${i}`} className="text-gray-300">★</span>
         ))}
-        <span className="ml-1 text-xs">{rating.toFixed(1)}</span>
       </div>
     );
   }, []);
   
+  //~ popup content renderer
+  const renderPopupContent = useCallback((location: ToiletLocation) => {
+    return (
+      <div className="popup-content">
+        <div className="mb-2">
+          <h3 className="text-base font-medium m-0 p-0">{location.name}</h3>
+          {location.address && (
+            <p className="text-xs text-gray-600 mt-0.5 mb-0 p-0">{location.address}</p>
+          )}
+        </div>
+        
+        <div className="flex flex-wrap gap-1 mb-2">
+          {location.type && (
+            <span className="text-xs bg-gray-200 px-2 py-0.5 rounded-full">
+              {location.type}
+            </span>
+          )}
+          {location.gender && (
+            <span className="text-xs bg-gray-200 px-2 py-0.5 rounded-full">
+              {location.gender}
+            </span>
+          )}
+          {location.hasBidet && (
+            <span className="text-xs bg-gray-200 px-2 py-0.5 rounded-full">
+              Has Bidet
+            </span>
+          )}
+        </div>
+        
+        {location.rating && (
+          <div className="mb-2">
+            <div className="flex items-center">
+              <span className="text-xs mr-1">Rating:</span>
+              <span className="text-xs font-medium">{location.rating}/5</span>
+              {renderRating(location.rating)}
+            </div>
+          </div>
+        )}
+        
+        {(location.description || location.sheetsRemarks) && (
+          <div style={{ margin: '4px 0 0 0', padding: 0, lineHeight: '1.2' }}>
+            <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Remarks:</p>
+            
+            {location.description && (
+              <p className="text-xs" style={{ margin: '2px 0 0 0', padding: 0 }}>
+                <span className="font-medium">Maps source:</span> {typeof location.description === 'object' && 
+                  '@type' in location.description && 
+                  'value' in location.description &&
+                  location.description['@type'] === 'html' 
+                    ? String(location.description.value).replace(/<br\s*\/?>/gi, ' | ') 
+                    : String(location.description).replace(/<br\s*\/?>/gi, ' | ')}
+              </p>
+            )}
+            
+            {location.sheetsRemarks && (
+              <p className="text-xs" style={{ margin: '2px 0 0 0', padding: 0 }}>
+                <span className="font-medium">Sheets source:</span> {location.sheetsRemarks.replace(/<br\s*\/?>/gi, ' | ')}
+              </p>
+            )}
+          </div>
+        )}
+        
+        <div className="mt-2 pt-2 border-t border-gray-200">
+          <a 
+            href={`https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs text-blue-600 hover:text-blue-800 flex items-center"
+          >
+            <span>📍 Get Directions</span>
+          </a>
+        </div>
+      </div>
+    );
+  }, [renderRating]);
+  
   return (
-    <div className="h-[50vh] md:h-[70vh] w-full rounded-lg overflow-hidden">
+    <div className="h-full w-full relative">
       <MapContainer 
-        center={singaporeCenter} 
-        zoom={defaultZoom} 
-        scrollWheelZoom={true}
-        style={{ height: '100%', width: '100%' }}
+        id="map"
+        center={[1.3521, 103.8198]} //~ Singapore center
+        zoom={12}
+        className="h-full w-full z-0"
+        attributionControl={false} //~ remove attr for cleaner look
+        zoomControl={true}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
         
-        {/* component: handle centering map on selected location */}
         <MapUpdater />
         
-        {/* cluster markers fr better performance & UX */}
         <MarkerClusterGroup 
           chunkedLoading
-          iconCreateFunction={createClusterCustomIcon}
-          showCoverageOnHover={false}
           spiderfyOnMaxZoom={true}
-          maxClusterRadius={50}
+          showCoverageOnHover={false}
         >
-          {/* only render markers once map rdy */}
-          {mapReady && locations.map((location, index) => {
-            //~ popup content outside component: reduce rerenders w compact layout
-            const popupContent = (
-              <div className="p-0" style={{ lineHeight: '1', margin: 0, padding: '4px' }}>
-                {/* basic info w null checks */}
-                <h3 className="font-medium text-base m-0 p-0" style={{ margin: 0, padding: 0 }}>{location.name || 'Unknown Location'}</h3>
-                
-                {/* //~ always show non-empty addresses even if same location name */}
-                {location.address && location.address.trim() !== '' && (
-                  <p className="text-sm mt-0 p-0" style={{ margin: 0, padding: 0, fontStyle: 'normal', wordBreak: 'break-word' }}>
-                    {location.address}
-                  </p>
-                )}
-                
-                {/* show rating if avail */}
-                {location.rating !== undefined && renderRating(location.rating)}
-                
-                {/* facility deets */}
-                <div className="grid grid-cols-2 gap-x-2 text-xs" style={{ margin: 0, padding: 0, lineHeight: '1' }}>
-                  <p className="m-0 p-0" style={{ margin: 0, padding: 0 }}><span className="font-medium">Type:</span> {location.type || 'Other'}</p>
-                  <p className="m-0 p-0" style={{ margin: 0, padding: 0 }}><span className="font-medium">Region:</span> {location.region || 'Unknown'}</p>
-                </div>
-                
-                {/* amenities w icons */}
-                <div style={{ margin: 0, padding: 0, lineHeight: '1' }}>
-                  <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Amenities:</p>
-                  <div className="flex flex-wrap gap-1 text-xs" style={{ margin: 0, padding: 0 }}>
-                    {/* safely check fr bidet */}
-                    {location.hasBidet && (
-                      <span className="px-2 py-0 bg-blue-100 rounded-full text-blue-800" style={{ margin: 0, padding: '1px 4px' }}>💦 Bidet</span>
-                    )}
-                    {/* //~ show gender info if avail */}
-                    {location.gender && location.gender !== 'any' && (
-                      <span className={`px-2 py-0 rounded-full ${location.gender === 'male' ? 'bg-blue-100 text-blue-800' : 'bg-pink-100 text-pink-800'}`} style={{ margin: 0, padding: '1px 4px' }}>
-                        {location.gender === 'male' ? '♂️ Male only' : '♀️ Female only'}
-                      </span>
-                    )}
-                    {/* safely check fr amenities obj & its props */}
-                    {location.amenities && (
-                      <>
-                        {location.amenities.wheelchairAccess && (
-                          <span className="px-2 py-0 bg-green-100 rounded-full text-green-800" style={{ margin: 0, padding: '1px 4px' }}>♿ Wheelchair</span>
-                        )}
-                        {location.amenities.babyChanging && (
-                          <span className="px-2 py-0 bg-purple-100 rounded-full text-purple-800" style={{ margin: 0, padding: '1px 4px' }}>👶 Baby Station</span>
-                        )}
-                        {location.amenities.freeEntry && (
-                          <span className="px-2 py-0 bg-yellow-100 rounded-full text-yellow-800" style={{ margin: 0, padding: '1px 4px' }}>🆓 Free Entry</span>
-                        )}
-                      </>
-                    )}
-                  </div>
-                </div>
-                
-                {/* opening hrs if avail */}
-                {(location.openingHours || location.normalizedHours) && (
-                  <div style={{ margin: 0, padding: 0, lineHeight: '1' }}>
-                    <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Hours:</p>
-                    <p className="text-xs" style={{ margin: 0, padding: 0 }}>{formatOpeningHours(location.normalizedHours || location.openingHours)}</p>
-                  </div>
-                )}
-                
-                {/* notes if avail */}
-                {location.notes && (
-                  <div style={{ margin: 0, padding: 0, lineHeight: '1' }}>
-                    <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Notes:</p>
-                    <p className="text-xs italic" style={{ margin: 0, padding: 0 }}>{location.notes}</p>
-                  </div>
-                )}
-                
-                {/* remarks section */}
-                {(location.description || location.sheetsRemarks) && (
-                  <div style={{ margin: '4px 0 0 0', padding: 0, lineHeight: '1.2' }}>
-                    <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Remarks:</p>
-                    
-                    {/* google maps description - handle both string & object formats */}
-                    {location.description && (
-                      <p className="text-xs" style={{ margin: '2px 0 0 0', padding: 0 }}>
-                        <span className="font-medium">Maps source:</span> {
-                          (() => {
-                            //~ get description text based on type
-                            const text = typeof location.description === 'object' && 
-                              '@type' in location.description && 
-                              'value' in location.description
-                                ? String(location.description.value)
-                                : String(location.description);
-                            
-                            return text.replace(/<br\s*\/?>/gi, ' | ');
-                          })()
-                        }
-                      </p>
-                    )}
-                    
-                    {/* google sheets remarks */}
-                    {location.sheetsRemarks && (
-                      <p className="text-xs" style={{ margin: '2px 0 0 0', padding: 0 }}>
-                        <span className="font-medium">Sheets source:</span> {location.sheetsRemarks.replace(/<br\s*\/?>/gi, ' | ')}
-                      </p>
-                    )}
-                  </div>
-                )}
-                
-                {/* nav link */}
-                <div style={{ margin: 0, padding: 0, borderTop: '1px solid #e5e7eb', lineHeight: '1' }}>
-                  <a 
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-blue-600 hover:text-blue-800 flex items-center"
-                    style={{ margin: 0, padding: 0 }}
-                  >
-                    <span style={{ margin: 0, padding: 0 }}>📍 Get Directions</span>
-                  </a>
-                </div>
-              </div>
-            );
-            
-            //~ tooltip content: prevent rerenders
-            const tooltipText = `${location.name}${location.hasBidet ? ' • Has Bidet' : ''}`;
-            
-            //~ unique marker id fr ref storage
-            const markerId = `mark-${index}-${(location.id || '').replace(/^location-/, '')}-${location.lat.toFixed(5)}-${location.lng.toFixed(5)}`;
+          {locations.map((location) => {
+            //~ create marker ID based on key details incl precise coords
+            const markerId = `marker-${location.id}-${location.lat.toFixed(5)}-${location.lng.toFixed(5)}`;
+            const toiletIcon = createToiletMarkerIcon();
+            const popupContent = renderPopupContent(location);
+            const tooltipText = location.name;
             
             return (
               <Marker 
                 key={markerId}
-                position={[location.lat, location.lng]}
-                icon={getMarkerIcon(location)}
+                position={[location.lat, location.lng]} 
+                icon={toiletIcon}
                 eventHandlers={{
-                  click: () => {}, //~ empty handler prevent issues
-                  mouseover: () => {}, //~ empty handler prevent issues
-                }}
-                ref={(markerElement) => {
-                  //~ store marker ref fr programmatic access
-                  if (markerElement) {
-                    markerRefs.current[markerId] = markerElement;
-                  }
+                  click: () => {
+                    onSelectLocation?.(location);
+                  },
+                  add: (e) => {
+                    //~ store marker ref for programmatic popup opening
+                    markerRefs.current[markerId] = e.target;
+                  },
+                  remove: () => {
+                    //~ clean up ref when marker removed
+                    delete markerRefs.current[markerId];
+                  },
                 }}
               >
-                {/* simplified popup w reduced rerenders */}
                 <Popup 
                   minWidth={200} 
                   maxWidth={300}
