@@ -24,7 +24,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -50,7 +51,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: yes, all cubicles"
       }
     },
     {
@@ -76,7 +78,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "At female'e toilet, first floor!"
+        }
       }
     },
     {
@@ -102,7 +108,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: yes, squatting<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -128,7 +138,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female and male have bidets!! IN ALL CUBICLES"
       }
     },
     {
@@ -154,7 +165,12 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female, male and handicap toilet with bidet!<br>With shower stalls too!"
+        },
+        "sheetsRemarks": "at first floor"
       }
     },
     {
@@ -180,7 +196,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Bidet at female & handicap toilet"
+        }
       }
     },
     {
@@ -206,7 +226,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Yes<br>Male: Unknown<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -232,7 +256,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Handicap toilet at level 5.<br>Male toilet, cubicle 3, level 5."
+        }
       }
     },
     {
@@ -258,7 +286,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female: Yes, B1<br>handicap: Unknown"
+        }
       }
     },
     {
@@ -284,7 +316,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male; Unknown<br>Female: Yes<br>handicap: Yes"
+        }
       }
     },
     {
@@ -310,7 +346,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "At handicap toilet!"
       }
     },
     {
@@ -336,7 +373,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Level 4R, all toilets<br>Female: Yes, squatting only<br>Handicap: Yes<br><br>At all levels!"
+        }
       }
     },
     {
@@ -362,7 +403,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Found in nursing room, bidet for parent & child avail"
+        }
       }
     },
     {
@@ -388,7 +433,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "handicap and Male: yes, on 5th floor. Note this is the shopping mall wing not the polyclinic "
       }
     },
     {
@@ -414,7 +460,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Level 3, all cubicles<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -440,7 +490,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at male and female, and handicap toilet!",
+        "sheetsRemarks": "Bidet at male and female, and handicap toilet!"
       }
     },
     {
@@ -466,7 +518,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "handicap toilet"
       }
     },
     {
@@ -492,7 +545,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown <br>Female: Unknown<br>Handicap: Yes near Big Fish Small Fish"
+        }
       }
     },
     {
@@ -518,7 +575,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: BIDET GONE AS OF 4/6/22"
+        }
       }
     },
     {
@@ -544,7 +605,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: At first floor and second floor",
+        "sheetsRemarks": "at first floor"
       }
     },
     {
@@ -570,7 +633,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "at female toilet!"
       }
     },
     {
@@ -596,7 +660,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: level 2"
       }
     },
     {
@@ -622,7 +687,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: All cubicles"
       }
     },
     {
@@ -648,7 +714,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Level 1 toilet near Anytime Fitness"
       }
     },
     {
@@ -674,7 +741,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: B1 and level 2 toilet near elevator, elderly's cubicle"
+        }
       }
     },
     {
@@ -700,7 +771,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: Yes, beside macdonalds",
+        "sheetsRemarks": "male toilet beside macdonald"
       }
     },
     {
@@ -726,7 +799,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -752,7 +826,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -778,7 +856,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -804,7 +886,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes, probably all levels"
+        }
       }
     },
     {
@@ -830,7 +916,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet with bidet"
       }
     },
     {
@@ -856,7 +943,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -882,7 +973,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male toilet has bidet!"
       }
     },
     {
@@ -908,7 +1000,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: L1"
       }
     },
     {
@@ -934,7 +1027,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "female toilets: alll cubicles have bidets"
       }
     },
     {
@@ -960,7 +1054,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet."
       }
     },
     {
@@ -986,7 +1081,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: No<br>Female: No<br>Handicap: Yes, B1 near Best Denki and level 1 near Swensens"
+        }
       }
     },
     {
@@ -1012,7 +1111,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male toilet - squatting with bidet"
       }
     },
     {
@@ -1038,7 +1138,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes, level 1 near Mcdonalds"
+        }
       }
     },
     {
@@ -1064,7 +1168,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex Toilet"
       }
     },
     {
@@ -1090,7 +1195,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: No<br>Female: No<br>Handicap: Yes, all levels!"
+        }
       }
     },
     {
@@ -1116,7 +1225,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: yes<br>Handicap: yes"
+        }
       }
     },
     {
@@ -1142,7 +1255,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Yes"
       }
     },
     {
@@ -1168,7 +1282,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "pls look for the bidet sign at the cubicle door!<br><br>Male: L1<br>Female: B1, L1, L2<br>Handicap: L2 (beside Nike)"
+        }
       }
     },
     {
@@ -1194,7 +1312,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Go to CGH's Medical Centre Building. Accessible to public but you'll need to fill up a declaration form prior to entering. <br><br>Proceed up to level 2 and enter their NDCS Oral & Maxillofacial Surgery Clinic.<br><br>Walk past the counters and you'll see a handicap toilet on your right. "
+        }
       }
     },
     {
@@ -1220,7 +1342,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -1246,7 +1369,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, toilet at main entrance<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -1272,7 +1399,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male's: Level 2 (above lobby). Only 1 cubicle of 3 has bidets"
+        }
       }
     },
     {
@@ -1298,7 +1429,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, level 4 beside GV<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -1324,7 +1459,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: L1 toilet near macdonald, only one cubicle has built in bidet<br>Female: No<br>Handicap: Yes, on all levels<br><br>Don't confuse with E!HUb! Ehub no bidet!!"
+        }
       }
     },
     {
@@ -1350,7 +1489,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes"
+        }
       }
     },
     {
@@ -1376,7 +1519,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes, only one cubicle has bidet<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -1402,7 +1549,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -1428,7 +1579,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at female toilet, handicap cubicle"
       }
     },
     {
@@ -1454,7 +1606,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes, sitting + squatting level 1<br>Handicap: Yes, level 1"
+        }
       }
     },
     {
@@ -1480,7 +1636,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Bidet avail at Male, Female & Unisex toilet"
+        }
       }
     },
     {
@@ -1506,7 +1666,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Toilet is beside Funtoast Level 1, female’s elderly cubicle!"
       }
     },
     {
@@ -1532,7 +1693,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female: <br>- Level 3 near hot dog stand <br>- Level 2 near restaurant, first few cubicles only<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -1558,7 +1723,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes, level 1 <br>Female: Yes, level 2<br>Handicap: Yes, B1"
+        }
       }
     },
     {
@@ -1584,7 +1753,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Level 2, female toilet"
       }
     },
     {
@@ -1610,7 +1780,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap and female toilet level 1 has bidets"
       }
     },
     {
@@ -1636,7 +1807,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet on all floors!"
       }
     },
     {
@@ -1662,7 +1834,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>Handicap: Yes<br><br>What more can I ask for? Best place to be frfr"
+        }
       }
     },
     {
@@ -1688,7 +1864,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet beside the ticket counter and bidet available past the ticketed area!"
       }
     },
     {
@@ -1714,7 +1891,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: No<br>Female: No<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -1740,7 +1921,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "male: Unknown<br>Female: Yes"
+        }
       }
     },
     {
@@ -1766,7 +1951,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "All women's fitness studio with bidet"
+        }
       }
     },
     {
@@ -1792,7 +1981,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: at B1<br><br>Female: <br>-  Level 2 and 3, toilet beside Team Sports Hall. First cubicle.<br>- Level 4, near Lobby M lift (first cubicle)<br>- Level 5 near jogging track<br><br> Handicap: Unknown"
+        }
       }
     },
     {
@@ -1818,7 +2011,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -1844,7 +2041,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Level 1 toilet behind the coffee shop"
       }
     },
     {
@@ -1870,7 +2068,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female toilet at level 1, level 5<br>Male toilet at level 1, level 2"
+        }
       }
     },
     {
@@ -1896,7 +2098,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Level 1 Handicap toilet, in front of Sankranti Restaurant"
       }
     },
     {
@@ -1922,7 +2125,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female:                                                                          - Sitting cubicle at B1 near Scoops Wholefood and L1 opp 6ixty8ight (only 1 cubicle with bidet each)<br>- Squatting cubicle at most corner cubicles, all levels<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -1948,7 +2155,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male; Yes<br>Female: yes<br>Handicap: unknown<br><br>**ONLY FOR MOVIE GOERS**"
+        }
       }
     },
     {
@@ -1974,7 +2185,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Yes"
       }
     },
     {
@@ -2000,7 +2212,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -2026,7 +2242,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: Yes, but only at the handicap cubicle"
       }
     },
     {
@@ -2052,7 +2269,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: yes<br>male: yes<br>handicap: Yes"
+        }
       }
     },
     {
@@ -2078,7 +2299,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: All levels, but in elderly cubicle only<br>Female: Level 1 near post office (squatting first cubicle, and sitting cubicle towards the end near the sinks), Level 3 near GV<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -2104,7 +2329,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet",
+        "sheetsRemarks": "Unisex toilet"
       }
     },
     {
@@ -2130,7 +2357,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Unknown<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -2156,7 +2387,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Level B1 toilet near Mister Donut, in female's elderly cubicle<br>Handicap: No"
+        }
       }
     },
     {
@@ -2182,7 +2417,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: No<br>Female: Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens! "
+        }
       }
     },
     {
@@ -2208,7 +2447,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Yes<br><br>Accessible through side staircase behind MacDonald's. Can't go through MacDonald it self as back entrance is closed because of COVID"
+        }
       }
     },
     {
@@ -2234,7 +2477,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap toilet, level 2"
       }
     },
     {
@@ -2260,7 +2504,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Bidet available at male's and female's"
+        }
       }
     },
     {
@@ -2286,7 +2534,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -2312,7 +2564,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -2338,7 +2594,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes (but check if its working first)<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -2364,7 +2624,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown<br><br>Toilets are nearby the closed vaccination centre. "
+        }
       }
     },
     {
@@ -2390,7 +2654,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Bidet at male's toilet!"
+        }
       }
     },
     {
@@ -2416,7 +2684,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet!"
       }
     },
     {
@@ -2442,7 +2711,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male and female toilet with bidet on every floor"
       }
     },
     {
@@ -2468,7 +2738,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: No<br>Female: Level 4, last cubicle (squatting)<br>Handicap: Level 1"
+        }
       }
     },
     {
@@ -2494,7 +2768,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -2520,7 +2798,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -2546,7 +2825,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: at B1<br>Male: at elderly cubicle"
+        }
       }
     },
     {
@@ -2572,7 +2855,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: level 2 & 3<br>Female: level 1 near NTUC <br>Handicap: level 3"
+        }
       }
     },
     {
@@ -2598,7 +2885,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, Level 1 near 7/11<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -2624,7 +2915,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Yes, all cubicles<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -2650,7 +2945,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet!"
       }
     },
     {
@@ -2676,7 +2972,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at handicap toilet!"
       }
     },
     {
@@ -2702,7 +2999,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "at Male toilet!"
       }
     },
     {
@@ -2728,7 +3026,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Level 39 at Public Observation Deck"
       }
     },
     {
@@ -2754,7 +3053,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet!"
       }
     },
     {
@@ -2780,7 +3080,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet!"
       }
     },
     {
@@ -2806,7 +3107,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -2832,7 +3137,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "At female toilet!"
       }
     },
     {
@@ -2858,7 +3164,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, at Basement (elderly cubicle) and level 2 near River Room<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -2884,7 +3194,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet with bidet"
       }
     },
     {
@@ -2910,7 +3221,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -2936,7 +3251,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -2962,7 +3281,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: yes, both stalls",
+        "sheetsRemarks": "Both cubicle have bidet"
       }
     },
     {
@@ -2988,7 +3309,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes"
+        }
       }
     },
     {
@@ -3014,7 +3339,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap: Yes"
       }
     },
     {
@@ -3040,7 +3366,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet with bidet!"
       }
     },
     {
@@ -3066,7 +3393,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: Last cubicle (squatting) ",
+        "sheetsRemarks": "Male: Last cubicle (squatting)"
       }
     },
     {
@@ -3092,7 +3421,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet with bidet"
       }
     },
     {
@@ -3118,7 +3448,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Green Oasis on Level 17, unisex toilet"
       }
     },
     {
@@ -3144,7 +3475,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female; yes, at last cubicle"
+        }
       }
     },
     {
@@ -3170,7 +3505,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "All toilets got bidet"
       }
     },
     {
@@ -3196,7 +3532,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Post renovation - Bidet in handicap toilet, male handicap cubicle and female handicap cubicle  "
       }
     },
     {
@@ -3222,7 +3559,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female:  level 1, last cubicle. near subway & burger king<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -3248,7 +3589,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at male and female toilet."
       }
     },
     {
@@ -3274,7 +3616,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female's toilet at B1, in the elderly cubicle (last cubicle)"
+        }
       }
     },
     {
@@ -3300,7 +3646,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes"
+        }
       }
     },
     {
@@ -3326,7 +3676,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -3352,7 +3706,12 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes, level 2<br>Female: Unknown<br>Handicap: Unknown"
+        },
+        "sheetsRemarks": "Males at level 2"
       }
     },
     {
@@ -3378,7 +3737,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -3404,7 +3767,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "female: each floor has one toilet cubicle with bidet/hose"
       }
     },
     {
@@ -3430,7 +3794,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: all cubicles<br>Female: all cubicles"
+        }
       }
     },
     {
@@ -3456,7 +3824,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet!"
       }
     },
     {
@@ -3482,7 +3851,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male toilet at level 2, only 3/4 cubicles have bidets",
+        "sheetsRemarks": "Male toilet at level 2, only 3/4 cubicles have bidets"
       }
     },
     {
@@ -3508,7 +3879,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -3534,7 +3906,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Its a unisex toilet. :)"
       }
     },
     {
@@ -3560,7 +3933,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -3586,7 +3960,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "edit as of 02/6/22 BIDETS ARE NO LONGER THERE 😭😭 <br><br>At level 1 for public use - <br>Male: Unknown<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -3612,7 +3990,7 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps"
       }
     },
     {
@@ -3638,7 +4016,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Level 2 elderly cubicle, toilet located beside emmanuel & sons<br><br>Female: <br>- Level 1 (squatting & sitting) <br>- Level 2<br>- At rooftop, level 4<br><br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -3664,7 +4046,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap toilet next to Tiong Bahru Bakery."
       }
     },
     {
@@ -3690,7 +4073,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Level 1: Female toilet, near lift lobby. Closed during the weekend<br>Level 2: Female toilet & Handicap toilet near Ya Kun. Open on weekend"
+        }
       }
     },
     {
@@ -3716,7 +4103,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: yes<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -3742,7 +4133,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes, at elderly cubicle on all levels<br>Female: Yes, at elderly cubicle on all levels<br>Handicap: Yes<br><br>Bidet also available at all family toilets, all levels"
+        }
       }
     },
     {
@@ -3768,7 +4163,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at handicap toilet, located at the lobby beside the Musollah."
       }
     },
     {
@@ -3794,7 +4190,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>(Location fr both is near cashier/counter area)<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -3820,7 +4220,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "At handicap toilet!"
       }
     },
     {
@@ -3846,7 +4247,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male : yes"
       }
     },
     {
@@ -3872,7 +4274,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "bidet available in male and female toilet level 2",
+        "sheetsRemarks": "bidet available in male and female toilet level 2"
       }
     },
     {
@@ -3898,7 +4302,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -3924,7 +4332,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "female: at b1, and L1 elderly cubicle<br>handicap: level 1 and level 3"
+        }
       }
     },
     {
@@ -3950,7 +4362,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at handicap toilet. Accessible to public, located at the lobby, near Straits Kitchen"
       }
     },
     {
@@ -3976,7 +4389,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -4002,7 +4419,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet has a bidet. "
       }
     },
     {
@@ -4028,7 +4446,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -4054,7 +4476,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidets avail at Male toilets, level 1!"
       }
     },
     {
@@ -4080,7 +4503,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -4106,7 +4530,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Located at lobby, unisex toilet!"
       }
     },
     {
@@ -4132,7 +4557,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "2nd and 3rd level, all female cubicles"
       }
     },
     {
@@ -4158,7 +4584,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Unknown<br>Male: Unknown<br>Handicap: Yes (less crowded on 3rd/4th floor)"
+        }
       }
     },
     {
@@ -4184,7 +4614,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Its a unisex toilet"
       }
     },
     {
@@ -4210,7 +4641,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female toilet with bidet"
       }
     },
     {
@@ -4236,7 +4668,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet with bidet at 2nd floor"
       }
     },
     {
@@ -4262,7 +4695,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female toilet."
       }
     },
     {
@@ -4288,7 +4722,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Address: 15 Stadium Walk<br><br>Bidet at male's and female's toilet, level 2. For female there's a bidet in every cubicle!"
+        }
       }
     },
     {
@@ -4314,7 +4752,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, L1 & L2<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -4340,7 +4782,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: <br>- Specialist Clinic C level 1. The first cubicle on the right. <br>- basement 1, near children’s emergency , near the vending machines area. ALL THREE CUBICLES"
+        }
       }
     },
     {
@@ -4366,7 +4812,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "All disabled toilets are fixed with bidet spray!"
       }
     },
     {
@@ -4392,7 +4839,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "level 1 female toilet, last cubicle (when you enter, turn right, after all the sinks)"
       }
     },
     {
@@ -4418,7 +4866,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap toilet has bidet."
       }
     },
     {
@@ -4444,7 +4893,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes, located beside the gym (open to public)"
+        }
       }
     },
     {
@@ -4470,7 +4923,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: No<br>Female: No<br>Handicap: Yes (nearer exit B/C)"
+        }
       }
     },
     {
@@ -4496,7 +4953,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes"
+        }
       }
     },
     {
@@ -4522,7 +4983,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female: unknown<br>Handicap: yes"
+        }
       }
     },
     {
@@ -4548,7 +5013,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "handicap toilet, B2"
       }
     },
     {
@@ -4574,7 +5040,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Toilet is infront of 1855 The Bottle Shop.<br>Female's, last cubicle."
+        }
       }
     },
     {
@@ -4600,7 +5070,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Toilet is at B2 female's toilet, cubicle with mom and baby sign"
+        }
       }
     },
     {
@@ -4626,7 +5100,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "At female toilet!"
       }
     },
     {
@@ -4652,7 +5127,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -4678,7 +5157,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br> Handicap: No"
+        }
       }
     },
     {
@@ -4704,7 +5187,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "B1: Female with bidet"
       }
     },
     {
@@ -4730,7 +5214,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -4756,7 +5244,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes, at elderly cubicle<br>Female: Level 2 and 3<br>Handicap: Level 2 and 3"
+        }
       }
     },
     {
@@ -4782,7 +5274,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -4808,7 +5304,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Males: Yes<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -4834,7 +5334,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "**after ticketed area**<br>female's: elderly cubicle have bidet"
+        }
       }
     },
     {
@@ -4860,7 +5364,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at the handicap toilet only!"
       }
     },
     {
@@ -4886,7 +5391,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -4912,7 +5421,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "bidet at female's toilet!"
+        }
       }
     },
     {
@@ -4938,7 +5451,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -4964,7 +5478,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap toilet with bidet. "
       }
     },
     {
@@ -4990,7 +5505,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: At least 1 cubicle has bidet!<br>Female: All cubicles has bidets!"
+        }
       }
     },
     {
@@ -5016,7 +5535,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male toilet, level 3"
       }
     },
     {
@@ -5042,7 +5562,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>Handicap: Yes<br><br>Accessible to public at lobby. "
+        }
       }
     },
     {
@@ -5068,7 +5592,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap: yes"
       }
     },
     {
@@ -5094,7 +5619,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Found at L13, the very first stall from the entrance<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -5120,7 +5649,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female toilet: Level 3, the one that’s very near with the link-bridge heading SGH."
       }
     },
     {
@@ -5146,7 +5676,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -5172,7 +5706,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: at level 2"
       }
     },
     {
@@ -5198,7 +5733,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap: Level 1 near ballrooms"
       }
     },
     {
@@ -5224,7 +5760,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: no, removed the bidet<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -5250,7 +5790,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female toilet, all 3 cubicles has bidets!"
       }
     },
     {
@@ -5276,7 +5817,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet!"
       }
     },
     {
@@ -5302,7 +5844,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Level 4<br>Female: L4 near Nandos<br>Extended wing, for female handicap cubicle at level 3 and level 4"
+        }
       }
     },
     {
@@ -5328,7 +5874,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "level 4 public toilet - last two cubicles in the ladies toilet have bidet"
       }
     },
     {
@@ -5354,7 +5901,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female: Yes, level 2. open to public<br>Handicap: Level 1, opposite HVALA"
+        }
       }
     },
     {
@@ -5380,7 +5931,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Accessible to public! <br><br>Level 1, near East India room and Level 2<br>Male: Yes<br>Female: Yes"
+        }
       }
     },
     {
@@ -5406,7 +5961,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Toilets near Burgers & Lobsters, L1.<br>Male: Yes<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -5432,7 +5991,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: level 1, in the elderly cubicle"
       }
     },
     {
@@ -5458,7 +6018,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet in the wheelchair toilet."
       }
     },
     {
@@ -5484,7 +6045,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>female: toilet avail at lobby, bidet found at the last cubicle.<br>handicap: bidet at L2"
+        }
       }
     },
     {
@@ -5510,7 +6075,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: Level 1",
+        "sheetsRemarks": "Male: level 1"
       }
     },
     {
@@ -5536,7 +6103,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "handicap toilet only"
       }
     },
     {
@@ -5562,7 +6130,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -5588,7 +6160,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "1) Female's, squatting cubicle<br>2) Handicap toilet"
+        }
       }
     },
     {
@@ -5614,7 +6190,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "*all bidets removed as of 25/7*<br><br>EAST WING (L3, near burger king)<br>Male: Unknown<br>Female: Yes<br>Handicap: Yes<br><br>WEST WING (B1, near Jolibee)<br>Male: Unknown<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -5640,7 +6220,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Level 3, last cubicle<br><br>Female: <br>- Level 3, only 1 cubicle<br>- Level 4, outside the hall<br>- Level 4 inside the back of the halls (only a few cubicles)"
+        }
       }
     },
     {
@@ -5666,7 +6250,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes, at elderly cubicle<br>Female: Yes, at elderly cubicle<br>Handicap: Yes, level 5 Tower B"
+        }
       }
     },
     {
@@ -5692,7 +6280,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>handicap: yes"
+        }
       }
     },
     {
@@ -5718,7 +6310,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: At level 4"
       }
     },
     {
@@ -5744,7 +6337,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -5770,7 +6367,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Level 2, female toilet. All 3 cubicles has bidet! Open to public."
       }
     },
     {
@@ -5796,7 +6394,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -5822,7 +6421,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Orchard Point / Taste Orchard, Level B1, within Hao Eccellente Supermarket, next to the cashier, inside the ambulant cubicles in both the male & female toilets!"
+        }
       }
     },
     {
@@ -5848,7 +6451,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Level 2, elderly cubicle"
       }
     },
     {
@@ -5874,7 +6478,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "ALL FOUND AT BASEMENT.<br>Male: Yes<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -5900,7 +6508,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Go up the escalator towards exit B.  After the first escalator, turn right.<br><br>Female toilet, first cubicle have bidet<br>Handicap toilet have bidet"
+        }
       }
     },
     {
@@ -5926,7 +6538,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes all cubicles<br>Female: Yes all cubicles<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -5952,7 +6568,12 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes level 10<br>Female: Unknown<br>Handicap: Unknown"
+        },
+        "sheetsRemarks": "Level 10"
       }
     },
     {
@@ -5978,7 +6599,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>female: yes<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -6004,7 +6629,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Unknown<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -6030,7 +6659,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female: Yes, level 1 (2nd last cubicle) and level 2<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -6056,7 +6689,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Level 1 & 2"
+        }
       }
     },
     {
@@ -6082,7 +6719,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female's toilet!"
+        }
       }
     },
     {
@@ -6108,7 +6749,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet, open to public"
       }
     },
     {
@@ -6134,7 +6776,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Level 1, elderly cubicle only<br>Male: Level 2, elderly cubicle only"
+        }
       }
     },
     {
@@ -6160,7 +6806,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors. "
+        }
       }
     },
     {
@@ -6186,7 +6836,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes, at level 9"
+        }
       }
     },
     {
@@ -6212,7 +6866,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Level 2 (squatting)"
       }
     },
     {
@@ -6238,7 +6893,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes, all cubicles<br>Female: yes, all cubicles"
+        }
       }
     },
     {
@@ -6264,7 +6923,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes, B1 near starbucks"
+        }
       }
     },
     {
@@ -6290,7 +6953,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: At level 1!"
       }
     },
     {
@@ -6316,7 +6980,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -6342,7 +7010,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -6368,7 +7040,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female: Yes"
+        }
       }
     },
     {
@@ -6394,7 +7070,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: yes, beside anytime fitness",
+        "sheetsRemarks": "toilet found beside anytime fitness"
       }
     },
     {
@@ -6420,7 +7098,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -6446,7 +7128,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -6472,7 +7158,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Lobby A, Level 1. The first two cubicles with elderly signage has bidet."
       }
     },
     {
@@ -6498,7 +7185,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes, at exit C"
+        }
       }
     },
     {
@@ -6524,7 +7215,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "at ticketing booth for the cable car, male public toilet behind Anytime Fitness back entrance"
       }
     },
     {
@@ -6550,7 +7242,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: L2, last cubicle"
       }
     },
     {
@@ -6576,7 +7269,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes"
+        }
       }
     },
     {
@@ -6602,7 +7299,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Unknown<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -6628,7 +7329,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "female toilet has bidet"
       }
     },
     {
@@ -6654,7 +7356,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes!"
+        }
       }
     },
     {
@@ -6680,7 +7386,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female toilet, next to Mel's Drive In"
+        }
       }
     },
     {
@@ -6706,7 +7416,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes,  at level 1 beside owndays & L2 beside Toys r Us"
+        }
       }
     },
     {
@@ -6732,7 +7446,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male's handicap stall, found beside level 2 snack counter. Public access. <br><br>Female toilet, near Hall 6, within GV's premises. I think you need a ticket to get through."
+        }
       }
     },
     {
@@ -6758,7 +7476,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at handicap!"
       }
     },
     {
@@ -6784,7 +7503,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -6810,7 +7533,12 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes, level 3<br>Female: Unknown<br>Handicap: Unknown"
+        },
+        "sheetsRemarks": "Level 3"
       }
     },
     {
@@ -6836,7 +7564,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Level 3, there are 3 cubicles with bidet. 1 is seated and 2 are squat!"
       }
     },
     {
@@ -6862,7 +7591,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex handicap toilets at Level 2 has bidets."
       }
     },
     {
@@ -6888,7 +7618,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, Level 2<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -6914,7 +7648,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Level 3 near room 311-314, at the elderly's cubicle."
+        }
       }
     },
     {
@@ -6940,7 +7678,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at female toilet, B1"
       }
     },
     {
@@ -6966,7 +7705,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -6992,7 +7735,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male toilet"
       }
     },
     {
@@ -7018,7 +7762,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap toilet @ Bowling Place"
       }
     },
     {
@@ -7044,7 +7789,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Yes<br><br>Toilets are near Macdonald's back exit"
+        }
       }
     },
     {
@@ -7070,7 +7819,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: yes<br>Female: Unknown"
+        }
       }
     },
     {
@@ -7096,7 +7849,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, first cubicle<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -7122,7 +7879,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet, at level 2."
       }
     },
     {
@@ -7148,7 +7906,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: At level 1<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -7174,7 +7936,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: yes"
       }
     },
     {
@@ -7200,7 +7963,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: Yes"
       }
     },
     {
@@ -7226,7 +7990,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Yes"
       }
     },
     {
@@ -7252,7 +8017,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: No<br>Female: No<br>Handicap: Yes<br><br>Handicap avail near R&B tea (opp koufu)<br>Handicap avai beside Daehwa (opp u-fit)"
+        }
       }
     },
     {
@@ -7278,7 +8047,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, at L4 handicap cubicle only"
+        }
       }
     },
     {
@@ -7304,7 +8077,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -7330,7 +8107,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: level 3, beside best denki #03-33<br>Female: level 1 (near levi's side), level 2 & level 3<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -7356,7 +8137,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -7382,7 +8167,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at handicap toilets"
       }
     },
     {
@@ -7408,7 +8194,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Bidet in both male, female and handicap toilets. For the male & female toilets, it will be at the elderly cubicle."
+        }
       }
     },
     {
@@ -7434,7 +8224,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: squatting cubicle only"
       }
     },
     {
@@ -7460,7 +8251,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet avail at handicap."
       }
     },
     {
@@ -7486,7 +8278,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: L1, all cubicles L2, at the elderly cubicle"
       }
     },
     {
@@ -7512,7 +8305,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male toilet, inside the handicap/elderly cubicle!",
+        "sheetsRemarks": "inside male toilet, the handicap/elderly cubicle!"
       }
     },
     {
@@ -7538,7 +8333,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female toilet"
       }
     },
     {
@@ -7564,7 +8360,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at female and male toilet!"
       }
     },
     {
@@ -7590,7 +8387,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, level 5, last cubicle (elderly cubicle)<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -7616,7 +8417,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, toilet near Kopitiam<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -7642,7 +8447,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "2 handicap toilets with bidets"
       }
     },
     {
@@ -7668,7 +8474,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Inside Margaret Marketplace, Level 1 within foodcourt, Male toilet all cubicles (only 2 cubicles)",
+        "sheetsRemarks": "Inside Margaret Marketplace, Level 1 within foodcourt, Male toilet all cubicles (only 2 cubicles)"
       }
     },
     {
@@ -7694,7 +8502,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "NUH Main building: Go to Level 3 of the main building, within NUH Heart Clinic, there is a unisex toilet with a built in bidet. Accessible to visitors.<br><br>NUH Medical Centre: Level 4 male toilet. 1 of the 2 cubicles within has a built in bidet/washlet.  "
+        }
       }
     },
     {
@@ -7720,7 +8532,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female - inside handicap cubicle<br>Male - inside handicap cubicle<br>Also inside the handicap toilet itself"
+        }
       }
     },
     {
@@ -7746,7 +8562,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Handicap toilet only"
       }
     },
     {
@@ -7772,7 +8589,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female: Level 1, all cubicles<br>handicap: unknown"
+        }
       }
     },
     {
@@ -7798,7 +8619,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at Handicap toilet"
       }
     },
     {
@@ -7824,7 +8646,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "First floor, male toilet in the elderly/handicap cubicle",
+        "sheetsRemarks": "First floor, male toilet in the elderly/handicap cubicle"
       }
     },
     {
@@ -7850,7 +8674,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Level 2, handicap toilet",
+        "sheetsRemarks": "Level 2, handicap toilet"
       }
     },
     {
@@ -7876,7 +8702,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Unknown<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -7902,7 +8732,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, within the lobby, at all cubicles!<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -7928,7 +8762,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: from the entrance walk past the souvenir store towards the toilet.<br><br>**you can ask the staff there which toilet has a bidet!**"
+        }
       }
     },
     {
@@ -7954,7 +8792,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: yes<br>Female: Yes"
+        }
       }
     },
     {
@@ -7980,7 +8822,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -8006,7 +8852,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes, squatting only<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -8032,7 +8882,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Unisex toilet"
       }
     },
     {
@@ -8058,7 +8909,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -8084,7 +8939,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: B1 & L2 next to Awfully Chocolate. One cubicle has bidet only<br>Female: Level 3, near Zaffran's Kitchen, all the way at the corner<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -8110,7 +8969,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female: Yes, at cubicle 3 & 4<br>handicap: unknown"
+        }
       }
     },
     {
@@ -8136,7 +8999,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: yes<br>Female: unknown"
+        }
       }
     },
     {
@@ -8162,7 +9029,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Level 4 last cubicle on the left<br>Female: Yes, at level 2 and level 4 last cubicle to the right<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -8188,7 +9059,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: unknown<br>Female: unknown<br>Handicap: yes"
+        }
       }
     },
     {
@@ -8214,7 +9089,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "at female toilet, level 3!"
       }
     },
     {
@@ -8240,7 +9116,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: yes"
       }
     },
     {
@@ -8266,7 +9143,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes, level 2"
+        }
       }
     },
     {
@@ -8292,7 +9173,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: At B1, L4<br>Female: At L5, L7<br>Handicap: At B1, L5, L7"
+        }
       }
     },
     {
@@ -8318,7 +9203,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -8344,7 +9233,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female toilets has bidets!"
       }
     },
     {
@@ -8370,7 +9260,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Yes<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -8396,7 +9290,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "female and male toilet"
       }
     },
     {
@@ -8422,7 +9317,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female toilet, in the elderly cubicle"
       }
     },
     {
@@ -8448,7 +9344,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at male and female toilet"
       }
     },
     {
@@ -8474,7 +9371,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: South Wing B2 near Soup Spoon<br>Male: South Wing B2 near Soup Spoon<br>Handicap: South Wing L2"
+        }
       }
     },
     {
@@ -8500,7 +9401,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet at male toilet, outside of Royal Palm Restaurant",
+        "sheetsRemarks": "Bidet at male toilet, outside of Royal Palm Restaurant"
       }
     },
     {
@@ -8526,7 +9429,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Yes<br>Male: Unknown"
+        }
       }
     },
     {
@@ -8552,7 +9459,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes"
+        }
       }
     },
     {
@@ -8578,7 +9489,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "female toilet, level 4 with bidet"
       }
     },
     {
@@ -8604,7 +9516,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes"
+        }
       }
     },
     {
@@ -8630,7 +9546,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Female: Level 2, bidet available at every cubicle"
       }
     },
     {
@@ -8656,7 +9573,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Bidet in handicap toilet"
       }
     },
     {
@@ -8682,7 +9600,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Level 1 near Foodfare<br>Female: Level 1 near Foodfare, also at 3rd floor ICU<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -8708,7 +9630,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -8734,7 +9660,12 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "(after the Malaysian customs)<br>Male: 3 cubicles with bidet!"
+        },
+        "sheetsRemarks": "(after the Malaysian customs)\r\nMale: 3 cubicles with bidet!"
       }
     },
     {
@@ -8760,7 +9691,12 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes, at level 5<br>Female: Unknown<br>Handicap: Unknown"
+        },
+        "sheetsRemarks": "At level 5"
       }
     },
     {
@@ -8786,7 +9722,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "For NSL side,<br>Male: Unknown<br>Female: yes, cubicle 1 & 8 (squatting) has bidets. Beside POSB.<br>Handicap: Unknown<br><br>For TEL side,<br>Female: 3rd cubicle, locked but can use fingernail or coin to go in<br>Handicap: Just beside the lifts towards the TEL platform"
+        }
       }
     },
     {
@@ -8812,7 +9752,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -8838,7 +9782,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: Yes<br>Female: Yes<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -8864,7 +9812,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Male: yes<br>Female: yes<br>Handicap: unknown"
+        }
       }
     },
     {
@@ -8890,7 +9842,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Level 4, female toilet! At the furthest cubicle (elderly/handicapped)"
       }
     },
     {
@@ -8916,7 +9869,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "male: Yes<br>Female: Yes<br><br>All cubicles avail!"
+        }
       }
     },
     {
@@ -8942,7 +9899,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Yes, B1<br>Male: Unknown<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -8968,7 +9929,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "AT School of Physical and Mathematical Sciences (SPMS)<br><br>Male: Unknown<br>Female: Unknown<br>Handicap: All handicap toilets on all floors"
+        }
       }
     },
     {
@@ -8994,7 +9959,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "At female's"
+        }
       }
     },
     {
@@ -9020,7 +9989,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Swimming pool toilet - female's"
+        }
       }
     },
     {
@@ -9046,7 +10019,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "MALE:<br>- Techno Edge Canteen<br>- USC<br><br>Female:<br>- Maxx Coffee near CLB<br>- Sci fac next to Starbucks (upstairs Techno)"
+        }
       }
     },
     {
@@ -9072,7 +10049,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Yes, usually the first cubicle.<br>Male: Unknown<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -9098,7 +10079,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "SIM Block B, Female: squatting only"
       }
     },
     {
@@ -9124,7 +10106,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Level 1 near Tea Tree<br>Male: Unknown<br>Handicap: Unknown"
+        }
       }
     },
     {
@@ -9150,7 +10136,9 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "Male: Level 1, there are 2 cubicles with bidets",
+        "sheetsRemarks": "Level 1, there are 2 male cubicles with bidet"
       }
     },
     {
@@ -9176,7 +10164,11 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": {
+          "@type": "html",
+          "value": "Female: Unknown<br>Male: Unknown<br>Handicap: Yes"
+        }
       }
     },
     {
@@ -9202,7 +10194,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "East wing (Near HSS) - Level 1, 3, 5 handicap toilet "
       }
     },
     {
@@ -9228,7 +10221,8 @@
         },
         "notes": "",
         "lastUpdated": "2025-05-28",
-        "source": "google-sheets"
+        "source": "google-maps",
+        "description": "At female handicap cubicle!"
       }
     }
   ]
