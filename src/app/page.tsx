@@ -133,6 +133,8 @@ export default function Home() {
       }
     });
     
+    //~ clear selected location whn filters change, prevent map frm re-centering on prev select
+    setSelectedLocation(null);
     setFilteredLocations(filtered);
   };
   
