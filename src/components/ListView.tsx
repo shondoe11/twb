@@ -9,24 +9,52 @@ const ListView = ({
   locations?: ToiletLocation[], 
   onSelectLocation?: (location: ToiletLocation) => void 
 }) => {
-  //& state fr search filtering
+  //& search filtering
   const [searchTerm, setSearchTerm] = useState('');
   
-  //& state fr sorting options
+  //& sorting options
   const [sortBy, setSortBy] = useState<'name' | 'region' | 'rating'>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   
-  //& filter locations based on search term
+  //& gender filter
+  const [genderFilter, setGenderFilter] = useState<'all' | 'male' | 'female' | 'any'>('all');
+  
+  //& bidet filter
+  const [bidetFilter, setBidetFilter] = useState<boolean | null>(null);
+  
+  //& filter locations -> search term, gender, bidet
   const filteredLocations = locations.filter(location => {
     const searchLower = searchTerm.toLowerCase();
-    return (
+    
+    //~ search term filters
+    const matchesSearch = (
       location.name.toLowerCase().includes(searchLower) ||
       (location.address?.toLowerCase() || '').includes(searchLower) ||
       (location.region?.toLowerCase() || '').includes(searchLower)
     );
+    
+    //~ gender filters
+    let matchesGender = true;
+    if (genderFilter !== 'all') {
+      if (genderFilter === 'male') {
+        matchesGender = location.gender === 'male';
+      } else if (genderFilter === 'female') {
+        matchesGender = location.gender === 'female';
+      } else if (genderFilter === 'any') {
+        matchesGender = !location.gender || location.gender === 'any';
+      }
+    }
+    
+    //~ bidet filters
+    let matchesBidet = true;
+    if (bidetFilter !== null) {
+      matchesBidet = location.hasBidet === bidetFilter;
+    }
+    
+    return matchesSearch && matchesGender && matchesBidet;
   });
   
-  //~ format opening hrs in readable way
+  //~ opening hrs formatter
   const formatOpeningHours = (hours?: string) => {
     if (!hours) return 'Hours not available';
     return hours;
@@ -122,6 +150,59 @@ const ListView = ({
         >
           Rating{renderSortIndicator('rating')}
         </button>
+      </div>
+
+      {/* gender & bidet filters */}
+      <div className="px-4 py-2 bg-gray-50 border-b border-gray-200">
+        <div className="flex flex-wrap gap-2 mb-2">
+          <span className="text-xs text-gray-500 self-center mr-1">Gender:</span>
+          <button 
+            onClick={() => setGenderFilter('all')} 
+            className={`px-3 py-1 text-xs rounded-full ${genderFilter === 'all' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+          >
+            All
+          </button>
+          <button 
+            onClick={() => setGenderFilter('male')} 
+            className={`px-3 py-1 text-xs rounded-full ${genderFilter === 'male' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+          >
+            Male
+          </button>
+          <button 
+            onClick={() => setGenderFilter('female')} 
+            className={`px-3 py-1 text-xs rounded-full ${genderFilter === 'female' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+          >
+            Female
+          </button>
+          <button 
+            onClick={() => setGenderFilter('any')} 
+            className={`px-3 py-1 text-xs rounded-full ${genderFilter === 'any' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+          >
+            Gender-Neutral
+          </button>
+        </div>
+        
+        <div className="flex flex-wrap gap-2">
+          <span className="text-xs text-gray-500 self-center mr-1">Bidet:</span>
+          <button 
+            onClick={() => setBidetFilter(null)} 
+            className={`px-3 py-1 text-xs rounded-full ${bidetFilter === null ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+          >
+            Any
+          </button>
+          <button 
+            onClick={() => setBidetFilter(true)} 
+            className={`px-3 py-1 text-xs rounded-full ${bidetFilter === true ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+          >
+            Has Bidet
+          </button>
+          <button 
+            onClick={() => setBidetFilter(false)} 
+            className={`px-3 py-1 text-xs rounded-full ${bidetFilter === false ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700'}`}
+          >
+            No Bidet
+          </button>
+        </div>
       </div>
       
       {/* locations list */}
