@@ -98,11 +98,32 @@ export interface GeoJSONData {
 
 //& data srcs configs
 export const DATA_SOURCES = {
+  //~ primary Google Sheets ID
   GOOGLE_SHEETS_ID: '1jAMaD3afMfA19U2u1aRLkL0M-ufFvz1fKDpT_BraOfY',
+  
+  //~ sheet tabs (gids)
+  SHEET_TABS: [
+    { name: 'MALE TOILETS', gid: '0' },
+    { name: 'FEMALE TOILETS', gid: '1908890944' },
+    { name: 'HOTEL ROOMS W BIDET', gid: '1650628758' }
+  ],
+  
+  //~ Google Maps data src
   GOOGLE_MAPS_ID: '1QEJocnDLq-vO8XRTOfRa50sFfJ3tLns0',
+  
+  //~ get CSV URL fr main sheet (backwards compatibility)
   get SHEETS_CSV_URL() {
     return `https://docs.google.com/spreadsheets/d/${this.GOOGLE_SHEETS_ID}/export?format=csv`;
   },
+  
+  //~ get URLs fr all sheet tabs
+  get ALL_SHEETS_CSV_URLS() {
+    return this.SHEET_TABS.map(tab => 
+      `https://docs.google.com/spreadsheets/d/${this.GOOGLE_SHEETS_ID}/export?format=csv&gid=${tab.gid}`
+    );
+  },
+  
+  //~ get Google Maps KML URL
   get MAPS_KML_URL() {
     return `https://www.google.com/maps/d/kml?forcekml=1&mid=${this.GOOGLE_MAPS_ID}`;
   }
