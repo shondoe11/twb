@@ -1,248 +1,378 @@
 //* client-side data service fr fetching & processing toilet location data
-import { ToiletLocation, GeoJSONData, GeoJSONFeature } from '../shared/types';
-
-/**
- * & type definition fr GeoJSON feature properties
- */
-type GeoJSONFeatureProperties = {
-  id?: string;
-  name?: string;
-  address?: string;
-  region?: string;
-  type?: string;
-  hasBidet?: boolean;
-  amenities?: {
-    wheelchairAccess?: boolean;
-    babyChanging?: boolean;
-    freeEntry?: boolean;
-    [key: string]: boolean | string | number | undefined;
-  };
-  notes?: string;
-  lastUpdated?: string;
-  openingHours?: string;
-  normalizedHours?: Record<string, string> | string;
-  imageUrl?: string;
-  rating?: number;
-  source?: string;
-  //~ google maps description
-  description?: string;
-  //~ google sheets remarks
-  sheetsRemarks?: string;
-  [key: string]: string | number | boolean | object | undefined; //~ allow fr other properties
-};
+import { ToiletLocation, GeoJSONData } from '../shared/types';
 
 /*
 & fetch all toilet locations frm API
  */
 export async function fetchLocations(): Promise<ToiletLocation[]> {
   try {
-    //~ fetch combined geojson data frm api endpoint
+    console.log('🔍 STEP 1: Fetching raw data from API...');
     const response = await fetch('/api/locations');
+    const data: GeoJSONData = await response.json();
     
-    if (!response.ok) {
-      throw new Error(`Failed to fetch data: ${response.status}`);
-    }
+    console.log('🔍 STEP 2: Analyzing raw API data...');
+    //~ count feats w addresses
+    const featuresWithAddress = data.features.filter(f => 
+      f.properties?.address && f.properties.address.trim() !== '');
+    console.log(`📊 STATS: Raw data has ${featuresWithAddress.length} out of ${data.features.length} features with addresses`);
     
-    const geoData = await response.json();
+    //? show all feats w addresses fr debugging
+    console.log('📋 FULL ADDRESS LIST FROM API:');
+    featuresWithAddress.forEach(f => {
+      console.log(`📍 "${f.properties?.name}" → "${f.properties?.address}"`);
+    });
     
-    //~ convert geojson features to toilet location objects
-    return geoJSONToLocations(geoData);
+    console.log('🔍 STEP 3: Processing data into locations...');
+    const locations = geoJSONToLocations(data);
+    
+    console.log('🔍 STEP 4: Analyzing processed locations...');
+    //~ count locations w addresses aft processing
+    const locationsWithAddress = locations.filter(loc => loc.address && loc.address.trim() !== '');
+    console.log(`📊 STATS: Processed data has ${locationsWithAddress.length} out of ${locations.length} locations with addresses`);
+    
+    //? display 1st 10 locations w addresses
+    console.log('📋 SAMPLE OF PROCESSED LOCATIONS WITH ADDRESSES:');
+    locationsWithAddress.slice(0, 10).forEach(loc => {
+      console.log(`📍 "${loc.name}" → "${loc.address}"`);
+    });
+    
+    //? display 1st 10 locations missing addresses
+    console.log('📋 SAMPLE OF PROCESSED LOCATIONS MISSING ADDRESSES:');
+    const missingAddresses = locations.filter(loc => !loc.address || loc.address.trim() === '');
+    missingAddresses.slice(0, 10).forEach(loc => {
+      console.log(`❌ "${loc.name}" has no address`);
+    });
+    
+    return locations;
   } catch (error) {
-    console.error('Error fetching locations:', error);
+    console.error('❌ Error fetching locations:', error);
     return [];
   }
 }
 
-/*
-& convert GeoJSON data to ToiletLocation objs
+/**
+ * & Interface fr extracted features w consistent props
+ */
+interface LocationFeature {
+  name: string;
+  address?: string;
+  coords: [number, number]; //~ [lng, lat]
+  properties: Record<string, any>;
+}
+
+/**
+ * & normalize location names fr better matching
+ */
+function normalizeLocationName(name: string): string {
+  let normalized = name.toLowerCase();
+  
+  //~ rm any content in parentheses, brackets
+  normalized = normalized.replace(/\s*\([^)]*\)\s*/g, '');
+  normalized = normalized.replace(/\s*\[[^\]]*\]\s*/g, '');
+  
+  //~ rm common prefixes/suffixes & venue types
+  normalized = normalized.replace(/^(the|at|in|by)\s+/i, '');
+  normalized = normalized.replace(/\s+(centre|center|mall|plaza|station|park|hub|mrt|cc)$/i, '');
+  
+  //~ rm punctuation & special characters
+  normalized = normalized.replace(/[&@\'",\.\?!:\-–—]/g, ' ');
+  
+  //~ standardize whitespace
+  normalized = normalized.replace(/\s+/g, ' ');
+  
+  //~ handle common abbreviations
+  normalized = normalized.replace(/\bst\b/g, 'street');
+  normalized = normalized.replace(/\bave\b/g, 'avenue');
+  normalized = normalized.replace(/\bblvd\b/g, 'boulevard');
+  normalized = normalized.replace(/\botb\b/g, 'our tampines hub');
+  normalized = normalized.replace(/\both\b/g, 'our tampines hub');
+  
+  //~ rm common location type words
+  normalized = normalized.replace(/\b(coffee|food|food court|hawker|market|shopping|community|club|sports)\b/g, '');
+  
+  //~ clean up any double spaces frm removals
+  normalized = normalized.replace(/\s+/g, ' ');
+  
+  return normalized.trim();
+}
+
+/**
+ * & calculate data completeness score
+ */
+function getDataCompleteness(loc: ToiletLocation): number {
+  const fields = [
+    !!loc.address, 
+    !!loc.region, 
+    !!loc.rating,
+    !!loc.imageUrl,
+    !!loc.openingHours,
+    !!loc.notes,
+    !!loc.description
+  ];
+  
+  return fields.filter(Boolean).length / fields.length;
+}
+
+/**
+ * & Convert GeoJSON data to ToiletLocation objs
  */
 export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
   if (!geoData.features || !Array.isArray(geoData.features)) {
+    console.log('❌ No features found in data');
     return [];
   }
   
-  //~ Map: track unique locations by coordinate hash
-  const uniqueLocations = new Map();
+  //~ separate features by source (google sheets w/ addresses vs google maps)
+  const sheetsFeatures: LocationFeature[] = [];
+  const mapsFeatures: LocationFeature[] = [];
   
-  //~ Sort features - prioritize features w more complete data fr initial population
-  const sortedFeatures = [...geoData.features].sort((a, b) => {
-    const aProps = a.properties || {};
-    const bProps = b.properties || {};
+  //~ extract data frm feats
+  for (const feature of geoData.features) {
+    const properties = feature.properties || {};
+    const name = properties.name;
+    const address = properties.address;
+    const source = properties.source;
     
-    //~ score based on completeness
-    const aScore = scoreCompleteness(aProps as GeoJSONFeatureProperties);
-    const bScore = scoreCompleteness(bProps as GeoJSONFeatureProperties);
+    //~ skip if no name
+    if (!name) continue;
     
-    return bScore - aScore; //~ higher score 1st
-  });
-  
-  //~ 1st pass: collect all locations using sorted features
-  sortedFeatures.forEach((feature: GeoJSONFeature) => {
-    const { properties, geometry } = feature;
+    //~ extract coords - handle diff data formats
+    let coords: [number, number] = [0, 0];
     
-    //~ skip invalid features
-    if (!geometry || !geometry.coordinates || !properties) return;
-    
-    //~ ensure coordinates in correct format [lng, lat]
-    const [lng, lat] = geometry.coordinates;
-    if (!lat || !lng || isNaN(Number(lat)) || isNaN(Number(lng))) return;
-    
-    //~ unique key based on coords (round 5 decimal places)
-    const locationKey = `${Number(lat).toFixed(5)},${Number(lng).toFixed(5)}`;
-    
-    //~ if alr have this location, merge relevant data
-    if (uniqueLocations.has(locationKey)) {
-      const existing = uniqueLocations.get(locationKey);
-      
-      //~ prefer locations w names & addresses over unknowns
-      if (shouldUpdateValue(existing.name, properties.name)) {
-        existing.name = properties.name;
+    if (Array.isArray(feature.geometry?.coordinates)) {
+      const [lng, lat] = feature.geometry.coordinates;
+      if (!isNaN(Number(lng)) && !isNaN(Number(lat))) {
+        coords = [lng, lat];
       }
-      
-      //~ simplify address handling - always use address w/o name fallback
-      if (properties.address && properties.address.trim() !== '') {
-        existing.address = properties.address.trim();
-      }
-      
-      //~ update other fields conditionally
-      if (shouldUpdateValue(existing.region, properties.region)) {
-        existing.region = properties.region;
-      }
-      
-      if (shouldUpdateValue(existing.type, properties.type)) {
-        existing.type = properties.type;
-      }
-      
-      //~ merge amenities if avail
-      if (properties.amenities) {
-        existing.amenities = {
-          ...existing.amenities,
-          ...properties.amenities,
-          //~ explicitly prioritize true values fr boolean amenities
-          wheelchairAccess: existing.amenities?.wheelchairAccess || properties.amenities.wheelchairAccess,
-          babyChanging: existing.amenities?.babyChanging || properties.amenities.babyChanging,
-          freeEntry: existing.amenities?.freeEntry || properties.amenities.freeEntry
-        };
-      }
-      
-      //~ merge multiple notes if available
-      if (properties.notes) {
-        if (!existing.notes) {
-          existing.notes = properties.notes;
-        } else if (!existing.notes.includes(properties.notes)) {
-          //~ combine notes if different
-          existing.notes = `${existing.notes}; ${properties.notes}`;
-        }
-      }
-      
-      //~ combine source info for tracking
-      if (properties.source && properties.source !== existing.source) {
-        existing.source = existing.source 
-          ? `${existing.source},${properties.source}` 
-          : properties.source;
-      }
-      
-      //~ keep track of hasBidet=true from any source
-      if (properties.hasBidet === true) {
-        existing.hasBidet = true;
-      }
-      
-      //~ preserve description & sheetsRemarks data
-      if (properties.description && !existing.description) {
-        existing.description = properties.description;
-      }
-      
-      if (properties.sheetsRemarks && !existing.sheetsRemarks) {
-        existing.sheetsRemarks = properties.sheetsRemarks;
-      }
-      
-      return;
     }
     
-    //~ otherwise add as new location
-    uniqueLocations.set(locationKey, {
-      id: properties.id || `loc-${Math.random().toString(36).substring(2, 9)}`,
-      name: properties.name || 'Unknown Location',
-      address: properties.address || '',
-      region: properties.region || 'Unknown',
-      type: properties.type || 'Other',
+    //~ categorize feats by src
+    if (source === 'google-sheets' && address && address.trim() !== '') {
+      sheetsFeatures.push({ name, address, coords, properties });
+    } else if (source === 'google-maps') {
+      mapsFeatures.push({ name, coords, properties });
+    }
+  }
+  
+  console.log(`📊 Found ${sheetsFeatures.length} features with addresses from Google Sheets`);
+  console.log(`📊 Found ${mapsFeatures.length} features from Google Maps`);
+  
+  //~ create maps fr address lookup
+  const exactAddressMap: {[name: string]: string} = {};
+  const normalizedAddressMap: {[name: string]: string} = {};
+  
+  //~ build address maps from feats w addresses
+  for (const feature of sheetsFeatures) {
+    //~ skip if name/address missing / if same (likely invalid address)
+    if (!feature.address || !feature.name || 
+        feature.name.toLowerCase() === feature.address.toLowerCase()) {
+      continue;
+    }
+    
+    //~ exact name mapping
+    exactAddressMap[feature.name] = feature.address;
+    console.log(`📝 Added exact mapping: "${feature.name}" -> "${feature.address}"`);
+    
+    //~ also add case-insensitive mapping
+    exactAddressMap[feature.name.toLowerCase()] = feature.address;
+    
+    //~ normalized name mapping (lowercase, no parentheses, normalized spaces/symbols)
+    const normalizedName = normalizeLocationName(feature.name);
+    normalizedAddressMap[normalizedName] = feature.address;
+    console.log(`📝 Added normalized mapping: "${normalizedName}" -> "${feature.address}"`);
+    
+    //~ simplified name mapping (name w/o parentheses content)
+    const simplifiedName = feature.name.replace(/\s*\([^)]*\)\s*/g, '').trim();
+    if (simplifiedName !== feature.name && simplifiedName.length > 3) {
+      exactAddressMap[simplifiedName] = feature.address;
+      console.log(`📝 Added simplified mapping: "${simplifiedName}" -> "${feature.address}"`);
+    }
+    
+    //~ words-only version (remove all non-alphanumeric chars)
+    const wordsOnlyName = feature.name.toLowerCase().replace(/[^a-z0-9\s]/gi, '').trim();
+    if (wordsOnlyName !== feature.name.toLowerCase() && wordsOnlyName.length > 3) {
+      exactAddressMap[wordsOnlyName] = feature.address;
+      console.log(`📝 Added words-only mapping: "${wordsOnlyName}" -> "${feature.address}"`);
+    }
+  }
+  
+  console.log(`📊 Address maps contain ${Object.keys(exactAddressMap).length} exact entries and ${Object.keys(normalizedAddressMap).length} normalized entries`);
+  
+  //~ final locations arr
+  const uniqueLocations: ToiletLocation[] = [];
+  const processedKeys = new Set<string>();
+  
+  //~ process Google Sheets feats (have addresses)
+  sheetsFeatures.forEach(feature => {
+    const { name, address, coords, properties } = feature;
+    const [lng, lat] = coords;
+    
+    if (!name || isNaN(Number(lat)) || isNaN(Number(lng))) return;
+    
+    //~ unique key
+    const locationKey = `${name}-${Number(lat).toFixed(6)},${Number(lng).toFixed(6)}`;
+    if (processedKeys.has(locationKey)) return;
+    processedKeys.add(locationKey);
+    
+    //~ safely extract props w type checking
+    const safeId = typeof properties.id === 'string' ? 
+      properties.id : `loc-${Math.random().toString(36).substring(2, 9)}`;
+    const safeName = typeof name === 'string' ? name : '';
+    const safeAddress = typeof address === 'string' ? address : '';
+    const safeRegion = typeof properties.region === 'string' ? properties.region : 'Unknown';
+    const safeType = typeof properties.type === 'string' ? properties.type : 'Other';
+    
+    uniqueLocations.push({
+      id: safeId,
+      name: safeName,
+      address: safeAddress,
+      region: safeRegion,
+      type: safeType,
       lat: Number(lat),
       lng: Number(lng),
-      hasBidet: properties.hasBidet ?? true,
-      amenities: properties.amenities || {
-        wheelchairAccess: false,
-        babyChanging: false,
-        freeEntry: false
+      hasBidet: typeof properties.hasBidet === 'boolean' ? properties.hasBidet : true, //~ assume all hav bidets unless specified
+      notes: typeof properties.notes === 'string' ? properties.notes : '',
+      amenities: {
+        wheelchairAccess: typeof properties.hasWheelchair === 'boolean' ? properties.hasWheelchair : false,
+        babyChanging: typeof properties.hasBabyChanging === 'boolean' ? properties.hasBabyChanging : false,
+        freeEntry: typeof properties.hasFreeEntry === 'boolean' ? properties.hasFreeEntry : false
+        //~ extra properties add to ToiletLocation type if need
       },
-      notes: properties.notes || '',
-      lastUpdated: properties.lastUpdated || new Date().toISOString(),
-      openingHours: properties.openingHours,
-      normalizedHours: properties.normalizedHours,
-      imageUrl: properties.imageUrl,
-      rating: properties.rating,
-      source: properties.source,
-      //~ add missing fields fr remarks display
-      description: properties.description || '',
-      sheetsRemarks: properties.sheetsRemarks || ''
+      rating: typeof properties.rating === 'number' || typeof properties.rating === 'string' ? 
+        Number(properties.rating) : undefined,
+      imageUrl: typeof properties.imageUrl === 'string' ? properties.imageUrl : undefined,
+      openingHours: typeof properties.openingHours === 'string' ? properties.openingHours : undefined,
+      lastUpdated: typeof properties.lastUpdated === 'string' ? properties.lastUpdated : '',
+      source: 'google-sheets',
+      description: typeof properties.description === 'string' ? properties.description : '',
+      sheetsRemarks: typeof properties.remarks === 'string' ? properties.remarks : '',
+      dataCompleteness: 0
     });
   });
   
-  //~ return arr of unique locations
-  return Array.from(uniqueLocations.values());
+  //~ process Google Maps feats & look up addresses frm maps
+  mapsFeatures.forEach(feature => {
+    const { name, coords, properties = {} } = feature;
+    const [lng = 0, lat = 0] = coords;
+    
+    if (!name || isNaN(Number(lat)) || isNaN(Number(lng))) return;
+    
+    //~ unique key
+    const locationKey = `${name}-${Number(lat).toFixed(6)},${Number(lng).toFixed(6)}`;
+    if (processedKeys.has(locationKey)) return;
+    processedKeys.add(locationKey);
+    
+    //~ check fr address in  map by exact name
+    let address = '';
+    let matchType = '';
+    
+    //? log location
+    console.log(`🔍 Looking up address for location: "${name}"`);
+    
+    //~ try exact name match
+    if (exactAddressMap[name]) {
+      address = exactAddressMap[name];
+      matchType = 'exact match';
+      console.log(`✅ Found address for "${name}": "${address}" (${matchType})`);
+    } 
+    //~ try name w/o parentheses
+    else {
+      const simplifiedName = name.replace(/\s*\([^)]*\)\s*/g, '').trim();
+      if (exactAddressMap[simplifiedName] && simplifiedName.length > 3) {
+        address = exactAddressMap[simplifiedName];
+        matchType = 'simplified match';
+        console.log(`✅ Found address for "${name}": "${address}" (${matchType})`);
+      }
+      //~ try normalized name match
+      else {
+        const normalizedName = normalizeLocationName(name);
+        //? log normalized name fr debugging
+        console.log(`  🔎 Normalized "${name}" to "${normalizedName}"`);
+        
+        if (normalizedAddressMap[normalizedName]) {
+          address = normalizedAddressMap[normalizedName];
+          matchType = 'normalized match';
+          console.log(`✅ Found address for "${name}": "${address}" (${matchType})`);
+        } 
+        //~ try fuzzy matching w/ normalized names
+        else {
+          //~ look fr partial matches in normalized keys
+          const normalizedKeys = Object.keys(normalizedAddressMap);
+          let bestMatch = '';
+          let highestScore = 0;
+          
+          for (const key of normalizedKeys) {
+            if (normalizedName.includes(key) || key.includes(normalizedName)) {
+              //~ simple scoring - longer matches better
+              const score = Math.min(key.length, normalizedName.length);
+              if (score > highestScore) {
+                highestScore = score;
+                bestMatch = key;
+              }
+            }
+          }
+          
+          if (bestMatch && highestScore > 4) { //~ min match length avoid false positives
+            address = normalizedAddressMap[bestMatch];
+            matchType = 'fuzzy match';
+            console.log(`✅ Found address for "${name}": "${address}" (${matchType} with "${bestMatch}")`);
+          } else {
+            console.log(`❌ No address match found for "${name}"`);
+          }
+        }
+      }
+    }
+    
+    //~ safely extract props w type checking
+    const safeId = typeof properties.id === 'string' ? 
+      properties.id : `loc-${Math.random().toString(36).substring(2, 9)}`;
+    const safeName = typeof name === 'string' ? name : '';
+    const safeAddress = typeof address === 'string' ? address : '';
+    const safeRegion = typeof properties.region === 'string' ? properties.region : 'Unknown';
+    const safeType = typeof properties.type === 'string' ? properties.type : 'Other';
+    
+    uniqueLocations.push({
+      id: safeId,
+      name: safeName,
+      address: safeAddress,
+      region: safeRegion,
+      type: safeType,
+      lat: Number(lat),
+      lng: Number(lng),
+      hasBidet: typeof properties.hasBidet === 'boolean' ? properties.hasBidet : true,
+      notes: typeof properties.notes === 'string' ? properties.notes : '',
+      amenities: {
+        wheelchairAccess: typeof properties.hasWheelchair === 'boolean' ? properties.hasWheelchair : false,
+        babyChanging: typeof properties.hasBabyChanging === 'boolean' ? properties.hasBabyChanging : false,
+        freeEntry: typeof properties.hasFreeEntry === 'boolean' ? properties.hasFreeEntry : false
+      },
+      rating: typeof properties.rating === 'number' || typeof properties.rating === 'string' ? 
+        Number(properties.rating) : undefined,
+      imageUrl: typeof properties.imageUrl === 'string' ? properties.imageUrl : undefined,
+      openingHours: typeof properties.openingHours === 'string' ? properties.openingHours : undefined,
+      lastUpdated: typeof properties.lastUpdated === 'string' ? properties.lastUpdated : '',
+      source: 'google-maps',
+      description: typeof properties.description === 'string' ? properties.description : '',
+      sheetsRemarks: '',
+      dataCompleteness: 0
+    });
+  });
+  
+  //~ calculate data completeness fr each location
+  uniqueLocations.forEach(location => {
+    location.dataCompleteness = getDataCompleteness(location);
+  });
+  
+  console.log(`📊 Final processed location count: ${uniqueLocations.length}`);
+  
+  return uniqueLocations;
 }
 
 /**
- * & helper func: determine if value shld replace existing value
+ * & filter locations based on region, type & amenities
  */
-function shouldUpdateValue(existingValue: string | undefined | null, newValue: string | undefined | null): boolean {
-  //~ don't update w undefined/null/empty
-  if (newValue === undefined || newValue === null || newValue === '') return false;
-  
-  //~ always update if existing is empty/unknown
-  if (!existingValue || 
-      existingValue === '' || 
-      existingValue === 'Unknown' || 
-      existingValue === 'unknown' || 
-      existingValue === 'Other' || 
-      existingValue === 'other') {
-    return true;
-  }
-  
-  //~ if new value has more info (longer), use
-  if (typeof existingValue === 'string' && 
-      typeof newValue === 'string' && 
-      newValue.length > existingValue.length && 
-      !newValue.includes('unknown') && 
-      !newValue.toLowerCase().includes('null')) {
-    return true;
-  }
-  
-  return false;
-}
-
-/**
- *& score feature's properties fr completeness: prioritize better data
- */
-function scoreCompleteness(props: GeoJSONFeatureProperties): number {
-  let score = 0;
-  
-  //~ award points fr having complete data
-  if (props.name && props.name !== 'Unknown Location') score += 3;
-  if (props.address && props.address.length > 5) score += 4;
-  if (props.region && props.region !== 'Unknown') score += 2;
-  if (props.type && props.type !== 'Other') score += 1;
-  if (props.notes && props.notes.length > 0) score += 1;
-  if (props.amenities && Object.keys(props.amenities).length > 0) score += 2;
-  if (props.source === 'google-sheets') score += 2; //~ pref sheets data (usually more complete)
-  
-  return score;
-}
-
-/*
-& filter locations based on filter criteria
-*/
 export function filterLocations(
-  locations: ToiletLocation[],
+  locations: ToiletLocation[], 
   filters: {
     region?: string;
     type?: string;
@@ -251,32 +381,31 @@ export function filterLocations(
       babyChanging?: boolean;
       freeEntry?: boolean;
       hasBidet?: boolean;
-    };
-    searchTerm?: string;
+    }
   }
 ): ToiletLocation[] {
   return locations.filter(location => {
-    //~ filter by region if specified
+    //~ filter by region
     if (filters.region && location.region !== filters.region) {
       return false;
     }
     
-    //~ filter by type if specified
+    //~ filter by type
     if (filters.type && location.type !== filters.type) {
       return false;
     }
     
-    //~ filter by amenities
+    //~ filter by amenities if any specified
     if (filters.amenities) {
-      if (filters.amenities.wheelchairAccess && !location.amenities.wheelchairAccess) {
+      if (filters.amenities.wheelchairAccess && !location.amenities?.wheelchairAccess) {
         return false;
       }
       
-      if (filters.amenities.babyChanging && !location.amenities.babyChanging) {
+      if (filters.amenities.babyChanging && !location.amenities?.babyChanging) {
         return false;
       }
       
-      if (filters.amenities.freeEntry && !location.amenities.freeEntry) {
+      if (filters.amenities.freeEntry && !location.amenities?.freeEntry) {
         return false;
       }
       
@@ -285,57 +414,6 @@ export function filterLocations(
       }
     }
     
-    //~ filter by search term
-    if (filters.searchTerm) {
-      const term = filters.searchTerm.toLowerCase();
-      const matchesName = location.name.toLowerCase().includes(term);
-      const matchesAddress = location.address?.toLowerCase().includes(term) || false;
-      const matchesRegion = location.region?.toLowerCase().includes(term) || false;
-      
-      return matchesName || matchesAddress || matchesRegion;
-    }
-    
     return true;
   });
-}
-
-/*
-& sort locations by distance frm given point
-*/
-export function sortLocationsByDistance(
-  locations: ToiletLocation[],
-  lat: number,
-  lng: number
-): ToiletLocation[] {
-  return [...locations].sort((a, b) => {
-    const distA = calculateDistance(lat, lng, a.lat, a.lng);
-    const distB = calculateDistance(lat, lng, b.lat, b.lng);
-    return distA - distB;
-  });
-}
-
-/*
-& calculate distance between two points using Haversine formula
-*/
-export function calculateDistance(
-  lat1: number,
-  lon1: number,
-  lat2: number,
-  lon2: number
-): number {
-  const R = 6371; //~ earth radius in km
-  const dLat = deg2rad(lat2 - lat1);
-  const dLon = deg2rad(lon2 - lon1);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const d = R * c; //~ distance in km
-  return d;
-}
-
-//& helper func: convert degrees to radians
-function deg2rad(deg: number): number {
-  return deg * (Math.PI / 180);
 }
