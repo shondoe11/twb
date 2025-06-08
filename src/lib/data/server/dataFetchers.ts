@@ -46,14 +46,26 @@ export async function readCombinedGeoJSON(): Promise<GeoJSONData> {
     if (data && data.features && Array.isArray(data.features)) {
       data.features = data.features.map((feature: GeoJSONData['features'][0]) => {
         if (feature.properties) {
-          //~ ensure region is normalized
+          //~ normalize region names match expected capitalization format
           if (!feature.properties.region || feature.properties.region === 'unknown') {
             feature.properties.region = 'Unknown';
           } else {
-            //~ capitalize first letter
-            feature.properties.region = 
-              feature.properties.region.charAt(0).toUpperCase() + 
-              feature.properties.region.slice(1).toLowerCase();
+            //~ ensure region matches standard capitalized formats
+            const regionMap: Record<string, string> = {
+              'north': 'North',
+              'south': 'South',
+              'east': 'East',
+              'west': 'West',
+              'central': 'Central',
+              'north-east': 'North-East',
+              'northeast': 'North-East',
+              'institutions': 'Institutions',
+            };
+            
+            const lowerRegion = feature.properties.region.toLowerCase();
+            if (lowerRegion in regionMap) {
+              feature.properties.region = regionMap[lowerRegion];
+            }
           }
           
           //~ ensure type is normalized
