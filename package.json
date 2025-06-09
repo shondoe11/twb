@@ -26,6 +26,7 @@
     "react-leaflet": "^5.0.0",
     "react-leaflet-markercluster": "^5.0.0-rc.0",
     "string-similarity": "^4.0.4",
+    "xlsx": "^0.18.5",
     "xmldom": "^0.6.0"
   },
   "devDependencies": {
