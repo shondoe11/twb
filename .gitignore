@@ -54,5 +54,8 @@ next-env.d.ts
 /data/*.geojson
 /data/*.json
 
+# backups
+/backup-before-cleanup/
+
 # only commit manually verified data
 !/data/sample/
