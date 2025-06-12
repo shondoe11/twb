@@ -30,6 +30,12 @@ export interface ToiletLocation {
   //& google sheets remarks
   sheetsRemarks?: string;
   
+  //~ source-specific comments fr display on map
+  sourceComments?: {
+    maps?: string[];
+    sheets?: string[];
+  };
+  
   //& enriched data fields
   openingHours?: string;
   normalizedHours?: string; //~ formatted opening hrs
@@ -43,12 +49,13 @@ export interface ToiletLocation {
     grabBars?: boolean;
     emergencyButton?: boolean;
   };
-  floor?: string; //~ location floor information
+  floor?: string; //~ location floor info
   nearbyLandmarks?: string[]; //~ notable locations nearby
-  lastCleaned?: string; //~ timestamp of last cleaning
-  maintenanceContact?: string; //~ contact for reporting issues
+  lastCleaned?: string; //~ last cleaning timestamp
+  maintenanceContact?: string; //~ contact fr reporting issues
   waterTemperature?: 'cold' | 'warm' | 'adjustable'; //~ for bidets
   visitCount?: number; //~ popularity metric
+  dataCompleteness?: number; //~ score 0-1 showing how complete data is
 }
 
 //& geojson related types
@@ -76,6 +83,7 @@ export interface GeoJSONProperties {
   imageUrl?: string;
   rating?: number;
   source?: string;
+  sourceTab?: string; //~ tab source fr multi-tab data
   //~ google maps description - string / object w/ @type & value
   description?: string | {
     '@type': string;
@@ -83,6 +91,9 @@ export interface GeoJSONProperties {
   };
   //~ google sheets remarks
   sheetsRemarks?: string;
+  
+  //~ allow extra properties
+  [key: string]: unknown;
 }
 
 export interface GeoJSONFeature {
