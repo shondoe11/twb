@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-//* script: enhance region data in the combined geojson file
+//* script: enhance region data in combined geojson
 import { promises as fs } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -14,98 +14,117 @@ const DATA_DIR = path.join(__dirname, '..', 'data');
 const COMBINED_GEOJSON = path.join(DATA_DIR, 'combined.geojson');
 const ENRICHED_GEOJSON = path.join(DATA_DIR, 'enriched.geojson');
 
-//& normalize region names to standard format
+//& normalize region names to standard format w proper capitalization
 function normalizeRegion(region) {
   if (!region) return 'unknown';
   
+  //~ check if region alr match 1 of exact capitalized formats
+  //~ match google maps folder names exactly
+  const exactRegions = {
+    'North': 'North', 
+    'South': 'South', 
+    'East': 'East', 
+    'West': 'West', 
+    'Central': 'Central', 
+    'North-East': 'North-East', 
+    'Institutions': 'Institutions'
+  };
+  
+  //~ if region exactly matches 1 of expected formats, keep
+  if (exactRegions[region]) {
+    console.log(`Found exact region match: ${region}`);
+    return region;
+  }
+  
+  //~ otherwise normalize to lowercase fr matching
   const regionStr = region.toString().toLowerCase().trim();
   
-  //~ map frm various possible region names to standard ones
+  //~ map frm various possible region names to standard ones w proper capitalization
   const regionMappings = {
     //~ north
-    'north': 'north',
-    'north region': 'north',
-    'n': 'north',
-    'northern': 'north',
-    'north singapore': 'north',
-    'woodlands': 'north',
-    'sembawang': 'north',
-    'yishun': 'north',
-    'mandai': 'north',
+    'north': 'North',
+    'north region': 'North',
+    'n': 'North',
+    'northern': 'North',
+    'north singapore': 'North',
+    'woodlands': 'North',
+    'sembawang': 'North',
+    'yishun': 'North',
+    'mandai': 'North',
     
     //~ south
-    'south': 'south',
-    'south region': 'south',
-    's': 'south',
-    'southern': 'south',
-    'sentosa': 'south',
-    'harbourfront': 'south',
-    'bukit merah': 'south',
-    'telok blangah': 'south',
-    'marina': 'south',
+    'south': 'South',
+    'south region': 'South',
+    's': 'South',
+    'southern': 'South',
+    'sentosa': 'South',
+    'harbourfront': 'South',
+    'bukit merah': 'South',
+    'telok blangah': 'South',
+    'marina': 'South',
     
     //~ east
-    'east': 'east',
-    'east region': 'east',
-    'e': 'east',
-    'eastern': 'east',
-    'changi': 'east',
-    'tampines': 'east',
-    'bedok': 'east',
-    'pasir ris': 'east',
-    'east coast': 'east',
+    'east': 'East',
+    'east region': 'East',
+    'e': 'East',
+    'eastern': 'East',
+    'changi': 'East',
+    'tampines': 'East',
+    'bedok': 'East',
+    'pasir ris': 'East',
+    'east coast': 'East',
     
     //~ west
-    'west': 'west',
-    'west region': 'west',
-    'w': 'west',
-    'western': 'west',
-    'jurong': 'west',
-    'boon lay': 'west',
-    'clementi': 'west',
-    'bukit batok': 'west',
-    'tuas': 'west',
+    'west': 'West',
+    'west region': 'West',
+    'w': 'West',
+    'western': 'West',
+    'jurong': 'West',
+    'boon lay': 'West',
+    'clementi': 'West',
+    'bukit batok': 'West',
+    'tuas': 'West',
     
     //~ central
-    'central': 'central',
-    'central region': 'central',
-    'c': 'central',
-    'central singapore': 'central',
-    'orchard': 'central',
-    'downtown': 'central',
-    'cbd': 'central',
-    'novena': 'central',
-    'toa payoh': 'central',
+    'central': 'Central',
+    'central region': 'Central',
+    'c': 'Central',
+    'central singapore': 'Central',
+    'orchard': 'Central',
+    'downtown': 'Central',
+    'cbd': 'Central',
+    'novena': 'Central',
+    'toa payoh': 'Central',
     
     //~ north-east
-    'north-east': 'north-east',
-    'northeast': 'north-east',
-    'north east': 'north-east',
-    'ne': 'north-east',
-    'serangoon': 'north-east',
-    'hougang': 'north-east',
-    'sengkang': 'north-east',
-    'punggol': 'north-east',
+    'north-east': 'North-East',
+    'northeast': 'North-East',
+    'north east': 'North-East',
+    'ne': 'North-East',
+    'serangoon': 'North-East',
+    'hougang': 'North-East',
+    'sengkang': 'North-East',
+    'punggol': 'North-East',
     
     //~ institutions (special category frm Google Maps)
-    'institutions': 'institutions',
-    'institution': 'institutions',
-    'inst': 'institutions',
-    'campus': 'institutions',
-    'university': 'institutions',
-    'polytechnic': 'institutions',
-    'school': 'institutions',
+    'institutions': 'Institutions',
+    'institution': 'Institutions',
+    'inst': 'Institutions',
+    'campus': 'Institutions',
+    'university': 'Institutions',
+    'polytechnic': 'Institutions',
+    'school': 'Institutions',
   };
   
   //~ check fr direct mapping
   if (regionMappings[regionStr]) {
-    return regionMappings[regionStr];
+    return regionMappings[regionStr]; //~ capital ver
   }
   
-  //~ check fr partial matches
+  //~ check fr partial matches in name
   for (const [key, value] of Object.entries(regionMappings)) {
     if (regionStr.includes(key)) {
-      return value;
+      return value; //~ proper capital ver
     }
   }
   
@@ -124,47 +143,33 @@ function determineRegionFromCoordinates(lat, lng) {
   //~ debug coord ranges
   console.log(`Processing coordinates: ${lat}, ${lng}`);
   
-  //~ sg is roughly at 1.29-1.45°N, 103.6-104.0°E
-  //~ check if coords are in sg range
-  if (isNaN(lat) || isNaN(lng) || 
-      lat < 1.2 || lat > 1.5 || 
-      lng < 103.5 || lng > 104.1) {
-    console.log(`⚠️ Invalid coordinates: ${lat}, ${lng}`);
+  //~ check coords valid
+  if (isNaN(lat) || isNaN(lng) || lat < 1.15 || lat > 1.47 || lng < 103.6 || lng > 104.1) {
     return 'unknown';
   }
   
   //~ north-east (approximate)
-  if (lat > 1.35 && lat < 1.42 && lng > 103.85 && lng < 103.95) {
-    return 'north-east';
-  }
-  
-  //~ central (approximate)
-  if (lat > 1.28 && lat < 1.35 && lng > 103.78 && lng < 103.88) {
-    return 'central';
+  if (lat > 1.38 && lng > 103.85) {
+    return 'North-East';
   }
   
   //~ east (approximate)
-  if (lng > 103.88) {
-    return 'east';
-  }
-  
-  //~ west (approximate)
-  if (lng < 103.78) {
-    return 'west';
+  if (lng > 103.94) {
+    return 'East';
   }
   
   //~ north (approximate)
   if (lat > 1.35) {
-    return 'north';
+    return 'North';
   }
   
   //~ south (approximate)
   if (lat < 1.28) {
-    return 'south';
+    return 'South';
   }
   
   //~ default to central if unsure
-  return 'central';
+  return 'Central';
 }
 
 async function enhanceRegionData() {
@@ -187,12 +192,12 @@ async function enhanceRegionData() {
         .then(data => JSON.parse(data));
       console.log('📂 Found enriched data file to enhance');
     } catch (error) {
-      //~ handle error whn enriched file not exist
+      //~ handle error whn enriched file nt exist
       console.log(`📂 No enriched data file found (${error.code}), using combined data`);
       enrichedData = { ...combinedData };
     }
     
-    //~ keep track of region stats
+    //~ region stats tracking
     const regionStats = {
       total: 0,
       unknown: 0,
@@ -210,7 +215,7 @@ async function enhanceRegionData() {
         const lat = feature.geometry.coordinates[1];
         const lng = feature.geometry.coordinates[0];
         
-        //~ keep track of original region
+        //~ keep track original region
         const originalRegion = feature.properties.region || 'unknown';
         
         //~ log original data fr debugging
@@ -219,13 +224,12 @@ async function enhanceRegionData() {
           console.log(`Coordinates: ${lat}, ${lng}`);
           console.log(`Original region: ${originalRegion}`);
         }
-        
-        //~ first try to normalize existing region
-        let region = normalizeRegion(originalRegion);
-        
-        //~ if still unknown, try to determine frm coords
-        if (region === 'unknown') {
-          region = determineRegionFromCoordinates(lat, lng);
+        let region = originalRegion;
+        if (feature.properties.source !== 'google-maps') {
+          region = normalizeRegion(originalRegion);
+          if (region === 'unknown') {
+            region = determineRegionFromCoordinates(lat, lng);
+          }
         }
         
         //~ update stats
