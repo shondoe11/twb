@@ -66,7 +66,7 @@ async function getFromCache(key, maxAge = 604800000) { //~ default 7d
     }
     
     return cacheEntry.data;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -381,14 +381,80 @@ function deg2rad(deg) {
   return deg * (Math.PI / 180);
 }
 
-//& enhanced location enrichment function
+//& enhanced location enrichment func
 async function enhanceLocationData(location) {
   try {
-    //~ create deep copy to avoid modifying original
+    //~ deep copy avoid modifying original
+    console.log(`[DEBUG fetch-enhanced-data.mjs HELD1] enhanceLocationData INPUT for ID ${location.id} - Address: ${location.address}, Source: ${location.source}`);
     const enhanced = JSON.parse(JSON.stringify(location));
+    console.log(`[DEBUG fetch-enhanced-data.mjs HELD2] enhanceLocationData 'enhanced' object AFTER deep copy for ID ${enhanced.id} - Address: ${enhanced.address}, Source: ${enhanced.source}`);
     
     //~ enhance existing amenities
     enhanced.amenities = enhanceAmenities(enhanced);
+    
+    //~ process src-specific comments
+    enhanced.sourceComments = enhanced.sourceComments || {};
+    
+    //~ handle Google Maps src data
+    if (enhanced.source === 'maps' || enhanced.source === 'kml') {
+      //~ ensure hav maps src comments section
+      enhanced.sourceComments.maps = enhanced.sourceComments.maps || [];
+      
+      //~ add description to maps src comments if avail
+      if (enhanced.description && !enhanced.sourceComments.maps.includes(enhanced.description)) {
+        //~ handle description could be string / object w value
+        const descText = typeof enhanced.description === 'object' && enhanced.description['@type'] && enhanced.description.value ? 
+          enhanced.description.value : enhanced.description;
+        enhanced.sourceComments.maps.push(descText);
+      }
+    
+      //~ other non-standard props to maps src comments
+      const skipProps = ['id', 'name', 'address', 'region', 'type', 'lat', 'lng', 
+        'hasBidet', 'source', 'description', 'gender', 'amenities', 'notes',
+        'lastUpdated', 'geometry', 'coordinates', 'sourceComments'];
+      
+      Object.entries(enhanced).forEach(([key, value]) => {
+        if (!skipProps.includes(key) && value !== null && value !== undefined && value !== 'Unknown') {
+          //~ format prop fr display
+          let formattedValue = typeof value === 'object' ? JSON.stringify(value) : String(value);
+          const comment = `${key}: ${formattedValue}`;
+          if (!enhanced.sourceComments.maps.includes(comment)) {
+            enhanced.sourceComments.maps.push(comment);
+          }
+        }
+      });
+    }
+    
+    //~ handle Google Sheets src data
+    if (enhanced.source === 'sheets') {
+      //~ ensure hav sheets src comments section
+      enhanced.sourceComments.sheets = enhanced.sourceComments.sheets || [];
+      
+      //~ add remarks to sheets src comments if avail
+      if (enhanced.remarks && !enhanced.sourceComments.sheets.includes(enhanced.remarks)) {
+        enhanced.sourceComments.sheets.push(enhanced.remarks);
+      }
+      
+      //~ handle bidet room name fr hotels
+      if (enhanced.roomNameWithBidet && !enhanced.sourceComments.sheets.includes(enhanced.roomNameWithBidet)) {
+        enhanced.sourceComments.sheets.push(`Room with bidet: ${enhanced.roomNameWithBidet}`);
+      }
+      
+      //~ validate src tab & add gender info if avail
+      if (enhanced.sourceTab) {
+        if (enhanced.sourceTab.toLowerCase().includes('male')) {
+          enhanced.gender = 'Male';
+        } else if (enhanced.sourceTab.toLowerCase().includes('female')) {
+          enhanced.gender = 'Female';
+        }
+        
+        //~ sourceTab info to comments if nt alr included
+        const tabInfo = `Source: ${enhanced.sourceTab}`;
+        if (!enhanced.sourceComments.sheets.includes(tabInfo)) {
+          enhanced.sourceComments.sheets.push(tabInfo);
+        }
+      }
+    }
     
     //~ add accessibility information
     enhanced.accessibility = generateAccessibilityInfo(enhanced);
@@ -419,6 +485,7 @@ async function enhanceLocationData(location) {
     const lastCleaned = new Date(now - daysAgo * 24 * 60 * 60 * 1000);
     enhanced.lastCleaned = lastCleaned.toISOString();
     
+    console.log(`[DEBUG fetch-enhanced-data.mjs HELD3] enhanceLocationData RETURNING 'enhanced' object for ID ${enhanced.id} - Address: ${enhanced.address}, Source: ${enhanced.source}`);
     return enhanced;
   } catch (error) {
     console.error(`Error enhancing location ${location.name}: ${error.message}`);
@@ -465,6 +532,7 @@ async function enhanceData() {
       }
       
       //~ get location frm feature
+      console.log(`[DEBUG fetch-enhanced-data.mjs HED1] Feature ID: ${feature.properties.id}, Original Address: ${feature.properties.address}, Original Source: ${feature.properties.source}`);
       const location = {
         id: feature.properties.id || `loc-${Math.random().toString(36).substring(2, 10)}`,
         name: feature.properties.name || 'Unknown Location',
@@ -485,13 +553,25 @@ async function enhanceData() {
         normalizedHours: feature.properties.normalizedHours,
         imageUrl: feature.properties.imageUrl,
         rating: feature.properties.rating,
-        source: feature.properties.source
+        source: feature.properties.source,
+        //~ preserve existing sourceComments if avail
+        sourceComments: feature.properties.sourceComments || {
+          maps: [],
+          sheets: []
+        },
+        //~ preserve other fields fr proper src comment handling
+        description: feature.properties.description,
+        sheetsRemarks: feature.properties.sheetsRemarks,
+        roomNameWithBidet: feature.properties.roomNameWithBidet,
+        sourceTab: feature.properties.sourceTab
       };
       
       //~ enhance location w additional data
+      console.log(`[DEBUG fetch-enhanced-data.mjs HED2] Location object for ID ${location.id} BEFORE enhanceLocationData - Address: ${location.address}, Source: ${location.source}`);
       const enhancedLocation = await enhanceLocationData(location);
       
       //~ create enhanced feature
+      console.log(`[DEBUG fetch-enhanced-data.mjs HED3] Location object for ID ${location.id} AFTER enhanceLocationData - Address: ${enhancedLocation.address}, Source: ${enhancedLocation.source}`);
       const enhancedFeature = {
         ...feature,
         properties: {
@@ -501,6 +581,7 @@ async function enhanceData() {
       };
       
       enhancedFeatures.push(enhancedFeature);
+      console.log(`[DEBUG fetch-enhanced-data.mjs HED4] Final enhancedFeature.properties for ID ${enhancedFeature.properties.id} - Address: ${enhancedFeature.properties.address}, Source: ${enhancedFeature.properties.source}`);
       
       //~ add small delay: avoid rate limiting fr API calls
       if (processed % 5 === 0) {
@@ -528,9 +609,9 @@ async function enhanceData() {
     
     console.log('\n🎉 Data enhancement completed successfully!');
     
-  } catch (error) {
-    console.error(`❌ Error during data enhancement: ${error.message}`);
-    console.error(error.stack);
+  } catch (_error) {
+    console.error('Failed to fetch and enhance data:', _error.message);
+    console.error(_error.stack);
   }
 }
 
