@@ -63,7 +63,7 @@ async function debugKmlParsing() {
     
     console.log(`\n🗺️ Parsed ${placemarks.length} placemarks from KML`);
     
-    // Show first 5 placemarks for debugging
+    //? show 1st 5 placemarks fr debugging
     console.log('\n📍 First 5 placemarks:');
     placemarks.slice(0, 5).forEach((p, i) => {
       console.log(`${i+1}. "${p.name}" [${p.lat}, ${p.lng}] (tag: ${p.source})`);
