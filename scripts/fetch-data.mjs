@@ -928,6 +928,19 @@ async function combineData() {
       props.address = props.Address;
       console.log(`🔄 Normalized Address property to address for ${props.name || props.Name}`);
     }
+    
+    //~ preserve addresses even if match name but real addresses
+    //~ (address w Singapore, postal code, / longer than 25 chars = likely legitimate)
+    const nameStr = (props.name || props.Name || '').toLowerCase();
+    let addrStr = (props.address || props.Address || '').toLowerCase();
+    
+    if (addrStr === nameStr && addrStr.length < 25 && 
+        !addrStr.includes('singapore') && !/\d{5,}/.test(addrStr)) {
+      //~ likely just name being used as address, so rm
+      console.log(`⚠️ Removing name-as-address for "${props.name || props.Name}"`); 
+      props.address = '';
+      props.Address = '';
+    }
 
     //~ make sure both name & Name are present
     if (props.name && !props.Name) {
