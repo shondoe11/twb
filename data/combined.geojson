@@ -20563,17 +20563,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930087-313",
+        "id": "maps-1750396277768-3",
         "name": "Fernvale Community Club",
         "Name": "Fernvale Community Club",
         "description": "Female, male and handicap toilet with bidet!<br>With shower stalls too!",
         "Female": null,
         "Male": "Yes",
         "Handicap": "Yes",
-        "Address": "Fernvale Community Club",
+        "Address": "",
         "region": "North-East",
         "source": "google-maps",
-        "address": "Fernvale Community Club"
+        "address": ""
       }
     },
     {
@@ -20586,7 +20586,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-848",
+        "id": "maps-1750396277769-488",
         "name": "Sengkang General Hospital",
         "Name": "Sengkang General Hospital",
         "description": "Level 1 toilet near Anytime Fitness",
@@ -20609,17 +20609,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-333",
+        "id": "maps-1750396277769-796",
         "name": "53 Ubi Ave 1",
         "Name": "53 Ubi Ave 1",
         "description": "Unisex toilet with bidet",
         "Female": null,
         "Male": null,
         "Handicap": null,
-        "Address": "53 Ubi Ave 1",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "53 Ubi Ave 1"
+        "address": ""
       }
     },
     {
@@ -20632,7 +20632,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-557",
+        "id": "maps-1750396277769-482",
         "name": "Bedok North MRT Station (DT29)",
         "Name": "Bedok North MRT Station (DT29)",
         "description": "Male toilet - squatting with bidet",
@@ -20655,17 +20655,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-88",
+        "id": "maps-1750396277769-435",
         "name": "Changi Beach Car Park 6",
         "Name": "Changi Beach Car Park 6",
         "description": "Female: Yes",
         "Female": "Yes",
         "Male": "Yes",
         "Handicap": null,
-        "Address": "Changi Beach Car Park 6",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "Changi Beach Car Park 6"
+        "address": ""
       }
     },
     {
@@ -20678,7 +20678,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-180",
+        "id": "maps-1750396277770-500",
         "name": "Geylang Serai Market and Food Centre",
         "Name": "Geylang Serai Market and Food Centre",
         "description": "Level 2, female toilet",
@@ -20701,17 +20701,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-359",
+        "id": "maps-1750396277770-176",
         "name": "HQ SCDF",
         "Name": "HQ SCDF",
         "description": "Bidet on all floors!",
         "Female": null,
         "Male": null,
         "Handicap": null,
-        "Address": "HQ SCDF",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "HQ SCDF"
+        "address": ""
       }
     },
     {
@@ -20724,17 +20724,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-306",
+        "id": "maps-1750396277770-672",
         "name": "Jewel - Shaw Theatres",
         "Name": "Jewel - Shaw Theatres",
         "description": "Bidet beside the ticket counter and bidet available past the ticketed area!",
         "Female": null,
         "Male": null,
         "Handicap": null,
-        "Address": "Jewel - Shaw Theatres",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "Jewel - Shaw Theatres"
+        "address": ""
       }
     },
     {
@@ -20747,17 +20747,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-129",
+        "id": "maps-1750396277770-331",
         "name": "Morf",
         "Name": "Morf",
         "description": "All women's fitness studio with bidet",
         "Female": null,
         "Male": null,
         "Handicap": null,
-        "Address": "Morf",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "Morf"
+        "address": ""
       }
     },
     {
@@ -20770,17 +20770,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-193",
+        "id": "maps-1750396277770-94",
         "name": "Pasir Ris Mall",
         "Name": "Pasir Ris Mall",
         "description": "Female toilet at level 1, level 5<br>Male toilet at level 1, level 2",
         "Female": null,
         "Male": "Yes",
         "Handicap": null,
-        "Address": "Pasir Ris Mall",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "Pasir Ris Mall"
+        "address": ""
       }
     },
     {
@@ -20793,17 +20793,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-223",
+        "id": "maps-1750396277770-319",
         "name": "PLQ - Shaw Theatres",
         "Name": "PLQ - Shaw Theatres",
         "description": "Male; Yes<br>Female: yes<br>Handicap: unknown<br><br>**ONLY FOR MOVIE GOERS**",
         "Female": "yes<br>Handicap: unknown<br><br>**ONLY FOR MOVIE GOERS**",
         "Male": "Yes",
         "Handicap": "unknown<br><br>**ONLY FOR MOVIE GOERS**",
-        "Address": "PLQ - Shaw Theatres",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "PLQ - Shaw Theatres"
+        "address": ""
       }
     },
     {
@@ -20816,17 +20816,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-722",
+        "id": "maps-1750396277770-505",
         "name": "Siglap Community Club",
         "Name": "Siglap Community Club",
         "description": "Male: Yes, but only at the handicap cubicle",
         "Female": null,
         "Male": "Yes",
         "Handicap": "Yes",
-        "Address": "Siglap Community Club",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "Siglap Community Club"
+        "address": ""
       }
     },
     {
@@ -20839,17 +20839,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-685",
+        "id": "maps-1750396277770-62",
         "name": "Tampines East CC",
         "Name": "Tampines East CC",
         "description": "Male: Unknown<br>Female: Yes<br>Handicap: Yes<br><br>Accessible through side staircase behind MacDonald's. Can't go through MacDonald it self as back entrance is closed because of COVID",
         "Female": "Yes<br>Handicap: Yes<br><br>Accessible through side staircase behind MacDonald's. Can't go through MacDonald it self as back entrance is closed because of COVID",
         "Male": "Unknown<br>Female: Yes<br>Handicap: Yes<br><br>Accessible through side staircase behind MacDonald's. Can't go through MacDonald it self as back entrance is closed because of COVID",
         "Handicap": "Yes<br><br>Accessible through side staircase behind MacDonald's. Can't go through MacDonald it self as back entrance is closed because of COVID",
-        "Address": "Tampines East CC",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "Tampines East CC"
+        "address": ""
       }
     },
     {
@@ -20862,17 +20862,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-958",
+        "id": "maps-1750396277770-854",
         "name": "Tampines West CC",
         "Name": "Tampines West CC",
         "description": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown",
         "Female": "Yes<br>Handicap: Unknown",
         "Male": "Unknown<br>Female: Yes<br>Handicap: Unknown",
         "Handicap": "Unknown",
-        "Address": "Tampines West CC",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "Tampines West CC"
+        "address": ""
       }
     },
     {
@@ -20885,17 +20885,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930088-538",
+        "id": "maps-1750396277770-142",
         "name": "Wisma Geylang Serai",
         "Name": "Wisma Geylang Serai",
         "description": "Male and female toilet with bidet on every floor",
         "Female": "Yes",
         "Male": "Yes",
         "Handicap": null,
-        "Address": "Wisma Geylang Serai",
+        "Address": "",
         "region": "East",
         "source": "google-maps",
-        "address": "Wisma Geylang Serai"
+        "address": ""
       }
     },
     {
@@ -20908,7 +20908,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930089-5",
+        "id": "maps-1750396277770-324",
         "name": "Asian Civilisations Museum",
         "Name": "Asian Civilisations Museum",
         "description": "Male: Unknown<br>Female: Yes, at Basement (elderly cubicle) and level 2 near River Room<br>Handicap: Unknown",
@@ -20931,17 +20931,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930089-853",
+        "id": "maps-1750396277771-855",
         "name": "Bayfront Pavilion",
         "Name": "Bayfront Pavilion",
         "description": "Male: yes, both stalls",
         "Female": null,
         "Male": "yes",
         "Handicap": null,
-        "Address": "Bayfront Pavilion",
+        "Address": "",
         "region": "Central",
         "source": "google-maps",
-        "address": "Bayfront Pavilion"
+        "address": ""
       }
     },
     {
@@ -20954,7 +20954,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930089-431",
+        "id": "maps-1750396277771-41",
         "name": "Epic Haus Coffeeshop @ Upp Aljunied Road",
         "Name": "Epic Haus Coffeeshop @ Upp Aljunied Road",
         "description": "",
@@ -20977,17 +20977,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-208",
+        "id": "maps-1750396277771-277",
         "name": "Kafe Utu",
         "Name": "Kafe Utu",
         "description": "Unisex toilet with bidet at 2nd floor",
         "Female": null,
         "Male": null,
         "Handicap": null,
-        "Address": "Kafe Utu",
+        "Address": "",
         "region": "Central",
         "source": "google-maps",
-        "address": "Kafe Utu"
+        "address": ""
       }
     },
     {
@@ -21000,7 +21000,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-268",
+        "id": "maps-1750396277771-163",
         "name": "Marina Bay Sands Singapore",
         "Name": "Marina Bay Sands Singapore",
         "description": "handicap toilet, B2",
@@ -21023,17 +21023,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-355",
+        "id": "maps-1750396277771-486",
         "name": "Mustafa Centre",
         "Name": "Mustafa Centre",
         "description": "B1: Female with bidet",
         "Female": null,
         "Male": "Yes",
         "Handicap": null,
-        "Address": "Mustafa Centre",
+        "Address": "",
         "region": "Central",
         "source": "google-maps",
-        "address": "Mustafa Centre"
+        "address": ""
       }
     },
     {
@@ -21046,17 +21046,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-318",
+        "id": "maps-1750396277771-850",
         "name": "National Stadium",
         "Name": "National Stadium",
         "description": "**after ticketed area**<br>female's: elderly cubicle have bidet",
         "Female": "Yes",
         "Male": "Yes",
         "Handicap": null,
-        "Address": "National Stadium",
+        "Address": "",
         "region": "Central",
         "source": "google-maps",
-        "address": "National Stadium"
+        "address": ""
       }
     },
     {
@@ -21069,7 +21069,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-932",
+        "id": "maps-1750396277771-658",
         "name": "Nitty Gritty: American-Singaporean Soul Food",
         "Name": "Nitty Gritty: American-Singaporean Soul Food",
         "description": "Unisex toilet",
@@ -21092,7 +21092,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-87",
+        "id": "maps-1750396277771-556",
         "name": "<![CDATA[OG People's Park]]>",
         "Name": "<![CDATA[OG People's Park]]>",
         "description": "Male toilet, level 3",
@@ -21115,7 +21115,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-875",
+        "id": "maps-1750396277772-168",
         "name": "Pullman Singapore Orchard",
         "Name": "Pullman Singapore Orchard",
         "description": "level 4 public toilet - last two cubicles in the ladies toilet have bidet",
@@ -21138,17 +21138,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-547",
+        "id": "maps-1750396277772-213",
         "name": "Tekka Centre",
         "Name": "Tekka Centre",
         "description": "Female: Level 2, elderly cubicle",
         "Female": "Level 2",
         "Male": "Yes",
         "Handicap": null,
-        "Address": "Tekka Centre",
+        "Address": "",
         "region": "Central",
         "source": "google-maps",
-        "address": "Tekka Centre"
+        "address": ""
       }
     },
     {
@@ -21161,17 +21161,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-872",
+        "id": "maps-1750396277772-848",
         "name": "Harbourfront MRT",
         "Name": "Harbourfront MRT",
         "description": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes, at exit C",
         "Female": "Unknown<br>Handicap: Yes",
         "Male": "Unknown<br>Female: Unknown<br>Handicap: Yes",
         "Handicap": "Yes",
-        "Address": "Harbourfront MRT",
+        "Address": "",
         "region": "South",
         "source": "google-maps",
-        "address": "Harbourfront MRT"
+        "address": ""
       }
     },
     {
@@ -21184,17 +21184,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930090-49",
+        "id": "maps-1750396277772-455",
         "name": "HarbourFront Tower One",
         "Name": "HarbourFront Tower One",
         "description": "at ticketing booth for the cable car, male public toilet behind Anytime Fitness back entrance",
         "Female": null,
         "Male": "Yes",
         "Handicap": null,
-        "Address": "HarbourFront Tower One",
+        "Address": "",
         "region": "South",
         "source": "google-maps",
-        "address": "HarbourFront Tower One"
+        "address": ""
       }
     },
     {
@@ -21207,17 +21207,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930092-943",
+        "id": "maps-1750396277772-245",
         "name": "Jurong Fishery Port",
         "Name": "Jurong Fishery Port",
         "description": "Female toilet",
         "Female": null,
         "Male": "Yes",
         "Handicap": null,
-        "Address": "Jurong Fishery Port",
+        "Address": "",
         "region": "West",
         "source": "google-maps",
-        "address": "Jurong Fishery Port"
+        "address": ""
       }
     },
     {
@@ -21230,17 +21230,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930092-768",
+        "id": "maps-1750396277772-891",
         "name": "one north park: Biopolis",
         "Name": "one north park: Biopolis",
         "description": "2 handicap toilets with bidets",
         "Female": null,
         "Male": null,
         "Handicap": "Yes",
-        "Address": "one north park: Biopolis",
+        "Address": "",
         "region": "West",
         "source": "google-maps",
-        "address": "one north park: Biopolis"
+        "address": ""
       }
     },
     {
@@ -21253,7 +21253,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930092-776",
+        "id": "maps-1750396277773-398",
         "name": "NUH (National University Hospital)",
         "Name": "NUH (National University Hospital)",
         "description": "NUH Main building: Go to Level 3 of the main building, within NUH Heart Clinic, there is a unisex toilet with a built in bidet. Accessible to visitors.<br><br>NUH Medical Centre: Level 4 male toilet. 1 of the 2 cubicles within has a built in bidet/washlet.  ",
@@ -21276,17 +21276,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930092-283",
+        "id": "maps-1750396277773-616",
         "name": "Shell Bukit Timah",
         "Name": "Shell Bukit Timah",
         "description": "Male: Yes<br>Female: Unknown<br>Handicap: Unknown",
         "Female": "Unknown<br>Handicap: Unknown",
         "Male": "Yes<br>Female: Unknown<br>Handicap: Unknown",
         "Handicap": "Unknown",
-        "Address": "Shell Bukit Timah",
+        "Address": "",
         "region": "West",
         "source": "google-maps",
-        "address": "Shell Bukit Timah"
+        "address": ""
       }
     },
     {
@@ -21299,17 +21299,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930092-147",
+        "id": "maps-1750396277773-339",
         "name": "Admiralty MRT",
         "Name": "Admiralty MRT",
         "description": "Male: unknown<br>Female: unknown<br>Handicap: yes",
         "Female": "unknown<br>Handicap: yes",
         "Male": "unknown<br>Female: unknown<br>Handicap: yes",
         "Handicap": "yes",
-        "Address": "Admiralty MRT",
+        "Address": "",
         "region": "North",
         "source": "google-maps",
-        "address": "Admiralty MRT"
+        "address": ""
       }
     },
     {
@@ -21322,17 +21322,17 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930093-808",
+        "id": "maps-1750396277775-480",
         "name": "NTU - Alumni Club",
         "Name": "NTU - Alumni Club",
         "description": "Swimming pool toilet - female's",
         "Female": "Yes",
         "Male": "Yes",
         "Handicap": null,
-        "Address": "NTU - Alumni Club",
+        "Address": "",
         "region": "Institutions",
         "source": "google-maps",
-        "address": "NTU - Alumni Club"
+        "address": ""
       }
     },
     {
@@ -21345,7 +21345,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1749469930093-378",
+        "id": "maps-1750396277775-595",
         "name": "SIM Global Education Block B",
         "Name": "SIM Global Education Block B",
         "description": "SIM Block B, Female: squatting only",
