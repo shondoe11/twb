@@ -57,7 +57,7 @@ interface LocationFeature {
   name: string;
   address?: string;
   coords: [number, number]; //~ [lng, lat]
-  properties: Record<string, unknown>;
+  properties: Record<string, unknown>; //~ unknown fr type safety, cast properly whn accessing
 }
 
 /**
@@ -126,83 +126,99 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
   const sheetsFeatures: LocationFeature[] = [];
   const mapsFeatures: LocationFeature[] = [];
   
-  //~ extract data frm feats
+  //~ extract feat data & organize by src
   for (const feature of geoData.features) {
-    const properties = feature.properties || {};
-    const name = properties.name;
-    const address = properties.address;
-    const source = properties.source;
+    //~ process ALL features, not just subsets
+    const props = feature.properties || {};
+    const source = props.source || 'unknown';
+    const name = props.name || props.Name || '';
+    const address = typeof props.address === 'string' ? props.address : 
+                  typeof props.Address === 'string' ? props.Address : '';
     
-    //~ skip if no name
-    if (!name) continue;
-    
-    //~ extract coords - handle diff data formats
+    //~ extract coords, handle geojson formatted coords
     let coords: [number, number] = [0, 0];
+    if (feature.geometry?.type === 'Point' && 
+        Array.isArray(feature.geometry.coordinates) && 
+        feature.geometry.coordinates.length >= 2) {
+      coords = [feature.geometry.coordinates[0], feature.geometry.coordinates[1]];
+    }
     
-    if (Array.isArray(feature.geometry?.coordinates)) {
-      const [lng, lat] = feature.geometry.coordinates;
-      if (!isNaN(Number(lng)) && !isNaN(Number(lat))) {
-        coords = [lng, lat];
+    //~ relax reqs fr what gets processed
+    if (source === 'google-sheets') {
+      //~ all sheets features are valuable, even w/o address
+      if (typeof name === 'string') {
+        sheetsFeatures.push({
+          name, 
+          address, 
+          coords, 
+          properties: props
+        });
+      }
+    } else if (source === 'google-maps' || !source) {
+      //~ include ALL maps feats regardless of address
+      if (typeof name === 'string') {
+        mapsFeatures.push({
+          name, 
+          address, 
+          coords, 
+          properties: props
+        });
+      }
+    } else {
+      //~ catch any other srcs
+      console.log(`🔄 Processing feature from source: ${source}`);
+      if (name && typeof name === 'string') {
+        //~ determine which category to input
+        if (address && typeof address === 'string' && address.trim() !== '') {
+          sheetsFeatures.push({
+            name, 
+            address, 
+            coords, 
+            properties: props
+          });
+        } else {
+          mapsFeatures.push({
+            name, 
+            address, 
+            coords, 
+            properties: props
+          });
+        }
       }
     }
-    
-    //~ categorize feats by src
-    if (source === 'google-sheets' && address && address.trim() !== '') {
-      sheetsFeatures.push({ name, address, coords, properties });
-    } else if (source === 'google-maps') {
-      mapsFeatures.push({ name, coords, properties });
-    }
   }
-  
-  console.log(`📊 Found ${sheetsFeatures.length} features with addresses from Google Sheets`);
-  console.log(`📊 Found ${mapsFeatures.length} features from Google Maps`);
-  
-  //~ create maps fr address lookup
-  const exactAddressMap: {[name: string]: string} = {};
-  const normalizedAddressMap: {[name: string]: string} = {};
-  
-  //~ build address maps from feats w addresses
-  for (const feature of sheetsFeatures) {
-    //~ skip if name/address missing / if same (likely invalid address)
-    if (!feature.address || !feature.name || 
-        feature.name.toLowerCase() === feature.address.toLowerCase()) {
-      continue;
+
+  console.log(`🔍 Extracted ${sheetsFeatures.length} sheets features and ${mapsFeatures.length} maps features`);
+
+  //~ build lookup tables fr sheets addr to use in maps feats
+  const exactAddressMap: Record<string, string> = {};
+  const normalizedAddressMap: Record<string, string> = {};
+
+  //~ populate lookup tables frm sheets
+  sheetsFeatures.forEach(feat => {
+    if (feat.address && typeof feat.address === 'string' && feat.address.trim() !== '') {
+      //~ add to exact lookup tbl
+      exactAddressMap[feat.name] = feat.address;
+      
+      //~ normalize name & add to norm lookup tbl
+      const normalizedName = normalizeLocationName(feat.name);
+      if (normalizedName) {
+        normalizedAddressMap[normalizedName] = feat.address;
+      }
     }
-    
-    //~ exact name mapping
-    exactAddressMap[feature.name] = feature.address;
-    console.log(`📝 Added exact mapping: "${feature.name}" -> "${feature.address}"`);
-    
-    //~ also add case-insensitive mapping
-    exactAddressMap[feature.name.toLowerCase()] = feature.address;
-    
-    //~ normalized name mapping (lowercase, no parentheses, normalized spaces/symbols)
-    const normalizedName = normalizeLocationName(feature.name);
-    normalizedAddressMap[normalizedName] = feature.address;
-    console.log(`📝 Added normalized mapping: "${normalizedName}" -> "${feature.address}"`);
-    
-    //~ simplified name mapping (name w/o parentheses content)
-    const simplifiedName = feature.name.replace(/\s*\([^)]*\)\s*/g, '').trim();
-    if (simplifiedName !== feature.name && simplifiedName.length > 3) {
-      exactAddressMap[simplifiedName] = feature.address;
-      console.log(`📝 Added simplified mapping: "${simplifiedName}" -> "${feature.address}"`);
-    }
-    
-    //~ words-only version (remove all non-alphanumeric chars)
-    const wordsOnlyName = feature.name.toLowerCase().replace(/[^a-z0-9\s]/gi, '').trim();
-    if (wordsOnlyName !== feature.name.toLowerCase() && wordsOnlyName.length > 3) {
-      exactAddressMap[wordsOnlyName] = feature.address;
-      console.log(`📝 Added words-only mapping: "${wordsOnlyName}" -> "${feature.address}"`);
-    }
-  }
+  });
   
-  console.log(`📊 Address maps contain ${Object.keys(exactAddressMap).length} exact entries and ${Object.keys(normalizedAddressMap).length} normalized entries`);
+  console.log(`🔍 Built address lookup tables with ${Object.keys(exactAddressMap).length} exact matches and ${Object.keys(normalizedAddressMap).length} normalized matches`);
   
   //~ final locations arr
   const uniqueLocations: ToiletLocation[] = [];
   const processedKeys = new Set<string>();
   
-  //~ process Google Sheets feats (have addresses)
+  console.log('📈 PROCESSING STATS:');
+  console.log(`🧾 Total Google Sheets features: ${sheetsFeatures.length}`);
+  console.log(`🗺️ Total Google Maps features: ${mapsFeatures.length}`);
+  
+  //~ process Google Sheets feats 1st (preferred src fr most data)
   sheetsFeatures.forEach(feature => {
     const { name, address, coords, properties } = feature;
     const [lng, lat] = coords;
@@ -221,8 +237,20 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     const safeId = typeof properties.id === 'string' ? 
       properties.id : `loc-${Math.random().toString(36).substring(2, 9)}`;
     const safeName = typeof name === 'string' ? name : '';
-    //~ ensure address properly extracted & defaulted
-    const safeAddress = address && typeof address === 'string' && address.trim() !== '' ? address.trim() : '';
+    
+    let tempAddress = address && typeof address === 'string' ? address.trim() : '';
+    
+    //~ only clear address if exactly name AND shorter than 25 chars
+    //~ AND nt contain postal code / SG
+    if (tempAddress.toLowerCase() === safeName.toLowerCase() && 
+        tempAddress.length < 25 &&
+        !tempAddress.toLowerCase().includes('singapore') &&
+        !/\d{5,}/.test(tempAddress)) {
+      console.log(`⚠️ Address matches name for "${safeName}", clearing address to prevent duplication`);
+      tempAddress = '';
+    }
+    const safeAddress = tempAddress;
+    
     const safeRegion = typeof properties.region === 'string' ? properties.region : 'Unknown';
     const safeType = typeof properties.type === 'string' ? properties.type : 'Other';
     
@@ -240,7 +268,6 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
         wheelchairAccess: typeof properties.hasWheelchair === 'boolean' ? properties.hasWheelchair : false,
         babyChanging: typeof properties.hasBabyChanging === 'boolean' ? properties.hasBabyChanging : false,
         freeEntry: typeof properties.hasFreeEntry === 'boolean' ? properties.hasFreeEntry : false
-        //~ extra properties add to ToiletLocation type if need
       },
       rating: typeof properties.rating === 'number' || typeof properties.rating === 'string' ? 
         Number(properties.rating) : undefined,
@@ -250,9 +277,10 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       source: 'google-sheets',
       description: typeof properties.description === 'string' ? properties.description : '',
       sheetsRemarks: typeof properties.remarks === 'string' ? properties.remarks : '',
-      dataCompleteness: 0
+      dataCompleteness: 0 //todo: calculate later
     });
   });
+  
   
   //~ process Google Maps feats & only use addresses frm sheets
   mapsFeatures.forEach(feature => {
@@ -278,10 +306,26 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     //? debug info fr maps feats
     console.log(`🔍 Processing Maps feature: "${name}" at [${lat},${lng}]`);
     
-    //~ attempt find address ONLY frm Google Sheets data
-    //~ prioritize existing address frm feature props if avail
-    let address = existingAddress || '';
-    let matchType = existingAddress ? 'property value' : '';
+    let address = '';
+    let matchType = '';
+    
+    //~ be more selective abt when to ignore addresses that match names
+    if (existingAddress) {
+      const isNameAsAddress = existingAddress.toLowerCase() === name.toLowerCase();
+      const isShortAddress = existingAddress.length < 25;
+      const hasPostalCode = /\d{5,}/.test(existingAddress);
+      const hasSingapore = existingAddress.toLowerCase().includes('singapore');
+      
+      //~ only ignore address that exactly match name AND short AND lack SG/postal code
+      //~ real addresses typically include SG, postal code, / are longer
+      if (!isNameAsAddress || !isShortAddress || hasPostalCode || hasSingapore) {
+        address = existingAddress;
+        matchType = 'property value';
+      } else {
+        //~ address exactly match name & short w no postal code / SG, likely nt real address
+        console.log(`⚠️ Maps feature "${name}" has address same as name, ignoring it`);
+      }
+    }
     
     //~ skip lookup if alr have address
     if (!address) {
@@ -296,49 +340,49 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       } 
       //~ try name w/o parentheses
       else {
-      const simplifiedName = name.replace(/\s*\([^)]*\)\s*/g, '').trim();
-      if (exactAddressMap[simplifiedName] && simplifiedName.length > 3) {
-        address = exactAddressMap[simplifiedName];
-        matchType = 'simplified match';
-        console.log(`✅ Found sheets address for "${name}": "${address}" (${matchType})`);
-      }
-      //~ try normalized name match
-      else {
-        const normalizedName = normalizeLocationName(name);
-        console.log(`  🔎 Normalized "${name}" to "${normalizedName}"`);
-        
-        if (normalizedAddressMap[normalizedName]) {
-          address = normalizedAddressMap[normalizedName];
-          matchType = 'normalized match';
+        const simplifiedName = name.replace(/\s*\([^)]*\)\s*/g, '').trim();
+        if (exactAddressMap[simplifiedName] && simplifiedName.length > 3) {
+          address = exactAddressMap[simplifiedName];
+          matchType = 'simplified match';
           console.log(`✅ Found sheets address for "${name}": "${address}" (${matchType})`);
-        } 
-        //~ try fuzzy matching w/ normalized names
+        }
+        //~ try normalized name match
         else {
-          //~ look fr partial matches in normalized keys
-          const normalizedKeys = Object.keys(normalizedAddressMap);
-          let bestMatch = '';
-          let highestScore = 0;
+          const normalizedName = normalizeLocationName(name);
+          console.log(`  🔎 Normalized "${name}" to "${normalizedName}"`);
           
-          for (const key of normalizedKeys) {
-            if (normalizedName.includes(key) || key.includes(normalizedName)) {
-              //~ simple scoring - longer matches better
-              const score = Math.min(key.length, normalizedName.length);
-              if (score > highestScore) {
-                highestScore = score;
-                bestMatch = key;
+          if (normalizedAddressMap[normalizedName]) {
+            address = normalizedAddressMap[normalizedName];
+            matchType = 'normalized match';
+            console.log(`✅ Found sheets address for "${name}": "${address}" (${matchType})`);
+          } 
+          //~ try fuzzy matching w/ normalized names
+          else {
+            //~ look fr partial matches in normalized keys
+            const normalizedKeys = Object.keys(normalizedAddressMap);
+            let bestMatch = '';
+            let highestScore = 0;
+            
+            for (const key of normalizedKeys) {
+              if (normalizedName.includes(key) || key.includes(normalizedName)) {
+                //~ simple scoring - longer matches better
+                const score = Math.min(key.length, normalizedName.length);
+                if (score > highestScore) {
+                  highestScore = score;
+                  bestMatch = key;
+                }
               }
             }
-          }
-          
-          if (bestMatch && highestScore > 4) { //~ min match length avoid false positives
-            address = normalizedAddressMap[bestMatch];
-            matchType = 'fuzzy match';
-            console.log(`✅ Found sheets address for "${name}": "${address}" (${matchType} with "${bestMatch}")`);
-          } else {
-            console.log(`❌ No Google Sheets address found for "${name}" - this location will have NO address`);
+            
+            if (bestMatch && highestScore > 4) { //~ min match length avoid false positives
+              address = normalizedAddressMap[bestMatch];
+              matchType = 'fuzzy match';
+              console.log(`✅ Found sheets address for "${name}": "${address}" (${matchType} with "${bestMatch}")`);
+            } else {
+              console.log(`❌ No Google Sheets address found for "${name}" - this location will have NO address`);
+            }
           }
         }
-      }
       }
     }
     
@@ -379,7 +423,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
   });
   
   //~ calculate data completeness fr each location
-  uniqueLocations.forEach(location => {
+  uniqueLocations.forEach((location: ToiletLocation) => {
     location.dataCompleteness = getDataCompleteness(location);
   });
   
