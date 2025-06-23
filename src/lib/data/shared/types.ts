@@ -7,6 +7,7 @@ export interface ToiletLocation {
   address?: string;
   region?: string;
   type?: string;
+  types?: string[];
   hasBidet: boolean;
   //& gender property fr male/female/any toilets w bidets
   gender?: 'male' | 'female' | 'any';
