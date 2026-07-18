@@ -183,7 +183,8 @@ function sheetsToGeoJSON(records) {
       processed.Address = record['Address'] || '';
       processed.Notes = record['Remarks'] || '';
       processed.Region = record['Region'] || '';
-      processed.Type = tab.includes('MALE') ? 'male' : tab.includes('FEMALE') ? 'female' : 'other';
+      //~ check FEMALE before MALE - 'FEMALE TOILETS'.includes('MALE') is true, so male check must come last
+      processed.Type = tab.includes('FEMALE') ? 'female' : tab.includes('MALE') ? 'male' : 'other';
 
       //? debug actual record content fr address
       console.log(`🧐 Processing ${tab} record: ${processed.Name} | Address from sheet: "${processed.Address}"`);
@@ -229,8 +230,9 @@ function sheetsToGeoJSON(records) {
     const name = record.Name.trim();
     const address = record.Address.trim();
     const sourceTab = record._sourceTab;
-    const gender = sourceTab.includes('MALE') ? 'male' :
-      sourceTab.includes('FEMALE') ? 'female' : 'any';
+    //~ check FEMALE before MALE - 'FEMALE'.includes('MALE') is true, so male check must come last
+    const gender = sourceTab.includes('FEMALE') ? 'female' :
+      sourceTab.includes('MALE') ? 'male' : 'any';
     const type = record.Type || (sourceTab.includes('HOTEL') ? 'hotel' : 'public');
 
     //~ create deterministic id
