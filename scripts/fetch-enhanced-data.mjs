@@ -442,10 +442,12 @@ async function enhanceLocationData(location) {
       
       //~ validate src tab & add gender info if avail
       if (enhanced.sourceTab) {
-        if (enhanced.sourceTab.toLowerCase().includes('male')) {
-          enhanced.gender = 'Male';
-        } else if (enhanced.sourceTab.toLowerCase().includes('female')) {
-          enhanced.gender = 'Female';
+        //~ check 'female' before 'male' - 'female'.includes('male') is true, so male check must come last
+        //~ also use lowercase values to match the ToiletLocation gender type ('male' | 'female' | 'any')
+        if (enhanced.sourceTab.toLowerCase().includes('female')) {
+          enhanced.gender = 'female';
+        } else if (enhanced.sourceTab.toLowerCase().includes('male')) {
+          enhanced.gender = 'male';
         }
         
         //~ sourceTab info to comments if nt alr included
