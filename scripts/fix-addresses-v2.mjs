@@ -88,7 +88,8 @@ async function fixAddresses() {
         female = 'Yes';
       }
       
-      if (description.match(/male|men|man|gentleman|gent/i)) {
+      //~ word boundaries so 'male'/'men'/'man' don't match inside 'female'/'women'/'woman'
+      if (description.match(/\bmale\b|\bmen\b|\bman\b|gentleman|\bgents?\b/i)) {
         male = 'Yes';
       }
       
