@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ToiletLocation } from '@/lib/types-compatibility';
+import { ToiletLocation } from '@/lib/data/shared/types';
 
 //* filter options interface fr typesafety
 interface FilterOptions {
@@ -40,13 +40,70 @@ const FilterBar = ({
   //& extract unique regions & facility types frm locations data
   useEffect(() => {
     if (locations.length > 0) {
-      //~ get unique regions & types, filtering out undefined values
+      //~ get unique regions & types, filter out undefined values
       const regions = [...new Set(locations.map(loc => loc.region).filter(Boolean))];
-      const types = [...new Set(locations.map(loc => loc.type).filter(Boolean))];
       
-      //~ type assertion: handle string | undefined type
+      //~ gather all types frm both type property & types arr
+      const typeSet = new Set<string>();
+      let femaleTypeCount = 0;
+      let locationWithTypesCount = 0;
+      
+      //~ process each location
+      locations.forEach(location => {
+        //~ add main type if present & nt empty
+        if (location.type && location.type.trim() !== '') {
+          typeSet.add(location.type);
+        }
+        
+        //~ add all types frm types arr if present
+        if (Array.isArray(location.types)) {
+          locationWithTypesCount++;
+          location.types.forEach(type => {
+            typeSet.add(type);
+            if (type === 'Female') {
+              femaleTypeCount++;
+            }
+          });
+        }
+      });
+      
+      //~ convert sorted array
+      const types = [...typeSet].sort();
+      
+      //? debugging fr female toilet detection
+      console.log('\n\n👩👩👩 FEMALE FACILITY DEBUGGING - FILTERBAR 👩👩👩');
+      console.log('=================================================');
+      
+      //? sample 1st 3 locations & any female locations
+      const sampleLocations = [...locations.slice(0, 3)];
+      const femaleLocations = locations.filter(loc => 
+        loc.type === 'Female' || (Array.isArray(loc.types) && loc.types.includes('Female')));
+      
+      //? show female locations sample if any exist
+      if (femaleLocations.length > 0) {
+        sampleLocations.push(...femaleLocations.slice(0, 3));
+      }
+      
+      console.log('🔍 FilterBar - Location samples:', 
+        sampleLocations.map(loc => ({
+          name: loc.name,
+          type: loc.type,
+          types: loc.types,
+          source: loc.source,
+          isFemale: loc.type === 'Female' || (Array.isArray(loc.types) && loc.types.includes('Female'))
+        })));
+      
+      console.log('🔍 FilterBar - ALL Facility types found:', types);
+      console.log(`👩 FEMALE TYPE SUMMARY:`);
+      console.log(` - Total locations: ${locations.length}`);
+      console.log(` - Locations with multiple types: ${locationWithTypesCount}/${locations.length}`);
+      console.log(` - Locations with Female type: ${femaleTypeCount}`);
+      console.log(` - Female in available filter types: ${typeSet.has('Female') ? 'Yes ✅' : 'No ❌'}`);
+      console.log('=================================================\n');
+      
+      //~ update state w processed data
       setAvailableRegions(regions as string[]);
-      setAvailableTypes(types as string[]);
+      setAvailableTypes(types);
     }
   }, [locations]);
   
