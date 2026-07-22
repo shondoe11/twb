@@ -117,10 +117,23 @@ function getDataCompleteness(loc: ToiletLocation): number {
  * & Convert GeoJSON data to ToiletLocation objs
  */
 export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
-  if (!geoData.features || !Array.isArray(geoData.features)) {
-    console.log('❌ No features found in data');
+  //~ ensure input is valid geoJSON
+  if (!geoData || !geoData.features || !Array.isArray(geoData.features)) {
+    console.error('Invalid GeoJSON data');
     return [];
   }
+  
+  //? debug counter: female tag tracking
+  let femaleTagCount = 0;
+  
+  //~ check how many features should have female type
+  const sourceFemaleCount = geoData.features.filter(feature => 
+    feature.properties && feature.properties.sourceTab && 
+    typeof feature.properties.sourceTab === 'string' && 
+    feature.properties.sourceTab.toLowerCase().includes('female')
+  ).length;
+  
+  console.log(`🔍 Found ${sourceFemaleCount} features with sourceTab containing 'female'`);
   
   //~ separate features by source (google sheets w/ addresses vs google maps)
   const sheetsFeatures: LocationFeature[] = [];
@@ -214,9 +227,20 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
   const uniqueLocations: ToiletLocation[] = [];
   const processedKeys = new Set<string>();
   
-  console.log('📈 PROCESSING STATS:');
-  console.log(`🧾 Total Google Sheets features: ${sheetsFeatures.length}`);
-  console.log(`🗺️ Total Google Maps features: ${mapsFeatures.length}`);
+  console.log(`🔍 Processing GeoJSON - features count: ${geoData.features?.length || 0}`);
+  console.log(`🔍 - Google Sheets features: ${sheetsFeatures.length}`);
+  console.log(`🔍 - Google Maps features: ${mapsFeatures.length}`);
+  
+  //? debug female srcs
+  const femaleFeatures = geoData.features?.filter(feature => 
+    feature.properties?.sourceTab && 
+    feature.properties.sourceTab.toLowerCase().includes('female')
+  ) || [];
+  
+  console.log(`🔍 - Female sheet features: ${femaleFeatures.length}`);
+  if (femaleFeatures.length > 0) {
+    console.log(`🔍 Sample female feature:`, JSON.stringify(femaleFeatures[0].properties, null, 2));
+  }
   
   //~ process Google Sheets feats 1st (preferred src fr most data)
   sheetsFeatures.forEach(feature => {
@@ -252,7 +276,56 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     const safeAddress = tempAddress;
     
     const safeRegion = typeof properties.region === 'string' ? properties.region : 'Unknown';
-    const safeType = typeof properties.type === 'string' ? properties.type : 'Other';
+    
+    //~ determine facility types based on source tab & existing type
+    let safeType = typeof properties.type === 'string' ? properties.type : 'Other';
+    //~ normalize to title case so 'male' & 'Male' don't show up as separate filter options
+    safeType = safeType.charAt(0).toUpperCase() + safeType.slice(1).toLowerCase();
+    
+    //~ build arr of facility types this location supports
+    const facilityTypes = new Set<string>();
+    
+    //~ add original type if exists
+    if (typeof safeType === 'string' && safeType !== 'Other') {
+      facilityTypes.add(safeType);
+    }
+    
+    //~ gender derived frm sourceTab since the generated gender property is unreliable
+    let safeGender: 'male' | 'female' | 'any' | undefined;
+    
+    //~ check if frm female sheet - sourceTab contains this info
+    if (typeof properties.sourceTab === 'string') {
+      const sourceTab = properties.sourceTab.toLowerCase();
+      //~ check 'female' before 'male' - 'female'.includes('male') is true, so use else-if
+      if (sourceTab.includes('female')) {
+        //~ sourceTab is source of truth: drop the mistagged 'Male' type frm buggy generated data
+        facilityTypes.delete('Male');
+        facilityTypes.add('Female');
+        safeType = 'Female';
+        safeGender = 'female';
+        femaleTagCount++;
+      } else if (sourceTab.includes('male')) {
+        facilityTypes.add('Male');
+        safeGender = 'male';
+      }
+      if (sourceTab.includes('hotel')) {
+        facilityTypes.add('Hotel');
+        if (!safeGender) safeGender = 'any';
+      }
+    }
+    
+    //~ add fallback before converting the set, otherwise 'Other' never lands in the types arr
+    if (facilityTypes.size === 0) {
+      facilityTypes.add('Other');
+    }
+    //~ convert set to array fr types property
+    const typesArray = Array.from(facilityTypes);
+    
+    //~ if no specific type set, use 1st type as main type
+    if (safeType === 'Other' && typesArray.length > 0) {
+      safeType = typesArray[0];
+    }
+
     
     uniqueLocations.push({
       id: safeId,
@@ -260,6 +333,9 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       address: safeAddress,
       region: safeRegion,
       type: safeType,
+      //~ types arr was never included fr sheets locations - this broke the female filter
+      types: typesArray,
+      gender: safeGender,
       lat: Number(lat),
       lng: Number(lng),
       hasBidet: typeof properties.hasBidet === 'boolean' ? properties.hasBidet : true, //~ assume all hav bidets unless specified
@@ -393,7 +469,70 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     //~ ensure address properly handled if found
     const safeAddress = address && typeof address === 'string' && address.trim() !== '' ? address.trim() : '';
     const safeRegion = typeof properties.region === 'string' ? properties.region : 'Unknown';
-    const safeType = typeof properties.type === 'string' ? properties.type : 'Other';
+    
+    //~ determine facility types based on src tab & existing type
+    let safeType = typeof properties.type === 'string' ? properties.type : 'Other';
+    //~ normalize to title case so 'male' & 'Male' don't show up as separate filter options
+    safeType = safeType.charAt(0).toUpperCase() + safeType.slice(1).toLowerCase();
+    
+    //~ build arr of facility types fr maps features also
+    const facilityTypes = new Set<string>();
+    
+    //~ add original type if exists
+    if (typeof safeType === 'string' && safeType !== 'Other') {
+      facilityTypes.add(safeType);
+    }
+    
+    //~ gender derived frm sourceTab first since the generated gender property is unreliable
+    let safeGender: 'male' | 'female' | 'any' | undefined;
+    
+    //~ check if sourceTab info is avail in maps features too
+    if (typeof properties.sourceTab === 'string') {
+      const sourceTab = properties.sourceTab.toLowerCase();
+      //~ check 'female' before 'male' - 'female'.includes('male') is true, so use else-if
+      if (sourceTab.includes('female')) {
+        //~ sourceTab is source of truth: drop the mistagged 'Male' type frm buggy generated data
+        facilityTypes.delete('Male');
+        facilityTypes.add('Female');
+        safeType = 'Female';
+        safeGender = 'female';
+        femaleTagCount++;
+      } else if (sourceTab.includes('male')) {
+        facilityTypes.add('Male');
+        safeGender = 'male';
+      }
+      if (sourceTab.includes('hotel')) {
+        facilityTypes.add('Hotel');
+        if (!safeGender) safeGender = 'any';
+      }
+    }
+    
+    //~ check gender property fr additional type info
+    //~ only trust the gender property whn sourceTab gave nothing (generated gender data was buggy)
+    if (!safeGender && typeof properties.gender === 'string') {
+      const gender = properties.gender.toLowerCase();
+      if (gender === 'male') {
+        facilityTypes.add('Male');
+        safeGender = 'male';
+      } else if (gender === 'female') {
+        facilityTypes.add('Female');
+        safeGender = 'female';
+      } else if (gender === 'any') {
+        safeGender = 'any';
+      }
+    }
+    
+    //~ add fallback before converting the set, otherwise 'Other' never lands in the types arr
+    if (facilityTypes.size === 0) {
+      facilityTypes.add('Other');
+    }
+    //~ convert set to arr fr types property
+    const typesArray = Array.from(facilityTypes);
+    
+    //~ if no specific type set, use 1st type as main type
+    if (safeType === 'Other' && typesArray.length > 0) {
+      safeType = typesArray[0];
+    }
     
     uniqueLocations.push({
       id: safeId,
@@ -401,6 +540,8 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       address: safeAddress,
       region: safeRegion,
       type: safeType,
+      types: typesArray,
+      gender: safeGender,
       lat: Number(lat),
       lng: Number(lng),
       hasBidet: typeof properties.hasBidet === 'boolean' ? properties.hasBidet : true,
@@ -429,6 +570,73 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
   
   console.log(`📊 Final processed location count: ${uniqueLocations.length}`);
   
+  //~ add diagnostic logging fr facility type counts
+  const typeCounts: Record<string, number> = {};
+  let femaleLocationsCount = 0;
+  const femaleSamples: Array<{name: string, source: string, types: string[]}> = [];
+  
+  //!? FEMALE FACILITY DEBUG: collect all facility type info
+  console.log('\n\n👩👩👩 FEMALE FACILITY DEBUGGING - DATA SERVICE 👩👩👩');
+  console.log('=================================================');
+  
+  uniqueLocations.forEach(location => {
+    //~ count by main type property
+    if (location.type) {
+      typeCounts[location.type] = (typeCounts[location.type] || 0) + 1;
+      
+      //~ track female locations by main type
+      if (location.type === 'Female') {
+        femaleLocationsCount++;
+        if (femaleSamples.length < 5) {
+          femaleSamples.push({
+            name: location.name,
+            source: location.source || 'unknown',
+            types: location.types || [location.type]
+          });
+        }
+      }
+    }
+    
+    //~ count all types frm types arr if present
+    if (Array.isArray(location.types)) {
+      location.types.forEach(type => {
+        if (!typeCounts[`${type} (array)`]) {
+          typeCounts[`${type} (array)`] = 0;
+        }
+        typeCounts[`${type} (array)`]++;
+        
+        //~ track female locations specifically frm types arr
+        //~ skip locations alr counted via their main type to avoid double counting
+        if (type === 'Female' && location.type !== 'Female') {
+          femaleLocationsCount++;
+          if (femaleSamples.length < 5) {
+            femaleSamples.push({
+              name: location.name,
+              source: location.source || 'unknown',
+              types: location.types || []
+            });
+          }
+        }
+      });
+    }
+  });
+  
+  console.log('📈 Facility type counts:');
+  console.table(typeCounts);
+  console.log(`\n📊 Facility type counts:`, typeCounts);
+  
+  //? female facility type visualization & summary
+  console.log('FEMALE FACILITY TYPE SUMMARY');
+  console.log('==============================');
+  console.log(`Total locations tagged as Female: ${femaleLocationsCount}`);
+  console.log('Female location samples:', femaleSamples);
+  console.log('Female in main type counts:', typeCounts['Female'] || 0);
+  console.log('Female in types array counts:', typeCounts['Female (array)'] || 0);
+  console.log('==============================\n');
+  
+  console.log(` - Female tags added during processing: ${femaleTagCount}`);
+  console.log(` - Female filter will work: ${femaleLocationsCount > 0 ? 'Yes' : 'No'}`);
+  
   return uniqueLocations;
 }
 
@@ -455,8 +663,13 @@ export function filterLocations(
     }
     
     //~ filter by type
-    if (filters.type && location.type !== filters.type) {
-      return false;
+    if (filters.type) {
+      //~ match against either the types arr or the single type property - an empty (types arr previously excluded the location frm every type filter)
+      const matchesTypesArray = Array.isArray(location.types) && location.types.includes(filters.type);
+      const matchesSingleType = location.type === filters.type;
+      if (!matchesTypesArray && !matchesSingleType) {
+        return false;
+      }
     }
     
     //~ filter by amenities if any specified
