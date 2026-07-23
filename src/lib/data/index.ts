@@ -7,4 +7,5 @@ export * from './shared';
 export * from './client';
 
 //& re-export only whats needed fr most common use cases
-export { fetchLocations, filterLocations, sortLocationsByDistance } from './client/dataService';
+//~ sortLocationsByDistance was removed - exporting it broke the typescript build
+export { fetchLocations, filterLocations } from './client/dataService';
