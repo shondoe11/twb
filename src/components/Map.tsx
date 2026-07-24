@@ -23,6 +23,60 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   //~ track user manual zoom and pan actions
   const userInteractedWithMap = useRef(false);
   
+  //? debugging: female facility locations
+  useEffect(() => {
+    if (locations.length > 0) {
+      //~ count female locations
+      let femaleCount = 0;
+      let multiTypeCount = 0;
+      const femaleLocations: ToiletLocation[] = [];
+      
+      //? detailed tracking female locations
+      locations.forEach(loc => {
+        if (Array.isArray(loc.types) && loc.types.includes('Female')) {
+          femaleCount++;
+          femaleLocations.push(loc);
+        } else if (loc.type === 'Female') {
+          femaleCount++;
+          femaleLocations.push(loc);
+        }
+        
+        if (Array.isArray(loc.types) && loc.types.length > 1) {
+          multiTypeCount++;
+        }
+      });
+      
+      //? extensive female location debugging
+      console.log('\n\n👩👩👩 FEMALE FACILITY DEBUGGING - MAP 👩👩👩');
+      console.log('=================================================');
+      console.log(`FEMALE LOCATION STATS:`);
+      console.log(` - Total locations on map: ${locations.length}`);
+      console.log(` - Locations tagged as Female: ${femaleCount}`);
+      console.log(` - Female locations percentage: ${((femaleCount / locations.length) * 100).toFixed(2)}%`);
+      console.log(` - Locations with multiple types: ${multiTypeCount}`);
+      
+      //? sample female locations w detailed info
+      const femaleSamples = femaleLocations.slice(0, 5);
+      
+      if (femaleSamples.length > 0) {
+        console.log('\n👩 FEMALE LOCATION SAMPLES:');
+        femaleSamples.forEach((loc, index) => {
+          console.log(`FEMALE SAMPLE #${index + 1}:`);
+          console.log(` - Name: ${loc.name}`);
+          console.log(` - Main type: ${loc.type}`);
+          console.log(` - Types array: ${JSON.stringify(loc.types)}`);
+          console.log(` - Region: ${loc.region || 'Not specified'}`);
+          console.log(` - Source: ${loc.source || 'Unknown'}`);
+          console.log(` - Address: ${loc.address || 'Not specified'}`);
+          console.log('-----------');
+        });
+      } else {
+        console.log('❌ NO FEMALE LOCATIONS FOUND IN DATASET');
+      }
+      console.log('=================================================\n');
+    }
+  }, [locations]);
+  
   //& workaround fr leaflet marker icon issues in next.js
   useEffect(() => {
     delete (L.Icon.Default.prototype as { _getIconUrl?: unknown })._getIconUrl;
@@ -110,13 +164,13 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
             return false;
           };
           
-          //~ attempt to find and open actual marker's popup
+          //~ try find & open actual marker popup
           const found = findAndOpenMarker();
           
-          //~ if marker not found (might be in cluster), try once more with a delay
+          //~ if marker nt found (might be in cluster), try again w delay
           if (!found) {
             setTimeout(() => {
-              //~ try again after clusters have had time to expand
+              //~ try again aft clusters had time to expand
               findAndOpenMarker();
             }, 500);
           }
@@ -125,7 +179,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedLocation, mapReady]); 
     
-    //~ locations key to track changes for filtering
+    //~ locations key track changes fr filtering
     const locationsKey = locations.map(loc => loc.id).join(','); 
     
     //& handle filtered locations change w/o unwanted zoom
@@ -137,7 +191,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         return;
       }
       
-      //~ only recalculate if no user interaction has happened
+      //~ only recalculate if no user interaction happened
       setTimeout(() => {
         map.invalidateSize();
       }, 100);
