@@ -123,8 +123,9 @@ export default function Home() {
   const handleFilterChange = (filters: FilterOptions) => {
     //~ use util func frm data svc
     const filtered = filterLocations(allLocations, {
-      region: filters.region !== 'All' ? filters.region : undefined,
-      type: filters.type !== 'All' ? filters.type : undefined,
+      //~ filterbar uses '' fr 'all' options, nt the string 'All' - pass undefined whn empty
+      region: filters.region || undefined,
+      type: filters.type || undefined,
       amenities: {
         wheelchairAccess: filters.amenities.wheelchairAccess,
         babyChanging: filters.amenities.babyChanging,
