@@ -21,12 +21,8 @@ export async function readCombinedGeoJSON(): Promise<GeoJSONData> {
   try {
     const dataDir = path.join(process.cwd(), DATA_PATHS.DATA_DIR);
     
-    //~ try read enriched data first (w fixed regions)
-    const enrichedPath = path.join(dataDir, 'enriched.geojson');
-    const combinedPath = path.join(dataDir, 'combined.geojson');
-    
-    //~ determine which file to use
-    const filePath = await fileExists(enrichedPath) ? enrichedPath : combinedPath;
+    //~ read combined.geojson only - the enriched.geojson preference was removed since enrichment scripts r manual one-offs & the stale file caused local/prod data drift
+    const filePath = path.join(dataDir, 'combined.geojson');
     
     //~ check if file exists
     if (!(await fileExists(filePath))) {
