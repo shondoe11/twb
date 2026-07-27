@@ -46,15 +46,15 @@ async function setupDirectories() {
   try {
     await fs.mkdir(DATA_DIR, { recursive: true });
     await fs.mkdir(CACHE_DIR, { recursive: true });
-    console.log('✅ Directories created successfully');
+    console.log('Directories created successfully');
   } catch (error) {
-    console.error('❌ Error creating directories:', error);
+    console.error('Error creating directories:', error);
   }
 }
 
 //& fetch data frm Google Sheets using CSV export URLs
 async function fetchAllSheetsData() {
-  console.log('🔄 Fetching data from online Google Sheets');
+  console.log('Fetching data from online Google Sheets');
 
   try {
     //~ check fr cached sheets data that nt too old
@@ -63,21 +63,21 @@ async function fetchAllSheetsData() {
       const cacheAge = Date.now() - cacheStats.mtime;
       //~ use cache if less than 1h old
       if (cacheAge < 3600000) {
-        console.log(`📋 Using cached sheets data (${Math.round(cacheAge / 60000)} minutes old)`);
+        console.log(`Using cached sheets data (${Math.round(cacheAge / 60000)} minutes old)`);
         const cachedData = JSON.parse(await fs.readFile(SHEETS_CACHE, 'utf8'));
-        console.log(`📊 Loaded ${cachedData.length} records from cache`);
+        console.log(`Loaded ${cachedData.length} records from cache`);
         return cachedData;
       }
-      console.log('🔄 Sheets cache is too old, fetching fresh data...');
+      console.log('Sheets cache is too old, fetching fresh data...');
     } catch {
-      console.log('🔄 No valid sheets cache found, fetching fresh data...');
+      console.log('No valid sheets cache found, fetching fresh data...');
     }
 
     //~ fetch each sheet tab & process
     const allRecords = [];
 
     for (const tab of DATA_SOURCES.SHEET_TABS) {
-      console.log(`📋 Fetching sheet: ${tab.name} (gid: ${tab.gid})`);
+      console.log(`Fetching sheet: ${tab.name} (gid: ${tab.gid})`);
 
       const url = `https://docs.google.com/spreadsheets/d/${DATA_SOURCES.GOOGLE_SHEETS_ID}/export?format=csv&gid=${tab.gid}`;
       const response = await fetch(url, {
@@ -87,19 +87,19 @@ async function fetchAllSheetsData() {
       });
 
       if (!response.ok) {
-        console.error(`❌ Failed to fetch sheet ${tab.name}: ${response.status} ${response.statusText}`);
+        console.error(`Failed to fetch sheet ${tab.name}: ${response.status} ${response.statusText}`);
         continue;
       }
 
       const csvText = await response.text();
       if (!csvText || csvText.trim().length === 0) {
-        console.error(`❌ Empty CSV response for sheet ${tab.name}`);
+        console.error(`Empty CSV response for sheet ${tab.name}`);
         continue;
       }
 
       //~ parse CSV content. determine correct header row based on sheet tab
       const fromLine = tab.name === 'HOTEL ROOMS W BIDET' ? 2 : 1; //~ 0-indexed
-      console.log(`🔍 Using header row ${fromLine + 1} for sheet "${tab.name}"`);
+      console.log(`Using header row ${fromLine + 1} for sheet "${tab.name}"`);
 
       const records = parse(csvText, {
         columns: true,
@@ -114,11 +114,11 @@ async function fetchAllSheetsData() {
         _sourceTab: tab.name
       }));
 
-      console.log(`📊 Fetched ${recordsWithSource.length} records from sheet "${tab.name}"`);
+      console.log(`Fetched ${recordsWithSource.length} records from sheet "${tab.name}"`);
 
       //~ display column headers frm 1st record if avail
       if (recordsWithSource.length > 0) {
-        console.log(`🗂️ Columns found in "${tab.name}": ${Object.keys(recordsWithSource[0]).join(', ')}`);
+        console.log(`Columns found in "${tab.name}": ${Object.keys(recordsWithSource[0]).join(', ')}`);
       }
 
       allRecords.push(...recordsWithSource);
@@ -126,21 +126,21 @@ async function fetchAllSheetsData() {
 
     //~ cache data
     await fs.writeFile(SHEETS_CACHE, JSON.stringify(allRecords, null, 2));
-    console.log(`💾 Cached ${allRecords.length} records to ${SHEETS_CACHE}`);
+    console.log(`Cached ${allRecords.length} records to ${SHEETS_CACHE}`);
 
-    console.log(`📊 Total fetched records from all sheets: ${allRecords.length}`);
+    console.log(`Total fetched records from all sheets: ${allRecords.length}`);
     return allRecords;
 
   } catch (error) {
-    console.error('❌ Error fetching sheets data:', error);
-    console.error('⚠️ Falling back to empty data set');
+    console.error('Error fetching sheets data:', error);
+    console.error('Falling back to empty data set');
     return [];
   }
 }
 
 //& convert sheets records to GeoJSON
 function sheetsToGeoJSON(records) {
-  console.log('🔄 Converting sheets data to GeoJSON');
+  console.log('Converting sheets data to GeoJSON');
 
   //~ filter out empty records & print debugging info
   records = records.filter(record => {
@@ -148,20 +148,20 @@ function sheetsToGeoJSON(records) {
     return keys.length > 0 && keys.some(k => record[k] && record[k].trim() !== '');
   });
 
-  console.log(`📔 After filtering empty records: ${records.length} records remain`);
+  console.log(`After filtering empty records: ${records.length} records remain`);
 
   //~ show sample records frm each sheet
   const tabs = [...new Set(records.map(r => r._sourceTab))];
   tabs.forEach(tab => {
     const tabRecords = records.filter(r => r._sourceTab === tab);
     if (tabRecords.length > 0) {
-      console.log(`🗂️ Sheet "${tab}" (${tabRecords.length} records) sample columns:`,
+      console.log(`Sheet "${tab}" (${tabRecords.length} records) sample columns:`,
         Object.keys(tabRecords[0]).filter(k => k !== '_sourceTab').join(', '));
 
       //~ show 1st record as sample
       if (tabRecords.length > 0) {
         const sample = tabRecords[0];
-        console.log(`📝 Sample data from ${tab}:`, JSON.stringify(sample, null, 2));
+        console.log(`Sample data from ${tab}:`, JSON.stringify(sample, null, 2));
       }
     }
   });
@@ -187,7 +187,7 @@ function sheetsToGeoJSON(records) {
       processed.Type = tab.includes('FEMALE') ? 'female' : tab.includes('MALE') ? 'male' : 'other';
 
       //? debug actual record content fr address
-      console.log(`🧐 Processing ${tab} record: ${processed.Name} | Address from sheet: "${processed.Address}"`);
+      console.log(`Processing ${tab} record: ${processed.Name} | Address from sheet: "${processed.Address}"`);
     } else if (tab === 'HOTEL ROOMS W BIDET') {
       processed.Name = record['Hotel'] || '';
       //~ confirm Location column contains address fr hotels
@@ -196,7 +196,7 @@ function sheetsToGeoJSON(records) {
       processed.Type = 'hotel';
 
       //? debug actual record content fr address
-      console.log(`🧐 Processing ${tab} record: ${processed.Name} | Address from sheet: "${processed.Address}"`);
+      console.log(`Processing ${tab} record: ${processed.Name} | Address from sheet: "${processed.Address}"`);
     }
 
     //~ ensure all fields are strings & nt empty
@@ -212,7 +212,7 @@ function sheetsToGeoJSON(records) {
     }
   });
 
-  console.log(`📔 After processing: ${processedRecords.length} valid records with name and address`);
+  console.log(`After processing: ${processedRecords.length} valid records with name and address`);
 
   //& deterministic IDs based on name & address
   function hashCode(str) {
@@ -240,7 +240,7 @@ function sheetsToGeoJSON(records) {
     const id = `sheets-${Math.abs(hashCode(idBase)).toString(16).substring(0, 8)}`;
 
     //? debug logging
-    console.log(`📏 Processing: ${name} (${address?.substring(0, 30)}${address?.length > 30 ? '...' : ''})`);
+    console.log(`Processing: ${name} (${address?.substring(0, 30)}${address?.length > 30 ? '...' : ''})`);
 
     return {
       type: 'Feature',
@@ -268,7 +268,7 @@ function sheetsToGeoJSON(records) {
     };
   });
 
-  console.log(`✅ Created ${features.length} GeoJSON features from sheets data`);
+  console.log(`Created ${features.length} GeoJSON features from sheets data`);
   return features;
 }
 
@@ -291,12 +291,12 @@ function extractAddressFromDescription(description) {
   for (const pattern of patterns) {
     const match = cleanDesc.match(pattern);
     if (match && match[1]) {
-      console.log(`🏠 Successfully extracted address using pattern: ${pattern}`);
+      console.log(`Successfully extracted address using pattern: ${pattern}`);
       return match[1].trim();
     }
   }
 
-  console.log(`⚠️ Failed to extract address from description: "${description.substring(0, 100)}..."`);
+  console.log(`Failed to extract address from description: "${description.substring(0, 100)}..."`);
   return null;
 }
 
@@ -313,24 +313,24 @@ async function fetchMapsData() {
         const cacheAge = Date.now() - stats.mtimeMs;
 
         if (cacheAge < 24 * 60 * 60 * 1000) {
-          console.log('📋 Using cached maps data');
+          console.log('Using cached maps data');
           const cachedData = JSON.parse(await fs.readFile(MAPS_CACHE, 'utf8'));
-          console.log(`📊 Cached maps data has ${cachedData.features?.length || 0} features`);
+          console.log(`Cached maps data has ${cachedData.features?.length || 0} features`);
           if (cachedData.features?.length > 0) {
             return cachedData;
           } else {
-            console.log('⚠️ Cached maps data has 0 features, fetching fresh data');
+            console.log('Cached maps data has 0 features, fetching fresh data');
           }
         }
       } catch (error) {
-        console.log('⚠️ Maps cache access error:', error.message);
+        console.log('Maps cache access error:', error.message);
         //~ cache doesn't exist or is invalid - proceed to fetch
       }
     } else {
-      console.log('🔄 Forced refresh of maps data enabled');
+      console.log('Forced refresh of maps data enabled');
     }
 
-    console.log('🔄 Fetching data from Google Maps');
+    console.log('Fetching data from Google Maps');
     const response = await fetch(DATA_SOURCES.MAPS_KML_URL);
 
     if (!response.ok) {
@@ -338,7 +338,7 @@ async function fetchMapsData() {
     }
 
     const kmlText = await response.text();
-    console.log(`✅ KML data fetched successfully (${kmlText.length} bytes)`);
+    console.log(`KML data fetched successfully (${kmlText.length} bytes)`);
 
     //~ parse KML (simple regex approach - could use xml parser for more robust solution)
     const placemarks = [];
@@ -359,12 +359,12 @@ async function fetchMapsData() {
 
       if (nameMatch) {
         name = nameMatch[1].trim();
-        console.log(`📝 Found <name> tag: ${name}`);
+        console.log(`Found <name> tag: ${name}`);
       } else if (nMatch) {
         name = nMatch[1].trim();
-        console.log(`📝 Found <n> tag: ${name}`);
+        console.log(`Found <n> tag: ${name}`);
       } else {
-        console.log('⚠️ No name found in placemark');
+        console.log('No name found in placemark');
       }
 
       //~ extract description
@@ -375,7 +375,7 @@ async function fetchMapsData() {
       const cdataMatch = /<!\[CDATA\[(.*?)\]\]>/i.exec(description);
       if (cdataMatch) {
         description = cdataMatch[1];
-        console.log('📄 Extracted CDATA content from description');
+        console.log('Extracted CDATA content from description');
       }
 
       //~ extract coords
@@ -383,7 +383,7 @@ async function fetchMapsData() {
 
       if (coordsMatch) {
         const coordsStr = coordsMatch[1].trim();
-        console.log(`🔍 Found coordinates string: "${coordsStr}" for ${name}`);
+        console.log(`Found coordinates string: "${coordsStr}" for ${name}`);
 
         //~ KML format is lon,lat,altitude w possible whitespace
         const coords = coordsStr.split(',').map(s => s.trim()).map(Number);
@@ -392,16 +392,16 @@ async function fetchMapsData() {
 
         if (!isNaN(lat) && !isNaN(lng)) {
           placemarks.push({ name, description, lat, lng });
-          console.log(`✅ Added placemark: ${name} at [${lat}, ${lng}]`);
+          console.log(`Added placemark: ${name} at [${lat}, ${lng}]`);
         } else {
-          console.log(`❌ Invalid coordinates for ${name}: ${coordsStr}`);
+          console.log(`Invalid coordinates for ${name}: ${coordsStr}`);
         }
       } else {
-        console.log(`❓ No coordinates found for placemark: ${name}`);
+        console.log(`No coordinates found for placemark: ${name}`);
       }
     }
 
-    console.log(`📊 Extracted ${placemarks.length} placemarks from KML`);
+    console.log(`Extracted ${placemarks.length} placemarks from KML`);
 
     //~ regex extract folder/region name - try both <name> and <n> tags
     const folderRegex = /<Folder>[\s\S]*?<(name|n)>(.*?)<\/(name|n)>([\s\S]*?)<\/Folder>/g;
@@ -466,18 +466,18 @@ async function fetchMapsData() {
     };
 
     await fs.writeFile(MAPS_CACHE, JSON.stringify(geojson));
-    console.log(`✅ Cached maps data (${features.length} features)`);
+    console.log(`Cached maps data (${features.length} features)`);
 
     return geojson;
   } catch (mapFetchError) {
-    console.error('❌ Error fetching Google Maps data:', mapFetchError);
+    console.error('Error fetching Google Maps data:', mapFetchError);
     //~ try to use cache if available
     try {
-      console.log('⚠️ Attempting to use cached maps data as fallback');
+      console.log('Attempting to use cached maps data as fallback');
       const cachedData = JSON.parse(await fs.readFile(MAPS_CACHE, 'utf8'));
       return cachedData;
     } catch {
-      console.error('❌ Fallback failed, returning empty collection');
+      console.error('Fallback failed, returning empty collection');
       return { type: 'FeatureCollection', features: [] };
     }
   }
@@ -487,20 +487,27 @@ async function fetchMapsData() {
 async function combineData() {
   //~ fetch all data srcs
   const sheetsRecords = await fetchAllSheetsData();
+
+  //~ fail loudly instead of silently publishing an empty/degraded dataset - a non-zero exit fails the ci run & the vercel build, keeping the previous deployment live
+  if (!sheetsRecords || sheetsRecords.length === 0) {
+    console.error('No sheets records fetched - aborting so stale data is not overwritten');
+    process.exit(1);
+  }
+
   await fs.writeFile(SHEETS_CACHE, JSON.stringify(sheetsRecords));
-  console.log('✅ Cached sheets data');
+  console.log('Cached sheets data');
 
   const sheetsFeatures = sheetsToGeoJSON(sheetsRecords);
   const mapsData = await fetchMapsData();
   const mapsFeatures = mapsData.features || [];
 
   //? debug Google Maps data
-  console.log(`📍 Extracting Google Maps features for matching: ${mapsFeatures.length} features`);
+  console.log(`Extracting Google Maps features for matching: ${mapsFeatures.length} features`);
 
   //? debug sample feats
   for (let i = 0; i < Math.min(3, mapsFeatures.length); i++) {
     const feature = mapsFeatures[i];
-    console.log(`📎 Maps Feature ${i + 1} Sample:`);
+    console.log(`Maps Feature ${i + 1} Sample:`);
     console.log(`   Name: ${JSON.stringify(feature.properties?.Name || feature.properties?.name)}`);
     console.log(`   Coords: ${JSON.stringify(feature.geometry?.coordinates)}`);
     console.log(`   Properties: ${Object.keys(feature.properties || {}).join(', ')}`);
@@ -544,18 +551,18 @@ async function combineData() {
 
         //? debug output fr first few entries
         if (Object.keys(mapsCoordinatesMap).length < 10) {
-          console.log(`🗺️ Adding coordinates mapping for "${trimmedName}": [${coords}]`);
+          console.log(`Adding coordinates mapping for "${trimmedName}": [${coords}]`);
         }
       }
     }
   });
 
-  console.log(`🗺️ Created coordinates mapping for ${Object.keys(mapsCoordinatesMap).length} name variants from ${mapsFeatures.length} Google Maps locations`);
+  console.log(`Created coordinates mapping for ${Object.keys(mapsCoordinatesMap).length} name variants from ${mapsFeatures.length} Google Maps locations`);
 
   //? debug Google Sheets feats
   for (let i = 0; i < Math.min(3, sheetsFeatures.length); i++) {
     const feature = sheetsFeatures[i];
-    console.log(`📑 Sheets Feature ${i + 1} Sample:`);
+    console.log(`Sheets Feature ${i + 1} Sample:`);
     console.log(`   Name: ${feature.properties?.name || 'Not found'}`);
     console.log(`   Address: ${feature.properties?.address || 'Not found'}`);
     console.log(`   Properties: ${Object.keys(feature.properties || {}).join(', ')}`);
@@ -571,7 +578,7 @@ async function combineData() {
     }
 
     const name = feature.properties.name.trim();
-    console.log(`📏 Processing: ${name}`);
+    console.log(`Processing: ${name}`);
 
     //~ try multiple matching strats
     let coords = null;
@@ -579,13 +586,13 @@ async function combineData() {
     //~ 1. direct exact match
     if (mapsCoordinatesMap[name]) {
       coords = mapsCoordinatesMap[name];
-      console.log(`✅ Found exact match for "${name}": [${coords}]`);
+      console.log(`Found exact match for "${name}": [${coords}]`);
       enhancedCount++;
     }
     //~ 2. lowercase match
     else if (mapsCoordinatesMap[name.toLowerCase()]) {
       coords = mapsCoordinatesMap[name.toLowerCase()];
-      console.log(`✅ Found lowercase match for "${name}": [${coords}]`);
+      console.log(`Found lowercase match for "${name}": [${coords}]`);
       enhancedCount++;
     }
     //~ 3. simplified match (no parentheses)
@@ -593,7 +600,7 @@ async function combineData() {
       const simpleName = name.replace(/\s*\([^)]*\)\s*/g, '').trim();
       if (simpleName !== name && mapsCoordinatesMap[simpleName]) {
         coords = mapsCoordinatesMap[simpleName];
-        console.log(`✅ Found simplified match for "${name}": [${coords}]`);
+        console.log(`Found simplified match for "${name}": [${coords}]`);
         enhancedCount++;
       }
       //~ 4. ultra normalized match
@@ -601,7 +608,7 @@ async function combineData() {
         const normalizedName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
         if (normalizedName.length > 3 && mapsCoordinatesMap[normalizedName]) {
           coords = mapsCoordinatesMap[normalizedName];
-          console.log(`✅ Found normalized match for "${name}": [${coords}]`);
+          console.log(`Found normalized match for "${name}": [${coords}]`);
           enhancedCount++;
         }
         //~ 5. partial match - try find if any map location contains this name
@@ -614,7 +621,7 @@ async function combineData() {
 
           if (matchingLocation) {
             coords = mapsCoordinatesMap[matchingLocation];
-            console.log(`✅ Found partial match for "${name}" with "${matchingLocation}": [${coords}]`);
+            console.log(`Found partial match for "${name}" with "${matchingLocation}": [${coords}]`);
             enhancedCount++;
           }
           //~ final fallback: generate random coords within sg bounds
@@ -632,7 +639,7 @@ async function combineData() {
             const randomLat = sgBounds.minLat + Math.random() * (sgBounds.maxLat - sgBounds.minLat);
 
             coords = [randomLng, randomLat];
-            console.log(`❓ No coordinate match for "${name}" - using Singapore area random coordinates`);
+            console.log(`No coordinate match for "${name}" - using Singapore area random coordinates`);
             randomCount++;
           }
         }
@@ -653,7 +660,7 @@ async function combineData() {
     return feature;
   });
 
-  console.log(`🔄 Enhanced ${enhancedCount} features with Google Maps coordinates, ${randomCount} used random coordinates`);
+  console.log(`Enhanced ${enhancedCount} features with Google Maps coordinates, ${randomCount} used random coordinates`);
 
   //& normalize hotel name: rm common prefixes/suffixes & cleaning
   function normalizeLocationName(name) {
@@ -736,7 +743,7 @@ async function combineData() {
     return commonChars / shorter.length;
   }
 
-  console.log('🔄 Merging Google Sheets and Google Maps data with improved name matching...');
+  console.log('Merging Google Sheets and Google Maps data with improved name matching...');
   
   //~ 1. create maps feature lookup tables
   const mapsByCoords = {};
@@ -787,7 +794,7 @@ async function combineData() {
     const sheetName = sheetProps.name || sheetProps.Name || '';
     
     if (!sheetName || sheetName.length < 2) {
-      console.log(`⚠️ Skipping sheet feature w no name`);
+      console.log(`Skipping sheet feature w no name`);
       return;
     }
     
@@ -888,7 +895,7 @@ async function combineData() {
         }
       };
       
-      console.log(`🔄 Merged: "${sheetName}" (${matchType}, confidence: ${matchConfidence.toFixed(2)})`);
+      console.log(`Merged: "${sheetName}" (${matchType}, confidence: ${matchConfidence.toFixed(2)})`);
       mergedFeatures.push(mergedFeature);
     } else {
       //~ no match found, use sheet feature as-is
@@ -911,12 +918,12 @@ async function combineData() {
   });
   
   //~ report stats on merging results
-  console.log(`📊 Merged data statistics:`);
-  console.log(`✅ Total features after merging: ${mergedFeatures.length}`);
-  console.log(`🔄 Original Google Sheets features: ${sheetsFeatures.length}`);
-  console.log(`🔄 Original Google Maps features: ${mapsFeatures.length}`);
-  console.log(`🔄 Unmatched Maps features added: ${unmatchedMapFeatures}`);
-  console.log(`🔄 Duplicates eliminated: ${sheetsFeatures.length + mapsFeatures.length - mergedFeatures.length}`);
+  console.log(`Merged data statistics:`);
+  console.log(`Total features after merging: ${mergedFeatures.length}`);
+  console.log(`Original Google Sheets features: ${sheetsFeatures.length}`);
+  console.log(`Original Google Maps features: ${mapsFeatures.length}`);
+  console.log(`Unmatched Maps features added: ${unmatchedMapFeatures}`);
+  console.log(`Duplicates eliminated: ${sheetsFeatures.length + mapsFeatures.length - mergedFeatures.length}`);
 
   //~ ensure property name consistency (address vs Address)
   mergedFeatures.forEach(feature => {
@@ -925,10 +932,10 @@ async function combineData() {
     //~ make sure both address & Address are present
     if (props.address && !props.Address) {
       props.Address = props.address;
-      console.log(`🔄 Normalized address property to Address for ${props.name || props.Name}`);
+      console.log(`Normalized address property to Address for ${props.name || props.Name}`);
     } else if (props.Address && !props.address) {
       props.address = props.Address;
-      console.log(`🔄 Normalized Address property to address for ${props.name || props.Name}`);
+      console.log(`Normalized Address property to address for ${props.name || props.Name}`);
     }
     
     //~ preserve addresses even if match name but real addresses
@@ -939,7 +946,7 @@ async function combineData() {
     if (addrStr === nameStr && addrStr.length < 25 && 
         !addrStr.includes('singapore') && !/\d{5,}/.test(addrStr)) {
       //~ likely just name being used as address, so rm
-      console.log(`⚠️ Removing name-as-address for "${props.name || props.Name}"`); 
+      console.log(`Removing name-as-address for "${props.name || props.Name}"`); 
       props.address = '';
       props.Address = '';
     }
@@ -955,11 +962,11 @@ async function combineData() {
   //~ validate & log address extraction stats
   const withAddress = mergedFeatures.filter(f => f.properties.Address || f.properties.address).length;
   const missingAddress = mergedFeatures.length - withAddress;
-  console.log(`📊 Address statistics: ${withAddress} features with address, ${missingAddress} features without address`);
+  console.log(`Address statistics: ${withAddress} features with address, ${missingAddress} features without address`);
 
   //~ write combined data to disk via defined constant
   await fs.writeFile(COMBINED_OUTPUT, JSON.stringify({ type: 'FeatureCollection', features: mergedFeatures }, null, 2));
-  console.log(`✅ Wrote combined data to ${COMBINED_OUTPUT}`);
+  console.log(`Wrote combined data to ${COMBINED_OUTPUT}`);
 
   return { type: 'FeatureCollection', features: mergedFeatures };
 }
@@ -970,7 +977,7 @@ async function main() {
     //~ check if forced refresh enabled
     const forceRefresh = process.argv.includes('--force-refresh');
     if (forceRefresh) {
-      console.log('🔄 Forced refresh enabled - will fetch fresh data');
+      console.log('Forced refresh enabled - will fetch fresh data');
     }
 
     //~ ensure dirs exist bef processing
@@ -978,14 +985,14 @@ async function main() {
 
     //~ process & combine data
     await combineData();
-    console.log('✅ Done!');
+    console.log('Done!');
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('Error:', error);
     process.exit(1);
   }
 }
 
 main().catch(error => {
-  console.error('❌ Fatal error:', error.message || error);
+  console.error('Fatal error:', error.message || error);
   process.exit(1);
 });
