@@ -497,31 +497,31 @@ async function enhanceLocationData(location) {
 
 //& main function: read existing data and enhance it
 async function enhanceData() {
-  console.log('🚀 Starting enhanced data enrichment process...');
+  console.log('Starting enhanced data enrichment process...');
   
   try {
     //~ setup cache
     await setupCache();
     
     //~ read existing combined data
-    console.log('📂 Reading existing combined data...');
+    console.log('Reading existing combined data...');
     const combinedData = await fs.readFile(COMBINED_GEOJSON, 'utf-8')
       .then(data => JSON.parse(data))
       .catch(err => {
-        console.error(`❌ Error reading combined data: ${err.message}`);
+        console.error(`Error reading combined data: ${err.message}`);
         return { type: 'FeatureCollection', features: [] };
       });
     
     //~ check if data exists
     if (!combinedData.features || combinedData.features.length === 0) {
-      console.error('❌ No features found in combined data.');
+      console.error('No features found in combined data.');
       return;
     }
     
-    console.log(`📊 Found ${combinedData.features.length} locations to enhance.`);
+    console.log(`Found ${combinedData.features.length} locations to enhance.`);
     
     //~ process each feature
-    console.log('🔍 Enhancing location data...');
+    console.log('Enhancing location data...');
     const total = combinedData.features.length;
     let processed = 0;
     const enhancedFeatures = [];
@@ -598,18 +598,18 @@ async function enhanceData() {
     };
     
     //~ save enhanced data
-    console.log('💾 Saving enhanced data...');
+    console.log('Saving enhanced data...');
     await fs.writeFile(ENRICHED_GEOJSON, JSON.stringify(enhancedData, null, 2));
-    console.log(`✅ Enhanced data saved to ${ENRICHED_GEOJSON}`);
+    console.log(`Enhanced data saved to ${ENRICHED_GEOJSON}`);
     
     //~ report statistics
-    console.log('\n📊 Enhancement Statistics:');
+    console.log('\nEnhancement Statistics:');
     console.log(`- Total locations: ${total}`);
     console.log(`- Locations with accessibility info: ${enhancedFeatures.filter(f => f.properties.accessibility).length}`);
     console.log(`- Locations with nearby landmarks: ${enhancedFeatures.filter(f => f.properties.nearbyLandmarks && f.properties.nearbyLandmarks.length > 0).length}`);
     console.log(`- Locations with enhanced amenities: ${enhancedFeatures.filter(f => f.properties.amenities && f.properties.amenities.handDryer !== undefined).length}`);
     
-    console.log('\n🎉 Data enhancement completed successfully!');
+    console.log('\nData enhancement completed successfully!');
     
   } catch (_error) {
     console.error('Failed to fetch and enhance data:', _error.message);

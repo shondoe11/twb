@@ -247,15 +247,15 @@ function normalizeFacilityType(type, locationName, address) {
 }
 
 async function enhanceFacilityTypes() {
-  console.log('🚀 Starting facility type enhancement...');
+  console.log('Starting facility type enhancement...');
   
   try {
     //~ read enriched data
-    console.log('📂 Reading enriched data file...');
+    console.log('Reading enriched data file...');
     const enrichedData = await fs.readFile(ENRICHED_GEOJSON, 'utf-8')
       .then(data => JSON.parse(data))
       .catch(err => {
-        console.error(`❌ Error reading enriched data: ${err.message}`);
+        console.error(`Error reading enriched data: ${err.message}`);
         return { type: 'FeatureCollection', features: [] };
       });
     
@@ -268,7 +268,7 @@ async function enhanceFacilityTypes() {
     };
     
     //~ enhance each feature
-    console.log('🔍 Enhancing facility types...');
+    console.log('Enhancing facility types...');
     const enhanced = {
       ...enrichedData,
       features: enrichedData.features.map(feature => {
@@ -315,11 +315,11 @@ async function enhanceFacilityTypes() {
     };
     
     //~ save enhanced data
-    console.log('💾 Saving enhanced facility type data...');
+    console.log('Saving enhanced facility type data...');
     await fs.writeFile(ENHANCED_GEOJSON, JSON.stringify(enhanced, null, 2));
     
     //~ report statistics
-    console.log('\n📊 Facility Type Enhancement Statistics:');
+    console.log('\nFacility Type Enhancement Statistics:');
     console.log(`- Total locations: ${typeStats.total}`);
     console.log(`- Originally unknown/other types: ${typeStats.unknown}`);
     console.log(`- Updated types: ${typeStats.updated}`);
@@ -332,12 +332,12 @@ async function enhanceFacilityTypes() {
         console.log(`  ${type}: ${count} locations (${percentage}%)`);
       });
     
-    console.log('\n✅ Facility type enhancement completed successfully!');
-    console.log(`📝 Enhanced data saved to: ${ENHANCED_GEOJSON}`);
+    console.log('\nFacility type enhancement completed successfully!');
+    console.log(`Enhanced data saved to: ${ENHANCED_GEOJSON}`);
     console.log('To use the fixed data, copy enriched-enhanced-types.geojson to enriched.geojson');
     
   } catch (error) {
-    console.error(`❌ Error during facility type enhancement: ${error.message}`);
+    console.error(`Error during facility type enhancement: ${error.message}`);
     console.error(error.stack);
   }
 }

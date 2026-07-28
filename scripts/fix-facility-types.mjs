@@ -85,24 +85,24 @@ function determineFacilityType(location) {
 
 //& main func: fix facility types
 async function fixFacilityTypes() {
-  console.log('🚀 Starting facility type fixing...');
+  console.log('Starting facility type fixing...');
   
   try {
     //~ read enriched data
-    console.log('📂 Reading enriched data file...');
+    console.log('Reading enriched data file...');
     const enrichedData = await fs.readFile(ENRICHED_GEOJSON, 'utf-8')
       .then(data => JSON.parse(data))
       .catch(err => {
-        console.error(`❌ Error reading enriched data: ${err.message}`);
+        console.error(`Error reading enriched data: ${err.message}`);
         return { type: 'FeatureCollection', features: [] };
       });
     
     if (!enrichedData.features || enrichedData.features.length === 0) {
-      console.error('❌ No features found in enriched data.');
+      console.error('No features found in enriched data.');
       return;
     }
     
-    console.log(`📊 Found ${enrichedData.features.length} locations to fix.`);
+    console.log(`Found ${enrichedData.features.length} locations to fix.`);
     
     //~ track stats
     const stats = {
@@ -157,7 +157,7 @@ async function fixFacilityTypes() {
     };
     
     //~ save fixed data
-    console.log('💾 Saving fixed facility type data...');
+    console.log('Saving fixed facility type data...');
     await fs.writeFile(FIXED_GEOJSON, JSON.stringify(fixed, null, 2));
     
     //~ calculate percentages
@@ -167,7 +167,7 @@ async function fixFacilityTypes() {
     });
     
     //~ report statistics
-    console.log('\n📊 Facility Type Fix Statistics:');
+    console.log('\nFacility Type Fix Statistics:');
     console.log(`- Total locations: ${stats.total}`);
     console.log(`- Updated types: ${stats.changed}`);
     console.log('- Type distribution:');
@@ -179,13 +179,13 @@ async function fixFacilityTypes() {
         console.log(`  ${type}: ${count} locations (${percentage}%)`);
       });
     
-    console.log('\n✅ Facility type fixing completed successfully!');
-    console.log(`📝 Fixed data saved to: ${FIXED_GEOJSON}`);
+    console.log('\nFacility type fixing completed successfully!');
+    console.log(`Fixed data saved to: ${FIXED_GEOJSON}`);
     console.log('To use the fixed data, run the following command:');
     console.log(`cp ${FIXED_GEOJSON} ${ENRICHED_GEOJSON}`);
     
   } catch (error) {
-    console.error(`❌ Error during facility type fixing: ${error.message}`);
+    console.error(`Error during facility type fixing: ${error.message}`);
     console.error(error.stack);
   }
 }

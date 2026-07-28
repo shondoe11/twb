@@ -14,15 +14,15 @@ const DATA_DIR = path.join(__dirname, '..', 'data');
 const ENRICHED_GEOJSON = path.join(DATA_DIR, 'enriched.geojson');
 
 async function debugCoordinates() {
-  console.log('🔍 Starting coordinates debugging...');
+  console.log('Starting coordinates debugging...');
   
   try {
     //~ read enriched data
-    console.log('📂 Reading enriched data file...');
+    console.log('Reading enriched data file...');
     const enrichedData = await fs.readFile(ENRICHED_GEOJSON, 'utf-8')
       .then(data => JSON.parse(data))
       .catch(err => {
-        console.error(`❌ Error reading enriched data: ${err.message}`);
+        console.error(`Error reading enriched data: ${err.message}`);
         return { type: 'FeatureCollection', features: [] };
       });
     
@@ -78,7 +78,7 @@ async function debugCoordinates() {
     });
     
     //~ print results
-    console.log('\n📊 Region Counts:');
+    console.log('\nRegion Counts:');
     Object.entries(regionCounts)
       .sort((a, b) => b[1] - a[1])
       .forEach(([region, count]) => {
@@ -87,7 +87,7 @@ async function debugCoordinates() {
       });
     
     //~ print coordinate issues
-    console.log('\n⚠️ Coordinate Issues:');
+    console.log('\nCoordinate Issues:');
     if (coordinateIssues.length === 0) {
       console.log('  No coordinate issues found.');
     } else {
@@ -104,7 +104,7 @@ async function debugCoordinates() {
     }
     
     //~ create fix fr coords issue
-    console.log('\n🔧 Creating a fix for coordinate issues...');
+    console.log('\nCreating a fix for coordinate issues...');
     
     //~ fix incorrect regions based on coords
     const fixedData = {
@@ -171,7 +171,7 @@ async function debugCoordinates() {
     };
     
     //~ save fixed data
-    console.log('💾 Saving fixed data...');
+    console.log('Saving fixed data...');
     const FIXED_GEOJSON = path.join(DATA_DIR, 'enriched-fixed.geojson');
     await fs.writeFile(FIXED_GEOJSON, JSON.stringify(fixedData, null, 2));
     
@@ -183,7 +183,7 @@ async function debugCoordinates() {
     });
     
     //~ print fixed region counts
-    console.log('\n📊 Fixed Region Counts:');
+    console.log('\nFixed Region Counts:');
     Object.entries(fixedRegionCounts)
       .sort((a, b) => b[1] - a[1])
       .forEach(([region, count]) => {
@@ -191,12 +191,12 @@ async function debugCoordinates() {
         console.log(`  ${region}: ${count} locations (${percentage}%)`);
       });
     
-    console.log('\n✅ Debugging completed successfully!');
-    console.log(`📝 Fixed data saved to: ${FIXED_GEOJSON}`);
+    console.log('\nDebugging completed successfully!');
+    console.log(`Fixed data saved to: ${FIXED_GEOJSON}`);
     console.log('To use the fixed data, rename enriched-fixed.geojson to enriched.geojson');
     
   } catch (error) {
-    console.error(`❌ Error during debugging: ${error.message}`);
+    console.error(`Error during debugging: ${error.message}`);
     console.error(error.stack);
   }
 }

@@ -17,11 +17,11 @@ const COMBINED_OUTPUT = path.join(DATA_DIR, 'combined.geojson');
 
 async function fixAddresses() {
   try {
-    console.log('🔧 Starting address fix operation...');
+    console.log('Starting address fix operation...');
     
     //~ read raw KML data
     const kmlText = await fs.readFile(MAPS_RAW_FILE, 'utf8');
-    console.log(`📄 KML data loaded (${kmlText.length} bytes)`);
+    console.log(`KML data loaded (${kmlText.length} bytes)`);
     
     //~ parse KML w improved regex patterns
     const placemarks = [];
@@ -38,12 +38,12 @@ async function fixAddresses() {
       
       if (nameMatch) {
         name = nameMatch[1].trim();
-        console.log(`📝 Found <name> tag: ${name}`);
+        console.log(`Found <name> tag: ${name}`);
       } else if (nMatch) {
         name = nMatch[1].trim();
-        console.log(`📝 Found <n> tag: ${name}`);
+        console.log(`Found <n> tag: ${name}`);
       } else {
-        console.log('⚠️ No name found in placemark');
+        console.log('No name found in placemark');
       }
       
       //~ extract description
@@ -63,13 +63,13 @@ async function fixAddresses() {
       const addressMatch = addressRegex.exec(description);
       if (addressMatch) {
         address = addressMatch[0].trim();
-        console.log(`🏠 Extracted address: ${address}`);
+        console.log(`Extracted address: ${address}`);
       } else if (description.includes('Address:')) {
         //~ try extract address labeled explicitly
         const addressLabelMatch = /Address:\s*([^<\n]+)/i.exec(description);
         if (addressLabelMatch) {
           address = addressLabelMatch[1].trim();
-          console.log(`🏠 Extracted labeled address: ${address}`);
+          console.log(`Extracted labeled address: ${address}`);
         }
       }
       
@@ -108,7 +108,7 @@ async function fixAddresses() {
       });
     }
     
-    console.log(`🗺️ Extracted ${placemarks.length} placemarks with improved parsing`);
+    console.log(`Extracted ${placemarks.length} placemarks with improved parsing`);
     
     //~ convert to GeoJSON
     const features = placemarks.map((placemark, index) => {
@@ -142,11 +142,11 @@ async function fixAddresses() {
     };
     
     await fs.writeFile(MAPS_OUTPUT, JSON.stringify(mapsGeoJSON, null, 2));
-    console.log(`✅ Updated maps GeoJSON with improved address extraction (${features.length} features)`);
+    console.log(`Updated maps GeoJSON with improved address extraction (${features.length} features)`);
     
     //~ read combined data & update addresses
     const combinedData = JSON.parse(await fs.readFile(COMBINED_OUTPUT, 'utf8'));
-    console.log(`📊 Read combined data (${combinedData.features.length} total features)`);
+    console.log(`Read combined data (${combinedData.features.length} total features)`);
     
     //~ lookup map fr addresses by coords
     const addressLookup = new Map();
@@ -170,14 +170,14 @@ async function fixAddresses() {
       }
     });
     
-    console.log(`🔄 Updated ${updatedCount} missing addresses in combined data`);
+    console.log(`Updated ${updatedCount} missing addresses in combined data`);
     
     //~ save updated combined GeoJSON
     await fs.writeFile(COMBINED_OUTPUT, JSON.stringify(combinedData, null, 2));
-    console.log(`✅ Saved updated combined GeoJSON with improved addresses`);
+    console.log(`Saved updated combined GeoJSON with improved addresses`);
     
   } catch (error) {
-    console.error('❌ Error fixing addresses:', error);
+    console.error('Error fixing addresses:', error);
     process.exit(1);
   }
 }

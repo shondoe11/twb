@@ -34,15 +34,15 @@ const SHEETS_RAW_DATA_PREFIX = path.join(DATA_DIR, 'sheets-raw-data-');
 async function setupDirectories() {
   try {
     await fs.mkdir(DATA_DIR, { recursive: true });
-    console.log('✅ Data directory created or already exists');
+    console.log('Data directory created or already exists');
   } catch (error) {
-    console.error('❌ Error creating data directory:', error);
+    console.error('Error creating data directory:', error);
     throw error;
   }
 }
 
 async function fetchGoogleMapsData() {
-  console.log('🔄 Fetching Google Maps KML data...');
+  console.log('Fetching Google Maps KML data...');
   
   try {
     const response = await fetch(MAPS_KML_URL);
@@ -52,27 +52,27 @@ async function fetchGoogleMapsData() {
     }
     
     const kmlText = await response.text();
-    console.log(`✅ Google Maps KML data fetched (${kmlText.length} bytes)`);
+    console.log(`Google Maps KML data fetched (${kmlText.length} bytes)`);
     
     //~ save raw KML data
     await fs.writeFile(MAPS_RAW_DATA, kmlText);
-    console.log(`💾 Saved raw KML to ${MAPS_RAW_DATA}`);
+    console.log(`Saved raw KML to ${MAPS_RAW_DATA}`);
     
     //~ show sample KML struct
-    console.log('\n🔍 Google Maps KML Sample:');
+    console.log('\nGoogle Maps KML Sample:');
     console.log(kmlText.substring(0, 500) + '...');
     
     //~ count placemarks
     const placemarkCount = (kmlText.match(/<Placemark>/g) || []).length;
-    console.log(`📊 Found ${placemarkCount} placemarks in KML data`);
+    console.log(`Found ${placemarkCount} placemarks in KML data`);
   } catch (error) {
-    console.error('❌ Error fetching Google Maps data:', error);
+    console.error('Error fetching Google Maps data:', error);
   }
 }
 
 async function fetchGoogleSheetsData() {
   for (const sheet of SHEETS) {
-    console.log(`🔄 Fetching Google Sheets data for ${sheet.name}...`);
+    console.log(`Fetching Google Sheets data for ${sheet.name}...`);
     
     const sheetsURL = `https://docs.google.com/spreadsheets/d/${sheet.id}/export?format=csv&gid=${sheet.gid}`;
     
@@ -84,15 +84,15 @@ async function fetchGoogleSheetsData() {
       }
       
       const csvText = await response.text();
-      console.log(`✅ Google Sheets data fetched for ${sheet.name} (${csvText.length} bytes)`);
+      console.log(`Google Sheets data fetched for ${sheet.name} (${csvText.length} bytes)`);
       
       //~ save raw CSV data
       const outputPath = `${SHEETS_RAW_DATA_PREFIX}${sheet.name}.csv`;
       await fs.writeFile(outputPath, csvText);
-      console.log(`💾 Saved raw CSV to ${outputPath}`);
+      console.log(`Saved raw CSV to ${outputPath}`);
       
       //~ show sample CSV struct
-      console.log(`\n🔍 Google Sheets CSV Sample for ${sheet.name}:`);
+      console.log(`\nGoogle Sheets CSV Sample for ${sheet.name}:`);
       const lines = csvText.split('\n');
       const headerLine = lines[0];
       console.log(`Headers: ${headerLine}`);
@@ -101,9 +101,9 @@ async function fetchGoogleSheetsData() {
         console.log(`First Data Row: ${lines[1]}`);
       }
       
-      console.log(`📊 Found ${lines.length - 1} data rows in CSV`);
+      console.log(`Found ${lines.length - 1} data rows in CSV`);
     } catch (error) {
-      console.error(`❌ Error fetching Google Sheets data for ${sheet.name}:`, error);
+      console.error(`Error fetching Google Sheets data for ${sheet.name}:`, error);
     }
   }
 }
@@ -113,9 +113,9 @@ async function main() {
     await setupDirectories();
     await fetchGoogleMapsData();
     await fetchGoogleSheetsData();
-    console.log('✅ All data fetched and saved successfully');
+    console.log('All data fetched and saved successfully');
   } catch (error) {
-    console.error('❌ Error in main process:', error);
+    console.error('Error in main process:', error);
     process.exit(1);
   }
 }

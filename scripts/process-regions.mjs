@@ -173,15 +173,15 @@ function determineRegionFromCoordinates(lat, lng) {
 }
 
 async function enhanceRegionData() {
-  console.log('🚀 Starting region data enhancement...');
+  console.log('Starting region data enhancement...');
   
   try {
     //~ read combined data
-    console.log('📂 Reading combined data file...');
+    console.log('Reading combined data file...');
     const combinedData = await fs.readFile(COMBINED_GEOJSON, 'utf-8')
       .then(data => JSON.parse(data))
       .catch(err => {
-        console.error(`❌ Error reading combined data: ${err.message}`);
+        console.error(`Error reading combined data: ${err.message}`);
         return { type: 'FeatureCollection', features: [] };
       });
     
@@ -190,10 +190,10 @@ async function enhanceRegionData() {
     try {
       enrichedData = await fs.readFile(ENRICHED_GEOJSON, 'utf-8')
         .then(data => JSON.parse(data));
-      console.log('📂 Found enriched data file to enhance');
+      console.log('Found enriched data file to enhance');
     } catch (error) {
       //~ handle error whn enriched file nt exist
-      console.log(`📂 No enriched data file found (${error.code}), using combined data`);
+      console.log(`No enriched data file found (${error.code}), using combined data`);
       enrichedData = { ...combinedData };
     }
     
@@ -206,7 +206,7 @@ async function enhanceRegionData() {
     };
     
     //~ process each feature
-    console.log('🔍 Enhancing region data...');
+    console.log('Enhancing region data...');
     const enhanced = {
       ...enrichedData,
       features: enrichedData.features.map(feature => {
@@ -256,11 +256,11 @@ async function enhanceRegionData() {
     };
     
     //~ save enhanced data
-    console.log('💾 Saving enhanced region data...');
+    console.log('Saving enhanced region data...');
     await fs.writeFile(ENRICHED_GEOJSON, JSON.stringify(enhanced, null, 2));
     
     //~ report stats
-    console.log('\n📊 Region Enhancement Statistics:');
+    console.log('\nRegion Enhancement Statistics:');
     console.log(`- Total locations: ${regionStats.total}`);
     console.log(`- Originally unknown regions: ${regionStats.unknown}`);
     console.log(`- Updated regions: ${regionStats.updated}`);
@@ -272,9 +272,9 @@ async function enhanceRegionData() {
         console.log(`  ${region}: ${count} locations (${Math.round(count/regionStats.total*100)}%)`);
       });
     
-    console.log('\n✅ Region data enhancement completed successfully!');
+    console.log('\nRegion data enhancement completed successfully!');
   } catch (error) {
-    console.error(`❌ Error during region enhancement: ${error.message}`);
+    console.error(`Error during region enhancement: ${error.message}`);
     console.error(error.stack);
   }
 }
