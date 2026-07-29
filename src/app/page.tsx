@@ -27,15 +27,6 @@ const Map = dynamic(() => import('../components/Map'), {
   ),
 });
 
-const StaticGoogleMap = dynamic(() => import('../components/StaticGoogleMap'), {
-  ssr: false,
-  loading: () => (
-    <div className="h-[50vh] md:h-[70vh] w-full flex items-center justify-center bg-gray-100 rounded-lg">
-      <p>Loading map...</p>
-    </div>
-  ),
-});
-
 //& mock data fr development until data fetching implemented
 const mockLocations: ToiletLocation[] = [
   {
@@ -89,7 +80,6 @@ export default function Home() {
   const [filteredLocations, setFilteredLocations] = useState<ToiletLocation[]>([]);
   const [selectedLocation, setSelectedLocation] = useState<ToiletLocation | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [mapType, setMapType] = useState<'leaflet' | 'static'>('leaflet');
   
   //& load data using data svc
   useEffect(() => {
@@ -139,11 +129,6 @@ export default function Home() {
     setFilteredLocations(filtered);
   };
   
-  //& toggle map type between leaflet & static google maps
-  const toggleMapType = () => {
-    setMapType(mapType === 'leaflet' ? 'static' : 'leaflet');
-  };
-  
   //& calculate stats fr header
   const totalLocations = allLocations.length;
   const filteredCount = filteredLocations.length;
@@ -154,12 +139,6 @@ export default function Home() {
         <div className="container mx-auto py-4 px-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-blue-600">TWB</h1>
           <div className="flex items-center gap-4">
-            <button
-              onClick={toggleMapType}
-              className="text-sm px-3 py-1 border rounded-md hover:bg-gray-100 text-gray-600"
-            >
-              {mapType === 'leaflet' ? 'Using Leaflet (Free)' : 'Using Static Google Maps (Free)'}
-            </button>
             {!isLoading && (
               <p className="text-xs text-gray-500">
                 Showing {filteredCount} of {totalLocations} locations
@@ -182,17 +161,10 @@ export default function Home() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="md:col-span-2">
-              {mapType === 'leaflet' ? (
-                <Map 
-                  locations={filteredLocations} 
-                  selectedLocation={selectedLocation} 
-                />
-              ) : (
-                <StaticGoogleMap 
-                  locations={filteredLocations} 
-                  selectedLocation={selectedLocation} 
-                />
-              )}
+              <Map 
+                locations={filteredLocations} 
+                selectedLocation={selectedLocation} 
+              />
             </div>
             
             <div className="space-y-4">

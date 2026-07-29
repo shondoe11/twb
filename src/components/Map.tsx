@@ -47,7 +47,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
       });
       
       //? extensive female location debugging
-      console.log('\n\n👩👩👩 FEMALE FACILITY DEBUGGING - MAP 👩👩👩');
+      console.log('\n\nFEMALE FACILITY DEBUGGING - MAP');
       console.log('=================================================');
       console.log(`FEMALE LOCATION STATS:`);
       console.log(` - Total locations on map: ${locations.length}`);
@@ -59,7 +59,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
       const femaleSamples = femaleLocations.slice(0, 5);
       
       if (femaleSamples.length > 0) {
-        console.log('\n👩 FEMALE LOCATION SAMPLES:');
+        console.log('\nFEMALE LOCATION SAMPLES:');
         femaleSamples.forEach((loc, index) => {
           console.log(`FEMALE SAMPLE #${index + 1}:`);
           console.log(` - Name: ${loc.name}`);
@@ -71,7 +71,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
           console.log('-----------');
         });
       } else {
-        console.log('❌ NO FEMALE LOCATIONS FOUND IN DATASET');
+        console.log('NO FEMALE LOCATIONS FOUND IN DATASET');
       }
       console.log('=================================================\n');
     }
@@ -492,26 +492,26 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     });
     
     //? debug address display specifically
-    console.log(`📍 POPUP ADDRESS CHECK: ${location.name} | Address: ${location.address || '(missing)'} | Source: ${location.source}`);
+    console.log(`POPUP ADDRESS CHECK: ${location.name} | Address: ${location.address || '(missing)'} | Source: ${location.source}`);
     
     const shouldShowAddress = location.address && location.address.trim() !== '';
-    console.log(`🔍 SHOULD SHOW ADDRESS for "${location.name}": ${shouldShowAddress}`);
-    console.log(`🔍 RAW ADDRESS VALUE: "${location.address}"`);
-    console.log(`🔍 TYPE OF ADDRESS: ${typeof location.address}`);
+    console.log(`SHOULD SHOW ADDRESS for "${location.name}": ${shouldShowAddress}`);
+    console.log(`RAW ADDRESS VALUE: "${location.address}"`);
+    console.log(`TYPE OF ADDRESS: ${typeof location.address}`);
     
     //? debug coordinates to check if google-sheets locations are in the viewport
-    console.log(`🌐 COORDINATES for "${location.name}": [${location.lat}, ${location.lng}] | Source: ${location.source}`);
+    console.log(`COORDINATES for "${location.name}": [${location.lat}, ${location.lng}] | Source: ${location.source}`);
     
     
     //? detailed debug fr troubleshooting
     if (!shouldShowAddress) {
       if (!location.address) {
-        console.log(`🚫 MISSING ADDRESS for "${location.name}" | Source: ${location.source}`);
+        console.log(`MISSING ADDRESS for "${location.name}" | Source: ${location.source}`);
       } else if (location.address.trim() === '') {
-        console.log(`🚫 EMPTY ADDRESS for "${location.name}" | Source: ${location.source}`);
+        console.log(`EMPTY ADDRESS for "${location.name}" | Source: ${location.source}`);
       }
     } else {
-      console.log(`✅ SHOWING ADDRESS for "${location.name}": "${location.address}" | Source: ${location.source}`);
+      console.log(`SHOWING ADDRESS for "${location.name}": "${location.address}" | Source: ${location.source}`);
     }
     
     return (

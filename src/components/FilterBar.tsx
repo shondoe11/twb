@@ -71,7 +71,7 @@ const FilterBar = ({
       const types = [...typeSet].sort();
       
       //? debugging fr female toilet detection
-      console.log('\n\n👩👩👩 FEMALE FACILITY DEBUGGING - FILTERBAR 👩👩👩');
+      console.log('\n\nFEMALE FACILITY DEBUGGING - FILTERBAR');
       console.log('=================================================');
       
       //? sample 1st 3 locations & any female locations
@@ -84,7 +84,7 @@ const FilterBar = ({
         sampleLocations.push(...femaleLocations.slice(0, 3));
       }
       
-      console.log('🔍 FilterBar - Location samples:', 
+      console.log('FilterBar - Location samples:', 
         sampleLocations.map(loc => ({
           name: loc.name,
           type: loc.type,
@@ -93,12 +93,12 @@ const FilterBar = ({
           isFemale: loc.type === 'Female' || (Array.isArray(loc.types) && loc.types.includes('Female'))
         })));
       
-      console.log('🔍 FilterBar - ALL Facility types found:', types);
-      console.log(`👩 FEMALE TYPE SUMMARY:`);
+      console.log('FilterBar - ALL Facility types found:', types);
+      console.log(`FEMALE TYPE SUMMARY:`);
       console.log(` - Total locations: ${locations.length}`);
       console.log(` - Locations with multiple types: ${locationWithTypesCount}/${locations.length}`);
       console.log(` - Locations with Female type: ${femaleTypeCount}`);
-      console.log(` - Female in available filter types: ${typeSet.has('Female') ? 'Yes ✅' : 'No ❌'}`);
+      console.log(` - Female in available filter types: ${typeSet.has('Female') ? 'Yes' : 'No'}`);
       console.log('=================================================\n');
       
       //~ update state w processed data

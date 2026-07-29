@@ -6,46 +6,46 @@ import { ToiletLocation, GeoJSONData } from '../shared/types';
  */
 export async function fetchLocations(): Promise<ToiletLocation[]> {
   try {
-    console.log('🔍 STEP 1: Fetching raw data from API...');
+    console.log('STEP 1: Fetching raw data from API...');
     const response = await fetch('/api/locations');
     const data: GeoJSONData = await response.json();
     
-    console.log('🔍 STEP 2: Analyzing raw API data...');
+    console.log('STEP 2: Analyzing raw API data...');
     //~ count feats w addresses
     const featuresWithAddress = data.features.filter(f => 
       f.properties?.address && f.properties.address.trim() !== '');
-    console.log(`📊 STATS: Raw data has ${featuresWithAddress.length} out of ${data.features.length} features with addresses`);
+    console.log(`STATS: Raw data has ${featuresWithAddress.length} out of ${data.features.length} features with addresses`);
     
     //? show all feats w addresses fr debugging
-    console.log('📋 FULL ADDRESS LIST FROM API:');
+    console.log('FULL ADDRESS LIST FROM API:');
     featuresWithAddress.forEach(f => {
-      console.log(`📍 "${f.properties?.name}" → "${f.properties?.address}"`);
+      console.log(`"${f.properties?.name}" → "${f.properties?.address}"`);
     });
     
-    console.log('🔍 STEP 3: Processing data into locations...');
+    console.log('STEP 3: Processing data into locations...');
     const locations = geoJSONToLocations(data);
     
-    console.log('🔍 STEP 4: Analyzing processed locations...');
+    console.log('STEP 4: Analyzing processed locations...');
     //~ count locations w addresses aft processing
     const locationsWithAddress = locations.filter(loc => loc.address && loc.address.trim() !== '');
-    console.log(`📊 STATS: Processed data has ${locationsWithAddress.length} out of ${locations.length} locations with addresses`);
+    console.log(`STATS: Processed data has ${locationsWithAddress.length} out of ${locations.length} locations with addresses`);
     
     //? display 1st 10 locations w addresses
-    console.log('📋 SAMPLE OF PROCESSED LOCATIONS WITH ADDRESSES:');
+    console.log('SAMPLE OF PROCESSED LOCATIONS WITH ADDRESSES:');
     locationsWithAddress.slice(0, 10).forEach(loc => {
-      console.log(`📍 "${loc.name}" → "${loc.address}"`);
+      console.log(`"${loc.name}" → "${loc.address}"`);
     });
     
     //? display 1st 10 locations missing addresses
-    console.log('📋 SAMPLE OF PROCESSED LOCATIONS MISSING ADDRESSES:');
+    console.log('SAMPLE OF PROCESSED LOCATIONS MISSING ADDRESSES:');
     const missingAddresses = locations.filter(loc => !loc.address || loc.address.trim() === '');
     missingAddresses.slice(0, 10).forEach(loc => {
-      console.log(`❌ "${loc.name}" has no address`);
+      console.log(`"${loc.name}" has no address`);
     });
     
     return locations;
   } catch (error) {
-    console.error('❌ Error fetching locations:', error);
+    console.error('Error fetching locations:', error);
     return [];
   }
 }
@@ -133,7 +133,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     feature.properties.sourceTab.toLowerCase().includes('female')
   ).length;
   
-  console.log(`🔍 Found ${sourceFemaleCount} features with sourceTab containing 'female'`);
+  console.log(`Found ${sourceFemaleCount} features with sourceTab containing 'female'`);
   
   //~ separate features by source (google sheets w/ addresses vs google maps)
   const sheetsFeatures: LocationFeature[] = [];
@@ -179,7 +179,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       }
     } else {
       //~ catch any other srcs
-      console.log(`🔄 Processing feature from source: ${source}`);
+      console.log(`Processing feature from source: ${source}`);
       if (name && typeof name === 'string') {
         //~ determine which category to input
         if (address && typeof address === 'string' && address.trim() !== '') {
@@ -201,7 +201,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     }
   }
 
-  console.log(`🔍 Extracted ${sheetsFeatures.length} sheets features and ${mapsFeatures.length} maps features`);
+  console.log(`Extracted ${sheetsFeatures.length} sheets features and ${mapsFeatures.length} maps features`);
 
   //~ build lookup tables fr sheets addr to use in maps feats
   const exactAddressMap: Record<string, string> = {};
@@ -221,15 +221,15 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     }
   });
   
-  console.log(`🔍 Built address lookup tables with ${Object.keys(exactAddressMap).length} exact matches and ${Object.keys(normalizedAddressMap).length} normalized matches`);
+  console.log(`Built address lookup tables with ${Object.keys(exactAddressMap).length} exact matches and ${Object.keys(normalizedAddressMap).length} normalized matches`);
   
   //~ final locations arr
   const uniqueLocations: ToiletLocation[] = [];
   const processedKeys = new Set<string>();
   
-  console.log(`🔍 Processing GeoJSON - features count: ${geoData.features?.length || 0}`);
-  console.log(`🔍 - Google Sheets features: ${sheetsFeatures.length}`);
-  console.log(`🔍 - Google Maps features: ${mapsFeatures.length}`);
+  console.log(`Processing GeoJSON - features count: ${geoData.features?.length || 0}`);
+  console.log(`- Google Sheets features: ${sheetsFeatures.length}`);
+  console.log(`- Google Maps features: ${mapsFeatures.length}`);
   
   //? debug female srcs
   const femaleFeatures = geoData.features?.filter(feature => 
@@ -237,9 +237,9 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     feature.properties.sourceTab.toLowerCase().includes('female')
   ) || [];
   
-  console.log(`🔍 - Female sheet features: ${femaleFeatures.length}`);
+  console.log(`- Female sheet features: ${femaleFeatures.length}`);
   if (femaleFeatures.length > 0) {
-    console.log(`🔍 Sample female feature:`, JSON.stringify(femaleFeatures[0].properties, null, 2));
+    console.log(`Sample female feature:`, JSON.stringify(femaleFeatures[0].properties, null, 2));
   }
   
   //~ process Google Sheets feats 1st (preferred src fr most data)
@@ -255,7 +255,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     processedKeys.add(locationKey);
     
     //? debug address field
-    console.log(`📍 Sheets feature address check for "${name}": "${address || '(missing)'}"`);
+    console.log(`Sheets feature address check for "${name}": "${address || '(missing)'}"`);
     
     //~ safely extract props w type checking
     const safeId = typeof properties.id === 'string' ? 
@@ -270,7 +270,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
         tempAddress.length < 25 &&
         !tempAddress.toLowerCase().includes('singapore') &&
         !/\d{5,}/.test(tempAddress)) {
-      console.log(`⚠️ Address matches name for "${safeName}", clearing address to prevent duplication`);
+      console.log(`Address matches name for "${safeName}", clearing address to prevent duplication`);
       tempAddress = '';
     }
     const safeAddress = tempAddress;
@@ -376,11 +376,11 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     
     //? debug if existing address found in maps feat
     if (existingAddress) {
-      console.log(`📍 Maps feature already has address: "${name}" -> "${existingAddress}"`);
+      console.log(`Maps feature already has address: "${name}" -> "${existingAddress}"`);
     }
     
     //? debug info fr maps feats
-    console.log(`🔍 Processing Maps feature: "${name}" at [${lat},${lng}]`);
+    console.log(`Processing Maps feature: "${name}" at [${lat},${lng}]`);
     
     let address = '';
     let matchType = '';
@@ -399,20 +399,20 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
         matchType = 'property value';
       } else {
         //~ address exactly match name & short w no postal code / SG, likely nt real address
-        console.log(`⚠️ Maps feature "${name}" has address same as name, ignoring it`);
+        console.log(`Maps feature "${name}" has address same as name, ignoring it`);
       }
     }
     
     //~ skip lookup if alr have address
     if (!address) {
       //? log lookup attempt
-      console.log(`🔍 Looking up Google Sheets address for Maps feature: "${name}"`);
+      console.log(`Looking up Google Sheets address for Maps feature: "${name}"`);
       
       //~ try exact name match in sheets data
       if (exactAddressMap[name]) {
         address = exactAddressMap[name];
         matchType = 'exact match';
-        console.log(`✅ Found sheets address for "${name}": "${address}" (${matchType})`);
+        console.log(`Found sheets address for "${name}": "${address}" (${matchType})`);
       } 
       //~ try name w/o parentheses
       else {
@@ -420,17 +420,17 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
         if (exactAddressMap[simplifiedName] && simplifiedName.length > 3) {
           address = exactAddressMap[simplifiedName];
           matchType = 'simplified match';
-          console.log(`✅ Found sheets address for "${name}": "${address}" (${matchType})`);
+          console.log(`Found sheets address for "${name}": "${address}" (${matchType})`);
         }
         //~ try normalized name match
         else {
           const normalizedName = normalizeLocationName(name);
-          console.log(`  🔎 Normalized "${name}" to "${normalizedName}"`);
+          console.log(`  Normalized "${name}" to "${normalizedName}"`);
           
           if (normalizedAddressMap[normalizedName]) {
             address = normalizedAddressMap[normalizedName];
             matchType = 'normalized match';
-            console.log(`✅ Found sheets address for "${name}": "${address}" (${matchType})`);
+            console.log(`Found sheets address for "${name}": "${address}" (${matchType})`);
           } 
           //~ try fuzzy matching w/ normalized names
           else {
@@ -453,9 +453,9 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
             if (bestMatch && highestScore > 4) { //~ min match length avoid false positives
               address = normalizedAddressMap[bestMatch];
               matchType = 'fuzzy match';
-              console.log(`✅ Found sheets address for "${name}": "${address}" (${matchType} with "${bestMatch}")`);
+              console.log(`Found sheets address for "${name}": "${address}" (${matchType} with "${bestMatch}")`);
             } else {
-              console.log(`❌ No Google Sheets address found for "${name}" - this location will have NO address`);
+              console.log(`No Google Sheets address found for "${name}" - this location will have NO address`);
             }
           }
         }
@@ -568,7 +568,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     location.dataCompleteness = getDataCompleteness(location);
   });
   
-  console.log(`📊 Final processed location count: ${uniqueLocations.length}`);
+  console.log(`Final processed location count: ${uniqueLocations.length}`);
   
   //~ add diagnostic logging fr facility type counts
   const typeCounts: Record<string, number> = {};
@@ -576,7 +576,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
   const femaleSamples: Array<{name: string, source: string, types: string[]}> = [];
   
   //!? FEMALE FACILITY DEBUG: collect all facility type info
-  console.log('\n\n👩👩👩 FEMALE FACILITY DEBUGGING - DATA SERVICE 👩👩👩');
+  console.log('\n\nFEMALE FACILITY DEBUGGING - DATA SERVICE');
   console.log('=================================================');
   
   uniqueLocations.forEach(location => {
@@ -621,9 +621,9 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     }
   });
   
-  console.log('📈 Facility type counts:');
+  console.log('Facility type counts:');
   console.table(typeCounts);
-  console.log(`\n📊 Facility type counts:`, typeCounts);
+  console.log(`\nFacility type counts:`, typeCounts);
   
   //? female facility type visualization & summary
   console.log('FEMALE FACILITY TYPE SUMMARY');
