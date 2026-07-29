@@ -31,6 +31,7 @@ TWB is designed to provide users with a quick and easy way to locate toilets equ
 * **Read-Only Data Integration**: Data from Google Sheets (CSV) and Google My Maps (KML) without requiring any authentication.
 * **Automated Data Sync**: A scheduled GitHub Actions workflow fetches and commits updated data to the repository.
 * **Zero Sign-In Required**: Public access with no user accounts or authentication.
+* **Dark Mode** *(planned)*: Theme toggle with a dark palette across the map, list, and detail views.
 
 ## Tech Stack
 
@@ -44,7 +45,7 @@ TWB is designed to provide users with a quick and easy way to locate toilets equ
 
 ### Prerequisites
 
-* Node.js v16+ and npm installed
+* Node.js v18.18+ and npm installed (required by Next.js 15 & React 19)
 * GitHub account
 
 ### Initial Setup
@@ -55,20 +56,15 @@ TWB is designed to provide users with a quick and easy way to locate toilets equ
    git clone https://github.com/<your-org>/twb.git
    cd twb
    ```
-2. **Initialize the Next.js app**
-
-   ```bash
-   npx create-next-app@latest . \
-     --typescript --eslint --git
-   ```
-
-   * Use Tailwind CSS: **Yes**
-   * Code inside `src/` directory: **Yes**
-   * App Router: **Yes** (recommended)
-3. **Install dependencies**
+2. **Install dependencies**
 
    ```bash
    npm install
+   ```
+3. **Sync location data** (required on a fresh clone - generated data files are gitignored)
+
+   ```bash
+   npm run sync-data
    ```
 4. **Run the development server**
 
@@ -99,15 +95,20 @@ TWB is designed to provide users with a quick and easy way to locate toilets equ
 
 * **Google Sheets (CSV)**
 
-  * Public CSV export: `https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv`
-  * Fetched during build via Next.js `getStaticProps`
+  * Public CSV export per tab: `https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<TAB_GID>`
+  * Fetched by `scripts/fetch-data.mjs` (`npm run sync-data`), which merges Sheets + My Maps data into `data/combined.geojson`
 * **Google My Maps (KML)**
 
   * KML network link: `https://www.google.com/maps/d/kml?forcekml=1&mid=<MAP_ID>`
-  * Converted to GeoJSON in CI using `@tmcw/togeojson` and committed to `data/`
+  * Parsed and converted to GeoJSON by the same sync script
+* **Serving**
+
+  * The `/api/locations` route handler reads `data/combined.geojson` from the deployment filesystem on every request (dynamic, not statically cached)
 * **Automation**
 
-  * GitHub Actions workflow (`.github/workflows/sync-data.yml`) runs on a schedule (e.g., daily) to update data and trigger a Vercel redeploy.
+  * The `postbuild` npm hook runs `npm run sync-data` after every `next build`, so each Vercel deployment ships freshly fetched data.
+  * GitHub Actions workflow (`.github/workflows/sync-data.yml`) runs daily: it validates the fetch, then triggers a Vercel Deploy Hook to redeploy with fresh data.
+  * Requires a `VERCEL_DEPLOY_HOOK_URL` repository secret (create the Deploy Hook in Vercel: Project Settings → Git → Deploy Hooks, then add its URL as a GitHub Actions secret).
 
 ## Deployment
 
@@ -134,15 +135,16 @@ We welcome contributions! Please follow these steps:
 
 ## Roadmap & Status
 
-| Milestone               | Description                                    | Status |
-| ----------------------- | ---------------------------------------------- | ------ |
-| Data Ingestion          | Fetch & parse Google Sheets + MyMaps sources   | WIP    |
-| Map & List Prototype    | Leaflet map with initial list layout           | WIP    |
-| Filtering & Clustering  | Region/mall/type filters; marker clustering    | WIP    |
-| Responsive UI           | Mobile/tablet/desktop breakpoints & styling    | WIP    |
-| CI/CD Pipeline          | GitHub Actions for data sync & Vercel deploy   | WIP    |
-| Performance Tuning      | Code-splitting, tile caching, viewport culling | WIP    |
-| Documentation & Testing | README, unit & integration tests               | WIP    |
+| Milestone               | Description                                    | Status  |
+| ----------------------- | ---------------------------------------------- | ------- |
+| Data Ingestion          | Fetch & parse Google Sheets + MyMaps sources   | Done    |
+| Map & List Prototype    | Leaflet map with initial list layout           | Done    |
+| Filtering & Clustering  | Region/mall/type filters; marker clustering    | Done    |
+| Responsive UI           | Mobile/tablet/desktop breakpoints & styling    | Done    |
+| CI/CD Pipeline          | GitHub Actions for data sync & Vercel deploy   | WIP     |
+| Dark Mode               | Theme toggle + dark palette across the UI      | Planned |
+| Performance Tuning      | Code-splitting, tile caching, viewport culling | WIP     |
+| Documentation & Testing | README, unit & integration tests               | WIP     |
 
 ## License
 
