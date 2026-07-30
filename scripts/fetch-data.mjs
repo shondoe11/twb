@@ -246,8 +246,9 @@ function sheetsToGeoJSON(records) {
       type: 'Feature',
       geometry: {
         type: 'Point',
-        //~ using placeholder coords fr sheets data
-        coordinates: [103.8 + Math.random() * 0.2, 1.3 + Math.random() * 0.2]
+        //~ no placeholder coords - null until real coords r matched frm google maps,
+        //~ unmatched features should get dropped instead of appearing at random spots
+        coordinates: null
       },
       properties: {
         id,
@@ -570,7 +571,7 @@ async function combineData() {
 
   //~ enhance Google Sheets feats w coords frm Google Maps using name matching
   let enhancedCount = 0;
-  let randomCount = 0;
+  let droppedCount = 0;
   //~ apply maps coords to sheets data if matched - create enhanced features array
   const enhancedSheetsFeatures = sheetsFeatures.map(feature => {
     if (!feature.properties?.name) {
@@ -624,23 +625,10 @@ async function combineData() {
             console.log(`Found partial match for "${name}" with "${matchingLocation}": [${coords}]`);
             enhancedCount++;
           }
-          //~ final fallback: generate random coords within sg bounds
+          //~ leave coords null so the feature is dropped below & report it
           else {
-            //~ sg bounds fr random coords
-            const sgBounds = {
-              minLat: 1.25,
-              maxLat: 1.45,
-              minLng: 103.65,
-              maxLng: 103.95
-            };
-
-            //~ generate random coords within sg bounds
-            const randomLng = sgBounds.minLng + Math.random() * (sgBounds.maxLng - sgBounds.minLng);
-            const randomLat = sgBounds.minLat + Math.random() * (sgBounds.maxLat - sgBounds.minLat);
-
-            coords = [randomLng, randomLat];
-            console.log(`No coordinate match for "${name}" - using Singapore area random coordinates`);
-            randomCount++;
+            console.warn(`No coordinate match for "${name}" - excluding from output`);
+            droppedCount++;
           }
         }
       }
@@ -658,9 +646,11 @@ async function combineData() {
     }
 
     return feature;
-  });
+  })
+  //~ drop features whose coords could nt be resolved - they hav null placeholder geometry
+  .filter(feature => feature.geometry?.coordinates?.length === 2);
 
-  console.log(`Enhanced ${enhancedCount} features with Google Maps coordinates, ${randomCount} used random coordinates`);
+  console.log(`Enhanced ${enhancedCount} features with Google Maps coordinates, dropped ${droppedCount} with unresolvable coordinates`);
 
   //& normalize hotel name: rm common prefixes/suffixes & cleaning
   function normalizeLocationName(name) {
