@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-markercluster';
-import { ToiletLocation } from '@/lib/types-compatibility';
+import { ToiletLocation } from '@/lib/data/shared/types';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css'; //~ marker clustering
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -12,6 +12,9 @@ interface MapProps {
   selectedLocation: ToiletLocation | null;
   onSelectLocation?: (location: ToiletLocation) => void;
 }
+
+//~ verbose diagnostics only run in dev - prod console stays clean
+const isDev = process.env.NODE_ENV === 'development';
 
 const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   //~ track if map is rdy prevent early interaction issues
@@ -25,6 +28,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   
   //? debugging: female facility locations
   useEffect(() => {
+    if (!isDev) return;
     if (locations.length > 0) {
       //~ count female locations
       let femaleCount = 0;
@@ -476,43 +480,27 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
 
   //~ popup content renderer
   const renderPopupContent = useCallback((location: ToiletLocation) => {
-    //? debug location fields
-    console.log('Rendering popup for location:', { 
-      id: location.id,
-      name: location.name,
-      address: location.address,
-      source: location.source,
-      floor: location.floor,
-      visitCount: location.visitCount,
-      cleanliness: location.cleanliness,
-      lastCleaned: location.lastCleaned,
-      sourceComments: location.sourceComments,
-      mapsComments: getFilteredMapsComments(location),
-      sheetsComments: getFilteredSheetsComments(location)
-    });
-    
-    //? debug address display specifically
-    console.log(`POPUP ADDRESS CHECK: ${location.name} | Address: ${location.address || '(missing)'} | Source: ${location.source}`);
+    if (isDev) {
+      //? debug location fields
+      console.log('Rendering popup for location:', { 
+        id: location.id,
+        name: location.name,
+        address: location.address,
+        source: location.source,
+        floor: location.floor,
+        visitCount: location.visitCount,
+        cleanliness: location.cleanliness,
+        lastCleaned: location.lastCleaned,
+        sourceComments: location.sourceComments,
+        mapsComments: getFilteredMapsComments(location),
+        sheetsComments: getFilteredSheetsComments(location)
+      });
+      
+      //? debug coords to check if google-sheets locations are in the viewport
+      console.log(`COORDINATES for "${location.name}": [${location.lat}, ${location.lng}] | Source: ${location.source}`);
+    }
     
     const shouldShowAddress = location.address && location.address.trim() !== '';
-    console.log(`SHOULD SHOW ADDRESS for "${location.name}": ${shouldShowAddress}`);
-    console.log(`RAW ADDRESS VALUE: "${location.address}"`);
-    console.log(`TYPE OF ADDRESS: ${typeof location.address}`);
-    
-    //? debug coordinates to check if google-sheets locations are in the viewport
-    console.log(`COORDINATES for "${location.name}": [${location.lat}, ${location.lng}] | Source: ${location.source}`);
-    
-    
-    //? detailed debug fr troubleshooting
-    if (!shouldShowAddress) {
-      if (!location.address) {
-        console.log(`MISSING ADDRESS for "${location.name}" | Source: ${location.source}`);
-      } else if (location.address.trim() === '') {
-        console.log(`EMPTY ADDRESS for "${location.name}" | Source: ${location.source}`);
-      }
-    } else {
-      console.log(`SHOWING ADDRESS for "${location.name}": "${location.address}" | Source: ${location.source}`);
-    }
     
     return (
       <div className="popup-content">
@@ -608,12 +596,16 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         center={[1.3521, 103.8198]} //~ Singapore center
         zoom={12}
         className="h-full w-full z-0"
-        attributionControl={false} //~ remove attr for cleaner look
+        attributionControl={true} //~ attribution is required by osm/carto licensing
         zoomControl={true}
       >
+        {/*! carto voyager raster tiles - free fr public projects, no api key. swap to
+            maplibre + openfreemap vector tiles whn dark mode is tackled */}
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+          subdomains="abcd"
+          maxZoom={20}
         />
         
         <MapUpdater />
