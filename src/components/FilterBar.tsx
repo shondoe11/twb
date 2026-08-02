@@ -70,36 +70,39 @@ const FilterBar = ({
       //~ convert sorted array
       const types = [...typeSet].sort();
       
-      //? debugging fr female toilet detection
-      console.log('\n\nFEMALE FACILITY DEBUGGING - FILTERBAR');
-      console.log('=================================================');
-      
-      //? sample 1st 3 locations & any female locations
-      const sampleLocations = [...locations.slice(0, 3)];
-      const femaleLocations = locations.filter(loc => 
-        loc.type === 'Female' || (Array.isArray(loc.types) && loc.types.includes('Female')));
-      
-      //? show female locations sample if any exist
-      if (femaleLocations.length > 0) {
-        sampleLocations.push(...femaleLocations.slice(0, 3));
+      //~ verbose diagnostics only run in dev - prod console stays clean
+      if (process.env.NODE_ENV === 'development') {
+        //? debugging fr female toilet detection
+        console.log('\n\nFEMALE FACILITY DEBUGGING - FILTERBAR');
+        console.log('=================================================');
+        
+        //? sample 1st 3 locations & any female locations
+        const sampleLocations = [...locations.slice(0, 3)];
+        const femaleLocations = locations.filter(loc => 
+          loc.type === 'Female' || (Array.isArray(loc.types) && loc.types.includes('Female')));
+        
+        //? show female locations sample if any exist
+        if (femaleLocations.length > 0) {
+          sampleLocations.push(...femaleLocations.slice(0, 3));
+        }
+        
+        console.log('FilterBar - Location samples:', 
+          sampleLocations.map(loc => ({
+            name: loc.name,
+            type: loc.type,
+            types: loc.types,
+            source: loc.source,
+            isFemale: loc.type === 'Female' || (Array.isArray(loc.types) && loc.types.includes('Female'))
+          })));
+        
+        console.log('FilterBar - ALL Facility types found:', types);
+        console.log(`FEMALE TYPE SUMMARY:`);
+        console.log(` - Total locations: ${locations.length}`);
+        console.log(` - Locations with multiple types: ${locationWithTypesCount}/${locations.length}`);
+        console.log(` - Locations with Female type: ${femaleTypeCount}`);
+        console.log(` - Female in available filter types: ${typeSet.has('Female') ? 'Yes' : 'No'}`);
+        console.log('=================================================\n');
       }
-      
-      console.log('FilterBar - Location samples:', 
-        sampleLocations.map(loc => ({
-          name: loc.name,
-          type: loc.type,
-          types: loc.types,
-          source: loc.source,
-          isFemale: loc.type === 'Female' || (Array.isArray(loc.types) && loc.types.includes('Female'))
-        })));
-      
-      console.log('FilterBar - ALL Facility types found:', types);
-      console.log(`FEMALE TYPE SUMMARY:`);
-      console.log(` - Total locations: ${locations.length}`);
-      console.log(` - Locations with multiple types: ${locationWithTypesCount}/${locations.length}`);
-      console.log(` - Locations with Female type: ${femaleTypeCount}`);
-      console.log(` - Female in available filter types: ${typeSet.has('Female') ? 'Yes' : 'No'}`);
-      console.log('=================================================\n');
       
       //~ update state w processed data
       setAvailableRegions(regions as string[]);

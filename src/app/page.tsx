@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { ToiletLocation } from '@/lib/types-compatibility';
+import { ToiletLocation } from '@/lib/data/shared/types';
 import { fetchLocations, filterLocations } from '@/lib/data/client';
 import FilterBar from '../components/FilterBar';
 import ListView from '../components/ListView';
@@ -27,54 +27,6 @@ const Map = dynamic(() => import('../components/Map'), {
   ),
 });
 
-//& mock data fr development until data fetching implemented
-const mockLocations: ToiletLocation[] = [
-  {
-    id: '1',
-    name: 'Jewel Changi Airport',
-    address: '78 Airport Blvd, Singapore 819666',
-    region: 'East',
-    type: 'mall',
-    lat: 1.3601,
-    lng: 103.9890,
-    hasBidet: true,
-    amenities: {
-      wheelchairAccess: true,
-      babyChanging: true,
-      freeEntry: true,
-    },
-    notes: 'Level 2, near the Rain Vortex',
-    lastUpdated: '2025-05-25',
-    openingHours: '24 hours',
-    normalizedHours: '00:00-23:59',
-    imageUrl: 'https://example.com/jewel.jpg',
-    rating: 4.5,
-    source: 'sample-data'
-  },
-  {
-    id: '2',
-    name: 'VivoCity',
-    address: '1 HarbourFront Walk, Singapore 098585',
-    region: 'Central',
-    type: 'mall',
-    lat: 1.2640,
-    lng: 103.8219,
-    hasBidet: true,
-    amenities: {
-      wheelchairAccess: true,
-      babyChanging: true,
-      freeEntry: true,
-    },
-    notes: 'Level 3, North Wing',
-    lastUpdated: '2025-05-25',
-    openingHours: '10:00 AM - 10:00 PM',
-    normalizedHours: '10:00-22:00',
-    imageUrl: 'https://example.com/vivocity.jpg',
-    rating: 4.2,
-    source: 'sample-data'
-  },
-];
-
 export default function Home() {
   const [allLocations, setAllLocations] = useState<ToiletLocation[]>([]);
   const [filteredLocations, setFilteredLocations] = useState<ToiletLocation[]>([]);
@@ -93,9 +45,9 @@ export default function Home() {
         setIsLoading(false);
       } catch (error) {
         console.error('Error loading data:', error);
-        //~ fallback mock data if fetch fail
-        setAllLocations(mockLocations);
-        setFilteredLocations(mockLocations);
+        //~ stale mock-data fallback removed - show an empty state instead of fake toilets
+        setAllLocations([]);
+        setFilteredLocations([]);
         setIsLoading(false);
       }
     }
@@ -164,6 +116,7 @@ export default function Home() {
               <Map 
                 locations={filteredLocations} 
                 selectedLocation={selectedLocation} 
+                onSelectLocation={handleLocationSelect}
               />
             </div>
             
