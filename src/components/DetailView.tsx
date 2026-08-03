@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { ToiletLocation } from '@/lib/types-compatibility';
+import { ToiletLocation } from '@/lib/data/shared/types';
 
 const formatDate = (dateString?: string) => {
   if (!dateString) return 'Not available';

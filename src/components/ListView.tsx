@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ToiletLocation } from '@/lib/types-compatibility';
+import { ToiletLocation } from '@/lib/data/shared/types';
 
 //& filterable list component fr displaying toilet locations
 const ListView = ({ 
