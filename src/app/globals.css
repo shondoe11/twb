@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* class-based dark mode: dark: utilities follow the .dark class on <html>, not the os setting */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -15,11 +18,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* theme is driven by the .dark class (set by the ThemeToggle + no-fouc script in layout) */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 body {
@@ -28,164 +30,64 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* leaflet specific overrides */
-.leaflet-container {
-  z-index: 1;
-  height: 100%;
-  width: 100%;
-}
-
-.leaflet-popup-content-wrapper {
+/* maplibre popup overrides - replaced the old leaflet-specific css after the
+    migration to maplibre gl + openfreemap vector tiles */
+.maplibregl-popup-content {
   border-radius: 0.5rem;
-  padding: 0 !important;
-}
-
-.leaflet-popup-content {
-  margin: 0 !important;
-  padding: 4px 6px !important;
-  line-height: 1 !important;
-}
-
-.leaflet-popup-content p {
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1 !important;
-}
-
-.leaflet-popup-content h3 {
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1.1 !important;
-}
-
-/* eliminate vertical gaps & margins */
-.leaflet-popup-content div,
-.leaflet-popup-content span {
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1 !important;
-}
-
-/* special case fr amenity badges */
-.leaflet-popup-content span.rounded-full {
-  padding: 1px 4px !important;
-  margin: 1px !important;
-  display: inline-block !important;
-}
-
-/* special case fr directions link */
-.leaflet-popup-content a {
-  margin: 0 !important;
-  padding: 0 !important;
-  line-height: 1 !important;
-}
-
-/* create proper separation fr address & name */
-.leaflet-popup-content h3 + p {
-  margin-top: 8px !important;
-}
-
-/* proper spacing fr type & region section */
-.leaflet-popup-content div.grid {
-  margin-top: 8px !important;
-}
-
-/* proper spacing fr amenities */
-.leaflet-popup-content div > p.text-xs.font-medium {
-  margin-top: 8px !important;
-}
-
-/* proper spacing after rating */
-.leaflet-popup-content div.flex.items-center {
-  margin-top: 4px !important;
-  margin-bottom: 4px !important;
-}
-
-/* ensure border is visible w space */
-.leaflet-popup-content div[style*="borderTop"] {
-  margin-top: 8px !important;
-  padding-top: 4px !important;
-}
-
-/* add space after amenity badges */
-.leaflet-popup-content span.rounded-full {
-  margin-bottom: 4px !important;
-}
-
-.leaflet-control-zoom {
-  border-radius: 0.5rem !important;
-  overflow: hidden;
-}
-
-/* custom marker styles */
-.marker-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 50% 50% 50% 0;
-  transform: rotate(-45deg);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  border: 2px solid white;
-}
-
-/* cluster icon styles */
-.custom-marker-cluster {
-  background: transparent;
-  border: none;
-}
-
-.cluster-icon {
-  background-color: var(--primary);
-  color: white;
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  border: 2px solid white;
-}
-
-/* custom tooltip styles */
-.marker-tooltip {
-  position: absolute;
-  display: none;
-  background-color: white;
-  color: #333;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  pointer-events: none;
-  transform: translate(-50%, -120%);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  top: 0;
-  left: 50%;
-}
-
-.leaflet-marker-icon:hover .marker-tooltip {
-  display: block;
-}
-
-/* popup adjustments */
-.custom-popup .leaflet-popup-content-wrapper {
+  padding: 10px 12px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  max-height: 320px;
+  overflow-y: auto;
 }
 
-.custom-popup .leaflet-popup-content {
-  margin: 10px 12px;
-  line-height: 1.4;
+.maplibregl-popup-close-button {
+  font-size: 16px;
+  padding: 2px 6px;
+}
+
+/*! dark theme fr map popups - tailwind classes can't reach maplibre's injected dom */
+.dark .maplibregl-popup-content {
+  background-color: #1f2937;
+  color: #ededed;
+}
+
+.dark .maplibregl-popup-close-button {
+  color: #ededed;
+}
+
+.dark .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: #1f2937;
+}
+
+.dark .maplibregl-popup-anchor-top .maplibregl-popup-tip {
+  border-bottom-color: #1f2937;
+}
+
+.dark .maplibregl-popup-anchor-left .maplibregl-popup-tip {
+  border-right-color: #1f2937;
+}
+
+.dark .maplibregl-popup-anchor-right .maplibregl-popup-tip {
+  border-left-color: #1f2937;
+}
+
+/*! keep maplibre attribution readable in dark mode */
+.dark .maplibregl-ctrl-attrib {
+  background-color: rgba(31, 41, 55, 0.8);
+}
+
+.dark .maplibregl-ctrl-attrib a {
+  color: #cbd5e0;
 }
 
 /* custom scrollbar fr list view */
 .location-list {
   scrollbar-width: thin;
   scrollbar-color: #cbd5e0 #f7fafc;
+}
+
+.dark .location-list {
+  scrollbar-color: #4a5568 #1a202c;
 }
 
 .location-list::-webkit-scrollbar {
@@ -196,9 +98,17 @@ body {
   background: #f7fafc;
 }
 
+.dark .location-list::-webkit-scrollbar-track {
+  background: #1a202c;
+}
+
 .location-list::-webkit-scrollbar-thumb {
   background-color: #cbd5e0;
   border-radius: 20px;
+}
+
+.dark .location-list::-webkit-scrollbar-thumb {
+  background-color: #4a5568;
 }
 
 /* responsive adjustments */
@@ -207,48 +117,4 @@ body {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-}
-
-/* marker cluster styling customizations */
-.marker-cluster-small {
-  background-color: rgba(181, 226, 140, 0.9) !important;
-}
-.marker-cluster-small div {
-  background-color: rgba(110, 204, 57, 0.9) !important;
-  color: #000 !important;
-  font-weight: bold !important;
-  font-size: 13px !important;
-}
-
-.marker-cluster-medium {
-  background-color: rgba(241, 211, 87, 0.9) !important;
-}
-.marker-cluster-medium div {
-  background-color: rgba(240, 194, 12, 0.9) !important;
-  color: #000 !important;
-  font-weight: bold !important;
-  font-size: 13px !important;
-}
-
-.marker-cluster-large {
-  background-color: rgba(253, 156, 115, 0.9) !important;
-}
-.marker-cluster-large div {
-  background-color: rgba(241, 128, 23, 0.9) !important;
-  color: #000 !important;
-  font-weight: bold !important;
-  font-size: 13px !important;
-}
-
-/* contrast & visibility fr clusters */
-.marker-cluster {
-  border-radius: 50% !important;
-}
-
-.marker-cluster div {
-  border-radius: 50% !important;
-  width: 70% !important;
-  height: 70% !important;
-  margin-left: 15% !important;
-  margin-top: 15% !important;
 }
