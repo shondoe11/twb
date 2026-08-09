@@ -5,6 +5,7 @@ import { ToiletLocation } from '@/lib/data/shared/types';
 import { fetchLocations, filterLocations } from '@/lib/data/client';
 import FilterBar from '../components/FilterBar';
 import ListView from '../components/ListView';
+import ThemeToggle from '../components/ThemeToggle';
 
 interface FilterOptions {
   region: string;
@@ -21,7 +22,7 @@ interface FilterOptions {
 const Map = dynamic(() => import('../components/Map'), {
   ssr: false,
   loading: () => (
-    <div className="h-[50vh] md:h-[70vh] w-full flex items-center justify-center bg-gray-100 rounded-lg">
+    <div className="h-[50vh] md:h-[70vh] w-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
       <p>Loading map...</p>
     </div>
   ),
@@ -86,16 +87,17 @@ export default function Home() {
   const filteredCount = filteredLocations.length;
   
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <header className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="container mx-auto py-4 px-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600">TWB</h1>
+          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">TWB</h1>
           <div className="flex items-center gap-4">
             {!isLoading && (
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 Showing {filteredCount} of {totalLocations} locations
               </p>
             )}
+            <ThemeToggle />
           </div>
         </div>
       </header>
@@ -107,7 +109,7 @@ export default function Home() {
               <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-blue-600 border-r-transparent">
                 <span className="sr-only">Loading...</span>
               </div>
-              <p className="mt-2 text-gray-600">Loading toilet locations...</p>
+              <p className="mt-2 text-gray-600 dark:text-gray-300">Loading toilet locations...</p>
             </div>
           </div>
         ) : (
@@ -134,15 +136,15 @@ export default function Home() {
         )}
       </main>
       
-      <footer className="bg-white shadow-inner mt-8 py-4">
-        <div className="container mx-auto px-4 text-center text-sm text-gray-600">
+      <footer className="bg-white dark:bg-gray-800 shadow-inner mt-8 py-4">
+        <div className="container mx-auto px-4 text-center text-sm text-gray-600 dark:text-gray-300">
           <p>© {new Date().getFullYear()} TWB - Toilets with Bidets</p>
           <p className="mt-1">
             <a 
               href="https://bit.ly/shondoe11-twb" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-blue-600 hover:underline"
+              className="text-blue-600 dark:text-blue-400 hover:underline"
             >
               GitHub
             </a>

@@ -31,12 +31,12 @@ TWB is designed to provide users with a quick and easy way to locate toilets equ
 * **Read-Only Data Integration**: Data from Google Sheets (CSV) and Google My Maps (KML) without requiring any authentication.
 * **Automated Data Sync**: A scheduled GitHub Actions workflow fetches and commits updated data to the repository.
 * **Zero Sign-In Required**: Public access with no user accounts or authentication.
-* **Dark Mode** *(planned)*: Theme toggle with a dark palette across the map, list, and detail views.
+* **Dark Mode**: Theme toggle with a dark palette across the map, list, and filter views, persisted per visitor and following system preference by default.
 
 ## Tech Stack
 
 * **Framework**: Next.js with TypeScript and Tailwind CSS
-* **Map Rendering**: Leaflet.js with React-Leaflet on free CARTO basemap tiles (migration to MapLibre GL + OpenFreeMap vector tiles planned alongside dark mode)
+* **Map Rendering**: MapLibre GL (via `@vis.gl/react-maplibre`) with free OpenFreeMap vector tiles, native marker clustering, and light/dark basemap styles
 * **Data Parsing**: custom CSV/KML parsing in `scripts/fetch-data.mjs` (csv-parse + regex-based KML extraction)
 * **Testing**: Vitest unit tests for data processing & filtering (`npm test`)
 * **Deployment & CI**: Vercel (hosting) & GitHub Actions (data sync & redeploy)
@@ -143,7 +143,7 @@ We welcome contributions! Please follow these steps:
 | Filtering & Clustering  | Region/mall/type filters; marker clustering    | Done    |
 | Responsive UI           | Mobile/tablet/desktop breakpoints & styling    | Done    |
 | CI/CD Pipeline          | GitHub Actions for data sync & Vercel deploy   | WIP     |
-| Dark Mode               | Theme toggle + MapLibre/OpenFreeMap migration  | Planned |
+| Dark Mode               | Theme toggle + MapLibre/OpenFreeMap migration  | Done    |
 | Performance Tuning      | Code-splitting, tile caching, viewport culling | WIP     |
 | Documentation & Testing | README, unit & integration tests               | WIP     |
 

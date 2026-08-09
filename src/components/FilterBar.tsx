@@ -159,12 +159,12 @@ const FilterBar = ({
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow mb-4">
+    <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow mb-4">
       <div className="flex justify-between items-center mb-3">
-        <h2 className="font-medium text-gray-800">Filters</h2>
+        <h2 className="font-medium text-gray-800 dark:text-gray-100">Filters</h2>
         <button 
           onClick={handleReset}
-          className="text-sm text-blue-600 hover:underline"
+          className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
         >
           Reset All
         </button>
@@ -172,10 +172,10 @@ const FilterBar = ({
       
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div>
-          <label htmlFor="region" className="block text-sm font-medium text-gray-800">Region</label>
+          <label htmlFor="region" className="block text-sm font-medium text-gray-800 dark:text-gray-200">Region</label>
           <select 
             id="region" 
-            className="w-full p-2 border border-gray-300 rounded text-sm bg-white text-gray-800"
+            className="w-full p-2 border border-gray-300 rounded text-sm bg-white text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-gray-100"
             value={filters.region}
             onChange={handleRegionChange}
           >
@@ -189,10 +189,10 @@ const FilterBar = ({
         </div>
         
         <div>
-          <label htmlFor="type" className="block text-sm font-medium text-gray-800">Facility Type</label>
+          <label htmlFor="type" className="block text-sm font-medium text-gray-800 dark:text-gray-200">Facility Type</label>
           <select 
             id="type" 
-            className="w-full p-2 border border-gray-300 rounded text-sm bg-white text-gray-800"
+            className="w-full p-2 border border-gray-300 rounded text-sm bg-white text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-gray-100"
             value={filters.type}
             onChange={handleTypeChange}
           >
@@ -206,9 +206,9 @@ const FilterBar = ({
         </div>
         
         <div className="col-span-2">
-          <p className="text-sm font-medium text-gray-800 mb-1">Amenities</p>
+          <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">Amenities</p>
           <div className="flex flex-wrap gap-2">
-            <label className="flex items-center text-sm text-gray-800">
+            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200">
               <input 
                 type="checkbox" 
                 className="mr-1"
@@ -217,7 +217,7 @@ const FilterBar = ({
               />
               Wheelchair Access
             </label>
-            <label className="flex items-center text-sm text-gray-800">
+            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200">
               <input 
                 type="checkbox" 
                 className="mr-1"
@@ -226,7 +226,7 @@ const FilterBar = ({
               />
               Baby Changing
             </label>
-            <label className="flex items-center text-sm text-gray-800">
+            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200">
               <input 
                 type="checkbox" 
                 className="mr-1"
@@ -235,7 +235,7 @@ const FilterBar = ({
               />
               Free Entry
             </label>
-            <label className="flex items-center text-sm text-gray-800">
+            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200">
               <input 
                 type="checkbox" 
                 className="mr-1"
