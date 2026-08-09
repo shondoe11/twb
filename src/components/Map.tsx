@@ -1,11 +1,10 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import MarkerClusterGroup from 'react-leaflet-markercluster';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
+import { Map as MapGL, Source, Layer, Popup, NavigationControl } from '@vis.gl/react-maplibre';
+import type { MapRef, LayerProps } from '@vis.gl/react-maplibre';
+import type { MapLayerMouseEvent, GeoJSONSource } from 'maplibre-gl';
 import { ToiletLocation } from '@/lib/data/shared/types';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css'; //~ marker clustering
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import { useIsDark } from './ThemeToggle';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 interface MapProps {
   locations: ToiletLocation[];
@@ -16,15 +15,116 @@ interface MapProps {
 //~ verbose diagnostics only run in dev - prod console stays clean
 const isDev = process.env.NODE_ENV === 'development';
 
+//~ openfreemap vector styles - free fr any use, no api key, served via maplibre gl
+const LIGHT_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
+const DARK_STYLE = 'https://tiles.openfreemap.org/styles/dark';
+
+//~ cluster circle styling - colour/size steps mirror the old leaflet cluster palette
+const clusterLayer: LayerProps = {
+  id: 'clusters',
+  type: 'circle',
+  source: 'toilets',
+  filter: ['has', 'point_count'],
+  paint: {
+    'circle-color': ['step', ['get', 'point_count'], '#6ecc39', 10, '#f0c20c', 50, '#f18017'],
+    'circle-radius': ['step', ['get', 'point_count'], 16, 10, 20, 50, 24],
+    'circle-stroke-width': 2,
+    'circle-stroke-color': '#ffffff',
+  },
+};
+
+//~ cluster count labels (noto sans is wht openfreemap serves fr glyphs)
+const clusterCountLayer: LayerProps = {
+  id: 'cluster-count',
+  type: 'symbol',
+  source: 'toilets',
+  filter: ['has', 'point_count'],
+  layout: {
+    'text-field': '{point_count_abbreviated}',
+    'text-font': ['Noto Sans Bold'],
+    'text-size': 13,
+  },
+  paint: {
+    'text-color': '#1a202c',
+  },
+};
+
+//~ individual toilet points
+const unclusteredPointLayer: LayerProps = {
+  id: 'unclustered-point',
+  type: 'circle',
+  source: 'toilets',
+  filter: ['!', ['has', 'point_count']],
+  paint: {
+    'circle-color': '#4299e1',
+    'circle-radius': 7,
+    'circle-stroke-width': 2,
+    'circle-stroke-color': '#ffffff',
+  },
+};
+
 const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
-  //~ track if map is rdy prevent early interaction issues
-  const [mapReady, setMapReady] = useState(false);
+  const mapRef = useRef<MapRef>(null);
   
-  //~ store refs to all existing markers
-  const markerRefs = useRef<Record<string, L.Marker>>({});
+  //~ which location's popup is currently open
+  const [popupLocation, setPopupLocation] = useState<ToiletLocation | null>(null);
   
-  //~ track user manual zoom and pan actions
-  const userInteractedWithMap = useRef(false);
+  //~ pointer cursor whn hovering clusters/points
+  const [cursor, setCursor] = useState<string>('');
+  
+  //~ map basemap follows the app theme via the shared useIsDark hook
+  const isDark = useIsDark();
+  
+  //~ convert locations into a geojson source fr maplibre's native clustering
+  const geojson = useMemo(() => ({
+    type: 'FeatureCollection' as const,
+    features: locations.map((loc, idx) => ({
+      type: 'Feature' as const,
+      geometry: { type: 'Point' as const, coordinates: [loc.lng, loc.lat] },
+      //~ idx back-references the locations array fr popup lookups on click
+      properties: { idx },
+    })),
+  }), [locations]);
+  
+  //~ close any open popup whn the filtered set changes - the location may be gone
+  useEffect(() => {
+    setPopupLocation(null);
+  }, [locations]);
+  
+  //& click handler: expand clusters, open popups fr single points
+  const handleMapClick = useCallback(async (e: MapLayerMouseEvent) => {
+    const feature = e.features?.[0];
+    if (!feature) return;
+    
+    if (feature.layer?.id === 'clusters') {
+      //~ zoom into the cluster on click
+      const clusterId = feature.properties?.cluster_id;
+      const source = mapRef.current?.getSource('toilets') as GeoJSONSource | undefined;
+      if (!source || clusterId === undefined) return;
+      
+      const zoom = await source.getClusterExpansionZoom(clusterId);
+      //~ e.lngLat = clicked spot on the cluster circle, close enough to its center
+      mapRef.current?.easeTo({ center: e.lngLat, zoom, duration: 500 });
+    } else if (feature.layer?.id === 'unclustered-point') {
+      const location = locations[feature.properties?.idx];
+      if (location) {
+        setPopupLocation(location);
+        onSelectLocation?.(location);
+      }
+    }
+  }, [locations, onSelectLocation]);
+  
+  //& center map & open popup whn a location is picked frm the list view
+  useEffect(() => {
+    if (!selectedLocation) return;
+    
+    mapRef.current?.flyTo({
+      center: [selectedLocation.lng, selectedLocation.lat],
+      zoom: 17,
+      duration: 1200,
+    });
+    setPopupLocation(selectedLocation);
+  }, [selectedLocation]);
   
   //? debugging: female facility locations
   useEffect(() => {
@@ -81,129 +181,6 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     }
   }, [locations]);
   
-  //& workaround fr leaflet marker icon issues in next.js
-  useEffect(() => {
-    delete (L.Icon.Default.prototype as { _getIconUrl?: unknown })._getIconUrl;
-    
-    L.Icon.Default.mergeOptions({
-      iconUrl: '/images/marker-icon.png',
-      iconRetinaUrl: '/images/marker-icon-2x.png',
-      shadowUrl: '/images/marker-shadow.png',
-      iconSize: [20, 33],
-      iconAnchor: [10, 33],
-      popupAnchor: [1, -30],
-      shadowSize: [33, 33]
-    });
-    
-    //~ mark map as rdy after leaf icon setup
-    setMapReady(true);
-  }, []);
-  
-  //~ create custom marker icon fr toilets
-  const createToiletMarkerIcon = () => {
-    const iconUrl = '/images/toilet-marker.png';
-    const iconSize: [number, number] = [24, 24];
-    
-    return L.icon({
-      iconUrl,
-      iconSize,
-      iconAnchor: [12, 24],
-      popupAnchor: [0, -24],
-    });
-  };
-  
-  //& component: center map on selected location & handle map updates
-  const MapUpdater = () => {
-    const map = useMap();
-    
-    //& event handlers fr detect user interaction w map
-    useEffect(() => {
-      const handleUserInteraction = () => {
-        userInteractedWithMap.current = true;
-      };
-      
-      //~ track zoom and drag events as user interactions
-      map.on('zoom', handleUserInteraction);
-      map.on('drag', handleUserInteraction);
-      
-      return () => {
-        map.off('zoom', handleUserInteraction);
-        map.off('drag', handleUserInteraction);
-      };
-    }, [map]);
-    
-    //& use selectedLocation frm props to center map + open popup
-    useEffect(() => {
-      if (selectedLocation && mapReady) {
-        //~ higher zoom level expand clusters
-        const zoomLevel = 18;
-        
-        //~ reset user interaction flag when location explicitly selected from list view
-        userInteractedWithMap.current = false;
-        
-        //~ center map on selected location with higher zoom
-        map.setView(
-          [selectedLocation.lat, selectedLocation.lng],
-          zoomLevel,
-          { animate: true }
-        );
-        
-        //~ find marker by ID pattern matching open popup directly
-        setTimeout(() => {
-          //~ search through marker refs using coordinates to find match
-          const findAndOpenMarker = () => {
-            //~ generate coord string match against marker IDs
-            const coordsPattern = `-${selectedLocation.lat.toFixed(5)}-${selectedLocation.lng.toFixed(5)}`;
-            
-            //~ find matching marker in stored refs
-            for (const markerId in markerRefs.current) {
-              if (markerId.includes(coordsPattern)) {
-                const marker = markerRefs.current[markerId];
-                if (marker) {
-                  marker.openPopup();
-                  return true;
-                }
-              }
-            }
-            return false;
-          };
-          
-          //~ try find & open actual marker popup
-          const found = findAndOpenMarker();
-          
-          //~ if marker nt found (might be in cluster), try again w delay
-          if (!found) {
-            setTimeout(() => {
-              //~ try again aft clusters had time to expand
-              findAndOpenMarker();
-            }, 500);
-          }
-        }, 300); //~ small delay allow map to center 1st
-      }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedLocation, mapReady]); 
-    
-    //~ locations key track changes fr filtering
-    const locationsKey = locations.map(loc => loc.id).join(','); 
-    
-    //& handle filtered locations change w/o unwanted zoom
-    useEffect(() => {
-      map.invalidateSize();
-      
-      //~ prevent filter bar selections frm causing unwanted zoom
-      if (userInteractedWithMap.current) {
-        return;
-      }
-      
-      //~ only recalculate if no user interaction happened
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 100);
-    }, [map, locationsKey]);
-    
-    return null;
-  };
-  
   //~ helper: render star rating - memoized to prevent rerenders
   const renderRating = useCallback((rating?: number) => {
     if (!rating) return null;
@@ -219,7 +196,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         ))}
         {hasHalfStar && <span className="text-yellow-500">★</span>}
         {[...Array(5 - fullStars - (hasHalfStar ? 1 : 0))].map((_, i) => (
-          <span key={`empty-star-${i}`} className="text-gray-300">★</span>
+          <span key={`empty-star-${i}`} className="text-gray-300 dark:text-gray-500">★</span>
         ))}
       </div>
     );
@@ -507,7 +484,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         <div className="mb-2">
           <h3 className="text-base font-medium m-0 p-0">{location.name}</h3>
           {shouldShowAddress && (
-            <p className="text-xs text-gray-600 mt-0.5 mb-0 p-0">{location.address}</p>
+            <p className="text-xs text-gray-600 dark:text-gray-300 mt-0.5 mb-0 p-0">{location.address}</p>
           )}
           {location.cleanliness && (
             <div className="flex items-center mt-1">
@@ -519,17 +496,17 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         
         <div className="flex flex-wrap gap-1 mb-2">
           {location.type && (
-            <span className="text-xs bg-gray-200 px-2 py-0.5 rounded-full">
+            <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-0.5 rounded-full">
               {location.type}
             </span>
           )}
           {location.gender && (
-            <span className="text-xs bg-gray-200 px-2 py-0.5 rounded-full">
+            <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-0.5 rounded-full">
               {location.gender}
             </span>
           )}
           {location.hasBidet && (
-            <span className="text-xs bg-gray-200 px-2 py-0.5 rounded-full">
+            <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-0.5 rounded-full">
               Has Bidet
             </span>
           )}
@@ -575,12 +552,12 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
           </div>
         )}
         
-        <div className="mt-2 pt-2 border-t border-gray-200">
+        <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
           <a 
             href={`https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-blue-600 hover:text-blue-800 flex items-center"
+            className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center"
           >
             <span>📍 Get Directions</span>
           </a>
@@ -590,76 +567,48 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   }, [renderRating, getFilteredMapsComments, getFilteredSheetsComments]);
   
   return (
-    <div className="h-full w-full relative">
-      <MapContainer 
-        id="map"
-        center={[1.3521, 103.8198]} //~ Singapore center
-        zoom={12}
-        className="h-full w-full z-0"
-        attributionControl={true} //~ attribution is required by osm/carto licensing
-        zoomControl={true}
+    //! min-h keeps the webgl canvas visible on mobile where the grid row has no fixed height
+    <div className="h-full w-full min-h-[50vh] relative rounded-lg overflow-hidden">
+      <MapGL
+        ref={mapRef}
+        initialViewState={{ longitude: 103.8198, latitude: 1.3521, zoom: 11 }} //~ Singapore center
+        mapStyle={isDark ? DARK_STYLE : LIGHT_STYLE}
+        style={{ width: '100%', height: '100%' }}
+        interactiveLayerIds={['clusters', 'unclustered-point']}
+        onClick={handleMapClick}
+        onMouseEnter={() => setCursor('pointer')}
+        onMouseLeave={() => setCursor('')}
+        cursor={cursor}
       >
-        {/*! carto voyager raster tiles - free fr public projects, no api key. swap to
-            maplibre + openfreemap vector tiles whn dark mode is tackled */}
-        <TileLayer
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          subdomains="abcd"
-          maxZoom={20}
-        />
+        <NavigationControl position="top-right" showCompass={false} />
         
-        <MapUpdater />
-        
-        <MarkerClusterGroup 
-          chunkedLoading
-          spiderfyOnMaxZoom={true}
-          showCoverageOnHover={false}
+        {/*~ maplibre clusters natively on the geojson source - no plugin needed */}
+        <Source
+          id="toilets"
+          type="geojson"
+          data={geojson}
+          cluster={true}
+          clusterMaxZoom={14}
+          clusterRadius={50}
         >
-          {locations.map((location) => {
-            //~ create marker ID based on key details incl precise coords
-            const markerId = `marker-${location.id}-${location.lat.toFixed(5)}-${location.lng.toFixed(5)}`;
-            const toiletIcon = createToiletMarkerIcon();
-            const popupContent = renderPopupContent(location);
-            const tooltipText = location.name;
-            
-            return (
-              <Marker 
-                key={markerId}
-                position={[location.lat, location.lng]} 
-                icon={toiletIcon}
-                eventHandlers={{
-                  click: () => {
-                    onSelectLocation?.(location);
-                  },
-                  add: (e) => {
-                    //~ store marker ref for programmatic popup opening
-                    markerRefs.current[markerId] = e.target;
-                  },
-                  remove: () => {
-                    //~ clean up ref when marker removed
-                    delete markerRefs.current[markerId];
-                  },
-                }}
-              >
-                <Popup 
-                  minWidth={200} 
-                  maxWidth={300}
-                  className="custom-popup"
-                  closeButton={true}
-                  autoPan={true} //~ enable auto panning ensure popup visible
-                >
-                  {/* wrap in stable container ensure rendering */}
-                  <div key={`popup-${location.id}`} className="popup-content-wrapper">
-                    {popupContent}
-                  </div>
-                </Popup>
-                
-                <div className="marker-tooltip">{tooltipText}</div>
-              </Marker>
-            );
-          })}
-        </MarkerClusterGroup>
-      </MapContainer>
+          <Layer {...clusterLayer} />
+          <Layer {...clusterCountLayer} />
+          <Layer {...unclusteredPointLayer} />
+        </Source>
+        
+        {popupLocation && (
+          <Popup
+            longitude={popupLocation.lng}
+            latitude={popupLocation.lat}
+            anchor="bottom"
+            offset={12}
+            maxWidth="300px"
+            onClose={() => setPopupLocation(null)}
+          >
+            {renderPopupContent(popupLocation)}
+          </Popup>
+        )}
+      </MapGL>
     </div>
   );
 };
