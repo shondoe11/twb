@@ -14,7 +14,8 @@ export interface ToiletLocation {
   amenities: {
     wheelchairAccess: boolean;
     babyChanging: boolean;
-    freeEntry: boolean;
+    unisex: boolean;
+    bidetInAllCubicles: boolean;
     handDryer?: boolean;
     soapDispenser?: boolean;
     paperTowels?: boolean;
@@ -75,7 +76,8 @@ export interface GeoJSONProperties {
   amenities?: {
     wheelchairAccess: boolean;
     babyChanging: boolean;
-    freeEntry: boolean;
+    unisex: boolean;
+    bidetInAllCubicles: boolean;
   };
   notes?: string;
   lastUpdated?: string;

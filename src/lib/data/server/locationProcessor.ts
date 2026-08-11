@@ -54,6 +54,50 @@ function normalizeLocationName(name: string): string {
   return normalized.trim();
 }
 
+//& keyword patterns fr deriving amenities frm free-text remarks - the source sheets
+//& hav no structured amenity columns, only the Remarks column hints at these
+const WHEELCHAIR_PATTERN = /handicap|wheelchair|disabled|accessib/;
+const BABY_CHANGING_PATTERN = /baby|nursing|diaper/;
+const UNISEX_PATTERN = /unisex/;
+const ALL_CUBICLES_PATTERN = /all (?:the )?(?:cubicles|toilets|stalls)|every (?:cubicle|stall)/;
+
+/**
+ * & derive amenity flags frm free-text remarks/description/comments
+ */
+function deriveAmenities(properties: Record<string, unknown>): ToiletLocation['amenities'] {
+  const texts: string[] = [];
+  
+  if (typeof properties.remarks === 'string') texts.push(properties.remarks);
+  if (typeof properties.notes === 'string') texts.push(properties.notes);
+  
+  //~ description can be a string / kml object w a value field
+  if (typeof properties.description === 'string') {
+    texts.push(properties.description);
+  } else if (
+    properties.description && typeof properties.description === 'object' &&
+    'value' in properties.description && typeof (properties.description as { value: unknown }).value === 'string'
+  ) {
+    texts.push((properties.description as { value: string }).value);
+  }
+  
+  //~ merged features carry per-source comment arrays
+  const sourceComments = properties.sourceComments as { sheets?: unknown[]; maps?: unknown[] } | undefined;
+  if (sourceComments && typeof sourceComments === 'object') {
+    [...(sourceComments.sheets ?? []), ...(sourceComments.maps ?? [])].forEach(comment => {
+      if (typeof comment === 'string') texts.push(comment);
+    });
+  }
+  
+  const text = texts.join(' ').toLowerCase();
+  
+  return {
+    wheelchairAccess: WHEELCHAIR_PATTERN.test(text),
+    babyChanging: BABY_CHANGING_PATTERN.test(text),
+    unisex: UNISEX_PATTERN.test(text),
+    bidetInAllCubicles: ALL_CUBICLES_PATTERN.test(text)
+  };
+}
+
 /**
  * & calculate data completeness score
  */
@@ -80,18 +124,6 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     console.error('Invalid GeoJSON data');
     return [];
   }
-  
-  //? debug counter: female tag tracking
-  let femaleTagCount = 0;
-  
-  //~ check how many features should have female type
-  const sourceFemaleCount = geoData.features.filter(feature => 
-    feature.properties && feature.properties.sourceTab && 
-    typeof feature.properties.sourceTab === 'string' && 
-    feature.properties.sourceTab.toLowerCase().includes('female')
-  ).length;
-  
-  dlog(`Found ${sourceFemaleCount} features with sourceTab containing 'female'`);
   
   //~ separate features by source (google sheets w/ addresses vs google maps)
   const sheetsFeatures: LocationFeature[] = [];
@@ -137,7 +169,6 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       }
     } else {
       //~ catch any other srcs
-      dlog(`Processing feature from source: ${source}`);
       if (name && typeof name === 'string') {
         //~ determine which category to input
         if (address && typeof address === 'string' && address.trim() !== '') {
@@ -159,8 +190,10 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     }
   }
 
-  dlog(`Extracted ${sheetsFeatures.length} sheets features and ${mapsFeatures.length} maps features`);
-
+  dlog(`Processing GeoJSON - features count: ${geoData.features?.length || 0}`);
+  dlog(`- Google Sheets features: ${sheetsFeatures.length}`);
+  dlog(`- Google Maps features: ${mapsFeatures.length}`);
+  
   //~ build lookup tables fr sheets addr to use in maps feats
   const exactAddressMap: Record<string, string> = {};
   const normalizedAddressMap: Record<string, string> = {};
@@ -185,21 +218,6 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
   const uniqueLocations: ToiletLocation[] = [];
   const processedKeys = new Set<string>();
   
-  dlog(`Processing GeoJSON - features count: ${geoData.features?.length || 0}`);
-  dlog(`- Google Sheets features: ${sheetsFeatures.length}`);
-  dlog(`- Google Maps features: ${mapsFeatures.length}`);
-  
-  //? debug female srcs
-  const femaleFeatures = geoData.features?.filter(feature => 
-    feature.properties?.sourceTab && 
-    feature.properties.sourceTab.toLowerCase().includes('female')
-  ) || [];
-  
-  dlog(`- Female sheet features: ${femaleFeatures.length}`);
-  if (femaleFeatures.length > 0) {
-    dlog(`Sample female feature:`, JSON.stringify(femaleFeatures[0].properties, null, 2));
-  }
-  
   //~ process Google Sheets feats 1st (preferred src fr most data)
   sheetsFeatures.forEach(feature => {
     const { name, address, coords, properties } = feature;
@@ -211,9 +229,6 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     const locationKey = `${name}-${Number(lat).toFixed(6)},${Number(lng).toFixed(6)}`;
     if (processedKeys.has(locationKey)) return;
     processedKeys.add(locationKey);
-    
-    //? debug address field
-    dlog(`Sheets feature address check for "${name}": "${address || '(missing)'}"`);
     
     //~ safely extract props w type checking
     const safeId = typeof properties.id === 'string' ? 
@@ -228,7 +243,6 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
         tempAddress.length < 25 &&
         !tempAddress.toLowerCase().includes('singapore') &&
         !/\d{5,}/.test(tempAddress)) {
-      dlog(`Address matches name for "${safeName}", clearing address to prevent duplication`);
       tempAddress = '';
     }
     const safeAddress = tempAddress;
@@ -261,7 +275,6 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
         facilityTypes.add('Female');
         safeType = 'Female';
         safeGender = 'female';
-        femaleTagCount++;
       } else if (sourceTab.includes('male')) {
         facilityTypes.add('Male');
         safeGender = 'male';
@@ -298,11 +311,8 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       lng: Number(lng),
       hasBidet: typeof properties.hasBidet === 'boolean' ? properties.hasBidet : true, //~ assume all hav bidets unless specified
       notes: typeof properties.notes === 'string' ? properties.notes : '',
-      amenities: {
-        wheelchairAccess: typeof properties.hasWheelchair === 'boolean' ? properties.hasWheelchair : false,
-        babyChanging: typeof properties.hasBabyChanging === 'boolean' ? properties.hasBabyChanging : false,
-        freeEntry: typeof properties.hasFreeEntry === 'boolean' ? properties.hasFreeEntry : false
-      },
+      //~ sheets hav no structured amenity columns - derive flags frm remarks keywords instead
+      amenities: deriveAmenities(properties),
       rating: typeof properties.rating === 'number' || typeof properties.rating === 'string' ? 
         Number(properties.rating) : undefined,
       imageUrl: typeof properties.imageUrl === 'string' ? properties.imageUrl : undefined,
@@ -332,16 +342,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     if (processedKeys.has(locationKey)) return;
     processedKeys.add(locationKey);
     
-    //? debug if existing address found in maps feat
-    if (existingAddress) {
-      dlog(`Maps feature already has address: "${name}" -> "${existingAddress}"`);
-    }
-    
-    //? debug info fr maps feats
-    dlog(`Processing Maps feature: "${name}" at [${lat},${lng}]`);
-    
     let address = '';
-    let matchType = '';
     
     //~ be more selective abt when to ignore addresses that match names
     if (existingAddress) {
@@ -354,41 +355,28 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       //~ real addresses typically include SG, postal code, / are longer
       if (!isNameAsAddress || !isShortAddress || hasPostalCode || hasSingapore) {
         address = existingAddress;
-        matchType = 'property value';
-      } else {
-        //~ address exactly match name & short w no postal code / SG, likely nt real address
-        dlog(`Maps feature "${name}" has address same as name, ignoring it`);
       }
+      //~ else: address exactly match name & short w no postal code / SG, likely nt real address
     }
     
     //~ skip lookup if alr have address
     if (!address) {
-      //? log lookup attempt
-      dlog(`Looking up Google Sheets address for Maps feature: "${name}"`);
-      
       //~ try exact name match in sheets data
       if (exactAddressMap[name]) {
         address = exactAddressMap[name];
-        matchType = 'exact match';
-        dlog(`Found sheets address for "${name}": "${address}" (${matchType})`);
       } 
       //~ try name w/o parentheses
       else {
         const simplifiedName = name.replace(/\s*\([^)]*\)\s*/g, '').trim();
         if (exactAddressMap[simplifiedName] && simplifiedName.length > 3) {
           address = exactAddressMap[simplifiedName];
-          matchType = 'simplified match';
-          dlog(`Found sheets address for "${name}": "${address}" (${matchType})`);
         }
         //~ try normalized name match
         else {
           const normalizedName = normalizeLocationName(name);
-          dlog(`  Normalized "${name}" to "${normalizedName}"`);
           
           if (normalizedAddressMap[normalizedName]) {
             address = normalizedAddressMap[normalizedName];
-            matchType = 'normalized match';
-            dlog(`Found sheets address for "${name}": "${address}" (${matchType})`);
           } 
           //~ try fuzzy matching w/ normalized names
           else {
@@ -410,10 +398,6 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
             
             if (bestMatch && highestScore > 4) { //~ min match length avoid false positives
               address = normalizedAddressMap[bestMatch];
-              matchType = 'fuzzy match';
-              dlog(`Found sheets address for "${name}": "${address}" (${matchType} with "${bestMatch}")`);
-            } else {
-              dlog(`No Google Sheets address found for "${name}" - this location will have NO address`);
             }
           }
         }
@@ -454,7 +438,6 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
         facilityTypes.add('Female');
         safeType = 'Female';
         safeGender = 'female';
-        femaleTagCount++;
       } else if (sourceTab.includes('male')) {
         facilityTypes.add('Male');
         safeGender = 'male';
@@ -504,11 +487,8 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       lng: Number(lng),
       hasBidet: typeof properties.hasBidet === 'boolean' ? properties.hasBidet : true,
       notes: typeof properties.notes === 'string' ? properties.notes : '',
-      amenities: {
-        wheelchairAccess: typeof properties.hasWheelchair === 'boolean' ? properties.hasWheelchair : false,
-        babyChanging: typeof properties.hasBabyChanging === 'boolean' ? properties.hasBabyChanging : false,
-        freeEntry: typeof properties.hasFreeEntry === 'boolean' ? properties.hasFreeEntry : false
-      },
+      //~ maps features also carry free-text descriptions - derive amenity flags frm keywords
+      amenities: deriveAmenities(properties),
       rating: typeof properties.rating === 'number' || typeof properties.rating === 'string' ? 
         Number(properties.rating) : undefined,
       imageUrl: typeof properties.imageUrl === 'string' ? properties.imageUrl : undefined,
@@ -528,72 +508,16 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
   
   dlog(`Final processed location count: ${uniqueLocations.length}`);
   
-  //~ add diagnostic logging fr facility type counts
-  const typeCounts: Record<string, number> = {};
-  let femaleLocationsCount = 0;
-  const femaleSamples: Array<{name: string, source: string, types: string[]}> = [];
-  
-  //!? FEMALE FACILITY DEBUG: collect all facility type info
-  dlog('\n\nFEMALE FACILITY DEBUGGING - DATA SERVICE');
-  dlog('=================================================');
-  
-  uniqueLocations.forEach(location => {
-    //~ count by main type property
-    if (location.type) {
-      typeCounts[location.type] = (typeCounts[location.type] || 0) + 1;
-      
-      //~ track female locations by main type
-      if (location.type === 'Female') {
-        femaleLocationsCount++;
-        if (femaleSamples.length < 5) {
-          femaleSamples.push({
-            name: location.name,
-            source: location.source || 'unknown',
-            types: location.types || [location.type]
-          });
-        }
+  //~ concise dev summary: locations per facility type
+  if (isDev) {
+    const typeCounts: Record<string, number> = {};
+    uniqueLocations.forEach(location => {
+      if (location.type) {
+        typeCounts[location.type] = (typeCounts[location.type] || 0) + 1;
       }
-    }
-    
-    //~ count all types frm types arr if present
-    if (Array.isArray(location.types)) {
-      location.types.forEach(type => {
-        if (!typeCounts[`${type} (array)`]) {
-          typeCounts[`${type} (array)`] = 0;
-        }
-        typeCounts[`${type} (array)`]++;
-        
-        //~ track female locations specifically frm types arr
-        //~ skip locations alr counted via their main type to avoid double counting
-        if (type === 'Female' && location.type !== 'Female') {
-          femaleLocationsCount++;
-          if (femaleSamples.length < 5) {
-            femaleSamples.push({
-              name: location.name,
-              source: location.source || 'unknown',
-              types: location.types || []
-            });
-          }
-        }
-      });
-    }
-  });
-  
-  dlog('Facility type counts:');
-  if (isDev) console.table(typeCounts);
-  dlog(`\nFacility type counts:`, typeCounts);
-  
-  //? female facility type visualization & summary
-  dlog('FEMALE FACILITY TYPE SUMMARY');
-  dlog('==============================');
-  dlog(`Total locations tagged as Female: ${femaleLocationsCount}`);
-  dlog('Female location samples:', femaleSamples);
-  dlog('Female in main type counts:', typeCounts['Female'] || 0);
-  dlog('Female in types array counts:', typeCounts['Female (array)'] || 0);
-  dlog('==============================\n');
-  
-  dlog(` - Female tags added during processing: ${femaleTagCount}`);
-  dlog(` - Female filter will work: ${femaleLocationsCount > 0 ? 'Yes' : 'No'}`);
+    });
+    dlog('Facility type counts:', typeCounts);
+  }
   
   return uniqueLocations;
 }

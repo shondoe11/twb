@@ -35,8 +35,8 @@ export function filterLocations(
     amenities?: {
       wheelchairAccess?: boolean;
       babyChanging?: boolean;
-      freeEntry?: boolean;
-      hasBidet?: boolean;
+      unisex?: boolean;
+      bidetInAllCubicles?: boolean;
     }
   }
 ): ToiletLocation[] {
@@ -66,11 +66,11 @@ export function filterLocations(
         return false;
       }
       
-      if (filters.amenities.freeEntry && !location.amenities?.freeEntry) {
+      if (filters.amenities.unisex && !location.amenities?.unisex) {
         return false;
       }
       
-      if (filters.amenities.hasBidet && !location.hasBidet) {
+      if (filters.amenities.bidetInAllCubicles && !location.amenities?.bidetInAllCubicles) {
         return false;
       }
     }

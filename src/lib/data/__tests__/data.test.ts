@@ -38,7 +38,7 @@ function makeLocation(overrides: Partial<ToiletLocation> = {}): ToiletLocation {
     lng: 103.82,
     hasBidet: true,
     lastUpdated: '2026-01-01',
-    amenities: { wheelchairAccess: false, babyChanging: false, freeEntry: false },
+    amenities: { wheelchairAccess: false, babyChanging: false, unisex: false, bidetInAllCubicles: false },
     ...overrides,
   };
 }
@@ -93,6 +93,63 @@ describe('geoJSONToLocations', () => {
 
     expect(locations).toHaveLength(1);
   });
+
+  it('derives wheelchair access frm handicap keywords in remarks', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Handicap Mall', 'MALE TOILETS', [103.83, 1.3], { remarks: 'Handicap toilet only' }),
+        makeSheetFeature('Wheelchair Cafe', 'MALE TOILETS', [103.84, 1.31], { remarks: 'wheelchair accessible entrance' }),
+        makeSheetFeature('Plain Mall', 'MALE TOILETS', [103.85, 1.32], { remarks: 'level 2 near escalator' }),
+      ])
+    );
+
+    expect(locations[0].amenities.wheelchairAccess).toBe(true);
+    expect(locations[1].amenities.wheelchairAccess).toBe(true);
+    expect(locations[2].amenities.wheelchairAccess).toBe(false);
+  });
+
+  it('derives baby changing frm baby/nursing keywords in remarks', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Nursing Mall', 'FEMALE TOILETS', [103.83, 1.3], { remarks: 'found in nursing room' }),
+        makeSheetFeature('Baby Plaza', 'FEMALE TOILETS', [103.84, 1.31], { remarks: 'baby changing station inside' }),
+        makeSheetFeature('Plain Plaza', 'FEMALE TOILETS', [103.85, 1.32], { remarks: 'unisex toilet' }),
+      ])
+    );
+
+    expect(locations[0].amenities.babyChanging).toBe(true);
+    expect(locations[1].amenities.babyChanging).toBe(true);
+    expect(locations[2].amenities.babyChanging).toBe(false);
+  });
+
+  it('derives unisex & bidet-in-all-cubicles frm remarks keywords', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Unisex Cafe', 'MALE TOILETS', [103.83, 1.3], { remarks: 'Unisex toilet!' }),
+        makeSheetFeature('Cubicle Hub', 'MALE TOILETS', [103.84, 1.31], { remarks: 'all cubicles have bidet!' }),
+        makeSheetFeature('Toilets Galore', 'MALE TOILETS', [103.85, 1.32], { remarks: 'all toilets got bidet' }),
+      ])
+    );
+
+    expect(locations[0].amenities.unisex).toBe(true);
+    expect(locations[0].amenities.bidetInAllCubicles).toBe(false);
+    expect(locations[1].amenities.bidetInAllCubicles).toBe(true);
+    expect(locations[2].amenities.bidetInAllCubicles).toBe(true);
+  });
+
+  it('derives amenities frm maps description text too', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Maps Spot', 'MALE TOILETS', [103.83, 1.3], {
+          source: 'google-maps',
+          address: '',
+          description: 'bidet at handicap toilet',
+        }),
+      ])
+    );
+
+    expect(locations[0].amenities.wheelchairAccess).toBe(true);
+  });
 });
 
 describe('filterLocations', () => {
@@ -106,7 +163,7 @@ describe('filterLocations', () => {
       type: 'Hotel',
       types: ['Hotel'],
       hasBidet: false,
-      amenities: { wheelchairAccess: true, babyChanging: false, freeEntry: false },
+      amenities: { wheelchairAccess: true, babyChanging: false, unisex: true, bidetInAllCubicles: false },
     }),
   ];
 
@@ -136,7 +193,10 @@ describe('filterLocations', () => {
     expect(wheelchair).toHaveLength(1);
     expect(wheelchair[0].id).toBe('3');
 
-    const bidet = filterLocations(locations, { amenities: { hasBidet: true } });
-    expect(bidet.map(l => l.id)).toEqual(['1', '2']);
+    const unisex = filterLocations(locations, { amenities: { unisex: true } });
+    expect(unisex.map(l => l.id)).toEqual(['3']);
+
+    const allCubicles = filterLocations(locations, { amenities: { bidetInAllCubicles: true } });
+    expect(allCubicles).toHaveLength(0);
   });
 });
