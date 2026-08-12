@@ -154,9 +154,13 @@ const DetailView = ({
                 <span className="text-lg">👶</span>
                 <span>Baby Changing</span>
               </div>
-              <div className={`p-3 rounded-lg flex items-center gap-2 ${location.amenities?.freeEntry ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-400 line-through'}`}>
-                <span className="text-lg">🆓</span>
-                <span>Free Entry</span>
+              <div className={`p-3 rounded-lg flex items-center gap-2 ${location.amenities?.unisex ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-400 line-through'}`}>
+                <span className="text-lg">🚻</span>
+                <span>Unisex</span>
+              </div>
+              <div className={`p-3 rounded-lg flex items-center gap-2 ${location.amenities?.bidetInAllCubicles ? 'bg-cyan-100 text-cyan-800' : 'bg-gray-100 text-gray-400 line-through'}`}>
+                <span className="text-lg">🚽</span>
+                <span>Bidet in All Cubicles</span>
               </div>
               <div className={`p-3 rounded-lg flex items-center gap-2 ${location.amenities?.handDryer ? 'bg-teal-100 text-teal-800' : 'bg-gray-100 text-gray-400 line-through'}`}>
                 <span className="text-lg">💨</span>

@@ -13,8 +13,8 @@ interface FilterOptions {
   amenities: {
     wheelchairAccess: boolean;
     babyChanging: boolean;
-    freeEntry: boolean;
-    hasBidet: boolean;
+    unisex: boolean;
+    bidetInAllCubicles: boolean;
   };
 }
 
@@ -72,8 +72,8 @@ export default function Home() {
       amenities: {
         wheelchairAccess: filters.amenities.wheelchairAccess,
         babyChanging: filters.amenities.babyChanging,
-        freeEntry: filters.amenities.freeEntry,
-        hasBidet: filters.amenities.hasBidet
+        unisex: filters.amenities.unisex,
+        bidetInAllCubicles: filters.amenities.bidetInAllCubicles
       }
     });
     

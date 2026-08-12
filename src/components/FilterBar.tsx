@@ -8,8 +8,8 @@ interface FilterOptions {
   amenities: {
     wheelchairAccess: boolean;
     babyChanging: boolean;
-    freeEntry: boolean;
-    hasBidet: boolean;
+    unisex: boolean;
+    bidetInAllCubicles: boolean;
   };
 }
 
@@ -28,8 +28,8 @@ const FilterBar = ({
     amenities: {
       wheelchairAccess: false,
       babyChanging: false,
-      freeEntry: false,
-      hasBidet: false
+      unisex: false,
+      bidetInAllCubicles: false
     }
   });
 
@@ -45,8 +45,6 @@ const FilterBar = ({
       
       //~ gather all types frm both type property & types arr
       const typeSet = new Set<string>();
-      let femaleTypeCount = 0;
-      let locationWithTypesCount = 0;
       
       //~ process each location
       locations.forEach(location => {
@@ -57,52 +55,14 @@ const FilterBar = ({
         
         //~ add all types frm types arr if present
         if (Array.isArray(location.types)) {
-          locationWithTypesCount++;
           location.types.forEach(type => {
             typeSet.add(type);
-            if (type === 'Female') {
-              femaleTypeCount++;
-            }
           });
         }
       });
       
       //~ convert sorted array
       const types = [...typeSet].sort();
-      
-      //~ verbose diagnostics only run in dev - prod console stays clean
-      if (process.env.NODE_ENV === 'development') {
-        //? debugging fr female toilet detection
-        console.log('\n\nFEMALE FACILITY DEBUGGING - FILTERBAR');
-        console.log('=================================================');
-        
-        //? sample 1st 3 locations & any female locations
-        const sampleLocations = [...locations.slice(0, 3)];
-        const femaleLocations = locations.filter(loc => 
-          loc.type === 'Female' || (Array.isArray(loc.types) && loc.types.includes('Female')));
-        
-        //? show female locations sample if any exist
-        if (femaleLocations.length > 0) {
-          sampleLocations.push(...femaleLocations.slice(0, 3));
-        }
-        
-        console.log('FilterBar - Location samples:', 
-          sampleLocations.map(loc => ({
-            name: loc.name,
-            type: loc.type,
-            types: loc.types,
-            source: loc.source,
-            isFemale: loc.type === 'Female' || (Array.isArray(loc.types) && loc.types.includes('Female'))
-          })));
-        
-        console.log('FilterBar - ALL Facility types found:', types);
-        console.log(`FEMALE TYPE SUMMARY:`);
-        console.log(` - Total locations: ${locations.length}`);
-        console.log(` - Locations with multiple types: ${locationWithTypesCount}/${locations.length}`);
-        console.log(` - Locations with Female type: ${femaleTypeCount}`);
-        console.log(` - Female in available filter types: ${typeSet.has('Female') ? 'Yes' : 'No'}`);
-        console.log('=================================================\n');
-      }
       
       //~ update state w processed data
       setAvailableRegions(regions as string[]);
@@ -152,8 +112,8 @@ const FilterBar = ({
       amenities: {
         wheelchairAccess: false,
         babyChanging: false,
-        freeEntry: false,
-        hasBidet: false
+        unisex: false,
+        bidetInAllCubicles: false
       }
     });
   };
@@ -170,12 +130,12 @@ const FilterBar = ({
         </button>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="min-w-0">
           <label htmlFor="region" className="block text-sm font-medium text-gray-800 dark:text-gray-200">Region</label>
           <select 
             id="region" 
-            className="w-full p-2 border border-gray-300 rounded text-sm bg-white text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-gray-100"
+            className="w-full min-w-0 truncate p-2 border border-gray-300 rounded text-sm bg-white text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-gray-100"
             value={filters.region}
             onChange={handleRegionChange}
           >
@@ -188,11 +148,11 @@ const FilterBar = ({
           </select>
         </div>
         
-        <div>
+        <div className="min-w-0">
           <label htmlFor="type" className="block text-sm font-medium text-gray-800 dark:text-gray-200">Facility Type</label>
           <select 
             id="type" 
-            className="w-full p-2 border border-gray-300 rounded text-sm bg-white text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-gray-100"
+            className="w-full min-w-0 truncate p-2 border border-gray-300 rounded text-sm bg-white text-gray-800 dark:bg-gray-900 dark:border-gray-600 dark:text-gray-100"
             value={filters.type}
             onChange={handleTypeChange}
           >
@@ -205,10 +165,10 @@ const FilterBar = ({
           </select>
         </div>
         
-        <div className="col-span-2">
+        <div className="sm:col-span-2">
           <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">Amenities</p>
-          <div className="flex flex-wrap gap-2">
-            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200">
+          <div className="flex flex-wrap gap-x-3 gap-y-2">
+            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200 whitespace-nowrap">
               <input 
                 type="checkbox" 
                 className="mr-1"
@@ -217,7 +177,7 @@ const FilterBar = ({
               />
               Wheelchair Access
             </label>
-            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200">
+            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200 whitespace-nowrap">
               <input 
                 type="checkbox" 
                 className="mr-1"
@@ -226,23 +186,23 @@ const FilterBar = ({
               />
               Baby Changing
             </label>
-            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200">
+            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200 whitespace-nowrap">
               <input 
                 type="checkbox" 
                 className="mr-1"
-                checked={filters.amenities.freeEntry}
-                onChange={() => handleAmenityChange('freeEntry')}
+                checked={filters.amenities.unisex}
+                onChange={() => handleAmenityChange('unisex')}
               />
-              Free Entry
+              Unisex
             </label>
-            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200">
+            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200 whitespace-nowrap">
               <input 
                 type="checkbox" 
                 className="mr-1"
-                checked={filters.amenities.hasBidet}
-                onChange={() => handleAmenityChange('hasBidet')}
+                checked={filters.amenities.bidetInAllCubicles}
+                onChange={() => handleAmenityChange('bidetInAllCubicles')}
               />
-              Has Bidet
+              Bidet in All Cubicles
             </label>
           </div>
         </div>

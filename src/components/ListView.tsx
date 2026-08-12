@@ -268,8 +268,11 @@ const ListView = ({
                     {location.amenities?.babyChanging && (
                       <span className="text-xs px-2 py-1 bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 rounded-full">👶</span>
                     )}
-                    {location.amenities?.freeEntry && (
-                      <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-full">Free</span>
+                    {location.amenities?.unisex && (
+                      <span className="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 rounded-full">Unisex</span>
+                    )}
+                    {location.amenities?.bidetInAllCubicles && (
+                      <span className="text-xs px-2 py-1 bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 rounded-full">All Cubicles</span>
                     )}
                   </div>
                 </div>
