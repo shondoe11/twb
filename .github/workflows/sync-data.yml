@@ -26,6 +26,11 @@ jobs:
         run: npm run sync-data
       
       - name: Trigger Vercel redeploy
-        run: curl -sf -X POST "$VERCEL_DEPLOY_HOOK_URL"
         env:
           VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$VERCEL_DEPLOY_HOOK_URL" ]; then
+            echo "::error::VERCEL_DEPLOY_HOOK_URL secret is not set. Create a Deploy Hook in Vercel (Project Settings > Git > Deploy Hooks) and add its URL as a repository secret (Settings > Secrets and variables > Actions)."
+            exit 1
+          fi
+          curl -sf -X POST "$VERCEL_DEPLOY_HOOK_URL"
