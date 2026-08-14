@@ -12,9 +12,6 @@ interface MapProps {
   onSelectLocation?: (location: ToiletLocation) => void;
 }
 
-//~ verbose diagnostics only run in dev - prod console stays clean
-const isDev = process.env.NODE_ENV === 'development';
-
 //~ openfreemap vector styles - free fr any use, no api key, served via maplibre gl
 const LIGHT_STYLE = 'https://tiles.openfreemap.org/styles/liberty';
 const DARK_STYLE = 'https://tiles.openfreemap.org/styles/dark';
@@ -125,61 +122,6 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     });
     setPopupLocation(selectedLocation);
   }, [selectedLocation]);
-  
-  //? debugging: female facility locations
-  useEffect(() => {
-    if (!isDev) return;
-    if (locations.length > 0) {
-      //~ count female locations
-      let femaleCount = 0;
-      let multiTypeCount = 0;
-      const femaleLocations: ToiletLocation[] = [];
-      
-      //? detailed tracking female locations
-      locations.forEach(loc => {
-        if (Array.isArray(loc.types) && loc.types.includes('Female')) {
-          femaleCount++;
-          femaleLocations.push(loc);
-        } else if (loc.type === 'Female') {
-          femaleCount++;
-          femaleLocations.push(loc);
-        }
-        
-        if (Array.isArray(loc.types) && loc.types.length > 1) {
-          multiTypeCount++;
-        }
-      });
-      
-      //? extensive female location debugging
-      console.log('\n\nFEMALE FACILITY DEBUGGING - MAP');
-      console.log('=================================================');
-      console.log(`FEMALE LOCATION STATS:`);
-      console.log(` - Total locations on map: ${locations.length}`);
-      console.log(` - Locations tagged as Female: ${femaleCount}`);
-      console.log(` - Female locations percentage: ${((femaleCount / locations.length) * 100).toFixed(2)}%`);
-      console.log(` - Locations with multiple types: ${multiTypeCount}`);
-      
-      //? sample female locations w detailed info
-      const femaleSamples = femaleLocations.slice(0, 5);
-      
-      if (femaleSamples.length > 0) {
-        console.log('\nFEMALE LOCATION SAMPLES:');
-        femaleSamples.forEach((loc, index) => {
-          console.log(`FEMALE SAMPLE #${index + 1}:`);
-          console.log(` - Name: ${loc.name}`);
-          console.log(` - Main type: ${loc.type}`);
-          console.log(` - Types array: ${JSON.stringify(loc.types)}`);
-          console.log(` - Region: ${loc.region || 'Not specified'}`);
-          console.log(` - Source: ${loc.source || 'Unknown'}`);
-          console.log(` - Address: ${loc.address || 'Not specified'}`);
-          console.log('-----------');
-        });
-      } else {
-        console.log('NO FEMALE LOCATIONS FOUND IN DATASET');
-      }
-      console.log('=================================================\n');
-    }
-  }, [locations]);
   
   //~ helper: render star rating - memoized to prevent rerenders
   const renderRating = useCallback((rating?: number) => {
@@ -292,7 +234,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
       }
     }
     
-    //~ include visitCount as Visits if avail
+    //~ visitCount as Visits if avail
     if (location.visitCount) {
       //~ check visitCount is alr in filteredComments avoid duplicates
       const visitsAlreadyAdded = filteredComments.some(c => 
@@ -303,7 +245,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
       }
     }
     
-    //~ incl lastCleaned w ISO GMT+8 format if avail
+    //~ lastCleaned w ISO GMT+8 format if avail
     if (location.lastCleaned) {
       //~ check lastCleaned is alr in filteredComments avoid duplicates
       const cleanedAlreadyAdded = filteredComments.some(c => 
@@ -392,7 +334,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         if (comment.toLowerCase().includes('lastcleaned') || 
             comment.toLowerCase().includes('last cleaned')) {
           const cleanedMatch = comment.match(/lastcleaned:?\s*(.+)/i) || 
-                             comment.match(/last cleaned:?\s*(.+)/i);
+                              comment.match(/last cleaned:?\s*(.+)/i);
           if (cleanedMatch && cleanedMatch[1]) {
             try {
               const date = new Date(cleanedMatch[1].trim());
@@ -457,26 +399,6 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
 
   //~ popup content renderer
   const renderPopupContent = useCallback((location: ToiletLocation) => {
-    if (isDev) {
-      //? debug location fields
-      console.log('Rendering popup for location:', { 
-        id: location.id,
-        name: location.name,
-        address: location.address,
-        source: location.source,
-        floor: location.floor,
-        visitCount: location.visitCount,
-        cleanliness: location.cleanliness,
-        lastCleaned: location.lastCleaned,
-        sourceComments: location.sourceComments,
-        mapsComments: getFilteredMapsComments(location),
-        sheetsComments: getFilteredSheetsComments(location)
-      });
-      
-      //? debug coords to check if google-sheets locations are in the viewport
-      console.log(`COORDINATES for "${location.name}": [${location.lat}, ${location.lng}] | Source: ${location.source}`);
-    }
-    
     const shouldShowAddress = location.address && location.address.trim() !== '';
     
     return (
@@ -571,7 +493,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     <div className="h-full w-full min-h-[50vh] relative rounded-lg overflow-hidden">
       <MapGL
         ref={mapRef}
-        initialViewState={{ longitude: 103.8198, latitude: 1.3521, zoom: 11 }} //~ Singapore center
+        initialViewState={{ longitude: 103.8198, latitude: 1.3521, zoom: 11 }} //~ SG centered
         mapStyle={isDark ? DARK_STYLE : LIGHT_STYLE}
         style={{ width: '100%', height: '100%' }}
         interactiveLayerIds={['clusters', 'unclustered-point']}
