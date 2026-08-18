@@ -40,6 +40,7 @@ const CACHE_DIR = path.join(DATA_DIR, 'cache');
 const MAPS_CACHE = path.join(CACHE_DIR, 'maps.json');
 const SHEETS_CACHE = path.join(CACHE_DIR, 'sheets.json');
 const COMBINED_OUTPUT = path.join(DATA_DIR, 'combined.geojson');
+const GEOCODE_CACHE = path.join(CACHE_DIR, 'geocode.json');
 
 //& ensure directories exist
 async function setupDirectories() {
@@ -169,6 +170,9 @@ function sheetsToGeoJSON(records) {
   //~ process records frm each sheet
   const processedRecords = [];
 
+  //~ region column only filled on 1st row of each visual group in the sheet - forward-fill it so grouped rows inherit their group's region (faithful to source semantics)
+  const lastRegionByTab = {};
+
   records.forEach(record => {
     //~ skip records w/o proper data
     if (!record || Object.keys(record).filter(k => k !== '_sourceTab').length === 0) return;
@@ -182,7 +186,11 @@ function sheetsToGeoJSON(records) {
       //~ make sure getting correct Address column
       processed.Address = record['Address'] || '';
       processed.Notes = record['Remarks'] || '';
-      processed.Region = record['Region'] || '';
+      const rawRegion = (record['Region'] || '').trim();
+      if (rawRegion) {
+        lastRegionByTab[tab] = rawRegion;
+      }
+      processed.Region = rawRegion || lastRegionByTab[tab] || '';
       //~ check FEMALE before MALE - 'FEMALE TOILETS'.includes('MALE') is true, so male check must come last
       processed.Type = tab.includes('FEMALE') ? 'female' : tab.includes('MALE') ? 'male' : 'other';
 
@@ -204,15 +212,13 @@ function sheetsToGeoJSON(records) {
       processed[key] = String(processed[key] || '');
     });
 
-    //~ only add records w/ both name & address
-    if (processed.Name && processed.Address &&
-      processed.Name.trim() !== '' &&
-      processed.Address.trim() !== '') {
+    //~ keep any row w a name - address-less rows now get coords via kml name-match / onemap geocode
+    if (processed.Name && processed.Name.trim() !== '') {
       processedRecords.push(processed);
     }
   });
 
-  console.log(`After processing: ${processedRecords.length} valid records with name and address`);
+  console.log(`After processing: ${processedRecords.length} valid records with a name`);
 
   //& deterministic IDs based on name & address
   function hashCode(str) {
@@ -280,13 +286,11 @@ function extractAddressFromDescription(description) {
   //~ handle CDATA if already processed earlier
   const cleanDesc = description;
 
-  //~ try various patterns to extract address
+  //~ try various patterns to extract address - loose catch-all patterns removed - they turned arbitrary description text ('unisex toilet') into fake addresses
   const patterns = [
     /Address:\s*(.*?)(?:<br>|$)/i,
     /Location:\s*(.*?)(?:<br>|$)/i,
-    /at\s*(.*?)(?:<br>|$)/i,
-    /\d+[\w\s]+(?:road|rd|street|st|avenue|ave|boulevard|blvd|lane|ln|drive|dr|terrace|ter|place|pl|court|ct)[,\s]+\w+/i,
-    /(.*?)(?:,\s*Singapore|$)/i
+    /(\d+[\w\s]+(?:road|rd|street|st|avenue|ave|boulevard|blvd|lane|ln|drive|dr|terrace|ter|place|pl|court|ct)[,\s]+\w+)/i
   ];
 
   for (const pattern of patterns) {
@@ -451,9 +455,7 @@ async function fetchMapsData() {
           Handicap: placemark.description && placemark.description.includes('Handicap:') ?
             placemark.description.match(/Handicap:\s*([^,\n]+)/i)?.[1] || 'Yes' :
             placemark.description && placemark.description.includes('handicap') ? 'Yes' : null,
-          Address: extractAddressFromDescription(placemark.description) ||
-            (nameValue && nameValue.includes(',')) ? nameValue :
-            nameValue ? `${nameValue}, Singapore` : null,
+          Address: extractAddressFromDescription(placemark.description),
           region: placemark.region || 'Unknown',
           source: 'google-maps'
         }
@@ -484,8 +486,162 @@ async function fetchMapsData() {
   }
 }
 
+//& now using onemap sg geocoding - official free geocoder, no api key needed fr search endpoints
+let geocodeCache = {};
+let geocodeCacheDirty = false;
+
+async function loadGeocodeCache() {
+  try {
+    geocodeCache = JSON.parse(await fs.readFile(GEOCODE_CACHE, 'utf8'));
+    console.log(`Loaded ${Object.keys(geocodeCache).length} cached geocode results`);
+  } catch {
+    geocodeCache = {};
+  }
+}
+
+async function saveGeocodeCache() {
+  if (!geocodeCacheDirty) return;
+  await fs.writeFile(GEOCODE_CACHE, JSON.stringify(geocodeCache, null, 2));
+  console.log(`Saved ${Object.keys(geocodeCache).length} geocode results to cache`);
+}
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+//& query onemap search api fr a single search string -> [lng, lat] / null
+async function geocodeQuery(query) {
+  const key = query.trim().toLowerCase();
+  if (!key) return null;
+  if (key in geocodeCache) return geocodeCache[key];
+
+  //~ onemap's anonymous rate limit is aggressive - retry 429s w backoff & only cache genuine "no results"
+  const maxAttempts = 4;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const url = `https://www.onemap.gov.sg/api/common/elastic/search?searchVal=${encodeURIComponent(query)}&returnGeom=Y&getAddrDetails=Y&pageNum=1`;
+      const response = await fetch(url, { headers: { 'User-Agent': 'TWB-DataFetcher/1.0' } });
+
+      if (response.status === 429) {
+        const waitMs = 5000 * attempt;
+        console.warn(`OneMap rate limited (429) for "${query}" - retrying in ${waitMs / 1000}s (attempt ${attempt}/${maxAttempts})`);
+        await sleep(waitMs);
+        continue;
+      }
+
+      if (!response.ok) {
+        //~ transient server error - dont cache, so next sync retries it
+        console.warn(`OneMap responded ${response.status} for "${query}" - not caching, will retry next sync`);
+        await sleep(1000);
+        return null;
+      }
+
+      const data = await response.json();
+      const hit = data?.results?.[0];
+      let result = null;
+      if (hit) {
+        const lat = parseFloat(hit.LATITUDE);
+        const lng = parseFloat(hit.LONGITUDE);
+        //~ sanity: results must land inside sg bounds - anything else is a bad hit, nt a real location
+        if (!isNaN(lat) && !isNaN(lng) && lat >= 1.15 && lat <= 1.5 && lng >= 103.5 && lng <= 104.15) {
+          result = [lng, lat];
+        }
+      }
+
+      //~ only genuine lookups (success / no results) get cached - never transient failures
+      geocodeCache[key] = result;
+      geocodeCacheDirty = true;
+      await sleep(1000); //~ anonymous access 429s well below the documented 250 req/min - 1s spacing is reliable
+      return result;
+    } catch (error) {
+      console.warn(`OneMap request failed for "${query}": ${error.message} (attempt ${attempt}/${maxAttempts})`);
+      await sleep(2000 * attempt);
+    }
+  }
+
+  console.warn(`OneMap gave up on "${query}" after ${maxAttempts} attempts - not caching, will retry next sync`);
+  return null;
+}
+
+//& simplifying messy sheet addresses to clean 'block street' query onemap can resolve
+//~ handles unit numbers, level refs, block ranges (28-30 -> 28), slashed suffixes (76A/B -> 76A) & abbreviations
+function simplifyAddress(address) {
+  if (!address || !address.trim()) return '';
+  let cleaned = address
+    .replace(/#\s*\d+(-\d+)?/g, '')
+    .replace(/\b(level|lvl)\s*\d+\b/gi, '')
+    .replace(/\bsingapore\b\s*\d*/gi, '')
+    .replace(/\b(\d{4,6})\b\s*$/g, '')
+    .replace(/\b(\d+[A-Za-z]?)\/[A-Za-z]\b/g, '$1')
+    .replace(/\b(\d+[A-Za-z]?)\s*-\s*\d+[A-Za-z]?\b/g, '$1');
+
+  const abbreviations = {
+    rd: 'Road', ave: 'Avenue', st: 'Street', blvd: 'Boulevard',
+    cres: 'Crescent', ln: 'Lane', hwy: 'Highway', jln: 'Jalan',
+    lor: 'Lorong', tg: 'Tanjong', bt: 'Bukit', upp: 'Upper',
+    ecp: 'East Coast Parkway',
+  };
+  cleaned = cleaned.replace(/\b([a-z]+)\b\.?/gi, (match, word) => abbreviations[word.toLowerCase()] || match);
+
+  //~ keep 1st comma-segment that looks like 'number street' - drop trailing clutter
+  const segment = cleaned.split(',').map(s => s.trim()).find(s => /^\d+[A-Za-z]?\s+\D/.test(s));
+  return (segment || cleaned.split(',')[0] || '').replace(/\s{2,}/g, ' ').trim();
+}
+
+//& geocode a location: postal code first (most precise), then full address, then simplified address, then name, then street-only
+async function geocodeLocation(name, address) {
+  const postal = (address || '').match(/\b(\d{6})\b/);
+  if (postal) {
+    const coords = await geocodeQuery(postal[1]);
+    if (coords) return coords;
+  }
+  if (address && address.trim()) {
+    const coords = await geocodeQuery(address);
+    if (coords) return coords;
+  }
+  const simplified = simplifyAddress(address);
+  if (simplified && simplified !== (address || '').trim()) {
+    const coords = await geocodeQuery(simplified);
+    if (coords) return coords;
+  }
+  if (name && name.trim()) {
+    const coords = await geocodeQuery(name);
+    if (coords) return coords;
+  }
+  //~ last resort: street name alone (block number stripped) - street-level accuracy beats dropping the row
+  const streetOnly = simplified.replace(/^\d+[A-Za-z]?\s+/, '').trim();
+  if (streetOnly && streetOnly !== simplified) {
+    const coords = await geocodeQuery(streetOnly);
+    if (coords) {
+      console.warn(`Geocoded "${name}" via street-only fallback ("${streetOnly}") - street-level accuracy`);
+      return coords;
+    }
+  }
+  return null;
+}
+
+//& normalize region casing ('NORTH-EAST' -> 'North-East') so filters don't split on case
+function normalizeRegionName(region) {
+  if (!region || typeof region !== 'string') return '';
+  const trimmed = region.trim();
+  if (!trimmed || trimmed.toLowerCase() === 'unknown') return '';
+  return trimmed
+    .split('-')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join('-');
+}
+
+//& deterministic region classification frm real coords (approx ura planning regions) - only used whn src sheet/kml provides no region - derived, no fabrication
+function regionFromCoords(lng, lat) {
+  if (typeof lng !== 'number' || typeof lat !== 'number' || isNaN(lng) || isNaN(lat)) return '';
+  if (lng >= 103.93 && lat <= 1.39) return 'East';
+  if (lat >= 1.36 && lng >= 103.84) return 'North-East';
+  if (lat >= 1.4) return 'North';
+  if (lng <= 103.77) return 'West';
+  return 'Central';
+}
+
 //& combine sheets & maps data to single GeoJSON
 async function combineData() {
+  await loadGeocodeCache();
   //~ fetch all data srcs
   const sheetsRecords = await fetchAllSheetsData();
 
@@ -573,7 +729,7 @@ async function combineData() {
   let enhancedCount = 0;
   let droppedCount = 0;
   //~ apply maps coords to sheets data if matched - create enhanced features array
-  const enhancedSheetsFeatures = sheetsFeatures.map(feature => {
+  const matchedSheetsFeatures = sheetsFeatures.map(feature => {
     if (!feature.properties?.name) {
       return feature;
     }
@@ -612,29 +768,14 @@ async function combineData() {
           console.log(`Found normalized match for "${name}": [${coords}]`);
           enhancedCount++;
         }
-        //~ 5. partial match - try find if any map location contains this name
-        else {
-          const mapLocations = Object.keys(mapsCoordinatesMap);
-          const matchingLocation = mapLocations.find(loc =>
-            loc.toLowerCase().includes(name.toLowerCase()) ||
-            name.toLowerCase().includes(loc.toLowerCase())
-          );
 
-          if (matchingLocation) {
-            coords = mapsCoordinatesMap[matchingLocation];
-            console.log(`Found partial match for "${name}" with "${matchingLocation}": [${coords}]`);
-            enhancedCount++;
-          }
-          //~ leave coords null so the feature is dropped below & report it
-          else {
-            console.warn(`No coordinate match for "${name}" - excluding from output`);
-            droppedCount++;
-          }
+        else {
+          console.log(`No KML name match for "${name}" - will attempt OneMap geocode`);
         }
       }
     }
 
-    //~ replace feature coords w matched / random coords
+    //~ replace feature coords w matched coords frm the community's own map pins
     if (coords) {
       return {
         ...feature,
@@ -646,11 +787,29 @@ async function combineData() {
     }
 
     return feature;
-  })
-  //~ drop features whose coords could nt be resolved - they hav null placeholder geometry
-  .filter(feature => feature.geometry?.coordinates?.length === 2);
+  });
 
-  console.log(`Enhanced ${enhancedCount} features with Google Maps coordinates, dropped ${droppedCount} with unresolvable coordinates`);
+  //~ geocode features w/o a kml pin via onemap (official sg geocoder) - real coords, no fabrication
+  let geocodedCount = 0;
+  for (const feature of matchedSheetsFeatures) {
+    if (feature.geometry?.coordinates?.length === 2) continue;
+    const { name, address } = feature.properties;
+    const coords = await geocodeLocation(name, address);
+    if (coords) {
+      feature.geometry = { type: 'Point', coordinates: coords };
+      feature.properties.coordsSource = 'onemap-geocode';
+      geocodedCount++;
+    } else {
+      console.warn(`Geocoding failed for "${name}" - excluding from output rather than fabricating coords`);
+      droppedCount++;
+    }
+  }
+  await saveGeocodeCache();
+
+  //~ drop only features whose coords genuinely could nt be resolved anywhere
+  const enhancedSheetsFeatures = matchedSheetsFeatures.filter(feature => feature.geometry?.coordinates?.length === 2);
+
+  console.log(`Coords resolved: ${enhancedCount} frm KML name-match, ${geocodedCount} frm OneMap geocode, ${droppedCount} dropped as unresolvable`);
 
   //& normalize hotel name: rm common prefixes/suffixes & cleaning
   function normalizeLocationName(name) {
@@ -682,64 +841,14 @@ async function combineData() {
     return normalized;
   }
   
-  //& get abbreviated ver: take 1st word of multi-word names
-  function getAbbreviatedName(name) {
-    if (!name || typeof name !== 'string') return '';
-    const words = name.trim().split(/\s+/);
-    if (words.length <= 1) return name.toLowerCase();
-    return words[0].toLowerCase();
-  }
-  
-  //& get ultra-normalized ver: alphanumeric only
-  function getAlphaNumericOnly(name) {
-    if (!name || typeof name !== 'string') return '';
-    return name.toLowerCase().replace(/[^a-z0-9]/g, '');
-  }
-  
-  //& calculate similarity between 2 names (crude distance metric)
-  function nameSimilarity(name1, name2) {
-    //~ convert lowercase & rm non-alphanumeric chars
-    const n1 = getAlphaNumericOnly(name1);
-    const n2 = getAlphaNumericOnly(name2);
-    
-    //~ too short names shld-nt match
-    if (n1.length < 3 || n2.length < 3) return 0;
-    
-    //~ exact match === perfect
-    if (n1 === n2) return 1.0;
-    
-    //~ check if 1 contains other
-    if (n1.includes(n2)) return 0.9;
-    if (n2.includes(n1)) return 0.9;
-    
-    //~ calc how many chars they hav in common
-    let commonChars = 0;
-    let shorter, longer;
-    if (n1.length <= n2.length) {
-      shorter = n1;
-      longer = n2;
-    } else {
-      shorter = n2;
-      longer = n1;
-    }
-    
-    for (let i = 0; i < shorter.length; i++) {
-      if (longer.includes(shorter[i])) {
-        commonChars++;
-      }
-    }
-    
-    //~ similarity = ratio of common chars to length of shorter str
-    return commonChars / shorter.length;
-  }
+  //~ nameSimilarity char-bag metric removed - counting shared characters made almost any 2 names
+  //~ 'similar' & was the root cause of the fabricated coordinate merges
 
   console.log('Merging Google Sheets and Google Maps data with improved name matching...');
   
-  //~ 1. create maps feature lookup tables
   const mapsByCoords = {};
   const mapsByName = {};
   const mapsByNormalizedName = {};
-  const mapsBySimpleName = {};
   const mapsKeys = new Set(); //~ track which maps features added
   
   //~ prep all lookup tables fr maps features
@@ -766,12 +875,6 @@ async function combineData() {
     const normalizedName = normalizeLocationName(mapName);
     if (normalizedName && normalizedName !== mapName.toLowerCase()) {
       mapsByNormalizedName[normalizedName] = feature;
-    }
-    
-    //~ store by abbreviated name if name has multiple words
-    const simpleName = getAbbreviatedName(mapName);
-    if (simpleName && simpleName !== mapName.toLowerCase() && simpleName.length > 2) {
-      mapsBySimpleName[simpleName] = feature;
     }
   });
   
@@ -835,29 +938,7 @@ async function combineData() {
       }
     }
     
-    //~ match strategy 4: try partial name match
-    if (!matchedMapFeature) {
-      //~ try finding best fuzzy match
-      let bestMatch = null;
-      let bestSimilarity = 0.7; //~ threshold fr accepting match
-      
-      for (const mapName in mapsByName) {
-        const similarity = nameSimilarity(sheetName, mapName);
-        if (similarity > bestSimilarity) {
-          bestMatch = mapsByName[mapName];
-          bestSimilarity = similarity;
-        }
-      }
-      
-      if (bestMatch) {
-        matchedMapFeature = bestMatch;
-        matchType = 'fuzzy-match';
-        matchConfidence = bestSimilarity;
-        matchAttempts.fuzzyMatch = `Match by fuzzy name (${bestSimilarity.toFixed(2)})`;
-      } else {
-        matchAttempts.fuzzyMatch = 'No fuzzy name match';
-      }
-    }
+    //~ unmatched features keep their kml-matched / onemap-geocoded coords instead of prev fuzzy char-bag matching
     
     //~ match found, create merged feature w best frm both srcs
     if (matchedMapFeature) {
@@ -865,13 +946,13 @@ async function combineData() {
       const mapKey = matchedMapFeature.geometry?.coordinates?.join(',') || `map-${mapProps.name || mapProps.Name || ''}`;
       mapsKeys.add(mapKey); //~ mark as used
       
-      //~ create merged feature w best frm both srcs
+      //~ prefer the community's own kml pin geometry, fall back to the sheet's geocoded coords
       const mergedFeature = {
         type: 'Feature',
         geometry: matchedMapFeature.geometry || sheetFeature.geometry,
         properties: {
           ...sheetProps,
-          region: mapProps.region || sheetProps.region || 'Unknown',
+          region: mapProps.region && mapProps.region !== 'Unknown' ? mapProps.region : (sheetProps.region || 'Unknown'),
           ...Object.keys(mapProps)
             .filter(k => !['name', 'Name', 'address', 'Address', 'id', 'source'].includes(k) && 
                       !sheetProps.hasOwnProperty(k))
@@ -946,6 +1027,16 @@ async function combineData() {
       props.Name = props.name;
     } else if (props.Name && !props.name) {
       props.name = props.Name;
+    }
+
+    //~ region: normalize casing frm the source ('NORTH-EAST' -> 'North-East'), & only whn the
+    //~ source provides no region at all, derive it deterministically frm the real coords
+    const normalizedRegion = normalizeRegionName(props.region);
+    if (normalizedRegion) {
+      props.region = normalizedRegion;
+    } else {
+      const [lng, lat] = feature.geometry?.coordinates || [];
+      props.region = regionFromCoords(lng, lat) || 'Unknown';
     }
   });
 
