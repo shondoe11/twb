@@ -94,6 +94,22 @@ describe('geoJSONToLocations', () => {
     expect(locations).toHaveLength(1);
   });
 
+  it('merges male + female tab duplicates into one location w both type tags', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Dual Mall', 'MALE TOILETS', [103.83, 1.3], { remarks: 'level 1' }),
+        makeSheetFeature('Dual Mall', 'FEMALE TOILETS', [103.83, 1.3], { remarks: 'unisex toilet at level 2' }),
+      ])
+    );
+
+    expect(locations).toHaveLength(1);
+    expect(locations[0].types).toContain('Male');
+    expect(locations[0].types).toContain('Female');
+    //~ 2nd row's remarks are kept & its amenity flags OR'd in
+    expect(locations[0].sheetsRemarks).toContain('unisex toilet at level 2');
+    expect(locations[0].amenities.unisex).toBe(true);
+  });
+
   it('derives wheelchair access frm handicap keywords in remarks', () => {
     const locations = geoJSONToLocations(
       makeGeoJSON([
@@ -106,6 +122,20 @@ describe('geoJSONToLocations', () => {
     expect(locations[0].amenities.wheelchairAccess).toBe(true);
     expect(locations[1].amenities.wheelchairAccess).toBe(true);
     expect(locations[2].amenities.wheelchairAccess).toBe(false);
+  });
+
+  it('does nt flag wheelchair access frm negative handicap mentions', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Unknown Mall', 'MALE TOILETS', [103.83, 1.3], { remarks: 'Male: yes<br>Handicap: unknown' }),
+        makeSheetFeature('No Mall', 'MALE TOILETS', [103.84, 1.31], { remarks: 'Handicap: No' }),
+        makeSheetFeature('Yes Mall', 'MALE TOILETS', [103.85, 1.32], { remarks: 'Handicap: Yes near entrance' }),
+      ])
+    );
+
+    expect(locations[0].amenities.wheelchairAccess).toBe(false);
+    expect(locations[1].amenities.wheelchairAccess).toBe(false);
+    expect(locations[2].amenities.wheelchairAccess).toBe(true);
   });
 
   it('derives baby changing frm baby/nursing keywords in remarks', () => {

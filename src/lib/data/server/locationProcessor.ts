@@ -57,6 +57,8 @@ function normalizeLocationName(name: string): string {
 //& keyword patterns fr deriving amenities frm free-text remarks - the source sheets
 //& hav no structured amenity columns, only the Remarks column hints at these
 const WHEELCHAIR_PATTERN = /handicap|wheelchair|disabled|accessib/;
+//~ 'handicap: no/unknown' mentions frm kml srce are negative signals - strip them before keyword matching
+const NEGATIVE_HANDICAP_PATTERN = /handicap\s*[:;]?\s*(no|unknown|null)\b/g;
 const BABY_CHANGING_PATTERN = /baby|nursing|diaper/;
 const UNISEX_PATTERN = /unisex/;
 const ALL_CUBICLES_PATTERN = /all (?:the )?(?:cubicles|toilets|stalls)|every (?:cubicle|stall)/;
@@ -90,11 +92,52 @@ function deriveAmenities(properties: Record<string, unknown>): ToiletLocation['a
   
   const text = texts.join(' ').toLowerCase();
   
+  //~ 87 features carried 'handicap: unknown' / 'handicap: no' text which falsely flagged wheelchair access
+  const wheelchairText = text.replace(NEGATIVE_HANDICAP_PATTERN, '');
+  
   return {
-    wheelchairAccess: WHEELCHAIR_PATTERN.test(text),
+    wheelchairAccess: WHEELCHAIR_PATTERN.test(wheelchairText),
     babyChanging: BABY_CHANGING_PATTERN.test(text),
     unisex: UNISEX_PATTERN.test(text),
     bidetInAllCubicles: ALL_CUBICLES_PATTERN.test(text)
+  };
+}
+
+/**
+ * & merge a duplicate sheet row into an existing location - 177 venues appear in both the
+ * & MALE & FEMALE tabs & previously lost their 2nd gender tag + distinct remarks to dedup
+ */
+function mergeDuplicateSheetRow(existing: ToiletLocation, properties: Record<string, unknown>): void {
+  //~ union facility types frm the duplicate row's source tab
+  if (typeof properties.sourceTab === 'string') {
+    const sourceTab = properties.sourceTab.toLowerCase();
+    const types = new Set(existing.types ?? []);
+    //~ check 'female' before 'male' - 'female'.includes('male') is true
+    if (sourceTab.includes('female')) {
+      types.add('Female');
+    } else if (sourceTab.includes('male')) {
+      types.add('Male');
+    }
+    if (sourceTab.includes('hotel')) {
+      types.add('Hotel');
+    }
+    types.delete('Other');
+    existing.types = Array.from(types);
+  }
+  
+  //~ append distinct remarks so 2nd row's free text isn't lost
+  const remarks = typeof properties.remarks === 'string' ? properties.remarks.trim() : '';
+  if (remarks && !(existing.sheetsRemarks ?? '').includes(remarks)) {
+    existing.sheetsRemarks = existing.sheetsRemarks ? `${existing.sheetsRemarks}\n${remarks}` : remarks;
+  }
+  
+  //~ OR amenity flags derived frm duplicate's text
+  const dupAmenities = deriveAmenities(properties);
+  existing.amenities = {
+    wheelchairAccess: existing.amenities.wheelchairAccess || dupAmenities.wheelchairAccess,
+    babyChanging: existing.amenities.babyChanging || dupAmenities.babyChanging,
+    unisex: existing.amenities.unisex || dupAmenities.unisex,
+    bidetInAllCubicles: existing.amenities.bidetInAllCubicles || dupAmenities.bidetInAllCubicles,
   };
 }
 
@@ -217,6 +260,8 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
   //~ final locations arr
   const uniqueLocations: ToiletLocation[] = [];
   const processedKeys = new Set<string>();
+  //~ key -> index into uniqueLocations so duplicate rows can merge instead of being dropped
+  const keyToIndex = new Map<string, number>();
   
   //~ process Google Sheets feats 1st (preferred src fr most data)
   sheetsFeatures.forEach(feature => {
@@ -227,8 +272,16 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     
     //~ unique key
     const locationKey = `${name}-${Number(lat).toFixed(6)},${Number(lng).toFixed(6)}`;
-    if (processedKeys.has(locationKey)) return;
+    if (processedKeys.has(locationKey)) {
+      //~ same venue frm another tab (eg male + female): merge its tags & remarks instead of dropping
+      const existingIndex = keyToIndex.get(locationKey);
+      if (existingIndex !== undefined) {
+        mergeDuplicateSheetRow(uniqueLocations[existingIndex], properties);
+      }
+      return;
+    }
     processedKeys.add(locationKey);
+    keyToIndex.set(locationKey, uniqueLocations.length);
     
     //~ safely extract props w type checking
     const safeId = typeof properties.id === 'string' ? 
