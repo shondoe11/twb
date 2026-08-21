@@ -36,7 +36,6 @@ export function filterLocations(
       wheelchairAccess?: boolean;
       babyChanging?: boolean;
       unisex?: boolean;
-      bidetInAllCubicles?: boolean;
     }
   }
 ): ToiletLocation[] {
@@ -67,10 +66,6 @@ export function filterLocations(
       }
       
       if (filters.amenities.unisex && !location.amenities?.unisex) {
-        return false;
-      }
-      
-      if (filters.amenities.bidetInAllCubicles && !location.amenities?.bidetInAllCubicles) {
         return false;
       }
     }

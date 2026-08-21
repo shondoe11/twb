@@ -13,16 +13,13 @@ const ListView = ({
   const [searchTerm, setSearchTerm] = useState('');
   
   //& sorting options
-  const [sortBy, setSortBy] = useState<'name' | 'region' | 'rating'>('name');
+  const [sortBy, setSortBy] = useState<'name' | 'region'>('name');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   
   //& gender filter
   const [genderFilter, setGenderFilter] = useState<'all' | 'male' | 'female' | 'any'>('all');
   
-  //& bidet filter
-  const [bidetFilter, setBidetFilter] = useState<boolean | null>(null);
-  
-  //& filter locations -> search term, gender, bidet
+  //& filter locations -> search term & gender
   const filteredLocations = locations.filter(location => {
     const searchLower = searchTerm.toLowerCase();
     
@@ -45,40 +42,13 @@ const ListView = ({
       }
     }
     
-    //~ bidet filters
-    let matchesBidet = true;
-    if (bidetFilter !== null) {
-      matchesBidet = location.hasBidet === bidetFilter;
-    }
-    
-    return matchesSearch && matchesGender && matchesBidet;
+    return matchesSearch && matchesGender;
   });
   
   //~ opening hrs formatter
   const formatOpeningHours = (hours?: string) => {
     if (!hours) return 'Hours not available';
     return hours;
-  };
-  
-  //~ render star rating
-  const renderRating = (rating?: number) => {
-    if (!rating) return null;
-    
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-    
-    return (
-      <div className="flex items-center">
-        {[...Array(fullStars)].map((_, i) => (
-          <span key={`star-${i}`} className="text-yellow-500 text-sm">★</span>
-        ))}
-        {hasHalfStar && <span className="text-yellow-500 text-sm">★</span>}
-        {[...Array(5 - fullStars - (hasHalfStar ? 1 : 0))].map((_, i) => (
-          <span key={`empty-${i}`} className="text-gray-300 dark:text-gray-600 text-sm">★</span>
-        ))}
-        <span className="ml-1 text-xs text-gray-700 dark:text-gray-300">{rating.toFixed(1)}</span>
-      </div>
-    );
   };
   
   //~ sorting logic
@@ -90,10 +60,6 @@ const ListView = ({
         comparison = (a.name || '').localeCompare(b.name || '');
       } else if (sortBy === 'region') {
         comparison = (a.region || '').localeCompare(b.region || '');
-      } else if (sortBy === 'rating') {
-        const ratingA = a.rating || 0;
-        const ratingB = b.rating || 0;
-        comparison = ratingA - ratingB;
       }
       
       return sortOrder === 'asc' ? comparison : -comparison;
@@ -101,7 +67,7 @@ const ListView = ({
   }, [filteredLocations, sortBy, sortOrder]);
   
   //~ toggle sort order
-  const toggleSort = (field: 'name' | 'region' | 'rating') => {
+  const toggleSort = (field: 'name' | 'region') => {
     if (sortBy === field) {
       setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
@@ -111,7 +77,7 @@ const ListView = ({
   };
   
   //~ render sort indicator arrow
-  const renderSortIndicator = (field: 'name' | 'region' | 'rating') => {
+  const renderSortIndicator = (field: 'name' | 'region') => {
     if (sortBy !== field) return null;
     return sortOrder === 'asc' ? ' ↑' : ' ↓';
   };
@@ -144,17 +110,11 @@ const ListView = ({
         >
           Region{renderSortIndicator('region')}
         </button>
-        <button 
-          onClick={() => toggleSort('rating')} 
-          className={`px-3 py-1 text-xs rounded-full ${sortBy === 'rating' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200'}`}
-        >
-          Rating{renderSortIndicator('rating')}
-        </button>
       </div>
 
-      {/* gender & bidet filters */}
+      {/* gender filters */}
       <div className="px-4 py-2 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700">
-        <div className="flex flex-wrap gap-2 mb-2">
+        <div className="flex flex-wrap gap-2">
           <span className="text-xs text-gray-500 dark:text-gray-400 self-center mr-1">Gender:</span>
           <button 
             onClick={() => setGenderFilter('all')} 
@@ -179,28 +139,6 @@ const ListView = ({
             className={`px-3 py-1 text-xs rounded-full ${genderFilter === 'any' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200'}`}
           >
             Gender-Neutral
-          </button>
-        </div>
-        
-        <div className="flex flex-wrap gap-2">
-          <span className="text-xs text-gray-500 dark:text-gray-400 self-center mr-1">Bidet:</span>
-          <button 
-            onClick={() => setBidetFilter(null)} 
-            className={`px-3 py-1 text-xs rounded-full ${bidetFilter === null ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200'}`}
-          >
-            Any
-          </button>
-          <button 
-            onClick={() => setBidetFilter(true)} 
-            className={`px-3 py-1 text-xs rounded-full ${bidetFilter === true ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200'}`}
-          >
-            Has Bidet
-          </button>
-          <button 
-            onClick={() => setBidetFilter(false)} 
-            className={`px-3 py-1 text-xs rounded-full ${bidetFilter === false ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200'}`}
-          >
-            No Bidet
           </button>
         </div>
       </div>
@@ -236,10 +174,7 @@ const ListView = ({
               
               {/* content */}
               <div className="flex-1">
-                <div className="flex justify-between items-start">
-                  <h3 className="font-medium">{location.name}</h3>
-                  {renderRating(location.rating)}
-                </div>
+                <h3 className="font-medium">{location.name}</h3>
                 
                 {/* //~ always show non-empty addresses even if same as location name */}
                 {location.address && location.address.trim() !== '' && (
@@ -259,9 +194,6 @@ const ListView = ({
                   <span className="text-xs text-gray-500 dark:text-gray-400">{location.region}</span>
                   
                   <div className="flex flex-wrap gap-1">
-                    {location.hasBidet && (
-                      <span className="text-xs px-2 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full">Bidet</span>
-                    )}
                     {location.amenities?.wheelchairAccess && (
                       <span className="text-xs px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full">♿</span>
                     )}

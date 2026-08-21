@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { ToiletLocation } from '@/lib/data/shared/types';
 import { fetchLocations, filterLocations } from '@/lib/data/client';
 import FilterBar from '../components/FilterBar';
@@ -14,7 +15,6 @@ interface FilterOptions {
     wheelchairAccess: boolean;
     babyChanging: boolean;
     unisex: boolean;
-    bidetInAllCubicles: boolean;
   };
 }
 
@@ -72,8 +72,7 @@ export default function Home() {
       amenities: {
         wheelchairAccess: filters.amenities.wheelchairAccess,
         babyChanging: filters.amenities.babyChanging,
-        unisex: filters.amenities.unisex,
-        bidetInAllCubicles: filters.amenities.bidetInAllCubicles
+        unisex: filters.amenities.unisex
       }
     });
     
@@ -90,7 +89,11 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <header className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="container mx-auto py-4 px-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400">TWB</h1>
+          <h1 className="text-2xl font-bold">
+            <Link href="/about" className="text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity" title="About TWB">
+              TWB
+            </Link>
+          </h1>
           <div className="flex items-center gap-4">
             {!isLoading && (
               <p className="text-xs text-gray-500 dark:text-gray-400">

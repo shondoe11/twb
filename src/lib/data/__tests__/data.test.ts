@@ -195,8 +195,5 @@ describe('filterLocations', () => {
 
     const unisex = filterLocations(locations, { amenities: { unisex: true } });
     expect(unisex.map(l => l.id)).toEqual(['3']);
-
-    const allCubicles = filterLocations(locations, { amenities: { bidetInAllCubicles: true } });
-    expect(allCubicles).toHaveLength(0);
   });
 });

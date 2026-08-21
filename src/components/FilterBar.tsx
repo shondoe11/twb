@@ -9,7 +9,6 @@ interface FilterOptions {
     wheelchairAccess: boolean;
     babyChanging: boolean;
     unisex: boolean;
-    bidetInAllCubicles: boolean;
   };
 }
 
@@ -28,8 +27,7 @@ const FilterBar = ({
     amenities: {
       wheelchairAccess: false,
       babyChanging: false,
-      unisex: false,
-      bidetInAllCubicles: false
+      unisex: false
     }
   });
 
@@ -112,8 +110,7 @@ const FilterBar = ({
       amenities: {
         wheelchairAccess: false,
         babyChanging: false,
-        unisex: false,
-        bidetInAllCubicles: false
+        unisex: false
       }
     });
   };
@@ -194,15 +191,6 @@ const FilterBar = ({
                 onChange={() => handleAmenityChange('unisex')}
               />
               Unisex
-            </label>
-            <label className="flex items-center text-sm text-gray-800 dark:text-gray-200 whitespace-nowrap">
-              <input 
-                type="checkbox" 
-                className="mr-1"
-                checked={filters.amenities.bidetInAllCubicles}
-                onChange={() => handleAmenityChange('bidetInAllCubicles')}
-              />
-              Bidet in All Cubicles
             </label>
           </div>
         </div>
