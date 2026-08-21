@@ -315,7 +315,7 @@
           ],
           "maps": []
         },
-        "description": "handicap and Male: yes, on 5th floor. Note this is the shopping mall wing not the polyclinic ",
+        "description": "handicap and Male: yes, on 5th floor. Note this is the shopping mall wing not the polyclinic",
         "Female": null,
         "Male": "yes",
         "Handicap": "Yes",
@@ -683,8 +683,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.913545814607,
-          1.33356916079672
+          103.9131181,
+          1.3332165
         ]
       },
       "properties": {
@@ -695,14 +695,19 @@
         "type": "male",
         "gender": "male",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "MALE TOILETS",
         "remarks": "",
         "sourceComments": {
           "sheets": [],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Male toilet has bidet!",
+        "Female": null,
+        "Male": null,
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "136 Bedok Reservoir Rd, Block 136, Singapore 470136",
         "Name": "Ali's Prata (Bedok)"
       }
@@ -959,8 +964,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.949467227075,
-          1.34082595500522
+          103.9495701,
+          1.3401915
         ]
       },
       "properties": {
@@ -971,7 +976,7 @@
         "type": "male",
         "gender": "male",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "MALE TOILETS",
         "remarks": "Handicap toilet only, level 2",
         "sourceComments": {
@@ -980,7 +985,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Go to CGH's Medical Centre Building. Accessible to public but you'll need to fill up a declaration form prior to entering. <br><br>Proceed up to level 2 and enter their NDCS Oral & Maxillofacial Surgery Clinic.<br><br>Walk past the counters and you'll see a handicap toilet on your right.",
+        "Female": null,
+        "Male": null,
+        "Handicap": "Yes",
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "2 Simei Street 3, Singapore 529889",
         "Name": "Changi General Hospital - Medical Centre Building @ NDCS Oral & Maxillofacial Surgery Clinic"
       }
@@ -1746,10 +1756,10 @@
           ],
           "maps": []
         },
-        "description": "Male: No<br>Female: Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens! ",
-        "Female": "Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens! ",
-        "Male": "No<br>Female: Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens! ",
-        "Handicap": "Yes<br><br>Toilet located near to the canteens! ",
+        "description": "Male: No<br>Female: Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens!",
+        "Female": "Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens!",
+        "Male": "No<br>Female: Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens!",
+        "Handicap": "Yes<br><br>Toilet located near to the canteens!",
         "matchType": "coordinates",
         "matchConfidence": 1,
         "Address": "1 Tampines Central 1, Singapore 529539",
@@ -1862,8 +1872,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.914145450611,
-          1.30200053040251
+          103.9128934,
+          1.3010559
         ]
       },
       "properties": {
@@ -1874,14 +1884,19 @@
         "type": "male",
         "gender": "male",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "MALE TOILETS",
         "remarks": "",
         "sourceComments": {
           "sheets": [],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Bidet at male's toilet!",
+        "Female": null,
+        "Male": "Yes",
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "1000 ECP, #01-01 Marine Cove, Singapore 449876",
         "Name": "The Coffee Bean & Tea Leaf @ East Coast Park"
       }
@@ -2514,9 +2529,9 @@
           ],
           "maps": []
         },
-        "description": "Male: Last cubicle (squatting) ",
+        "description": "Male: Last cubicle (squatting)",
         "Female": null,
-        "Male": "Last cubicle (squatting) ",
+        "Male": "Last cubicle (squatting)",
         "Handicap": null,
         "matchType": "coordinates",
         "matchConfidence": 1,
@@ -2658,7 +2673,7 @@
           ],
           "maps": []
         },
-        "description": "Post renovation - Bidet in handicap toilet, male handicap cubicle and female handicap cubicle  ",
+        "description": "Post renovation - Bidet in handicap toilet, male handicap cubicle and female handicap cubicle",
         "Female": "Yes",
         "Male": "Yes",
         "Handicap": "Yes",
@@ -3405,7 +3420,7 @@
           ],
           "maps": []
         },
-        "description": "Unisex toilet has a bidet. ",
+        "description": "Unisex toilet has a bidet.",
         "Female": null,
         "Male": null,
         "Handicap": null,
@@ -4116,7 +4131,7 @@
           ],
           "maps": []
         },
-        "description": "Handicap toilet with bidet. ",
+        "description": "Handicap toilet with bidet.",
         "Female": null,
         "Male": null,
         "Handicap": null,
@@ -4188,10 +4203,10 @@
           ],
           "maps": []
         },
-        "description": "Male: Yes<br>Female: Yes<br>Handicap: Yes<br><br>Accessible to public at lobby. ",
-        "Female": "Yes<br>Handicap: Yes<br><br>Accessible to public at lobby. ",
-        "Male": "Yes<br>Female: Yes<br>Handicap: Yes<br><br>Accessible to public at lobby. ",
-        "Handicap": "Yes<br><br>Accessible to public at lobby. ",
+        "description": "Male: Yes<br>Female: Yes<br>Handicap: Yes<br><br>Accessible to public at lobby.",
+        "Female": "Yes<br>Handicap: Yes<br><br>Accessible to public at lobby.",
+        "Male": "Yes<br>Female: Yes<br>Handicap: Yes<br><br>Accessible to public at lobby.",
+        "Handicap": "Yes<br><br>Accessible to public at lobby.",
         "matchType": "coordinates",
         "matchConfidence": 1,
         "Address": "1 Farrer Park Station Rd, Singapore 217562",
@@ -4311,8 +4326,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.845526123599,
-          1.28178385630118
+          103.8455601,
+          1.2817713
         ]
       },
       "properties": {
@@ -4323,7 +4338,7 @@
         "type": "male",
         "gender": "male",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "MALE TOILETS",
         "remarks": "Unisex toilet",
         "sourceComments": {
@@ -4332,7 +4347,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Unisex toilet!",
+        "Female": null,
+        "Male": null,
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "90 Club St, Singapore 069458",
         "Name": "Picanhas'"
       }
@@ -4769,8 +4789,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.85719484067,
-          1.29350362386495
+          103.8572447,
+          1.2936739
         ]
       },
       "properties": {
@@ -4781,7 +4801,7 @@
         "type": "male",
         "gender": "male",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "MALE TOILETS",
         "remarks": "- Level 3, last cubicle",
         "sourceComments": {
@@ -4790,7 +4810,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Male: Level 3, last cubicle<br><br>Female: <br>- Level 3, only 1 cubicle<br>- Level 4, outside the hall<br>- Level 4 inside the back of the halls (only a few cubicles)",
+        "Female": "<br>- Level 3",
+        "Male": "Level 3",
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "1 Raffles Blvd, Singapore 039593",
         "Name": "Suntec Singapore Convention & Exhibition Centre"
       }
@@ -5048,8 +5073,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.850992046671,
-          1.30823166858437
+          103.8509409,
+          1.3082084
         ]
       },
       "properties": {
@@ -5060,7 +5085,7 @@
         "type": "male",
         "gender": "male",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "MALE TOILETS",
         "remarks": "Unisex toilet, open to public",
         "sourceComments": {
@@ -5069,7 +5094,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Unisex toilet, open to public",
+        "Female": null,
+        "Male": null,
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "50 Race Course Rd, Singapore 218562",
         "Name": "Three's A Crowd - Little India"
       }
@@ -5136,10 +5166,10 @@
           ],
           "maps": []
         },
-        "description": "Male: Unknown<br>Female: Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors. ",
-        "Female": "Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors. ",
-        "Male": "Unknown<br>Female: Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors. ",
-        "Handicap": "Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors. ",
+        "description": "Male: Unknown<br>Female: Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors.",
+        "Female": "Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors.",
+        "Male": "Unknown<br>Female: Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors.",
+        "Handicap": "Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors.",
         "matchType": "coordinates",
         "matchConfidence": 1,
         "Address": "181 Orchard Rd, #01-01 to 04/23-25, Singapore 238896",
@@ -7601,7 +7631,7 @@
           ],
           "maps": []
         },
-        "description": "East wing (Near HSS) - Level 1, 3, 5 handicap toilet ",
+        "description": "East wing (Near HSS) - Level 1, 3, 5 handicap toilet",
         "Female": null,
         "Male": null,
         "Handicap": "Yes",
@@ -8103,7 +8133,7 @@
           ],
           "maps": []
         },
-        "description": "handicap and Male: yes, on 5th floor. Note this is the shopping mall wing not the polyclinic ",
+        "description": "handicap and Male: yes, on 5th floor. Note this is the shopping mall wing not the polyclinic",
         "Female": null,
         "Male": "yes",
         "Handicap": "Yes",
@@ -8888,8 +8918,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.949467227075,
-          1.34082595500522
+          103.9495701,
+          1.3401915
         ]
       },
       "properties": {
@@ -8900,7 +8930,7 @@
         "type": "female",
         "gender": "female",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "FEMALE TOILETS",
         "remarks": "Handicap toilet, level 2",
         "sourceComments": {
@@ -8909,7 +8939,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Go to CGH's Medical Centre Building. Accessible to public but you'll need to fill up a declaration form prior to entering. <br><br>Proceed up to level 2 and enter their NDCS Oral & Maxillofacial Surgery Clinic.<br><br>Walk past the counters and you'll see a handicap toilet on your right.",
+        "Female": null,
+        "Male": null,
+        "Handicap": "Yes",
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "2 Simei Street 3, Singapore 529889",
         "Name": "Changi General Hospital - Medical Centre Building @ NDCS Oral & Maxillofacial Surgery Clinic"
       }
@@ -9169,8 +9204,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.914145450611,
-          1.30200053040251
+          103.9128608,
+          1.3016963
         ]
       },
       "properties": {
@@ -9181,14 +9216,19 @@
         "type": "female",
         "gender": "female",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "FEMALE TOILETS",
         "remarks": "",
         "sourceComments": {
           "sheets": [],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown",
+        "Female": "Yes<br>Handicap: Unknown",
+        "Male": "Unknown<br>Female: Yes<br>Handicap: Unknown",
+        "Handicap": "Unknown",
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "1000 ECP, 01-05 Marine Cove, Singapore 44987",
         "Name": "East Coast - McDonald's Marine Cove"
       }
@@ -9198,8 +9238,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.914145450611,
-          1.30200053040251
+          103.9128934,
+          1.3010559
         ]
       },
       "properties": {
@@ -9210,7 +9250,7 @@
         "type": "female",
         "gender": "female",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "FEMALE TOILETS",
         "remarks": "Bidet at female toilet, handicap cubicle",
         "sourceComments": {
@@ -9219,7 +9259,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Bidet at male's toilet!",
+        "Female": null,
+        "Male": "Yes",
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "1000 ECP, #01-01 Marine Cove, Singapore 449876",
         "Name": "East Coast - The Coffee Bean & Tea Leaf's Marine Cove"
       }
@@ -9956,10 +10001,10 @@
           ],
           "maps": []
         },
-        "description": "Male: No<br>Female: Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens! ",
-        "Female": "Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens! ",
-        "Male": "No<br>Female: Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens! ",
-        "Handicap": "Yes<br><br>Toilet located near to the canteens! ",
+        "description": "Male: No<br>Female: Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens!",
+        "Female": "Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens!",
+        "Male": "No<br>Female: Yes<br>Handicap: Yes<br><br>Toilet located near to the canteens!",
+        "Handicap": "Yes<br><br>Toilet located near to the canteens!",
         "matchType": "coordinates",
         "matchConfidence": 1,
         "Address": "1 Tampines Central 1, Singapore 529539",
@@ -10226,10 +10271,10 @@
           ],
           "maps": []
         },
-        "description": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown<br><br>Toilets are nearby the closed vaccination centre. ",
-        "Female": "Yes<br>Handicap: Unknown<br><br>Toilets are nearby the closed vaccination centre. ",
-        "Male": "Unknown<br>Female: Yes<br>Handicap: Unknown<br><br>Toilets are nearby the closed vaccination centre. ",
-        "Handicap": "Unknown<br><br>Toilets are nearby the closed vaccination centre. ",
+        "description": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown<br><br>Toilets are nearby the closed vaccination centre.",
+        "Female": "Yes<br>Handicap: Unknown<br><br>Toilets are nearby the closed vaccination centre.",
+        "Male": "Unknown<br>Female: Yes<br>Handicap: Unknown<br><br>Toilets are nearby the closed vaccination centre.",
+        "Handicap": "Unknown<br><br>Toilets are nearby the closed vaccination centre.",
         "matchType": "coordinates",
         "matchConfidence": 1,
         "Address": "10 Airport Blvd., Terminal 4, Singapore 819665",
@@ -11140,7 +11185,7 @@
           ],
           "maps": []
         },
-        "description": "Post renovation - Bidet in handicap toilet, male handicap cubicle and female handicap cubicle  ",
+        "description": "Post renovation - Bidet in handicap toilet, male handicap cubicle and female handicap cubicle",
         "Female": "Yes",
         "Male": "Yes",
         "Handicap": "Yes",
@@ -12064,7 +12109,7 @@
           ],
           "maps": []
         },
-        "description": "Unisex toilet has a bidet. ",
+        "description": "Unisex toilet has a bidet.",
         "Female": null,
         "Male": null,
         "Handicap": null,
@@ -12185,8 +12230,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.862772815008,
-          1.30663469653195
+          103.8614386,
+          1.3089473
         ]
       },
       "properties": {
@@ -12197,7 +12242,7 @@
         "type": "female",
         "gender": "female",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "FEMALE TOILETS",
         "remarks": "2nd and 3rd level, all female cubicles",
         "sourceComments": {
@@ -12206,7 +12251,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "2nd and 3rd level, all female cubicles",
+        "Female": "Yes",
+        "Male": "Yes",
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "10 Kallang Rd, Singapore 208718",
         "Name": "ICA Immigration & Checkpoints Authority"
       }
@@ -12428,8 +12478,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.84681332162,
-          1.31049007429064
+          103.8468048,
+          1.3105564
         ]
       },
       "properties": {
@@ -12440,7 +12490,7 @@
         "type": "female",
         "gender": "female",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "FEMALE TOILETS",
         "remarks": "Level 1 Specialist Clinic C. The first cubicle on the right. \n\nbasement 1, near children’s emergency , near the vending machines area. ALL THREE CUBICLES",
         "sourceComments": {
@@ -12449,7 +12499,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Female: <br>- Specialist Clinic C level 1. The first cubicle on the right. <br>- basement 1, near children’s emergency , near the vending machines area. ALL THREE CUBICLES",
+        "Female": "<br>- Specialist Clinic C level 1. The first cubicle on the right. <br>- basement 1",
+        "Male": "Yes",
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "100 Bukit Timah Rd, Singapore 229899",
         "Name": "KKH - KK Women's and Children's Hospital"
       }
@@ -13183,7 +13238,7 @@
           ],
           "maps": []
         },
-        "description": "Handicap toilet with bidet. ",
+        "description": "Handicap toilet with bidet.",
         "Female": null,
         "Male": null,
         "Handicap": null,
@@ -13255,10 +13310,10 @@
           ],
           "maps": []
         },
-        "description": "Male: Yes<br>Female: Yes<br>Handicap: Yes<br><br>Accessible to public at lobby. ",
-        "Female": "Yes<br>Handicap: Yes<br><br>Accessible to public at lobby. ",
-        "Male": "Yes<br>Female: Yes<br>Handicap: Yes<br><br>Accessible to public at lobby. ",
-        "Handicap": "Yes<br><br>Accessible to public at lobby. ",
+        "description": "Male: Yes<br>Female: Yes<br>Handicap: Yes<br><br>Accessible to public at lobby.",
+        "Female": "Yes<br>Handicap: Yes<br><br>Accessible to public at lobby.",
+        "Male": "Yes<br>Female: Yes<br>Handicap: Yes<br><br>Accessible to public at lobby.",
+        "Handicap": "Yes<br><br>Accessible to public at lobby.",
         "matchType": "coordinates",
         "matchConfidence": 1,
         "Address": "1 Farrer Park Station Rd, Singapore 217562",
@@ -13589,8 +13644,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.845526123599,
-          1.28178385630118
+          103.8455601,
+          1.2817713
         ]
       },
       "properties": {
@@ -13601,7 +13656,7 @@
         "type": "female",
         "gender": "female",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "FEMALE TOILETS",
         "remarks": "Unisex toilet",
         "sourceComments": {
@@ -13610,7 +13665,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Unisex toilet!",
+        "Female": null,
+        "Male": null,
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "90 Club St, Singapore 069458",
         "Name": "Picanhas'"
       }
@@ -14016,8 +14076,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.85719484067,
-          1.29350362386495
+          103.8572447,
+          1.2936739
         ]
       },
       "properties": {
@@ -14028,7 +14088,7 @@
         "type": "female",
         "gender": "female",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "FEMALE TOILETS",
         "remarks": "- Level 3, only 1 cubicle\r\n- Level 4, outside the hall\r\n- Level 4 inside the back of the halls (only a few cubicles)",
         "sourceComments": {
@@ -14037,7 +14097,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Male: Level 3, last cubicle<br><br>Female: <br>- Level 3, only 1 cubicle<br>- Level 4, outside the hall<br>- Level 4 inside the back of the halls (only a few cubicles)",
+        "Female": "<br>- Level 3",
+        "Male": "Level 3",
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "1 Raffles Blvd, Singapore 039593",
         "Name": "Suntec Singapore Convention & Exhibition Centre"
       }
@@ -14542,8 +14607,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.850992046671,
-          1.30823166858437
+          103.8509409,
+          1.3082084
         ]
       },
       "properties": {
@@ -14554,7 +14619,7 @@
         "type": "female",
         "gender": "female",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "FEMALE TOILETS",
         "remarks": "Unisex toilet, open to public",
         "sourceComments": {
@@ -14563,7 +14628,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Unisex toilet, open to public",
+        "Female": null,
+        "Male": null,
+        "Handicap": null,
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "50 Race Course Rd, Singapore 218562",
         "Name": "Three's A Crowd - Little India"
       }
@@ -14630,10 +14700,10 @@
           ],
           "maps": []
         },
-        "description": "Male: Unknown<br>Female: Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors. ",
-        "Female": "Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors. ",
-        "Male": "Unknown<br>Female: Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors. ",
-        "Handicap": "Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors. ",
+        "description": "Male: Unknown<br>Female: Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors.",
+        "Female": "Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors.",
+        "Male": "Unknown<br>Female: Yes<br>Handicap: Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors.",
+        "Handicap": "Yes<br>The toilet is within Uniqlo Level 2. Make sure you aren't carrying any unpurchased items into the toilet with you as there are sensors.",
         "matchType": "coordinates",
         "matchConfidence": 1,
         "Address": "181 Orchard Rd, #01-01 to 04/23-25, Singapore 238896",
@@ -16274,8 +16344,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.745011766388,
-          1.38497459672379
+          103.7449142,
+          1.3851169
         ]
       },
       "properties": {
@@ -16286,7 +16356,7 @@
         "type": "female",
         "gender": "female",
         "hasBidet": true,
-        "source": "google-sheets",
+        "source": "merged",
         "sourceTab": "FEMALE TOILETS",
         "remarks": "level 5, last cubicle (elderly cubicle)",
         "sourceComments": {
@@ -16295,7 +16365,12 @@
           ],
           "maps": []
         },
-        "coordsSource": "onemap-geocode",
+        "description": "Male: Unknown<br>Female: Yes, level 5, last cubicle (elderly cubicle)<br>Handicap: Unknown",
+        "Female": "Yes",
+        "Male": "Unknown<br>Female: Yes",
+        "Handicap": "Unknown",
+        "matchType": "coordinates",
+        "matchConfidence": 1,
         "Address": "21 Choa Chu Kang Ave 4, Singapore 689812",
         "Name": "Lot One Shoppers' Mall"
       }
@@ -18047,7 +18122,7 @@
           ],
           "maps": []
         },
-        "description": "East wing (Near HSS) - Level 1, 3, 5 handicap toilet ",
+        "description": "East wing (Near HSS) - Level 1, 3, 5 handicap toilet",
         "Female": null,
         "Male": null,
         "Handicap": "Yes",
@@ -20273,7 +20348,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195150-604",
+        "id": "maps-1787293976628-781",
         "name": "Fernvale Community Club",
         "Name": "Fernvale Community Club",
         "description": "Female, male and handicap toilet with bidet!<br>With shower stalls too!",
@@ -20295,7 +20370,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195150-905",
+        "id": "maps-1787293976628-837",
         "name": "Sengkang General Hospital",
         "Name": "Sengkang General Hospital",
         "description": "Level 1 toilet near Anytime Fitness",
@@ -20317,9 +20392,9 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195150-606",
-        "name": "<![CDATA[The Midtown & Midtown Residences]]>",
-        "Name": "<![CDATA[The Midtown & Midtown Residences]]>",
+        "id": "maps-1787293976628-710",
+        "name": "The Midtown & Midtown Residences",
+        "Name": "The Midtown & Midtown Residences",
         "description": "Male: Unknown<br>Female: Unknown<br>Handicap: Yes",
         "Female": "Unknown<br>Handicap: Yes",
         "Male": "Unknown<br>Female: Unknown<br>Handicap: Yes",
@@ -20339,32 +20414,10 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195150-427",
+        "id": "maps-1787293976628-397",
         "name": "53 Ubi Ave 1",
         "Name": "53 Ubi Ave 1",
         "description": "Unisex toilet with bidet",
-        "Female": null,
-        "Male": null,
-        "Handicap": null,
-        "Address": null,
-        "region": "East",
-        "source": "google-maps"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          103.9131181,
-          1.3332165
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195150-137",
-        "name": "<![CDATA[Ali's Prata (BEDOK)]]>",
-        "Name": "<![CDATA[Ali's Prata (BEDOK)]]>",
-        "description": "Male toilet has bidet!",
         "Female": null,
         "Male": null,
         "Handicap": null,
@@ -20383,7 +20436,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195151-657",
+        "id": "maps-1787293976629-343",
         "name": "Audio House @ Ubi",
         "Name": "Audio House @ Ubi",
         "description": "female toilets: alll cubicles have bidets",
@@ -20405,7 +20458,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195151-70",
+        "id": "maps-1787293976629-316",
         "name": "Badoque",
         "Name": "Badoque",
         "description": "Unisex toilet.",
@@ -20427,7 +20480,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195151-925",
+        "id": "maps-1787293976629-811",
         "name": "Bedok North MRT Station (DT29)",
         "Name": "Bedok North MRT Station (DT29)",
         "description": "Male toilet - squatting with bidet",
@@ -20444,35 +20497,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.9495701,
-          1.3401915
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195151-573",
-        "name": "<![CDATA[Changi General Hospital - Medical Centre Building @ NDCS Oral & Maxillofacial Surgery Clinic ]]>",
-        "Name": "<![CDATA[Changi General Hospital - Medical Centre Building @ NDCS Oral & Maxillofacial Surgery Clinic ]]>",
-        "description": "Go to CGH's Medical Centre Building. Accessible to public but you'll need to fill up a declaration form prior to entering. <br><br>Proceed up to level 2 and enter their NDCS Oral & Maxillofacial Surgery Clinic.<br><br>Walk past the counters and you'll see a handicap toilet on your right. ",
-        "Female": null,
-        "Male": null,
-        "Handicap": "Yes",
-        "Address": "2 and enter their",
-        "region": "East",
-        "source": "google-maps",
-        "address": "2 and enter their"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           103.9879672,
           1.3585609
         ]
       },
       "properties": {
-        "id": "maps-1786931195151-353",
+        "id": "maps-1787293976630-853",
         "name": "Crowne Plaza Changi Airport by IHG",
         "Name": "Crowne Plaza Changi Airport by IHG",
         "description": "Male's: Level 2 (above lobby). Only 1 cubicle of 3 has bidets",
@@ -20489,56 +20519,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.9128608,
-          1.3016963
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195151-383",
-        "name": "<![CDATA[East Coast - McDonald's Marine Cove]]>",
-        "Name": "<![CDATA[East Coast - McDonald's Marine Cove]]>",
-        "description": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown",
-        "Female": "Yes<br>Handicap: Unknown",
-        "Male": "Unknown<br>Female: Yes<br>Handicap: Unknown",
-        "Handicap": "Unknown",
-        "Address": null,
-        "region": "East",
-        "source": "google-maps"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          103.9128934,
-          1.3010559
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195151-398",
-        "name": "<![CDATA[East Coast - The Coffee Bean & Tea Leaf's Marine Cove]]>",
-        "Name": "<![CDATA[East Coast - The Coffee Bean & Tea Leaf's Marine Cove]]>",
-        "description": "Bidet at female toilet, handicap cubicle",
-        "Female": "Yes",
-        "Male": "Yes",
-        "Handicap": "Yes",
-        "Address": null,
-        "region": "East",
-        "source": "google-maps"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           103.8982767,
           1.3167284
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-680",
+        "id": "maps-1787293976630-242",
         "name": "Geylang Serai Market and Food Centre",
         "Name": "Geylang Serai Market and Food Centre",
         "description": "Level 2, female toilet",
@@ -20560,7 +20546,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-841",
+        "id": "maps-1787293976630-819",
         "name": "HQ SCDF",
         "Name": "HQ SCDF",
         "description": "Bidet on all floors!",
@@ -20582,7 +20568,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-244",
+        "id": "maps-1787293976630-625",
         "name": "Jewel - Shaw Theatres",
         "Name": "Jewel - Shaw Theatres",
         "description": "Bidet beside the ticket counter and bidet available past the ticketed area!",
@@ -20604,7 +20590,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-152",
+        "id": "maps-1787293976630-790",
         "name": "Morf",
         "Name": "Morf",
         "description": "All women's fitness studio with bidet",
@@ -20626,7 +20612,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-541",
+        "id": "maps-1787293976630-620",
         "name": "Pasir Ris Mall",
         "Name": "Pasir Ris Mall",
         "description": "Female toilet at level 1, level 5<br>Male toilet at level 1, level 2",
@@ -20648,7 +20634,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-254",
+        "id": "maps-1787293976630-769",
         "name": "PLQ - Shaw Theatres",
         "Name": "PLQ - Shaw Theatres",
         "description": "Male; Yes<br>Female: yes<br>Handicap: unknown<br><br>**ONLY FOR MOVIE GOERS**",
@@ -20670,7 +20656,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-159",
+        "id": "maps-1787293976630-352",
         "name": "Siglap Community Club",
         "Name": "Siglap Community Club",
         "description": "Male: Yes, but only at the handicap cubicle",
@@ -20692,7 +20678,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-138",
+        "id": "maps-1787293976630-679",
         "name": "Tampines East CC",
         "Name": "Tampines East CC",
         "description": "Male: Unknown<br>Female: Yes<br>Handicap: Yes<br><br>Accessible through side staircase behind MacDonald's. Can't go through MacDonald it self as back entrance is closed because of COVID",
@@ -20714,7 +20700,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-684",
+        "id": "maps-1787293976630-862",
         "name": "Tampines West CC",
         "Name": "Tampines West CC",
         "description": "Male: Unknown<br>Female: Yes<br>Handicap: Unknown",
@@ -20731,34 +20717,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.9128934,
-          1.3010559
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195152-211",
-        "name": "<![CDATA[The Coffee Bean & Tea Leaf @ East Coast Park]]>",
-        "Name": "<![CDATA[The Coffee Bean & Tea Leaf @ East Coast Park]]>",
-        "description": "Bidet at male's toilet!",
-        "Female": null,
-        "Male": "Yes",
-        "Handicap": null,
-        "Address": null,
-        "region": "East",
-        "source": "google-maps"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           103.8965689,
           1.3164938
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-668",
+        "id": "maps-1787293976631-148",
         "name": "Wisma Geylang Serai",
         "Name": "Wisma Geylang Serai",
         "description": "Male and female toilet with bidet on every floor",
@@ -20780,7 +20744,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-662",
+        "id": "maps-1787293976631-601",
         "name": "Asian Civilisations Museum",
         "Name": "Asian Civilisations Museum",
         "description": "Male: Unknown<br>Female: Yes, at Basement (elderly cubicle) and level 2 near River Room<br>Handicap: Unknown",
@@ -20802,7 +20766,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-313",
+        "id": "maps-1787293976631-855",
         "name": "Bayfront Pavilion",
         "Name": "Bayfront Pavilion",
         "description": "Male: yes, both stalls",
@@ -20824,7 +20788,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-520",
+        "id": "maps-1787293976631-477",
         "name": "Capitol Singapore",
         "Name": "Capitol Singapore",
         "description": "Male: Unknown<br>Female; yes, at last cubicle",
@@ -20846,7 +20810,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-236",
+        "id": "maps-1787293976631-236",
         "name": "CT Hub 2",
         "Name": "CT Hub 2",
         "description": "Male toilet at level 2, only 3/4 cubicles have bidets",
@@ -20869,7 +20833,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-892",
+        "id": "maps-1787293976631-191",
         "name": "Epic Haus Coffeeshop @ Upp Aljunied Road",
         "Name": "Epic Haus Coffeeshop @ Upp Aljunied Road",
         "description": "",
@@ -20886,35 +20850,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.8614386,
-          1.3089473
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195152-346",
-        "name": "<![CDATA[ICA Immigration & Checkpoints Authority]]>",
-        "Name": "<![CDATA[ICA Immigration & Checkpoints Authority]]>",
-        "description": "2nd and 3rd level, all female cubicles",
-        "Female": "Yes",
-        "Male": "Yes",
-        "Handicap": null,
-        "Address": "2nd and 3rd level",
-        "region": "Central",
-        "source": "google-maps",
-        "address": "2nd and 3rd level"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           103.8419111,
           1.2797961
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-38",
+        "id": "maps-1787293976632-95",
         "name": "Kafe Utu",
         "Name": "Kafe Utu",
         "description": "Unisex toilet with bidet at 2nd floor",
@@ -20931,34 +20872,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.8468048,
-          1.3105564
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195152-183",
-        "name": "<![CDATA[KKH - KK Women's and Children's Hospital]]>",
-        "Name": "<![CDATA[KKH - KK Women's and Children's Hospital]]>",
-        "description": "Female: <br>- Specialist Clinic C level 1. The first cubicle on the right. <br>- basement 1, near children’s emergency , near the vending machines area. ALL THREE CUBICLES",
-        "Female": "<br>- Specialist Clinic C level 1. The first cubicle on the right. <br>- basement 1",
-        "Male": "Yes",
-        "Handicap": null,
-        "Address": null,
-        "region": "Central",
-        "source": "google-maps"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           103.8591065,
           1.2837575
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-12",
+        "id": "maps-1787293976632-619",
         "name": "Marina Bay Sands Singapore",
         "Name": "Marina Bay Sands Singapore",
         "description": "handicap toilet, B2",
@@ -20980,7 +20899,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-457",
+        "id": "maps-1787293976632-144",
         "name": "Mustafa Centre",
         "Name": "Mustafa Centre",
         "description": "B1: Female with bidet",
@@ -21002,7 +20921,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-417",
+        "id": "maps-1787293976632-230",
         "name": "National Stadium",
         "Name": "National Stadium",
         "description": "**after ticketed area**<br>female's: elderly cubicle have bidet",
@@ -21024,7 +20943,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-398",
+        "id": "maps-1787293976632-783",
         "name": "Nitty Gritty: American-Singaporean Soul Food",
         "Name": "Nitty Gritty: American-Singaporean Soul Food",
         "description": "Unisex toilet",
@@ -21046,32 +20965,10 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-841",
-        "name": "<![CDATA[OG People's Park]]>",
-        "Name": "<![CDATA[OG People's Park]]>",
+        "id": "maps-1787293976632-54",
+        "name": "OG People's Park",
+        "Name": "OG People's Park",
         "description": "Male toilet, level 3",
-        "Female": null,
-        "Male": null,
-        "Handicap": null,
-        "Address": null,
-        "region": "Central",
-        "source": "google-maps"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          103.8455601,
-          1.2817713
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195152-509",
-        "name": "<![CDATA[Picanhas']]>",
-        "Name": "<![CDATA[Picanhas']]>",
-        "description": "Unisex toilet!",
         "Female": null,
         "Male": null,
         "Handicap": null,
@@ -21090,7 +20987,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-267",
+        "id": "maps-1787293976632-483",
         "name": "Pullman Singapore Orchard",
         "Name": "Pullman Singapore Orchard",
         "description": "level 4 public toilet - last two cubicles in the ladies toilet have bidet",
@@ -21107,34 +21004,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.8572447,
-          1.2936739
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195152-625",
-        "name": "<![CDATA[Suntec Singapore Convention & Exhibition Centre]]>",
-        "Name": "<![CDATA[Suntec Singapore Convention & Exhibition Centre]]>",
-        "description": "Male: Level 3, last cubicle<br><br>Female: <br>- Level 3, only 1 cubicle<br>- Level 4, outside the hall<br>- Level 4 inside the back of the halls (only a few cubicles)",
-        "Female": "<br>- Level 3",
-        "Male": "Level 3",
-        "Handicap": null,
-        "Address": null,
-        "region": "Central",
-        "source": "google-maps"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           103.8451658,
           1.2767709
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-383",
+        "id": "maps-1787293976633-310",
         "name": "Tanjong Pagar MRT Station (EW15)",
         "Name": "Tanjong Pagar MRT Station (EW15)",
         "description": "Go up the escalator towards exit B.  After the first escalator, turn right.<br><br>Female toilet, first cubicle have bidet<br>Handicap toilet have bidet",
@@ -21151,34 +21026,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.8509409,
-          1.3082084
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195152-888",
-        "name": "<![CDATA[Three's A Crowd - Little India]]>",
-        "Name": "<![CDATA[Three's A Crowd - Little India]]>",
-        "description": "Unisex toilet, open to public",
-        "Female": null,
-        "Male": null,
-        "Handicap": null,
-        "Address": null,
-        "region": "Central",
-        "source": "google-maps"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           103.8192602,
           1.2647747
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-771",
+        "id": "maps-1787293976633-346",
         "name": "HarbourFront Tower One",
         "Name": "HarbourFront Tower One",
         "description": "at ticketing booth for the cable car, male public toilet behind Anytime Fitness back entrance",
@@ -21200,7 +21053,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-167",
+        "id": "maps-1787293976633-776",
         "name": "Bukit Gombak ActiveSG",
         "Name": "Bukit Gombak ActiveSG",
         "description": "Unisex handicap toilets at Level 2 has bidets.",
@@ -21222,7 +21075,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195152-1",
+        "id": "maps-1787293976633-577",
         "name": "Bukit Panjang Hawker Centre and Market",
         "Name": "Bukit Panjang Hawker Centre and Market",
         "description": "Male: Unknown<br>Female: Yes, Level 2<br>Handicap: unknown",
@@ -21244,7 +21097,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195153-113",
+        "id": "maps-1787293976634-451",
         "name": "Jurong Fishery Port",
         "Name": "Jurong Fishery Port",
         "description": "Female toilet",
@@ -21261,34 +21114,12 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          103.7449142,
-          1.3851169
-        ]
-      },
-      "properties": {
-        "id": "maps-1786931195153-387",
-        "name": "<![CDATA[Lot One Shoppers' Mall]]>",
-        "Name": "<![CDATA[Lot One Shoppers' Mall]]>",
-        "description": "Male: Unknown<br>Female: Yes, level 5, last cubicle (elderly cubicle)<br>Handicap: Unknown",
-        "Female": "Yes",
-        "Male": "Unknown<br>Female: Yes",
-        "Handicap": "Unknown",
-        "Address": null,
-        "region": "West",
-        "source": "google-maps"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           103.7910226,
           1.3021869
         ]
       },
       "properties": {
-        "id": "maps-1786931195153-791",
+        "id": "maps-1787293976634-304",
         "name": "one north park: Biopolis",
         "Name": "one north park: Biopolis",
         "description": "2 handicap toilets with bidets",
@@ -21310,10 +21141,10 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195153-613",
+        "id": "maps-1787293976634-503",
         "name": "NUH (National University Hospital)",
         "Name": "NUH (National University Hospital)",
-        "description": "NUH Main building: Go to Level 3 of the main building, within NUH Heart Clinic, there is a unisex toilet with a built in bidet. Accessible to visitors.<br><br>NUH Medical Centre: Level 4 male toilet. 1 of the 2 cubicles within has a built in bidet/washlet.  ",
+        "description": "NUH Main building: Go to Level 3 of the main building, within NUH Heart Clinic, there is a unisex toilet with a built in bidet. Accessible to visitors.<br><br>NUH Medical Centre: Level 4 male toilet. 1 of the 2 cubicles within has a built in bidet/washlet.",
         "Female": null,
         "Male": "Yes",
         "Handicap": null,
@@ -21332,7 +21163,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195153-815",
+        "id": "maps-1787293976634-241",
         "name": "Shell Bukit Timah",
         "Name": "Shell Bukit Timah",
         "description": "Male: Yes<br>Female: Unknown<br>Handicap: Unknown",
@@ -21354,7 +21185,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195153-466",
+        "id": "maps-1787293976634-467",
         "name": "Tuas Link MRT Station (EW33)",
         "Name": "Tuas Link MRT Station (EW33)",
         "description": "Male: unknown<br>Female: Yes, at cubicle 3 & 4<br>handicap: unknown",
@@ -21376,7 +21207,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195153-914",
+        "id": "maps-1787293976636-961",
         "name": "NTU - Alumni Club",
         "Name": "NTU - Alumni Club",
         "description": "Swimming pool toilet - female's",
@@ -21398,7 +21229,7 @@
         ]
       },
       "properties": {
-        "id": "maps-1786931195153-33",
+        "id": "maps-1787293976637-387",
         "name": "SIM Global Education Block B",
         "Name": "SIM Global Education Block B",
         "description": "SIM Block B, Female: squatting only",

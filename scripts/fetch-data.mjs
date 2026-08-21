@@ -350,6 +350,13 @@ async function fetchMapsData() {
     const regex = /<Placemark>([\s\S]*?)<\/Placemark>/g;
     let match;
 
+    //~ google my maps wraps <name>/<description> values in cdata - strip it here so raw '<![CDATA[...]]>' never leaks into output
+    const stripCdata = (text) => {
+      if (!text) return '';
+      const cdataMatch = /<!\[CDATA\[([\s\S]*?)\]\]>/i.exec(text);
+      return (cdataMatch ? cdataMatch[1] : text).trim();
+    };
+
     //? debugging: 1st part of KML-> see tag structure
     const kmlPreview = kmlText.substring(0, 500);
     console.log(`\ud83d\udcd1 KML preview: ${kmlPreview}`);
@@ -363,25 +370,18 @@ async function fetchMapsData() {
       const nMatch = /<n>(.*?)<\/n>/i.exec(placemark);
 
       if (nameMatch) {
-        name = nameMatch[1].trim();
+        name = stripCdata(nameMatch[1]);
         console.log(`Found <name> tag: ${name}`);
       } else if (nMatch) {
-        name = nMatch[1].trim();
+        name = stripCdata(nMatch[1]);
         console.log(`Found <n> tag: ${name}`);
       } else {
         console.log('No name found in placemark');
       }
 
-      //~ extract description
+      //~ extract description (CDATA alr stripped)
       const descMatch = /<description>(.*?)<\/description>/i.exec(placemark);
-      let description = descMatch ? descMatch[1] : '';
-
-      //~ extract CDATA content if present
-      const cdataMatch = /<!\[CDATA\[(.*?)\]\]>/i.exec(description);
-      if (cdataMatch) {
-        description = cdataMatch[1];
-        console.log('Extracted CDATA content from description');
-      }
+      const description = stripCdata(descMatch ? descMatch[1] : '');
 
       //~ extract coords
       const coordsMatch = /<coordinates>([\s\S]*?)<\/coordinates>/i.exec(placemark);
@@ -412,7 +412,7 @@ async function fetchMapsData() {
     const folderRegex = /<Folder>[\s\S]*?<(name|n)>(.*?)<\/(name|n)>([\s\S]*?)<\/Folder>/g;
 
     while ((match = folderRegex.exec(kmlText)) !== null) {
-      const regionName = match[2].trim();
+      const regionName = stripCdata(match[2]);
       const folderContent = match[4];
       const placemarkRegex = /<Placemark>([\s\S]*?)<\/Placemark>/g;
       let placemarkMatch;
@@ -421,7 +421,7 @@ async function fetchMapsData() {
         //~ use proper tag pattern for this KML format - try both <name> and <n> tags
         const nameMatch = /<(name|n)>(.*?)<\/(name|n)>/i.exec(placemarkMatch[1]);
         if (nameMatch) {
-          const name = nameMatch[2].trim();
+          const name = stripCdata(nameMatch[2]);
           for (const placemark of placemarks) {
             if (placemark.name === name) {
               placemark.region = regionName;
