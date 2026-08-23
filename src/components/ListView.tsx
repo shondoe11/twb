@@ -30,15 +30,15 @@ const ListView = ({
       (location.region?.toLowerCase() || '').includes(searchLower)
     );
     
-    //~ gender filters
+    //~ gender filters - check types arr too: venues in both male & female sheet tabs carry both tags
     let matchesGender = true;
     if (genderFilter !== 'all') {
       if (genderFilter === 'male') {
-        matchesGender = location.gender === 'male';
+        matchesGender = location.gender === 'male' || (location.types?.includes('Male') ?? false);
       } else if (genderFilter === 'female') {
-        matchesGender = location.gender === 'female';
+        matchesGender = location.gender === 'female' || (location.types?.includes('Female') ?? false);
       } else if (genderFilter === 'any') {
-        matchesGender = !location.gender || location.gender === 'any';
+        matchesGender = !location.gender || location.gender === 'any' || (location.amenities?.unisex ?? false);
       }
     }
     
