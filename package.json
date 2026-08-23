@@ -9,10 +9,10 @@
     "start": "next start",
     "lint": "next lint",
     "test": "vitest run",
-    "sync-data": "node scripts/fetch-data.mjs",
-    "postbuild": "npm run sync-data"
+    "sync-data": "node scripts/fetch-data.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.112.3",
     "@vis.gl/react-maplibre": "^8.1.2",
     "maplibre-gl": "^5.24.0",
     "next": "^15.5.23",
