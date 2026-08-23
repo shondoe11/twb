@@ -42,6 +42,17 @@ const SHEETS_CACHE = path.join(CACHE_DIR, 'sheets.json');
 const COMBINED_OUTPUT = path.join(DATA_DIR, 'combined.geojson');
 const GEOCODE_CACHE = path.join(CACHE_DIR, 'geocode.json');
 
+//& deterministic id hash - module scope so both sheets & maps features get stable ids across re-runs
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; //~ convert 32bit int
+  }
+  return hash;
+}
+
 //& ensure directories exist
 async function setupDirectories() {
   try {
@@ -219,17 +230,6 @@ function sheetsToGeoJSON(records) {
   });
 
   console.log(`After processing: ${processedRecords.length} valid records with a name`);
-
-  //& deterministic IDs based on name & address
-  function hashCode(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      const char = str.charCodeAt(i);
-      hash = ((hash << 5) - hash) + char;
-      hash = hash & hash; //~ convert 32bit int
-    }
-    return hash;
-  }
 
   //~ convert GeoJSON feats
   const features = processedRecords.map(record => {
@@ -442,7 +442,8 @@ async function fetchMapsData() {
           coordinates: [placemark.lng, placemark.lat]
         },
         properties: {
-          id: `maps-${Date.now()}-${Math.floor(Math.random() * 1000)}`,
+          //~ deterministic id (was Date.now()+random which broke across re-runs & would orphan community remarks)
+          id: `maps-${Math.abs(hashCode(`${nameValue}${placemark.lng},${placemark.lat}`)).toString(16).substring(0, 8)}`,
           name: nameValue,
           Name: nameValue,
           description: placemark.description,
