@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { Map as MapGL, Source, Layer, Popup, NavigationControl } from '@vis.gl/react-maplibre';
-import type { MapRef, LayerProps } from '@vis.gl/react-maplibre';
+import { Map as MapGL, Source, Layer, Popup, NavigationControl, useControl } from '@vis.gl/react-maplibre';
+import type { MapRef, LayerProps, ControlPosition } from '@vis.gl/react-maplibre';
+import { GeolocateControl as MaplibreGeolocateControl } from 'maplibre-gl';
 import type { MapLayerMouseEvent, GeoJSONSource } from 'maplibre-gl';
 import { ToiletLocation } from '@/lib/data/shared/types';
 import { useIsDark } from './ThemeToggle';
@@ -60,6 +61,40 @@ const unclusteredPointLayer: LayerProps = {
   },
 };
 
+interface SafeGeolocateProps {
+  position?: ControlPosition;
+  positionOptions?: PositionOptions;
+  trackUserLocation?: boolean;
+  showUserLocation?: boolean;
+  showAccuracyCircle?: boolean;
+  onGeolocate?: () => void;
+  onError?: (err: GeolocationPositionError) => void;
+}
+
+//~ strict-mode-safe geolocate control: react strict mode mounts controls twice (add->remove->re-add) & maplibre's async _finishSetupUI then binds the click->trigger() listener twice - w trackUserLocation, trigger() is a toggle,so every click started tracking & instantly cancelled it. guarding _finishSetupUI ensures a single binding.
+const SafeGeolocateControl = ({ position, onGeolocate, onError, ...options }: SafeGeolocateProps) => {
+  const handlersRef = useRef({ onGeolocate, onError });
+  handlersRef.current = { onGeolocate, onError };
+
+  useControl(() => {
+    const gc = new MaplibreGeolocateControl(options);
+    type PatchableGeolocate = MaplibreGeolocateControl & {
+      _setup?: boolean;
+      _finishSetupUI: (supported?: boolean) => void;
+    };
+    const patchable = gc as PatchableGeolocate;
+    const finishSetupUI = patchable._finishSetupUI;
+    patchable._finishSetupUI = (supported?: boolean) => {
+      if (!patchable._setup) finishSetupUI(supported);
+    };
+    gc.on('geolocate', () => handlersRef.current.onGeolocate?.());
+    gc.on('error', (err: GeolocationPositionError) => handlersRef.current.onError?.(err));
+    return gc;
+  }, { position });
+
+  return null;
+};
+
 const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   const mapRef = useRef<MapRef>(null);
   
@@ -68,6 +103,9 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   
   //~ pointer cursor whn hovering clusters/points
   const [cursor, setCursor] = useState<string>('');
+  
+  //~ surfaced whn the browser's geolocation lookup fails - maplibre swallows these errors silently otherwise
+  const [geoError, setGeoError] = useState<string | null>(null);
   
   //~ map basemap follows the app theme via the shared useIsDark hook
   const isDark = useIsDark();
@@ -489,7 +527,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   }, [renderRating, getFilteredMapsComments, getFilteredSheetsComments]);
   
   return (
-    //! min-h keeps the webgl canvas visible on mobile where the grid row has no fixed height
+    //~ min-h keeps the webgl canvas visible on mobile where the grid row has no fixed height
     <div className="h-full w-full min-h-[50vh] relative rounded-lg overflow-hidden">
       <MapGL
         ref={mapRef}
@@ -503,6 +541,39 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         cursor={cursor}
       >
         <NavigationControl position="top-right" showCompass={false} />
+        
+        {/* live location: browser asks fr permission on 1st click, then flies to & tracks the user's pin (needs https / localhost) */}
+        <SafeGeolocateControl
+          position="top-right"
+          positionOptions={{ enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }}
+          trackUserLocation
+          showUserLocation
+          showAccuracyCircle
+          onGeolocate={() => setGeoError(null)}
+          onError={(err) => {
+            console.error('Geolocation error:', err.code, err.message);
+            //~ map the geolocationpositionerror codes to actionable messages
+            const messages: Record<number, string> = {
+              1: 'Location access denied - allow location for this site in your browser settings',
+              2: 'Location unavailable - enable Location Services for your browser in System Settings > Privacy & Security',
+              3: 'Location request timed out - try again',
+            };
+            setGeoError(messages[err.code] || 'Unable to get your location');
+          }}
+        />
+        
+        {geoError && (
+          <div className="absolute top-24 right-2 z-10 max-w-60 bg-white dark:bg-gray-800 text-xs text-red-600 dark:text-red-400 px-3 py-2 rounded-lg shadow-lg">
+            {geoError}
+            <button
+              className="ml-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+              onClick={() => setGeoError(null)}
+              aria-label="Dismiss"
+            >
+              ✕
+            </button>
+          </div>
+        )}
         
         {/*~ maplibre clusters natively on the geojson source - no plugin needed */}
         <Source
