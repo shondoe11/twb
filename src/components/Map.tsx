@@ -5,6 +5,7 @@ import { GeolocateControl as MaplibreGeolocateControl } from 'maplibre-gl';
 import type { MapLayerMouseEvent, GeoJSONSource } from 'maplibre-gl';
 import { ToiletLocation } from '@/lib/data/shared/types';
 import { useIsDark } from './ThemeToggle';
+import CommunityRemarks from './CommunityRemarks';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 interface MapProps {
@@ -472,8 +473,8 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
           )}
         </div>
         
-        {((getFilteredMapsComments(location).length > 0) || (getFilteredSheetsComments(location).length > 0)) && (
-          <div style={{ margin: '4px 0 0 0', padding: 0, lineHeight: '1.2' }}>
+        {/*~ always rendered - community remarks input must be available on every pin */}
+        <div style={{ margin: '4px 0 0 0', padding: 0, lineHeight: '1.2' }}>
             <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Remarks:</p>
             
             {/* Maps src comments */}
@@ -509,8 +510,10 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
                 </ul>
               </div>
             )}
-          </div>
-        )}
+            
+            {/* crowd-sourced remarks - editable by anyone, stored in supabase */}
+            <CommunityRemarks locationId={location.id} />
+        </div>
         
         <div className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
           <a 
