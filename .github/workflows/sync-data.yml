@@ -5,6 +5,10 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
+#~ needed so the workflow can push refreshed data back to the repo
+permissions:
+  contents: write
+
 jobs:
   sync-data:
     runs-on: ubuntu-latest
@@ -25,12 +29,20 @@ jobs:
       - name: Fetch and process data
         run: npm run sync-data
       
-      - name: Trigger Vercel redeploy
-        env:
-          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+      #~ commit refreshed data back to main - the push auto-triggers the vercel deploy via git integration
+      - name: Commit and push data changes
         run: |
-          if [ -z "$VERCEL_DEPLOY_HOOK_URL" ]; then
-            echo "::error::VERCEL_DEPLOY_HOOK_URL secret is not set. Create a Deploy Hook in Vercel (Project Settings > Git > Deploy Hooks) and add its URL as a repository secret (Settings > Secrets and variables > Actions)."
-            exit 1
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No data changes - skipping commit & deploy"
+          else
+            git commit -m "chore(data): scheduled sync from google sources"
+            git push
           fi
-          curl -sf -X POST "$VERCEL_DEPLOY_HOOK_URL"
+      
+      #~ keepalive ping so the supabase free project never pauses frm 7 days of inactivity
+      - name: Ping Supabase via deployed app
+        if: vars.APP_URL != ''
+        run: curl -sf "${{ vars.APP_URL }}/api/remarks?locationId=keepalive" > /dev/null || echo "keepalive ping failed (non-fatal)"
