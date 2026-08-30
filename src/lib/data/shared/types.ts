@@ -147,8 +147,6 @@ export const DATA_SOURCES = {
 export const DATA_PATHS = {
   DATA_DIR: '/data',
   CACHE_DIR: '/data/cache',
-  SHEETS_OUTPUT: '/data/toilets.json',
-  MAPS_OUTPUT: '/data/toilets.geojson',
   COMBINED_OUTPUT: '/data/combined.geojson'
 };
 

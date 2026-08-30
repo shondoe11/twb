@@ -51,6 +51,8 @@ next-env.d.ts
 
 # data cache files
 /data/cache/
+# keep geocode cache in git so scheduled syncs dont re-geocode everything frm scratch
+!/data/cache/geocode.json
 /data/*.geojson
 /data/*.json
 
