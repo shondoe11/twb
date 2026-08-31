@@ -461,14 +461,19 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
               {location.type}
             </span>
           )}
-          {location.gender && (
-            <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-0.5 rounded-full">
-              {location.gender}
+          {location.amenities?.wheelchairAccess && (
+            <span className="text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-2 py-0.5 rounded-full">
+              ♿ Wheelchair Access
             </span>
           )}
-          {location.hasBidet && (
-            <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-0.5 rounded-full">
-              Has Bidet
+          {location.amenities?.babyChanging && (
+            <span className="text-xs bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 px-2 py-0.5 rounded-full">
+              👶 Baby Changing
+            </span>
+          )}
+          {location.amenities?.unisex && (
+            <span className="text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 px-2 py-0.5 rounded-full">
+              Unisex
             </span>
           )}
         </div>
