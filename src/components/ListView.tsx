@@ -138,7 +138,7 @@ const ListView = ({
             onClick={() => setGenderFilter('any')} 
             className={`px-3 py-1 text-xs rounded-full ${genderFilter === 'any' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-200'}`}
           >
-            Gender-Neutral
+            Unisex
           </button>
         </div>
       </div>

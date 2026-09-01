@@ -127,7 +127,9 @@ const FilterBar = ({
         </button>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+      {/*~ mobile: everything stacked in 1 col | sm+: dropdowns stacked at half width, amenities beside them */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="flex flex-col gap-3 min-w-0">
         <div className="min-w-0">
           <label htmlFor="region" className="block text-sm font-medium text-gray-800 dark:text-gray-200">Region</label>
           <select 
@@ -161,10 +163,12 @@ const FilterBar = ({
             ))}
           </select>
         </div>
+        </div>
         
-        <div className="sm:col-span-2">
+        <div className="min-w-0">
           <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mb-1">Amenities</p>
-          <div className="flex flex-wrap gap-x-3 gap-y-2">
+          {/*~ checkboxes wrap on mobile, stack vertically on sm+ to align w stacked dropdowns */}
+          <div className="flex flex-wrap gap-x-3 gap-y-2 sm:flex-col sm:gap-y-2.5">
             <label className="flex items-center text-sm text-gray-800 dark:text-gray-200 whitespace-nowrap">
               <input 
                 type="checkbox" 
