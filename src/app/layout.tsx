@@ -13,8 +13,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  //~ metadataBase makes og image/sitemap urls resolve absolutely in link previews
+  metadataBase: new URL("https://toiletswithbidets.vercel.app"),
   title: "TWB - Toilets with Bidets (SG)",
   description: "Find toilets with bidets across Singapore on an interactive map",
+  openGraph: {
+    title: "TWB - Toilets with Bidets (SG)",
+    description: "Find toilets with bidets across Singapore on an interactive map",
+    type: "website",
+  },
 };
 
 //~ applied bef hydration so the stored/system theme never flashes light mode
