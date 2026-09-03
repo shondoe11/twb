@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import TwbIcon from '../components/TwbIcon';
 import { ToiletLocation } from '@/lib/data/shared/types';
 import { fetchLocations, filterLocations } from '@/lib/data/client';
 import FilterBar from '../components/FilterBar';
@@ -90,7 +91,9 @@ export default function Home() {
       <header className="bg-white dark:bg-gray-800 shadow-sm">
         <div className="container mx-auto py-4 px-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold">
-            <Link href="/about" className="text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity" title="About TWB">
+            {/*~ icon.svg lives in src/app so next serves it at /icon.svg & uses it as the favicon */}
+            <Link href="/about" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:opacity-80 transition-opacity" title="About TWB">
+              <TwbIcon size={30} />
               TWB
             </Link>
           </h1>
@@ -141,16 +144,10 @@ export default function Home() {
       
       <footer className="bg-white dark:bg-gray-800 shadow-inner mt-8 py-4">
         <div className="container mx-auto px-4 text-center text-sm text-gray-600 dark:text-gray-300">
-          <p>© {new Date().getFullYear()} TWB - Toilets with Bidets</p>
-          <p className="mt-1">
-            <a 
-              href="https://bit.ly/shondoe11-twb" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              GitHub
-            </a>
+          <p>
+            <Link href="/about" className="hover:underline" title="About TWB">
+              © {new Date().getFullYear()} TWB - Toilets with Bidets
+            </Link>
           </p>
         </div>
       </footer>
