@@ -2,9 +2,17 @@ import Link from 'next/link';
 import TwbIcon from '@/components/TwbIcon';
 import type { Metadata } from 'next';
 
+//& title goes through root "%s | TWB" template; canonical keeps /about indexed as its own page
 export const metadata: Metadata = {
-  title: 'About | TWB - Toilets with Bidets',
+  title: 'About',
   description: 'About TWB - a community-driven map of public toilets with bidets in Singapore.',
+  alternates: { canonical: '/about' },
+  openGraph: {
+    title: 'About | TWB',
+    description: 'About TWB - a community-driven map of public toilets with bidets in Singapore.',
+    url: '/about',
+    type: 'website',
+  },
 };
 
 //* about pg - via TWB text in nav + footer
