@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* class-based dark mode: dark: utilities follow the .dark class on <html>, not the os setting */
+/* class-based dark mode: dark: utilities follow .dark class on <html>, not os setting */
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
@@ -18,10 +18,19 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* theme is driven by the .dark class (set by the ThemeToggle + no-fouc script in layout) */
+/* theme is driven by .dark class (set by ThemeToggle + no-fouc script in layout) */
 .dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+}
+
+/*! oled theme: html carries .dark AND .oled. tailwind v4 utilities resolve to var(--color-gray-*), so remapping surface shades here re-skins every existing dark: class to true black. text shades (gray-100..500) are left alone so contrast is unchanged */
+.oled {
+  --background: #000000;
+  --color-gray-900: #000000;
+  --color-gray-800: #0a0a0a;
+  --color-gray-700: #171717;
+  --color-gray-600: #262626;
 }
 
 body {
@@ -30,8 +39,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* maplibre popup overrides - replaced the old leaflet-specific css after the
-    migration to maplibre gl + openfreemap vector tiles */
+/* maplibre popup overrides - replaced old leaflet-specific css aft migration to maplibre gl + openfreemap vector tiles */
 .maplibregl-popup-content {
   border-radius: 0.5rem;
   padding: 10px 12px;
@@ -71,6 +79,28 @@ body {
   border-left-color: #1f2937;
 }
 
+/*! oled popups - same shell as dark, surfaces pushed to near black */
+.oled .maplibregl-popup-content {
+  background-color: #0a0a0a;
+  box-shadow: 0 0 0 1px #262626, 0 3px 10px rgba(0, 0, 0, 0.6);
+}
+
+.oled .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: #0a0a0a;
+}
+
+.oled .maplibregl-popup-anchor-top .maplibregl-popup-tip {
+  border-bottom-color: #0a0a0a;
+}
+
+.oled .maplibregl-popup-anchor-left .maplibregl-popup-tip {
+  border-right-color: #0a0a0a;
+}
+
+.oled .maplibregl-popup-anchor-right .maplibregl-popup-tip {
+  border-left-color: #0a0a0a;
+}
+
 /*! keep maplibre attribution readable in dark mode */
 .dark .maplibregl-ctrl-attrib {
   background-color: rgba(31, 41, 55, 0.8);
@@ -78,6 +108,10 @@ body {
 
 .dark .maplibregl-ctrl-attrib a {
   color: #cbd5e0;
+}
+
+.oled .maplibregl-ctrl-attrib {
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* custom scrollbar fr list view */
@@ -88,6 +122,10 @@ body {
 
 .dark .location-list {
   scrollbar-color: #4a5568 #1a202c;
+}
+
+.oled .location-list {
+  scrollbar-color: #333333 #000000;
 }
 
 .location-list::-webkit-scrollbar {
@@ -102,6 +140,10 @@ body {
   background: #1a202c;
 }
 
+.oled .location-list::-webkit-scrollbar-track {
+  background: #000000;
+}
+
 .location-list::-webkit-scrollbar-thumb {
   background-color: #cbd5e0;
   border-radius: 20px;
@@ -109,6 +151,10 @@ body {
 
 .dark .location-list::-webkit-scrollbar-thumb {
   background-color: #4a5568;
+}
+
+.oled .location-list::-webkit-scrollbar-thumb {
+  background-color: #333333;
 }
 
 /* responsive adjustments */

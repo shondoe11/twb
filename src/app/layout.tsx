@@ -71,8 +71,9 @@ const jsonLd = {
   inLanguage: "en",
 };
 
-//~ applied bef hydration so the stored/system theme never flashes light mode
-const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}}catch(e){}})();`;
+//& applied bef hydration so the stored/system theme never flashes light mode
+//~ oled adds both classes: dark: utilities keep working, .oled overrides surfaces to pure black
+const themeInitScript = `(function(){try{var t=localStorage.getItem('theme');var c=document.documentElement.classList;if(t==='oled'){c.add('dark','oled');}else if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){c.add('dark');}}catch(e){}})();`;
 
 export default function RootLayout({
   children,
