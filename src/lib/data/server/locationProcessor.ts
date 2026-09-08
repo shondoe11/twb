@@ -142,23 +142,6 @@ function mergeDuplicateSheetRow(existing: ToiletLocation, properties: Record<str
 }
 
 /**
- * & calculate data completeness score
- */
-function getDataCompleteness(loc: ToiletLocation): number {
-  const fields = [
-    !!loc.address, 
-    !!loc.region, 
-    !!loc.rating,
-    !!loc.imageUrl,
-    !!loc.openingHours,
-    !!loc.notes,
-    !!loc.description
-  ];
-  
-  return fields.filter(Boolean).length / fields.length;
-}
-
-/**
  * & Convert GeoJSON data to ToiletLocation objs
  */
 export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
@@ -366,15 +349,10 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       notes: typeof properties.notes === 'string' ? properties.notes : '',
       //~ sheets hav no structured amenity columns - derive flags frm remarks keywords instead
       amenities: deriveAmenities(properties),
-      rating: typeof properties.rating === 'number' || typeof properties.rating === 'string' ? 
-        Number(properties.rating) : undefined,
-      imageUrl: typeof properties.imageUrl === 'string' ? properties.imageUrl : undefined,
-      openingHours: typeof properties.openingHours === 'string' ? properties.openingHours : undefined,
       lastUpdated: typeof properties.lastUpdated === 'string' ? properties.lastUpdated : '',
       source: 'google-sheets',
       description: typeof properties.description === 'string' ? properties.description : '',
       sheetsRemarks: typeof properties.remarks === 'string' ? properties.remarks : '',
-      dataCompleteness: 0 //todo: calculate later
     });
   });
   
@@ -516,7 +494,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       }
     }
     
-    //~ add fallback before converting the set, otherwise 'Other' never lands in the types arr
+    //~ add fallback before converting set, or else 'Other' never lands in types arr
     if (facilityTypes.size === 0) {
       facilityTypes.add('Other');
     }
@@ -542,21 +520,11 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       notes: typeof properties.notes === 'string' ? properties.notes : '',
       //~ maps features also carry free-text descriptions - derive amenity flags frm keywords
       amenities: deriveAmenities(properties),
-      rating: typeof properties.rating === 'number' || typeof properties.rating === 'string' ? 
-        Number(properties.rating) : undefined,
-      imageUrl: typeof properties.imageUrl === 'string' ? properties.imageUrl : undefined,
-      openingHours: typeof properties.openingHours === 'string' ? properties.openingHours : undefined,
       lastUpdated: typeof properties.lastUpdated === 'string' ? properties.lastUpdated : '',
       source: 'google-maps',
       description: typeof properties.description === 'string' ? properties.description : '',
       sheetsRemarks: '',
-      dataCompleteness: 0
     });
-  });
-  
-  //~ calculate data completeness fr each location
-  uniqueLocations.forEach((location: ToiletLocation) => {
-    location.dataCompleteness = getDataCompleteness(location);
   });
   
   dlog(`Final processed location count: ${uniqueLocations.length}`);

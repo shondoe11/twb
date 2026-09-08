@@ -45,12 +45,6 @@ const ListView = ({
     return matchesSearch && matchesGender;
   });
   
-  //~ opening hrs formatter
-  const formatOpeningHours = (hours?: string) => {
-    if (!hours) return 'Hours not available';
-    return hours;
-  };
-  
   //~ sorting logic
   const sortedLocations = useMemo(() => {
     return [...filteredLocations].sort((a, b) => {
@@ -156,22 +150,6 @@ const ListView = ({
               className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer flex flex-col md:flex-row gap-3 text-gray-800 dark:text-gray-100"
               onClick={() => onSelectLocation?.(location)}
             >
-              {/* img if avail */}
-              {location.imageUrl && (
-                <div className="w-full md:w-24 h-24 shrink-0">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img 
-                    src={location.imageUrl} 
-                    alt={location.name} 
-                    className="w-full h-full object-cover rounded-lg"
-                    onError={(e) => {
-                      //~ set fallback img on err
-                      (e.target as HTMLImageElement).src = '/images/toilet-placeholder.jpg';
-                    }}
-                  />
-                </div>
-              )}
-              
               {/* content */}
               <div className="flex-1">
                 <h3 className="font-medium">{location.name}</h3>
@@ -180,13 +158,6 @@ const ListView = ({
                 {location.address && location.address.trim() !== '' && (
                   <p className="text-sm text-gray-600 dark:text-gray-300 mt-1" style={{ wordBreak: 'break-word' }}>
                     {location.address}
-                  </p>
-                )}
-                
-                {/* opening hrs if avail */}
-                {location.openingHours && (
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    <span className="font-medium">Hours:</span> {formatOpeningHours(location.openingHours)}
                   </p>
                 )}
                 

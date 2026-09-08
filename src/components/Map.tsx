@@ -150,7 +150,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     }
   }, [locations, onSelectLocation]);
   
-  //& center map & open popup whn a location is picked frm the list view
+  //& center map & open popup whn a location is picked frm list view
   useEffect(() => {
     if (!selectedLocation) return;
     
@@ -162,283 +162,19 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     setPopupLocation(selectedLocation);
   }, [selectedLocation]);
   
-  //~ helper: render star rating - memoized to prevent rerenders
-  const renderRating = useCallback((rating?: number) => {
-    if (!rating) return null;
-    
-    //~ show stars
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-    
-    return (
-      <div className="flex items-center my-0.5">
-        {[...Array(fullStars)].map((_, i) => (
-          <span key={`star-${i}`} className="text-yellow-500">★</span>
-        ))}
-        {hasHalfStar && <span className="text-yellow-500">★</span>}
-        {[...Array(5 - fullStars - (hasHalfStar ? 1 : 0))].map((_, i) => (
-          <span key={`empty-star-${i}`} className="text-gray-300 dark:text-gray-500">★</span>
-        ))}
-      </div>
-    );
-  }, []);
-  
-  //~ filter google maps source comments to only show relevant info
-  const getFilteredMapsComments = useCallback((location: ToiletLocation): string[] => {
-    const filteredComments: string[] = [];
-    
-    //~ helper safely add non-empty comments
-    const safeAdd = (text: string | null | undefined): void => {
-      if (text && typeof text === 'string' && text.trim() !== '') {
-        filteredComments.push(text);
-      }
-    };
-    
-    //~ process maps source comments
-    if (location.sourceComments?.maps && location.sourceComments.maps.length > 0) {
-      location.sourceComments.maps.forEach(comment => {
-        //~ skip empty comments
-        if (!comment || comment.trim() === '') return;
-        
-        //~ skip name field (redundant)
-        if (comment.includes('Name:')) return;
-        
-        //~ skip address field (redundant)
-        if (comment.includes('Address:')) return;
-        
-        //~ skip accessibility info (fr wheelchair tag)
-        if (comment.toLowerCase().includes('accessibility')) return;
-        
-        //~ skip water temp (fr filter)
-        if (comment.toLowerCase().includes('temperature') || comment.toLowerCase().includes('water temp')) return;
-        
-        //~ skip cleanliness (shown as stars)
-        if (comment.toLowerCase().includes('cleanliness') || comment.toLowerCase().includes('clean rating')) return;
-        
-        //~ skip maintenance contact
-        if (comment.toLowerCase().includes('maintenance') || comment.toLowerCase().includes('contact')) return;
-        
-        //~ skip nearby landmarks
-        if (comment.toLowerCase().includes('landmark') || comment.toLowerCase().includes('nearby')) return;
-        
-        //~ check fr floor info in comment & process correctly (show only val)
-        if (comment.toLowerCase().includes('floor')) {
-          const floorMatch = comment.match(/floor:?\s*(.+)/i);
-          if (floorMatch && floorMatch[1]) {
-            safeAdd(floorMatch[1].trim());
-            return;
-          }
-        }
-        
-        //~ check for visitCount in comment & rename to Visits
-        if (comment.toLowerCase().includes('visitcount')) {
-          const visitMatch = comment.match(/visitcount:?\s*(\d+)/i);
-          if (visitMatch && visitMatch[1]) {
-            safeAdd(`Visits: ${visitMatch[1]}`);
-            return;
-          }
-        }
-        
-        //~ check for lastCleaned in comment & format correctly
-        if (comment.toLowerCase().includes('lastcleaned') || 
-            comment.toLowerCase().includes('last cleaned')) {
-          const cleanedMatch = comment.match(/lastcleaned:?\s*(.+)/i) || 
-                              comment.match(/last cleaned:?\s*(.+)/i);
-          if (cleanedMatch && cleanedMatch[1]) {
-            try {
-              const date = new Date(cleanedMatch[1].trim());
-              date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + 480); //~ +8h fr GMT+8
-              const isoDate = date.toISOString().replace('T', ' ').replace(/\.\d+Z$/, '');
-              safeAdd(`Cleaned on: ${isoDate}`);
-            } catch {
-              safeAdd(`Cleaned on: ${cleanedMatch[1].trim()}`);
-            }
-            return;
-          }
-        }
-        
-        safeAdd(comment);
-      });
-    }
-    
-    //~ process location object fields directly
-    //~ incl floor info if avail - raw floor field w/o prefix
-    if (location.floor) {
-      //~ check floor is alr in filteredComments avoid duplicates
-      const floorAlreadyAdded = filteredComments.some(c => 
-        c === location.floor || c.toLowerCase().includes(location.floor!.toLowerCase()));
-      
-      if (!floorAlreadyAdded) {
-        safeAdd(`${location.floor}`);
-      }
-    }
-    
-    //~ visitCount as Visits if avail
-    if (location.visitCount) {
-      //~ check visitCount is alr in filteredComments avoid duplicates
-      const visitsAlreadyAdded = filteredComments.some(c => 
-        c.toLowerCase().includes('visits:') || c.toLowerCase().includes('visitcount'));
-      
-      if (!visitsAlreadyAdded) {
-        safeAdd(`Visits: ${location.visitCount}`);
-      }
-    }
-    
-    //~ lastCleaned w ISO GMT+8 format if avail
-    if (location.lastCleaned) {
-      //~ check lastCleaned is alr in filteredComments avoid duplicates
-      const cleanedAlreadyAdded = filteredComments.some(c => 
-        c.toLowerCase().includes('cleaned on:') || c.toLowerCase().includes('lastcleaned'));
-      
-      if (!cleanedAlreadyAdded) {
-        try {
-          const date = new Date(location.lastCleaned);
-          date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + 480); //~ +8h fr GMT+8
-          const isoDate = date.toISOString().replace('T', ' ').replace(/\.\d+Z$/, '');
-          
-          safeAdd(`Cleaned on: ${isoDate}`);
-        } catch {
-          safeAdd(`Cleaned on: ${location.lastCleaned}`);
-        }
-      }
-    }
-    
-    return filteredComments;
-  }, []);
-  
-  //~ filter sheets source comments to only show relevant info
-  const getFilteredSheetsComments = useCallback((location: ToiletLocation): string[] => {
-    const filteredComments: string[] = [];
-    
-    //~ helper safely add non-empty comments
-    const safeAdd = (text: string | null | undefined): void => {
-      if (text && typeof text === 'string' && text.trim() !== '') {
-        filteredComments.push(text);
-      }
-    };
-    
-    //~ process legacy sheetsRemarks if not already in sourceComments
-    if (location.sheetsRemarks && 
-        (!location.sourceComments?.sheets || 
-          !location.sourceComments.sheets.includes(location.sheetsRemarks))) {
-      safeAdd(location.sheetsRemarks);
-    }
-    
-    //~ process sheets source comments
-    if (location.sourceComments?.sheets && location.sourceComments.sheets.length > 0) {
-      location.sourceComments.sheets.forEach(comment => {
-        //~ skip empty comments
-        if (!comment || comment.trim() === '') return;
-        
-        //~ skip name field (redundant)
-        if (comment.includes('Name:')) return;
-        
-        //~ skip address field (redundant)
-        if (comment.includes('Address:')) return;
-        
-        //~ skip accessibility info (fr wheelchair tag)
-        if (comment.toLowerCase().includes('accessibility')) return;
-        
-        //~ skip water temp (fr filter)
-        if (comment.toLowerCase().includes('temperature') || comment.toLowerCase().includes('water temp')) return;
-        
-        //~ skip cleanliness (shown as stars)
-        if (comment.toLowerCase().includes('cleanliness') || comment.toLowerCase().includes('clean rating')) return;
-        
-        //~ skip maintenance contact
-        if (comment.toLowerCase().includes('maintenance') || comment.toLowerCase().includes('contact')) return;
-        
-        //~ skip nearby landmarks
-        if (comment.toLowerCase().includes('landmark') || comment.toLowerCase().includes('nearby')) return;
-        
-        //~ check fr floor info in comment & process correctly (show only val)
-        if (comment.toLowerCase().includes('floor')) {
-          const floorMatch = comment.match(/floor:?\s*(.+)/i);
-          if (floorMatch && floorMatch[1]) {
-            safeAdd(floorMatch[1].trim());
-            return;
-          }
-        }
-        
-        //~ check for visitCount in comment & rename to Visits
-        if (comment.toLowerCase().includes('visitcount')) {
-          const visitMatch = comment.match(/visitcount:?\s*(\d+)/i);
-          if (visitMatch && visitMatch[1]) {
-            safeAdd(`Visits: ${visitMatch[1]}`);
-            return;
-          }
-        }
-        
-        //~ check for lastCleaned in comment & format correctly
-        if (comment.toLowerCase().includes('lastcleaned') || 
-            comment.toLowerCase().includes('last cleaned')) {
-          const cleanedMatch = comment.match(/lastcleaned:?\s*(.+)/i) || 
-                              comment.match(/last cleaned:?\s*(.+)/i);
-          if (cleanedMatch && cleanedMatch[1]) {
-            try {
-              const date = new Date(cleanedMatch[1].trim());
-              date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + 480); //~ +8h fr GMT+8
-              const isoDate = date.toISOString().replace('T', ' ').replace(/\.\d+Z$/, '');
-              safeAdd(`Cleaned on: ${isoDate}`);
-            } catch {
-              safeAdd(`Cleaned on: ${cleanedMatch[1].trim()}`);
-            }
-            return;
-          }
-        }
-        
-        safeAdd(comment);
-      });
-    }
-    
-    //~ process location object fields directly
-    //~ floor info if avail - raw floor field w/o prefix
-    if (location.floor) {
-      //~ check floor is alr in filteredComments avoid duplicates
-      const floorAlreadyAdded = filteredComments.some(c => 
-        c === location.floor || c.toLowerCase().includes(location.floor!.toLowerCase()));
-      
-      if (!floorAlreadyAdded) {
-        safeAdd(`${location.floor}`);
-      }
-    }
-    
-    //~ visitCount as Visits if avail
-    if (location.visitCount) {
-      //~ check visitCount is alr in filteredComments avoid duplicates
-      const visitsAlreadyAdded = filteredComments.some(c => 
-        c.toLowerCase().includes('visits:') || c.toLowerCase().includes('visitcount'));
-      
-      if (!visitsAlreadyAdded) {
-        safeAdd(`Visits: ${location.visitCount}`);
-      }
-    }
-    
-    //~ lastCleaned w ISO GMT+8 format
-    if (location.lastCleaned) {
-      //~ check lastCleaned alr in filteredComments avoid duplicates
-      const cleanedAlreadyAdded = filteredComments.some(c => 
-        c.toLowerCase().includes('cleaned on:') || c.toLowerCase().includes('lastcleaned'));
-      
-      if (!cleanedAlreadyAdded) {
-        try {
-          const date = new Date(location.lastCleaned);
-          date.setMinutes(date.getMinutes() + date.getTimezoneOffset() + 480); //~ +8h fr GMT+8
-          const isoDate = date.toISOString().replace('T', ' ').replace(/\.\d+Z$/, '');
-          
-          safeAdd(`Cleaned on: ${isoDate}`);
-        } catch {
-          safeAdd(`Cleaned on: ${location.lastCleaned}`);
-        }
-      }
-    }
-    
-    return filteredComments;
+  //& sheets remarks fr popup - merged m+f rows join their remarks w \n, split so each shows as its own bullet
+  const getSheetsRemarks = useCallback((location: ToiletLocation): string[] => {
+    if (!location.sheetsRemarks) return [];
+    return location.sheetsRemarks
+      .split('\n')
+      .map(line => line.trim())
+      .filter(line => line !== '');
   }, []);
 
   //~ popup content renderer
   const renderPopupContent = useCallback((location: ToiletLocation) => {
     const shouldShowAddress = location.address && location.address.trim() !== '';
+    const sheetsRemarks = getSheetsRemarks(location);
     
     return (
       <div className="popup-content">
@@ -446,12 +182,6 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
           <h3 className="text-base font-medium m-0 p-0">{location.name}</h3>
           {shouldShowAddress && (
             <p className="text-xs text-gray-600 dark:text-gray-300 mt-0.5 mb-0 p-0">{location.address}</p>
-          )}
-          {location.cleanliness && (
-            <div className="flex items-center mt-1">
-              <span className="text-xs mr-1">Cleanliness:</span>
-              {renderRating(location.cleanliness)}
-            </div>
           )}
         </div>
         
@@ -482,32 +212,14 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         <div style={{ margin: '4px 0 0 0', padding: 0, lineHeight: '1.2' }}>
             <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Remarks:</p>
             
-            {/* Maps src comments */}
-            {getFilteredMapsComments(location).length > 0 && (
-              <div className="mt-1">
-                <p className="text-xs mb-0.5" style={{ margin: '2px 0 0 0', padding: 0 }}>
-                  <span className="font-medium">Maps source:</span>
-                </p>
-                <ul className="list-disc pl-4 m-0 p-0">
-                  {/* Display filtered maps comments */}
-                  {getFilteredMapsComments(location).map((comment, index) => (
-                    <li key={`map-comment-${index}`} className="text-xs" style={{ margin: 0, padding: 0 }}>
-                      {comment.replace(/<br\s*\/?>/gi, ' | ')}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            
             {/* Sheets source comments */}
-            {getFilteredSheetsComments(location).length > 0 && (
+            {sheetsRemarks.length > 0 && (
               <div className="mt-1">
                 <p className="text-xs mb-0.5" style={{ margin: '2px 0 0 0', padding: 0 }}>
                   <span className="font-medium">Sheets source:</span>
                 </p>
                 <ul className="list-disc pl-4 m-0 p-0">
-                  {/* Display filtered sheets comments */}
-                  {getFilteredSheetsComments(location).map((comment, index) => (
+                  {sheetsRemarks.map((comment, index) => (
                     <li key={`sheet-comment-${index}`} className="text-xs" style={{ margin: 0, padding: 0 }}>
                       {comment}
                     </li>
@@ -532,7 +244,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         </div>
       </div>
     );
-  }, [renderRating, getFilteredMapsComments, getFilteredSheetsComments]);
+  }, [getSheetsRemarks]);
   
   return (
     //~ min-h keeps the webgl canvas visible on mobile where the grid row has no fixed height
