@@ -1,152 +1,163 @@
 # TWB (Toilets with Bidets)
 
-TWB is a mobile-first, static web application that showcases all bidet-equipped toilets across Singapore. It features an interactive map paired with a synchronized, filterable list view. The project uses Google Sheets and Google My Maps as read-only data sources, automated via GitHub Actions for seamless updates, and is deployed on Vercel’s free tier.
+TWB is a mobile-first web app that maps every recorded bidet-equipped toilet across Singapore. It pairs an interactive, clustered map with a synchronized, filterable list view. Data comes from the community-maintained **Toilets with Bidets SG** Google Sheet and Google My Maps (read-only, no auth), is synced daily by GitHub Actions, deployed on Vercel. Visitors can also leave a short crowd-sourced remark on any location.
 
 ---
 
 ## Table of Contents
 
-1. [Project Overview](#project-overview)
-2. [Features](#features)
-3. [Tech Stack](#tech-stack)
-4. [Getting Started](#getting-started)
-5. [Project Structure](#project-structure)
-6. [Data Sources & Sync](#data-sources--sync)
-7. [Deployment](#deployment)
-8. [Contributing](#contributing)
-9. [Roadmap & Status](#roadmap--status)
+1. [Features](#features)
+2. [Tech Stack](#tech-stack)
+3. [Getting Started](#getting-started)
+4. [Project Structure](#project-structure)
+5. [Data Pipeline](#data-pipeline)
+6. [Community Remarks (Supabase)](#community-remarks-supabase)
+7. [Automation & CI](#automation--ci)
+8. [Deployment](#deployment)
+9. [Contributing](#contributing)
 10. [License](#license)
 
 ---
 
-## Project Overview
-
-TWB is designed to provide users with a quick and easy way to locate toilets equipped with bidets throughout Singapore. The application prioritizes fast load times and smooth interactions on low-end devices by leveraging static site generation and a lightweight map library.
-
 ## Features
 
-* **Interactive Map**: Pan, zoom, and click on markers to see details.
-* **Filterable List View**: Search and filter locations by region, facility type, or amenities.
-* **Mobile-First Design**: Responsive layouts for phones, tablets, and desktops using Tailwind CSS.
-* **Read-Only Data Integration**: Data from Google Sheets (CSV) and Google My Maps (KML) without requiring any authentication.
-* **Automated Data Sync**: A scheduled GitHub Actions workflow fetches and commits updated data to the repository.
-* **Zero Sign-In Required**: Public access with no user accounts or authentication.
-* **Dark Mode**: Theme toggle with a dark palette across the map, list, and filter views, persisted per visitor and following system preference by default.
+* **Interactive Map**: MapLibre GL with native marker clustering; click a cluster to zoom in, click a pin for details and directions.
+* **Live Location**: Geolocate control that flies to and tracks the visitor's position (browser permission required).
+* **Filterable List View**: Search by name/address/region; filter by region, facility type (Male / Female / Hotel), gender tab, and derived amenities (wheelchair access, baby changing, unisex, bidet in all cubicles).
+* **Community Remarks**: One wiki-style editable remark (max 280 chars) per location, shared by all visitors.
+* **Themes**: Light / Dark / OLED-black toggle, persisted per visitor, following system preference by default; the basemap follows the theme.
+* **Mobile-First**: Responsive layouts for phones, tablets, and desktops using Tailwind CSS.
+* **SEO & Sharing**: Generated OG image, JSON-LD, sitemap, robots, and web manifest.
+* **Zero Sign-In**: Fully public- no accounts.
 
 ## Tech Stack
 
-* **Framework**: Next.js with TypeScript and Tailwind CSS
-* **Map Rendering**: MapLibre GL (via `@vis.gl/react-maplibre`) with free OpenFreeMap vector tiles, native marker clustering, and light/dark basemap styles
-* **Data Parsing**: custom CSV/KML parsing in `scripts/fetch-data.mjs` (csv-parse + regex-based KML extraction)
-* **Testing**: Vitest unit tests for data processing & filtering (`npm test`)
-* **Deployment & CI**: Vercel (hosting) & GitHub Actions (data sync & redeploy)
-* **Optional Analytics**: Plausible or Google Analytics for lightweight usage tracking
+* **Framework**: Next.js 15 (App Router) with TypeScript and Tailwind CSS 4
+* **Map**: MapLibre GL via `@vis.gl/react-maplibre`, free OpenFreeMap vector tiles (`liberty` light / `dark` styles)
+* **Data Pipeline**: `scripts/fetch-data.mjs` (Node, `csv-parse`, regex-based KML extraction, OneMap geocoding)
+* **Community Remarks**: Supabase (Postgres + RLS) via `@supabase/supabase-js`, server-side only
+* **Observability**: Vercel Web Analytics & Speed Insights
+* **Testing**: Vitest (`npm test`) covering data processing, filtering, and the remarks API
+* **CI/CD**: GitHub Actions (type-check, lint, test on push/PR; daily data sync) + Vercel Git integration
 
 ## Getting Started
 
 ### Prerequisites
 
-* Node.js v18.18+ and npm installed (required by Next.js 15 & React 19)
-* GitHub account
+* Node.js 20+ and npm
+* (Optional) A Supabase project, only needed for community remarks
 
-### Initial Setup
+### Setup
 
-1. **Clone the repository**
+1. **Clone & install**
 
    ```bash
-   git clone https://github.com/<your-org>/twb.git
+   git clone https://github.com/shondoe11/twb.git
    cd twb
-   ```
-2. **Install dependencies**
-
-   ```bash
    npm install
    ```
-3. **Sync location data** (required on a fresh clone - generated data files are gitignored)
+
+2. **Environment variables** (optional, for community remarks)
 
    ```bash
-   npm run sync-data
+   cp .env.example .env.local
    ```
-4. **Run the development server**
+
+   Fill in `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` from Supabase Dashboard → Settings → API. These are read server-side only and never shipped to the browser. Without them the remarks UI degrades gracefully.
+
+3. **Run the dev server**
 
    ```bash
    npm run dev
    ```
 
-   Open [http://localhost:3000](http://localhost:3000) in your browser.
+   Open [http://localhost:3000](http://localhost:3000). `data/combined.geojson` is committed, so no data sync is required for a fresh clone.
+
+4. **(Optional) Refresh data locally**
+
+   ```bash
+   npm run sync-data
+   ```
+
+### Scripts
+
+| Command             | Purpose                                                        |
+| ------------------- | -------------------------------------------------------------- |
+| `npm run dev`       | Start Next.js dev server                                        |
+| `npm run build`     | Production build                                                |
+| `npm start`         | Serve the production build                                      |
+| `npm run lint`      | ESLint                                                          |
+| `npm test`          | Vitest unit tests                                               |
+| `npm run sync-data` | Fetch Sheets + My Maps, geocode, write `data/combined.geojson` |
 
 ## Project Structure
 
 ```
 /
-├── public/               # Static assets (images, icons)
+├── .github/workflows/
+│   ├── ci.yml                 # tsc, lint, test
+│   └── sync-data.yml          # daily data sync
+├── data/
+│   ├── combined.geojson       # generated dataset
+│   └── cache/geocode.json     # OneMap geocode cache
+├── public/                    
+├── scripts/
+│   └── fetch-data.mjs
 ├── src/
-│   ├── app/              # Next.js App Router (pages, layouts)
-│   ├── components/       # Reusable UI & map components
-│   ├── lib/              # Data-fetching & parsing utilities
-│   └── styles/           # Global & Tailwind CSS styles
-├── data/                 # Generated JSON from Sheets & KML
-├── .github/
-│   └── workflows/        # GitHub Actions for data sync
-├── README.md
-└── package.json
+│   ├── app/
+│   │   ├── api/locations/     # GET processed ToiletLocation[] (edge-cached 1h)
+│   │   ├── api/remarks/       # GET / POST community remark per location
+│   │   ├── about/             # about page
+│   │   └── ...                # layout, page, manifest, sitemap, robots, og image
+│   ├── components/            # Map, ListView, FilterBar, CommunityRemarks, ThemeToggle, TwbIcon
+│   └── lib/
+│       ├── data/client/       # fetchLocations, filterLocations
+│       ├── data/server/       # readCombinedGeoJSON, geoJSONToLocations
+│       ├── data/shared/       # ToiletLocation & GeoJSON types
+│       └── supabase/          # server-side supabase client
+├── supabase/schema.sql        # community_remarks table + RLS policies
+└── vitest.config.ts
 ```
 
-## Data Sources & Sync
+## Data Pipeline
 
-* **Google Sheets (CSV)**
+`npm run sync-data` runs `scripts/fetch-data.mjs`:
 
-  * Public CSV export per tab: `https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<TAB_GID>`
-  * Fetched by `scripts/fetch-data.mjs` (`npm run sync-data`), which merges Sheets + My Maps data into `data/combined.geojson`
-* **Google My Maps (KML)**
+1. **Google Sheets (CSV)** - fetches all three public tabs (`MALE TOILETS`, `FEMALE TOILETS`, `HOTEL ROOMS W BIDET`) via `https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<TAB_GID>`. Rows without a name are dropped.
+2. **Google My Maps (KML)** - fetches `https://www.google.com/maps/d/kml?forcekml=1&mid=<MAP_ID>` and extracts placemarks (name, coordinates, description) into GeoJSON.
+3. **Coordinates** - each sheet row is matched to a KML pin by name (exact → lowercase → parentheses-stripped → alphanumeric-normalized). Rows with no pin are geocoded via **OneMap** (Singapore's official geocoder) using the sheet address; results are cached in `data/cache/geocode.json`. Rows that cannot be resolved are excluded rather than given fabricated coordinates.
+4. **Merge** - sheet rows and map pins for the same venue are merged into one feature; regions are normalized (or derived from coordinates), and the result is written to `data/combined.geojson`.
 
-  * KML network link: `https://www.google.com/maps/d/kml?forcekml=1&mid=<MAP_ID>`
-  * Parsed and converted to GeoJSON by the same sync script
-* **Serving**
+The pipeline exits non-zero if the sheet fetch returns no rows, so a bad upstream response never overwrites good data.
 
-  * The `/api/locations` route handler reads `data/combined.geojson` from the deployment filesystem on every request (dynamic, not statically cached)
-* **Automation**
+At request time, `/api/locations` reads `combined.geojson` and `geoJSONToLocations` turns it into `ToiletLocation[]`: venues that appear in both the Male and Female tabs are merged into a single location carrying both tags and both remarks, and amenity flags are derived from remark keywords.
 
-  * The `postbuild` npm hook runs `npm run sync-data` after every `next build`, so each Vercel deployment ships freshly fetched data.
-  * GitHub Actions workflow (`.github/workflows/sync-data.yml`) runs daily: it validates the fetch, then triggers a Vercel Deploy Hook to redeploy with fresh data.
-  * Requires a `VERCEL_DEPLOY_HOOK_URL` repository secret (create the Deploy Hook in Vercel: Project Settings → Git → Deploy Hooks, then add its URL as a GitHub Actions secret).
+## Community Remarks (Supabase)
+
+* One row per location in `public.community_remarks` (see `supabase/schema.sql`); `location_id` is the primary key so edits are upserts.
+* `/api/remarks` validates the posted `locationId` against the canonical dataset, stamps name/address/region server-side, caps content at 280 chars, and applies a lightweight per-instance write rate limit.
+* RLS lets the anon key read and upsert; the length constraint is enforced in Postgres regardless of client input.
+* Set up: run `supabase/schema.sql` in Supabase SQL editor, then add `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` to Vercel (and `.env.local`).
+
+## Automation & CI
+
+* **`ci.yml`** - on every push to `main` and every PR: `tsc --noEmit`, `npm run lint`, `npm test`.
+* **`sync-data.yml`** - daily at 00:00 UTC (and on manual dispatch): runs `npm run sync-data`, and if `data/` changed, commits as `github-actions[bot]` and pushes. The push triggers a Vercel deploy via Git integration. If nothing changed, no commit or deploy happens
+* **Supabase keepalive** - the same workflow pings `<APP_URL>/api/remarks` so Supabase never pauses from inactivity. Set the `APP_URL` repository variable to enable it.
 
 ## Deployment
 
-### Vercel Setup
-
-1. Sign in to Vercel and import the `twb` GitHub repository.
-2. Configure environment variables (if any) in Vercel dashboard.
-3. Vercel will automatically build and deploy on every push to `main`.
-
-**Deploy Button** (add to this README for one-click deploy):
-
-```markdown
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/<your-org>/twb)
-```
+1. Import the repo into Vercel; it builds and deploys on every push to `main`.
+2. Add `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` as environment variables if using community remarks.
+3. `next.config.ts` traces `data/combined.geojson` into the serverless bundle for both API routes, so no extra config is needed for the data to be available at runtime.
 
 ## Contributing
 
-We welcome contributions! Please follow these steps:
-
-1. Fork the repository and create a new branch (`feature/...` or `fix/...`).
-2. Write clear, descriptive commit messages following Conventional Commits.
-3. Ensure code passes ESLint and Prettier: `npm run lint` and `npm run format`.
-4. Open a pull request describing your changes.
-
-## Roadmap & Status
-
-| Milestone               | Description                                    | Status  |
-| ----------------------- | ---------------------------------------------- | ------- |
-| Data Ingestion          | Fetch & parse Google Sheets + MyMaps sources   | Done    |
-| Map & List Prototype    | Leaflet map with initial list layout           | Done    |
-| Filtering & Clustering  | Region/mall/type filters; marker clustering    | Done    |
-| Responsive UI           | Mobile/tablet/desktop breakpoints & styling    | Done    |
-| CI/CD Pipeline          | GitHub Actions for data sync & Vercel deploy   | WIP     |
-| Dark Mode               | Theme toggle + MapLibre/OpenFreeMap migration  | Done    |
-| Performance Tuning      | Code-splitting, tile caching, viewport culling | WIP     |
-| Documentation & Testing | README, unit & integration tests               | WIP     |
+1. Fork and branch (`feature/...` or `fix/...`).
+2. Keep commits small and descriptive (Conventional Commits).
+3. Make sure `npx tsc --noEmit`, `npm run lint`, and `npm test` pass.
+4. Open a pull request.
 
 ## License
 
-This project is licensed under the **MIT License**. See [LICENSE](./LICENSE) for details.
+MIT - see [LICENSE](./LICENSE).
