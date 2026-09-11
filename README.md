@@ -125,7 +125,7 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 
 1. **Google Sheets (CSV)** - fetches all three public tabs (`MALE TOILETS`, `FEMALE TOILETS`, `HOTEL ROOMS W BIDET`) via `https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<TAB_GID>`. Rows without a name are dropped.
 2. **Google My Maps (KML)** - fetches `https://www.google.com/maps/d/kml?forcekml=1&mid=<MAP_ID>` and extracts placemarks (name, coordinates, description) into GeoJSON.
-3. **Coordinates** - each sheet row is matched to a KML pin by name (exact → lowercase → parentheses-stripped → alphanumeric-normalized). Rows with no pin are geocoded via **OneMap** (Singapore's official geocoder) using the sheet address; results are cached in `data/cache/geocode.json`. Rows that cannot be resolved are excluded rather than given fabricated coordinates.
+3. **Coordinates** - each sheet row is matched to a KML pin by name (exact → lowercase → parentheses-stripped → alphanumeric-normalized). Rows with no pin are geocoded via **OneMap** (Singapore's official geocoder) using the sheet address; results are cached in `data/cache/geocode.json`. Rows that cannot be resolved are excluded.
 4. **Merge** - sheet rows and map pins for the same venue are merged into one feature; regions are normalized (or derived from coordinates), and the result is written to `data/combined.geojson`.
 
 The pipeline exits non-zero if the sheet fetch returns no rows, so a bad upstream response never overwrites good data.
@@ -154,9 +154,8 @@ At request time, `/api/locations` reads `combined.geojson` and `geoJSONToLocatio
 ## Contributing
 
 1. Fork and branch (`feature/...` or `fix/...`).
-2. Keep commits small and descriptive (Conventional Commits).
-3. Make sure `npx tsc --noEmit`, `npm run lint`, and `npm test` pass.
-4. Open a pull request.
+2. Make sure `npx tsc --noEmit`, `npm run lint`, and `npm test` pass.
+3. PR
 
 ## License
 

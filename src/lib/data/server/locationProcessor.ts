@@ -103,6 +103,17 @@ function deriveAmenities(properties: Record<string, unknown>): ToiletLocation['a
   };
 }
 
+//& prefix each line of a sheet remark w its tab's gender so merged m+f rows stay attributable in popup - hotel tab is self-explanatory so left bare
+//^ per-line (some cells are multi-line & popup renders one bullet per line)
+function labelRemarkLines(properties: Record<string, unknown>): string[] {
+  const remarks = typeof properties.remarks === 'string' ? properties.remarks : '';
+  const lines = remarks.split('\n').map(line => line.trim()).filter(line => line !== '');
+  const sourceTab = typeof properties.sourceTab === 'string' ? properties.sourceTab.toLowerCase() : '';
+  //~ check 'female' before 'male' - 'female'.includes('male') is true
+  const label = sourceTab.includes('female') ? 'Female: ' : sourceTab.includes('male') ? 'Male: ' : '';
+  return lines.map(line => `${label}${line}`);
+}
+
 /**
  * & merge a duplicate sheet row into an existing location - 177 venues appear in both the
  * & MALE & FEMALE tabs & previously lost their 2nd gender tag + distinct remarks to dedup
@@ -125,10 +136,11 @@ function mergeDuplicateSheetRow(existing: ToiletLocation, properties: Record<str
     existing.types = Array.from(types);
   }
   
-  //~ append distinct remarks so 2nd row's free text isn't lost
-  const remarks = typeof properties.remarks === 'string' ? properties.remarks.trim() : '';
-  if (remarks && !(existing.sheetsRemarks ?? '').includes(remarks)) {
-    existing.sheetsRemarks = existing.sheetsRemarks ? `${existing.sheetsRemarks}\n${remarks}` : remarks;
+  //~ compare whole labelled lines - identical text under a different gender label is new info, not a dup
+  const existingLines = existing.sheetsRemarks ? existing.sheetsRemarks.split('\n') : [];
+  const newLines = labelRemarkLines(properties).filter(line => !existingLines.includes(line));
+  if (newLines.length > 0) {
+    existing.sheetsRemarks = [...existingLines, ...newLines].join('\n');
   }
   
   //~ OR amenity flags derived frm duplicate's text
@@ -352,7 +364,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       lastUpdated: typeof properties.lastUpdated === 'string' ? properties.lastUpdated : '',
       source: 'google-sheets',
       description: typeof properties.description === 'string' ? properties.description : '',
-      sheetsRemarks: typeof properties.remarks === 'string' ? properties.remarks : '',
+      sheetsRemarks: labelRemarkLines(properties).join('\n'),
     });
   });
   
@@ -480,7 +492,7 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
     }
     
     //~ check gender property fr additional type info
-    //~ only trust the gender property whn sourceTab gave nothing (generated gender data was buggy)
+    //~ only trust gender property whn sourceTab gave nothing (generated gender data was buggy)
     if (!safeGender && typeof properties.gender === 'string') {
       const gender = properties.gender.toLowerCase();
       if (gender === 'male') {

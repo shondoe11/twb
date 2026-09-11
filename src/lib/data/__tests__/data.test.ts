@@ -110,6 +110,45 @@ describe('geoJSONToLocations', () => {
     expect(locations[0].amenities.unisex).toBe(true);
   });
 
+  it('labels merged remarks w their tab gender so each line stays attributable', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Dual Mall', 'MALE TOILETS', [103.83, 1.3], { remarks: 'level 1' }),
+        makeSheetFeature('Dual Mall', 'FEMALE TOILETS', [103.83, 1.3], { remarks: 'level 2' }),
+      ])
+    );
+
+    expect(locations[0].sheetsRemarks).toBe('Male: level 1\nFemale: level 2');
+  });
+
+  it('keeps identical remark text frm both genders - same label + text is the only dup', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Twin Mall', 'MALE TOILETS', [103.83, 1.3], { remarks: 'B1' }),
+        makeSheetFeature('Twin Mall', 'FEMALE TOILETS', [103.83, 1.3], { remarks: 'B1' }),
+        makeSheetFeature('Twin Mall', 'FEMALE TOILETS', [103.83, 1.3], { remarks: 'B1' }),
+      ])
+    );
+
+    expect(locations[0].sheetsRemarks).toBe('Male: B1\nFemale: B1');
+  });
+
+  it('labels every line of a multi-line remark cell', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([makeSheetFeature('Tall Mall', 'MALE TOILETS', [103.83, 1.3], { remarks: 'level 5\n\ncubicle 3 ' })])
+    );
+
+    expect(locations[0].sheetsRemarks).toBe('Male: level 5\nMale: cubicle 3');
+  });
+
+  it('leaves hotel remarks unprefixed', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([makeSheetFeature('Hotel Mono', 'HOTEL ROOMS W BIDET', [103.84, 1.28], { remarks: 'all rooms' })])
+    );
+
+    expect(locations[0].sheetsRemarks).toBe('all rooms');
+  });
+
   it('derives wheelchair access frm handicap keywords in remarks', () => {
     const locations = geoJSONToLocations(
       makeGeoJSON([
