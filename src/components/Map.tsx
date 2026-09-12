@@ -186,11 +186,12 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         </div>
         
         <div className="flex flex-wrap gap-1 mb-2">
-          {location.type && (
-            <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-0.5 rounded-full">
-              {location.type}
+          {/* render every tag in types - venues merged frm both male & female tabs carry 2, `type` only holds the 1st */}
+          {(location.types?.length ? location.types : location.type ? [location.type] : []).map(tag => (
+            <span key={tag} className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-0.5 rounded-full">
+              {tag}
             </span>
-          )}
+          ))}
           {location.amenities?.wheelchairAccess && (
             <span className="text-xs bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 px-2 py-0.5 rounded-full">
               ♿ Wheelchair Access
