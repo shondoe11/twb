@@ -114,6 +114,23 @@ function labelRemarkLines(properties: Record<string, unknown>): string[] {
   return lines.map(line => `${label}${line}`);
 }
 
+//& google my maps descriptions follow a 'Male: x<br>Female: y<br>Handicap: z' template - a value of unknown carries no info
+const UNKNOWN_TEMPLATE_LINE = /^(male|female|handicap)\s*[:;]\s*unknown\.?$/i;
+//& loose per-line key fr comparing maps vs sheets remarks: strips gender labels & punctuation
+function remarkKey(line: string): string {
+  return line.toLowerCase().replace(/^(male|female):\s*/, '').replace(/[^a-z0-9]+/g, ' ').trim();
+}
+
+//& build popup-ready maps remarks frm raw kml description - line-level dedupe against (merged) sheet remarks so only genuinely new info survives
+function buildMapsRemarks(description: string, sheetsRemarks: string): string {
+  const sheetKeys = new Set(sheetsRemarks.split('\n').map(remarkKey).filter(key => key !== ''));
+  return description
+    .split(/<br\s*\/?>|\n/i)
+    .map(line => line.trim())
+    .filter(line => line !== '' && !UNKNOWN_TEMPLATE_LINE.test(line) && !sheetKeys.has(remarkKey(line)))
+    .join('\n');
+}
+
 /**
  * & merge a duplicate sheet row into an existing location - 177 venues appear in both the
  * & MALE & FEMALE tabs & previously lost their 2nd gender tag + distinct remarks to dedup
@@ -537,6 +554,11 @@ export function geoJSONToLocations(geoData: GeoJSONData): ToiletLocation[] {
       description: typeof properties.description === 'string' ? properties.description : '',
       sheetsRemarks: '',
     });
+  });
+  
+  //& final pass so dedupe against sheetsRemarks sees fully merged m+f remarks
+  uniqueLocations.forEach(location => {
+    location.mapsRemarks = buildMapsRemarks(location.description ?? '', location.sheetsRemarks ?? '');
   });
   
   dlog(`Final processed location count: ${uniqueLocations.length}`);

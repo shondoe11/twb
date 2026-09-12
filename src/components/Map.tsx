@@ -162,10 +162,10 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     setPopupLocation(selectedLocation);
   }, [selectedLocation]);
   
-  //& sheets remarks fr popup - merged m+f rows join their remarks w \n, split so each shows as its own bullet
-  const getSheetsRemarks = useCallback((location: ToiletLocation): string[] => {
-    if (!location.sheetsRemarks) return [];
-    return location.sheetsRemarks
+  //& sheets remarks fr popup - merged m+f rows join their remarks w \n, split so each shows as its own bullet. shared by sheets & maps remarks - both are \n-joined by the processor
+  const splitRemarkLines = useCallback((remarks?: string): string[] => {
+    if (!remarks) return [];
+    return remarks
       .split('\n')
       .map(line => line.trim())
       .filter(line => line !== '');
@@ -174,7 +174,8 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   //~ popup content renderer
   const renderPopupContent = useCallback((location: ToiletLocation) => {
     const shouldShowAddress = location.address && location.address.trim() !== '';
-    const sheetsRemarks = getSheetsRemarks(location);
+    const sheetsRemarks = splitRemarkLines(location.sheetsRemarks);
+    const mapsRemarks = splitRemarkLines(location.mapsRemarks);
     
     return (
       <div className="popup-content">
@@ -211,8 +212,6 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         
         {/*~ always rendered - community remarks input must be available on every pin */}
         <div style={{ margin: '4px 0 0 0', padding: 0, lineHeight: '1.2' }}>
-            <p className="text-xs font-medium" style={{ margin: 0, padding: 0 }}>Remarks:</p>
-            
             {/* Sheets source comments */}
             {sheetsRemarks.length > 0 && (
               <div className="mt-1">
@@ -222,6 +221,22 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
                 <ul className="list-disc pl-4 m-0 p-0">
                   {sheetsRemarks.map((comment, index) => (
                     <li key={`sheet-comment-${index}`} className="text-xs" style={{ margin: 0, padding: 0 }}>
+                      {comment}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            
+            {/* google my maps pin description - processor alr strips template noise & drops it whn identical to sheets */}
+            {mapsRemarks.length > 0 && (
+              <div className="mt-1">
+                <p className="text-xs mb-0.5" style={{ margin: '2px 0 0 0', padding: 0 }}>
+                  <span className="font-medium">Maps source:</span>
+                </p>
+                <ul className="list-disc pl-4 m-0 p-0">
+                  {mapsRemarks.map((comment, index) => (
+                    <li key={`maps-comment-${index}`} className="text-xs" style={{ margin: 0, padding: 0 }}>
                       {comment}
                     </li>
                   ))}
@@ -245,7 +260,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         </div>
       </div>
     );
-  }, [getSheetsRemarks]);
+  }, [splitRemarkLines]);
   
   return (
     //~ min-h keeps the webgl canvas visible on mobile where the grid row has no fixed height

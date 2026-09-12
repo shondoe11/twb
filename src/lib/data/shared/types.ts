@@ -22,6 +22,8 @@ export interface ToiletLocation {
   
   //& google maps description - kml placemark description text
   description?: string;
+  //& popup-ready google maps description: <br> split to lines, template noise dropped, empty whn it just duplicates sheetsRemarks
+  mapsRemarks?: string;
   //& google sheets remarks
   sheetsRemarks?: string;
   

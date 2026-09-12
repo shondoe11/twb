@@ -141,6 +141,57 @@ describe('geoJSONToLocations', () => {
     expect(locations[0].sheetsRemarks).toBe('Male: level 5\nMale: cubicle 3');
   });
 
+  it('splits maps description on <br> & drops "x: Unknown" template lines', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Syed Cafe', 'MALE TOILETS', [103.9, 1.32], {
+          source: 'merged',
+          description: 'Male: Yes<br>Female: Unknown<br>Handicap: Unknown',
+        }),
+      ])
+    );
+
+    expect(locations[0].mapsRemarks).toBe('Male: Yes');
+  });
+
+  it('blanks maps remarks whn they only repeat the (merged) sheet remarks', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('212 Social', 'MALE TOILETS', [103.88, 1.36], { remarks: 'Unisex toilet', description: 'Unisex toilet' }),
+        makeSheetFeature('212 Social', 'FEMALE TOILETS', [103.88, 1.36], { remarks: 'Unisex toilet', description: 'Unisex toilet' }),
+      ])
+    );
+
+    expect(locations[0].sheetsRemarks).toBe('Male: Unisex toilet\nFemale: Unisex toilet');
+    expect(locations[0].mapsRemarks).toBe('');
+  });
+
+  it('drops only the maps lines the sheet alr has, keeps the new ones', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Tall Mall', 'MALE TOILETS', [103.83, 1.3], {
+          remarks: 'Handicap toilet, level 5',
+          description: 'Handicap toilet, level 5.<br>Male toilet, cubicle 3, level 5.',
+        }),
+      ])
+    );
+
+    expect(locations[0].mapsRemarks).toBe('Male toilet, cubicle 3, level 5.');
+  });
+
+  it('keeps maps remarks whn they differ frm the sheet remarks', () => {
+    const locations = geoJSONToLocations(
+      makeGeoJSON([
+        makeSheetFeature('Fu Fa', 'FEMALE TOILETS', [103.88, 1.37], {
+          remarks: 'female & handicap toilet',
+          description: 'Bidet at female & handicap toilet',
+        }),
+      ])
+    );
+
+    expect(locations[0].mapsRemarks).toBe('Bidet at female & handicap toilet');
+  });
+
   it('leaves hotel remarks unprefixed', () => {
     const locations = geoJSONToLocations(
       makeGeoJSON([makeSheetFeature('Hotel Mono', 'HOTEL ROOMS W BIDET', [103.84, 1.28], { remarks: 'all rooms' })])
