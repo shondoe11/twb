@@ -100,7 +100,7 @@ export default function AboutPage() {
       </main>
 
       <footer className="bg-white dark:bg-gray-800 shadow-inner mt-8 py-4">
-        <div className="container mx-auto px-4 text-center text-sm text-gray-600 dark:text-gray-300">
+        <div className="container mx-auto px-4 text-center text-sm text-blue-600 dark:text-blue-400">
           <p>
             <Link href="/about" className="hover:underline" title="About TWB">
               © {new Date().getFullYear()} TWB - Toilets with Bidets
