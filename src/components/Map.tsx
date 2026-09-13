@@ -48,6 +48,19 @@ const clusterCountLayer: LayerProps = {
   },
 };
 
+//& invisible hit target under each pin - 7px dots were too fiddly on mobile, this widens tap area (~40px) without changing visual
+const unclusteredPointHitLayer: LayerProps = {
+  id: 'unclustered-point-hit',
+  type: 'circle',
+  source: 'toilets',
+  filter: ['!', ['has', 'point_count']],
+  paint: {
+    'circle-color': '#000000',
+    'circle-opacity': 0,
+    'circle-radius': 20,
+  },
+};
+
 //~ individual toilet points
 const unclusteredPointLayer: LayerProps = {
   id: 'unclustered-point',
@@ -99,19 +112,19 @@ const SafeGeolocateControl = ({ position, onGeolocate, onError, ...options }: Sa
 const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   const mapRef = useRef<MapRef>(null);
   
-  //~ which location's popup is currently open
+  //~ which location's popup isOpen
   const [popupLocation, setPopupLocation] = useState<ToiletLocation | null>(null);
   
   //~ pointer cursor whn hovering clusters/points
   const [cursor, setCursor] = useState<string>('');
   
-  //~ surfaced whn the browser's geolocation lookup fails - maplibre swallows these errors silently otherwise
+  //~ surfaced whn browser's geolocation lookup fails - maplibre swallows these errors silently otherwise
   const [geoError, setGeoError] = useState<string | null>(null);
   
-  //~ map basemap follows the app theme via the shared useIsDark hook
+  //~ map basemap follows app theme via shared useIsDark hook
   const isDark = useIsDark();
   
-  //~ convert locations into a geojson source fr maplibre's native clustering
+  //~ convert locations into geojson src fr maplibre's native clustering
   const geojson = useMemo(() => ({
     type: 'FeatureCollection' as const,
     features: locations.map((loc, idx) => ({
@@ -133,7 +146,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     if (!feature) return;
     
     if (feature.layer?.id === 'clusters') {
-      //~ zoom into the cluster on click
+      //~ zoom into cluster on click
       const clusterId = feature.properties?.cluster_id;
       const source = mapRef.current?.getSource('toilets') as GeoJSONSource | undefined;
       if (!source || clusterId === undefined) return;
@@ -141,7 +154,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
       const zoom = await source.getClusterExpansionZoom(clusterId);
       //~ e.lngLat = clicked spot on the cluster circle, close enough to its center
       mapRef.current?.easeTo({ center: e.lngLat, zoom, duration: 500 });
-    } else if (feature.layer?.id === 'unclustered-point') {
+    } else if (feature.layer?.id === 'unclustered-point' || feature.layer?.id === 'unclustered-point-hit') {
       const location = locations[feature.properties?.idx];
       if (location) {
         setPopupLocation(location);
@@ -270,7 +283,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         initialViewState={{ longitude: 103.8198, latitude: 1.3521, zoom: 11 }} //~ SG centered
         mapStyle={isDark ? DARK_STYLE : LIGHT_STYLE}
         style={{ width: '100%', height: '100%' }}
-        interactiveLayerIds={['clusters', 'unclustered-point']}
+        interactiveLayerIds={['clusters', 'unclustered-point', 'unclustered-point-hit']}
         onClick={handleMapClick}
         onMouseEnter={() => setCursor('pointer')}
         onMouseLeave={() => setCursor('')}
@@ -278,7 +291,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
       >
         <NavigationControl position="top-right" showCompass={false} />
         
-        {/* live location: browser asks fr permission on 1st click, then flies to & tracks the user's pin (needs https / localhost) */}
+        {/* live location: browser asks fr permission on 1st click, then flies to & tracks user's pin (needs https / localhost) */}
         <SafeGeolocateControl
           position="top-right"
           positionOptions={{ enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }}
@@ -311,7 +324,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
           </div>
         )}
         
-        {/*~ maplibre clusters natively on the geojson source - no plugin needed */}
+        {/* maplibre clusters natively on geojson src - no plugin needed */}
         <Source
           id="toilets"
           type="geojson"
@@ -320,6 +333,8 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
           clusterMaxZoom={14}
           clusterRadius={50}
         >
+          {/* hit layer first so sits beneath visible dot - tapping dot itself still resolves to topmost feature */}
+          <Layer {...unclusteredPointHitLayer} />
           <Layer {...clusterLayer} />
           <Layer {...clusterCountLayer} />
           <Layer {...unclusteredPointLayer} />
