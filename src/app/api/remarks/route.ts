@@ -1,36 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSupabase } from '@/lib/supabase/server';
+import { createRateLimiter, clientIp } from '@/lib/rateLimit';
 import { readCombinedGeoJSON } from '@/lib/data/server/dataFetchers';
 import { geoJSONToLocations } from '@/lib/data/server/locationProcessor';
 import { ToiletLocation } from '@/lib/data/shared/types';
 
-//& crowd-sourced remarks api - one wiki-style editable remark per location, backed by supabase 'community_remarks' table (see supabase/schema.sql)
-//& GET returns the location's remark (or null), POST upserts it, an empty POST clears it
+//* crowd-sourced remarks api - 1 wiki-style editable remark per location, backed by supabase 'community_remarks' table (see supabase/schema.sql)
+//& GET returns location's remark (or null), POST upserts it, empty POST clears it
 
 const MAX_REMARK_LENGTH = 280;
 
-//& lightweight per-instance rate limiter fr writes - zero-cost abuse dampener note: state is per serverless instance so it's nt a hard guarantee, but it stops casual spam scripts
-const RATE_LIMIT_MAX_WRITES = 5;
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const writeLog = new Map<string, number[]>();
-
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (writeLog.get(ip) ?? []).filter(t => now - t < RATE_LIMIT_WINDOW_MS);
-  if (recent.length >= RATE_LIMIT_MAX_WRITES) {
-    writeLog.set(ip, recent);
-    return true;
-  }
-  recent.push(now);
-  writeLog.set(ip, recent);
-  //~ evict stale entries so the map never grows unbounded
-  if (writeLog.size > 1000) {
-    for (const [key, times] of writeLog) {
-      if (times.every(t => now - t >= RATE_LIMIT_WINDOW_MS)) writeLog.delete(key);
-    }
-  }
-  return false;
-}
+//& lightweight per-instance rate limiter fr writes - zero-cost abuse dampener note: state is per serverless instance so it's nt hard guarantee, but it stops casual spam scripts
+//~ impl lives in src/lib/rateLimit.ts so feedback api shares it
+const isRateLimited = createRateLimiter(5, 60_000);
 
 //& id -> location lookup built once per server instance - used to validate posted ids + stamp canonical name/address/region into supabase rows so dashboard data stays readable
 let locationIndexPromise: Promise<Map<string, ToiletLocation>> | null = null;
@@ -73,8 +55,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   //~ vercel sets x-forwarded-for to real client ip (first entry)
-  const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
-  if (isRateLimited(ip)) {
+  if (isRateLimited(clientIp(request.headers))) {
     return NextResponse.json({ error: 'Too many edits - please wait a minute' }, { status: 429 });
   }
 
