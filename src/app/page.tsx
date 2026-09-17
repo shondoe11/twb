@@ -8,6 +8,7 @@ import { fetchLocations, filterLocations } from '@/lib/data/client';
 import FilterBar from '../components/FilterBar';
 import ListView from '../components/ListView';
 import ThemeToggle from '../components/ThemeToggle';
+import FeedbackLink from '../components/FeedbackLink';
 
 interface FilterOptions {
   region: string;
@@ -103,7 +104,11 @@ export default function Home() {
                 Showing {filteredCount} of {totalLocations} locations
               </p>
             )}
-            <ThemeToggle />
+            {/*! icon controls grouped tight so they read as one cluster */}
+            <div className="flex items-center gap-1">
+              <FeedbackLink />
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </header>
