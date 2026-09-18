@@ -37,7 +37,7 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 * **Data Pipeline**: `scripts/fetch-data.mjs` (Node, `csv-parse`, regex-based KML extraction, OneMap geocoding)
 * **Community Remarks**: Supabase (Postgres + RLS) via `@supabase/supabase-js`, server-side only
 * **Observability**: Vercel Web Analytics & Speed Insights
-* **Testing**: Vitest (`npm test`) covering data processing, filtering, and the remarks API
+* **Testing**: Vitest (`npm test`) covering data processing, filtering, remarks & feedback APIs
 * **CI/CD**: GitHub Actions (type-check, lint, test on push/PR; daily data sync) + Vercel Git integration
 
 ## Getting Started
@@ -106,16 +106,20 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 ├── src/
 │   ├── app/
 │   │   ├── api/locations/     # GET processed ToiletLocation[] (edge-cached 1h)
-│   │   ├── api/remarks/       # GET / POST community remark per location
-│   │   ├── about/             # about page
+│   │   ├── api/remarks/       # GET/POST community remark per location
+│   │   ├── api/feedback/      # POST form submission
+│   │   ├── about/             
+│   │   ├── feedback/          # form
 │   │   └── ...                # layout, page, manifest, sitemap, robots, og image
-│   ├── components/            # Map, ListView, FilterBar, CommunityRemarks, ThemeToggle, TwbIcon
+│   ├── components/            # Map, ListView, FilterBar, CommunityRemarks, FeedbackForm, FeedbackLink, ThemeToggle, TwbIcon
 │   └── lib/
 │       ├── data/client/       # fetchLocations, filterLocations
 │       ├── data/server/       # readCombinedGeoJSON, geoJSONToLocations
 │       ├── data/shared/       # ToiletLocation & GeoJSON types
-│       └── supabase/          # server-side supabase client
-├── supabase/schema.sql        # community_remarks table + RLS policies
+│       ├── supabase/          # server-side supabase client
+│       ├── rateLimit.ts       # per-ip write limiter shared by write apis
+│       └── feedback.ts        # feedback categories & limits shared by form + api
+├── supabase/schema.sql        # community_remarks + feedback tables & RLS policies
 └── vitest.config.ts
 ```
 
@@ -125,8 +129,8 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 
 1. **Google Sheets (CSV)** - fetches all three public tabs (`MALE TOILETS`, `FEMALE TOILETS`, `HOTEL ROOMS W BIDET`) via `https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<TAB_GID>`. Rows without a name are dropped.
 2. **Google My Maps (KML)** - fetches `https://www.google.com/maps/d/kml?forcekml=1&mid=<MAP_ID>` and extracts placemarks (name, coordinates, description) into GeoJSON.
-3. **Coordinates** - each sheet row is matched to a KML pin by name (exact → lowercase → parentheses-stripped → alphanumeric-normalized). Rows with no pin are geocoded via **OneMap** (Singapore's official geocoder) using the sheet address; results are cached in `data/cache/geocode.json`. Rows that cannot be resolved are excluded.
-4. **Merge** - sheet rows and map pins for the same venue are merged into one feature; regions are normalized (or derived from coordinates), and the result is written to `data/combined.geojson`.
+3. **Coordinates** - each sheet row is matched to a KML pin by name (exact → lowercase → parentheses-stripped → alphanumeric-normalized). Rows with no pin are geocoded via **OneMap** (SG's official geocoder) using the sheet address; results are cached in `data/cache/geocode.json`. Rows that cannot be resolved are excluded.
+4. **Merge** - sheet rows and map pins for same venue are merged into one feature; regions are normalized (or derived from coordinates), and the result is written to `data/combined.geojson`.
 
 The pipeline exits non-zero if the sheet fetch returns no rows, so a bad upstream response never overwrites good data.
 
@@ -137,7 +141,14 @@ At request time, `/api/locations` reads `combined.geojson` and `geoJSONToLocatio
 * One row per location in `public.community_remarks` (see `supabase/schema.sql`); `location_id` is the primary key so edits are upserts.
 * `/api/remarks` validates the posted `locationId` against the canonical dataset, stamps name/address/region server-side, caps content at 280 chars, and applies a lightweight per-instance write rate limit.
 * RLS lets the anon key read and upsert; the length constraint is enforced in Postgres regardless of client input.
-* Set up: run `supabase/schema.sql` in Supabase SQL editor, then add `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` to Vercel (and `.env.local`).
+* Set up: paste the whole of `supabase/schema.sql` into Supabase SQL editor and run it (idempotent - safe to re-run on existing project, never touches rows), then add `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` to Vercel (and `.env.local`).
+
+## Feedback Form (Supabase)
+
+* `/feedback` (linked from home and about headers) posts to `/api/feedback`, which inserts into `public.feedback` - an append-only inbox with `category`, `message` (≤1000 chars), optional `contact` (≤200), the referring `page`, `user_agent` and `created_at`.
+* RLS grants anon key **insert only** - there are no select/update/delete policies, so submissions can never be read back through publishable key. Read them in Supabase Dashboard → Table Editor → `feedback`.
+* Abuse dampening
+* Same env vars as remarks; same `schema.sql` creates both tables.
 
 ## Automation & CI
 
