@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ToiletLocation } from '@/lib/data/shared/types';
+import { trackEvent } from '@/lib/analytics';
 
 //* filter options interface fr typesafety
 interface FilterOptions {
@@ -76,11 +77,13 @@ const FilterBar = ({
   }, [JSON.stringify(filters)]); //~ only depend on stringified filters
   
   //& handle region selection change
+  //~ events tracked in handlers (nt the notify effect above) so mount-time notify never logs a phantom filter change. '' = user picked 'all'
   const handleRegionChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilters(prev => ({
       ...prev,
       region: e.target.value
     }));
+    trackEvent('filter_changed', { field: 'region', value: e.target.value || 'all' });
   };
   
   //& handle type selection change
@@ -89,6 +92,7 @@ const FilterBar = ({
       ...prev,
       type: e.target.value
     }));
+    trackEvent('filter_changed', { field: 'type', value: e.target.value || 'all' });
   };
   
   //& handle amenity checkbox changes
@@ -100,6 +104,7 @@ const FilterBar = ({
         [amenity]: !prev.amenities[amenity]
       }
     }));
+    trackEvent('filter_changed', { field: amenity, value: filters.amenities[amenity] ? 'off' : 'on' });
   };
   
   //& reset all filters

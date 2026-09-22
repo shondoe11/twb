@@ -6,6 +6,7 @@ import type { MapLayerMouseEvent, GeoJSONSource } from 'maplibre-gl';
 import { ToiletLocation } from '@/lib/data/shared/types';
 import { useIsDark } from './ThemeToggle';
 import CommunityRemarks from './CommunityRemarks';
+import { trackEvent } from '@/lib/analytics';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
 interface MapProps {
@@ -159,6 +160,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
       if (location) {
         setPopupLocation(location);
         onSelectLocation?.(location);
+        trackEvent('pin_opened', { source: 'map', name: location.name, region: location.region ?? 'Unknown', type: location.type ?? 'Other' });
       }
     }
   }, [locations, onSelectLocation]);
@@ -266,6 +268,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
             href={`https://www.google.com/maps/dir/?api=1&destination=${location.lat},${location.lng}`}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent('directions_clicked', { name: location.name, region: location.region ?? 'Unknown' })}
             className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 flex items-center"
           >
             <span>📍 Get Directions</span>

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { ToiletLocation } from '@/lib/data/shared/types';
+import { trackEvent } from '@/lib/analytics';
 
 //& filterable list component fr displaying toilet locations
 const ListView = ({ 
@@ -17,7 +18,12 @@ const ListView = ({
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   
   //& gender filter
-  const [genderFilter, setGenderFilter] = useState<'all' | 'male' | 'female' | 'any'>('all');
+  const [genderFilter, setGenderFilterState] = useState<'all' | 'male' | 'female' | 'any'>('all');
+  //& single choke point so every chip click is tracked w/o touching the 4 buttons
+  const setGenderFilter = (value: 'all' | 'male' | 'female' | 'any') => {
+    setGenderFilterState(value);
+    trackEvent('filter_changed', { field: 'gender', value });
+  };
   
   //& filter locations -> search term & gender
   const filteredLocations = locations.filter(location => {
@@ -148,7 +154,10 @@ const ListView = ({
             <div 
               key={`loc-${index}-${(location.id || '').replace(/^location-/, '')}-${(location.lat || 0).toFixed(5)}-${(location.lng || 0).toFixed(5)}`}
               className="p-4 hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer flex flex-col md:flex-row gap-3 text-gray-800 dark:text-gray-100"
-              onClick={() => onSelectLocation?.(location)}
+              onClick={() => {
+                onSelectLocation?.(location);
+                trackEvent('pin_opened', { source: 'list', name: location.name, region: location.region ?? 'Unknown', type: location.type ?? 'Other' });
+              }}
             >
               {/* content */}
               <div className="flex-1">

@@ -1,6 +1,7 @@
 'use client';
 //* theme toggle button + shared hook fr reading the current theme
 import { useEffect, useState } from 'react';
+import { trackEvent } from '@/lib/analytics';
 
 //& 3 themes cycled in this order by toggle. oled = dark + pure black surfaces
 export type Theme = 'light' | 'dark' | 'oled';
@@ -59,6 +60,7 @@ const ThemeToggle = () => {
     const current = readTheme(el);
     const next = THEME_ORDER[(THEME_ORDER.indexOf(current) + 1) % THEME_ORDER.length];
     applyTheme(el, next);
+    trackEvent('theme_changed', { to: next });
     try {
       localStorage.setItem('theme', next);
     } catch {
@@ -83,7 +85,7 @@ const ThemeToggle = () => {
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
         </svg>
       ) : shown === 'dark' ? (
-        //~ oled icon - filled disc w a thin ring, reads as "pure black screen"
+        //~ oled icon - filled disc w thin ring, reads as "pure black screen"
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="9" />
           <circle cx="12" cy="12" r="4.5" fill="currentColor" stroke="none" />

@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback, FormEvent } from 'react';
+import { trackEvent } from '@/lib/analytics';
 
 //& crowd-sourced remarks section shown inside every map pin popup reads/writes via /api/remarks which is backed by supabase
 
@@ -85,6 +86,7 @@ const CommunityRemarks = ({ locationId }: CommunityRemarksProps) => {
       const saved: CommunityRemark | null = await res.json();
       setRemark(saved);
       setEditing(false);
+      trackEvent('remark_saved', { action: saved ? 'save' : 'clear' });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to save remark');
     } finally {
@@ -116,7 +118,7 @@ const CommunityRemarks = ({ locationId }: CommunityRemarksProps) => {
         <p className="text-xs text-gray-500 dark:text-gray-400" style={{ margin: 0, padding: 0 }}>Loading…</p>
       )}
 
-      {/*~ fixed-height display box so the popup size stays stable regardless of content */}
+      {/*~ fixed-height display box so popup size stays stable regardless of content */}
       {!loading && !editing && (
         <div
           className="text-xs rounded border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-gray-700/50 px-2 py-1 overflow-y-auto"
