@@ -12,10 +12,12 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 4. [Project Structure](#project-structure)
 5. [Data Pipeline](#data-pipeline)
 6. [Community Remarks (Supabase)](#community-remarks-supabase)
-7. [Automation & CI](#automation--ci)
-8. [Deployment](#deployment)
-9. [Contributing](#contributing)
-10. [License](#license)
+7. [Feedback Form (Supabase)](#feedback-form-supabase)
+8. [Interaction Events (Supabase)](#interaction-events-supabase)
+9. [Automation & CI](#automation--ci)
+10. [Deployment](#deployment)
+11. [Contributing](#contributing)
+12. [License](#license)
 
 ---
 
@@ -36,7 +38,7 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 * **Map**: MapLibre GL via `@vis.gl/react-maplibre`, free OpenFreeMap vector tiles (`liberty` light / `dark` styles)
 * **Data Pipeline**: `scripts/fetch-data.mjs` (Node, `csv-parse`, regex-based KML extraction, OneMap geocoding)
 * **Community Remarks**: Supabase (Postgres + RLS) via `@supabase/supabase-js`, server-side only
-* **Observability**: Vercel Web Analytics & Speed Insights
+* **Observability**: Vercel Web Analytics (page views) & Speed Insights; UI interaction events are self-hosted in Supabase via `/api/events` (see [Interaction Events](#interaction-events-supabase))
 * **Testing**: Vitest (`npm test`) covering data processing, filtering, remarks & feedback APIs
 * **CI/CD**: GitHub Actions (type-check, lint, test on push/PR; daily data sync) + Vercel Git integration
 
@@ -85,7 +87,7 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 | ------------------- | -------------------------------------------------------------- |
 | `npm run dev`       | Start Next.js dev server                                        |
 | `npm run build`     | Production build                                                |
-| `npm start`         | Serve the production build                                      |
+| `npm start`         | Serve prod build                                      |
 | `npm run lint`      | ESLint                                                          |
 | `npm test`          | Vitest unit tests                                               |
 | `npm run sync-data` | Fetch Sheets + My Maps, geocode, write `data/combined.geojson` |
@@ -108,6 +110,7 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 │   │   ├── api/locations/     # GET processed ToiletLocation[] (edge-cached 1h)
 │   │   ├── api/remarks/       # GET/POST community remark per location
 │   │   ├── api/feedback/      # POST form submission
+│   │   ├── api/events/        # POST ui interaction event
 │   │   ├── about/             
 │   │   ├── feedback/          # form
 │   │   └── ...                # layout, page, manifest, sitemap, robots, og image
@@ -118,8 +121,9 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 │       ├── data/shared/       # ToiletLocation & GeoJSON types
 │       ├── supabase/          # server-side supabase client
 │       ├── rateLimit.ts       # per-ip write limiter shared by write apis
-│       └── feedback.ts        # feedback categories & limits shared by form + api
-├── supabase/schema.sql        # community_remarks + feedback tables & RLS policies
+│       ├── feedback.ts        # feedback categories & limits shared by form + api
+│       └── analytics.ts       # typed event defs + trackEvent() beacon, shared by ui + api
+├── supabase/schema.sql        # community_remarks, feedback & events tables + RLS policies
 └── vitest.config.ts
 ```
 
@@ -146,9 +150,39 @@ At request time, `/api/locations` reads `combined.geojson` and `geoJSONToLocatio
 ## Feedback Form (Supabase)
 
 * `/feedback` (linked from home and about headers) posts to `/api/feedback`, which inserts into `public.feedback` - an append-only inbox with `category`, `message` (≤1000 chars), optional `contact` (≤200), the referring `page`, `user_agent` and `created_at`.
-* RLS grants anon key **insert only** - there are no select/update/delete policies, so submissions can never be read back through publishable key. Read them in Supabase Dashboard → Table Editor → `feedback`.
+* RLS grants anon key **insert only** - there are no select/update/delete policies, so submissions can never be read back through publishable key.
 * Abuse dampening
 * Same env vars as remarks; same `schema.sql` creates both tables.
+
+## Interaction Events (Supabase)
+
+UI interactions are recorded in our own `public.events` table.
+
+* `trackEvent(name, props)` in `src/lib/analytics.ts` is the only entry point. Event names and prop shapes are a TypeScript map, so a typo or a wrong prop is a compile error. It fires via `navigator.sendBeacon` (survives navigation / new-tab links) and is a no-op that logs to the console in development.
+* Events: `pin_opened` (`source` map/list, `name`, `region`, `type`), `directions_clicked` (`name`, `region`), `filter_changed` (`field`, `value`), `remark_saved` (`action`), `feedback_sent` (`category`), `theme_changed` (`to`). Payloads are venue/UI facts only - no user input, contact details, coordinates or identifiers.
+* `/api/events` (POST only) whitelists the event name, requires props to be flat object of ≤8 short primitives (rejects nested/oversized payloads outright), stores the page path, and rate-limits to 60 events/minute/IP. RLS is insert-only for the anon key.
+* Query in Supabase → SQL Editor, e.g.
+
+  ```sql
+  -- events per type, last 30 days
+  select name, count(*) from public.events
+  where created_at > now() - interval '30 days'
+  group by 1 order by 2 desc;
+
+  -- most looked-up toilets
+  select props->>'name' as toilet, count(*) from public.events
+  where name = 'pin_opened' group by 1 order by 2 desc limit 20;
+
+  -- lookups that turned into directions tap, by region
+  select props->>'region' as region,
+         count(*) filter (where name = 'pin_opened') as opened,
+         count(*) filter (where name = 'directions_clicked') as directions
+  from public.events group by 1 order by 2 desc;
+
+  -- which filters get used
+  select props->>'field' as field, props->>'value' as value, count(*)
+  from public.events where name = 'filter_changed' group by 1, 2 order by 3 desc;
+  ```
 
 ## Automation & CI
 
@@ -166,7 +200,7 @@ At request time, `/api/locations` reads `combined.geojson` and `geoJSONToLocatio
 
 1. Fork and branch (`feature/...` or `fix/...`).
 2. Make sure `npx tsc --noEmit`, `npm run lint`, and `npm test` pass.
-3. PR
+3. PR.
 
 ## License
 
