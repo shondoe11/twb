@@ -79,7 +79,7 @@ create policy "anon can submit feedback"
 
 --^ ---------------------------------------------------------------------------
 --* ui interaction events (pin opens, directions, filters...) posted by /api/events
---& self-hosted replacement fr vercel custom events (pro-only). append-only, no user identifiers
+--& self-hosted replacement fr vercel custom events (pro-only). append-only, no reversible identifiers, no ips
 --& allowed event names + prop shapes live in src/lib/analytics.ts & are enforced by api
 
 create table if not exists public.events (
@@ -91,9 +91,22 @@ create table if not exists public.events (
   created_at timestamptz not null default now()
 );
 
---~ 2 ways events get queried: per-name over time & everything recent
+--& identity layer: no reversible identifiers, no ips
+--~   session_id: random uuid minted client-side per tab session, links one visit's journey
+--~   visitor:    sha256(daily salt + ip + user agent) truncated - counts uniques per day, irreversible, cannot link across days
+--~   country/city: coarse geo frm vercel's x-vercel-ip-* headers, ip itself never stored
+--~   device: mobile / tablet / desktop bucket derived frm user agent, ua string never stored
+alter table public.events add column if not exists session_id text check (session_id is null or char_length(session_id) <= 40);
+alter table public.events add column if not exists visitor text check (visitor is null or char_length(visitor) <= 32);
+alter table public.events add column if not exists country text check (country is null or char_length(country) <= 2);
+alter table public.events add column if not exists city text check (city is null or char_length(city) <= 64);
+alter table public.events add column if not exists device text check (device is null or device in ('mobile', 'tablet', 'desktop', 'unknown'));
+
+--~ ways events get queried: per-name over time, everything recent, one session's journey, uniques per day
 create index if not exists events_name_created_at_idx on public.events (name, created_at desc);
 create index if not exists events_created_at_idx on public.events (created_at desc);
+create index if not exists events_session_idx on public.events (session_id, created_at);
+create index if not exists events_visitor_idx on public.events (visitor);
 
 --~ row level security: anon can ONLY insert
 alter table public.events enable row level security;
