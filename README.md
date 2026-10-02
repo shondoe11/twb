@@ -122,7 +122,8 @@ TWB is a mobile-first web app that maps every recorded bidet-equipped toilet acr
 │       ├── supabase/          # server-side supabase client
 │       ├── rateLimit.ts       # per-ip write limiter shared by write apis
 │       ├── feedback.ts        # feedback categories & limits shared by form + api
-│       └── analytics.ts       # typed event defs + trackEvent() beacon, shared by ui + api
+│       ├── analytics.ts       # typed event defs + trackEvent() beacon, shared by ui + api
+│       └── analyticsServer.ts # visitor hash, device bucket, geo headers fr /api/events
 ├── supabase/schema.sql        # community_remarks, feedback & events tables + RLS policies
 └── vitest.config.ts
 ```
@@ -159,8 +160,9 @@ At request time, `/api/locations` reads `combined.geojson` and `geoJSONToLocatio
 UI interactions are recorded in our own `public.events` table.
 
 * `trackEvent(name, props)` in `src/lib/analytics.ts` is the only entry point. Event names and prop shapes are a TypeScript map, so a typo or a wrong prop is a compile error. It fires via `navigator.sendBeacon` (survives navigation / new-tab links) and is a no-op that logs to the console in development.
-* Events: `pin_opened` (`source` map/list, `name`, `region`, `type`), `directions_clicked` (`name`, `region`), `filter_changed` (`field`, `value`), `remark_saved` (`action`), `feedback_sent` (`category`), `theme_changed` (`to`). Payloads are venue/UI facts only - no user input, contact details, coordinates or identifiers.
-* `/api/events` (POST only) whitelists the event name, requires props to be flat object of ≤8 short primitives (rejects nested/oversized payloads outright), stores the page path, and rate-limits to 60 events/minute/IP. RLS is insert-only for the anon key.
+* Events: `pin_opened` (`source` map/list, `name`, `region`, `type`), `directions_clicked` (`name`, `region`), `filter_changed` (`field`, `value`), `remark_saved` (`action`), `feedback_sent` (`category`), `theme_changed` (`to`), `map_moved`, `search_unmatched`, `geolocate_used`.
+* **Identity layer - no reversible identifiers, no IPs stored.** Each row also carries: `session_id`, `visitor`, `country`/`city` (from Vercel's `x-vercel-ip-*` headers), `device` (`mobile`/`tablet`/`desktop` bucket).
+* `/api/events` (POST only) whitelists the event name, requires props to be flat object of ≤8 short primitives (rejects nested/oversized payloads outright), accepts only UUID-shaped session ids, stores the page path, and rate-limits to 60 events/minute/IP. RLS is insert-only for the anon key.
 * Query in Supabase → SQL Editor, e.g.
 
   ```sql
@@ -182,6 +184,36 @@ UI interactions are recorded in our own `public.events` table.
   -- which filters get used
   select props->>'field' as field, props->>'value' as value, count(*)
   from public.events where name = 'filter_changed' group by 1, 2 order by 3 desc;
+
+  -- unique visitors & sessions per day
+  select date_trunc('day', created_at) as day,
+         count(distinct visitor) as visitors,
+         count(distinct session_id) as sessions,
+         count(*) as events
+  from public.events group by 1 order by 1 desc;
+
+  -- sessions that opened pin vs went on to directions (conversion)
+  with s as (
+    select session_id,
+           bool_or(name = 'pin_opened') as opened,
+           bool_or(name = 'directions_clicked') as directions
+    from public.events where session_id is not null group by 1
+  )
+  select count(*) filter (where opened) as opened_sessions,
+         count(*) filter (where directions) as directions_sessions
+  from s;
+
+  -- where ppl browse on map (hot spots at ~1km cells, zoomed in enough to be genuinely looking fr toilet)
+  select round((props->>'lat')::numeric, 2) as lat, round((props->>'lng')::numeric, 2) as lng, count(*)
+  from public.events where name = 'map_moved' and (props->>'zoom')::numeric >= 14
+  group by 1, 2 order by 3 desc limit 30;
+
+  -- venues ppl search fr but we don't have
+  select props->>'term' as term, count(*) from public.events
+  where name = 'search_unmatched' group by 1 order by 2 desc limit 30;
+
+  -- device & town mix
+  select device, city, count(*) from public.events group by 1, 2 order by 3 desc;
   ```
 
 ## Automation & CI
