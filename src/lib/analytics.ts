@@ -11,9 +11,15 @@ export type AnalyticsEvents = {
   filter_changed: { field: 'region' | 'type' | 'wheelchairAccess' | 'babyChanging' | 'unisex' | 'gender'; value: string };
   //~ community remark saved or cleared
   remark_saved: { action: 'save' | 'clear' };
-  //~ feedback form submitted - category only, never the message
+  //~ feedback form submitted - category only, never msg
   feedback_sent: { category: string };
   theme_changed: { to: 'light' | 'dark' | 'oled' };
+  //~ where ppl browse on map - centre rounded to 3dp (~100m) + zoom, user-initiated moves only, debounced
+  map_moved: { lat: number; lng: number; zoom: number };
+  //~ list search that matched nothing - the only user-typed value we keep, lowercased & truncated. tells us which venues missing
+  search_unmatched: { term: string };
+  //~ 'find me' button used - once per map mount
+  geolocate_used: Record<string, never>;
 };
 
 //& runtime whitelist fr api - must list every key of AnalyticsEvents (the satisfies clause makes tsc fail if 1 is missed)
@@ -24,7 +30,26 @@ export const EVENT_NAMES = [
   'remark_saved',
   'feedback_sent',
   'theme_changed',
+  'map_moved',
+  'search_unmatched',
+  'geolocate_used',
 ] as const satisfies readonly (keyof AnalyticsEvents)[];
+
+//& per-tab session id: random, lives in sessionStorage so it dies w tab & never follows anyone across visits
+const SESSION_KEY = 'twb_sid';
+function getSessionId(): string | null {
+  try {
+    let sid = sessionStorage.getItem(SESSION_KEY);
+    if (!sid) {
+      sid = crypto.randomUUID();
+      sessionStorage.setItem(SESSION_KEY, sid);
+    }
+    return sid;
+  } catch {
+    //~ storage blocked (private mode etc) - events still record, just w/o journey link
+    return null;
+  }
+}
 
 //& server-side sanity caps fr props - generous vs real payloads, tight vs abuse
 export const EVENT_LIMITS = {
@@ -36,7 +61,7 @@ export const EVENT_LIMITS = {
 export function trackEvent<E extends keyof AnalyticsEvents>(event: E, props: AnalyticsEvents[E]): void {
   if (typeof window === 'undefined') return;
 
-  const payload = JSON.stringify({ name: event, props, page: window.location.pathname });
+  const payload = JSON.stringify({ name: event, props, page: window.location.pathname, sid: getSessionId() });
 
   //~ dev: log instead of polluting prod table
   if (process.env.NODE_ENV === 'development') {

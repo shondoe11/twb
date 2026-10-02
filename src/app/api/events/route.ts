@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSupabase } from '@/lib/supabase/server';
 import { createRateLimiter, clientIp } from '@/lib/rateLimit';
 import { EVENT_NAMES, EVENT_LIMITS } from '@/lib/analytics';
+import { visitorHash, deviceFromUserAgent, geoFromHeaders, sanitizeSessionId } from '@/lib/analyticsServer';
 
 //* ui interaction events api - append-only, backed by supabase 'events' table (see supabase/schema.sql)
 //& POST only: events are queried in dashboard w sql, never served back to browser
@@ -35,12 +36,13 @@ function sanitizeProps(value: unknown): Record<string, Primitive> | null {
 }
 
 export async function POST(request: NextRequest) {
-  if (isRateLimited(clientIp(request.headers))) {
+  const ip = clientIp(request.headers);
+  if (isRateLimited(ip)) {
     return NextResponse.json({ error: 'Too many events' }, { status: 429 });
   }
 
   //~ sendBeacon posts blob - content-type may be missing/odd, so parse text rather than trusting request.json()
-  let body: { name?: unknown; props?: unknown; page?: unknown };
+  let body: { name?: unknown; props?: unknown; page?: unknown; sid?: unknown };
   try {
     body = JSON.parse(await request.text());
   } catch {
@@ -64,7 +66,19 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Events service unavailable' }, { status: 503 });
   }
 
-  const { error } = await supabase.from('events').insert({ name, props, page });
+  //& id layer: everything derived here non-reversible - ip & ua string used fr hash/bucket then dropped
+  const userAgent = request.headers.get('user-agent') ?? '';
+  const { country, city } = geoFromHeaders(request.headers);
+  const { error } = await supabase.from('events').insert({
+    name,
+    props,
+    page,
+    session_id: sanitizeSessionId(body.sid),
+    visitor: visitorHash(ip, userAgent),
+    country,
+    city,
+    device: deviceFromUserAgent(userAgent || null),
+  });
   if (error) {
     console.error('Error saving event:', error.message);
     return NextResponse.json({ error: 'Failed to save event' }, { status: 500 });
