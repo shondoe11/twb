@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-//* about pg - via TWB text in nav + footer
+//* about pg - via TWB text (nav+footer)
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -36,7 +36,7 @@ export default function AboutPage() {
             >
               ← Back to map
             </Link>
-            {/*! icon controls grouped tight so they read as one cluster */}
+            {/* icon ctrls grouped tight so they read as 1 cluster */}
             <div className="flex items-center gap-1">
               <FeedbackLink />
               <ThemeToggle />
@@ -107,6 +107,15 @@ export default function AboutPage() {
                 send us feedback
               </Link>
               {' '}about the site itself.
+            </p>
+
+            <h3 className="text-lg font-semibold pt-2">Privacy</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              To improve the map we record anonymous usage events. We do not store IP addresses, accounts, cookies or anything that identifies you.
+              Each event carries a random session id that is discarded when you close the tab, a
+              daily-rotating hash that cannot be reversed or linked across days, a coarse
+              location (country/town), device type (phone / tablet / desktop). Community
+              remarks and feedback you choose to submit are stored as typed.
             </p>
           </div>
         </div>
