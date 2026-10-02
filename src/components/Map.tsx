@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { Map as MapGL, Source, Layer, Popup, NavigationControl, useControl } from '@vis.gl/react-maplibre';
-import type { MapRef, LayerProps, ControlPosition } from '@vis.gl/react-maplibre';
+import type { MapRef, LayerProps, ControlPosition, ViewStateChangeEvent } from '@vis.gl/react-maplibre';
 import { GeolocateControl as MaplibreGeolocateControl } from 'maplibre-gl';
 import type { MapLayerMouseEvent, GeoJSONSource } from 'maplibre-gl';
 import { ToiletLocation } from '@/lib/data/shared/types';
@@ -122,6 +122,28 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
   //~ surfaced whn browser's geolocation lookup fails - maplibre swallows these errors silently otherwise
   const [geoError, setGeoError] = useState<string | null>(null);
   
+  //& map_moved: only user-initiated moves (originalEvent set - flyTo/easeTo frm list picks & cluster zooms hav none), debounced so a pan+zoom burst logs once
+  const moveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleMoveEnd = useCallback((e: ViewStateChangeEvent) => {
+    if (!e.originalEvent) return;
+    if (moveTimerRef.current) clearTimeout(moveTimerRef.current);
+    moveTimerRef.current = setTimeout(() => {
+      const { latitude, longitude, zoom } = e.viewState;
+      trackEvent('map_moved', { lat: Number(latitude.toFixed(3)), lng: Number(longitude.toFixed(3)), zoom: Number(zoom.toFixed(1)) });
+    }, 1500);
+  }, []);
+  useEffect(() => () => { if (moveTimerRef.current) clearTimeout(moveTimerRef.current); }, []);
+  
+  //& geolocate fires on every position update whn tracking - log 1st use per mount only
+  const geolocateTrackedRef = useRef(false);
+  const handleGeolocate = useCallback(() => {
+    setGeoError(null);
+    if (!geolocateTrackedRef.current) {
+      geolocateTrackedRef.current = true;
+      trackEvent('geolocate_used', {});
+    }
+  }, []);
+  
   //~ map basemap follows app theme via shared useIsDark hook
   const isDark = useIsDark();
   
@@ -136,7 +158,7 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
     })),
   }), [locations]);
   
-  //~ close any open popup whn the filtered set changes - the location may be gone
+  //~ close any open popup whn filtered set changes - the location may be gone
   useEffect(() => {
     setPopupLocation(null);
   }, [locations]);
@@ -288,20 +310,21 @@ const Map = ({ locations, selectedLocation, onSelectLocation }: MapProps) => {
         style={{ width: '100%', height: '100%' }}
         interactiveLayerIds={['clusters', 'unclustered-point', 'unclustered-point-hit']}
         onClick={handleMapClick}
+        onMoveEnd={handleMoveEnd}
         onMouseEnter={() => setCursor('pointer')}
         onMouseLeave={() => setCursor('')}
         cursor={cursor}
       >
         <NavigationControl position="top-right" showCompass={false} />
         
-        {/* live location: browser asks fr permission on 1st click, then flies to & tracks user's pin (needs https / localhost) */}
+        {/* live location: browser asks fr permission on 1st click, then flies to & tracks user's pin (needs https/localhost) */}
         <SafeGeolocateControl
           position="top-right"
           positionOptions={{ enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }}
           trackUserLocation
           showUserLocation
           showAccuracyCircle
-          onGeolocate={() => setGeoError(null)}
+          onGeolocate={handleGeolocate}
           onError={(err) => {
             console.error('Geolocation error:', err.code, err.message);
             //~ map the geolocationpositionerror codes to actionable messages

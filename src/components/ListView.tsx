@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { ToiletLocation } from '@/lib/data/shared/types';
 import { trackEvent } from '@/lib/analytics';
 
@@ -65,6 +65,14 @@ const ListView = ({
       return sortOrder === 'asc' ? comparison : -comparison;
     });
   }, [filteredLocations, sortBy, sortOrder]);
+  
+  //& search_unmatched: a settled (1s idle) term of 3+ chars that matched nothing - tells us which venues ppl expect but we lack. lowercased, truncated, only miss is logged
+  useEffect(() => {
+    const term = searchTerm.trim().toLowerCase();
+    if (term.length < 3 || filteredLocations.length > 0 || locations.length === 0) return;
+    const timer = setTimeout(() => trackEvent('search_unmatched', { term: term.slice(0, 60) }), 1000);
+    return () => clearTimeout(timer);
+  }, [searchTerm, filteredLocations.length, locations.length]);
   
   //~ toggle sort order
   const toggleSort = (field: 'name' | 'region') => {
